@@ -16,18 +16,12 @@ namespace MudBlazor
 
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
-			_i = 0;
-			MarkdownDocument parsedText;
-
-			try
-			{
-				parsedText = Markdig.Markdown.Parse(Value);
-			}
-			catch
-			{
+			if (string.IsNullOrEmpty(Value))
 				return;
-			}
 
+			_i = 0;
+			
+			var parsedText = Markdig.Markdown.Parse(Value);
 			for (var i = 0; i < parsedText.Count; i++)
 			{
 				switch (parsedText[i])
@@ -39,7 +33,7 @@ namespace MudBlazor
 			}
 		}
 
-		private void ProcessParagraph(ParagraphBlock paragraph, RenderTreeBuilder builder)
+		private void ProcessParagraph(LeafBlock paragraph, RenderTreeBuilder builder)
 		{
 			if (paragraph.Inline == null)
 				return;
@@ -58,6 +52,7 @@ namespace MudBlazor
 						case CodeInline x:
 							{
 								contentBuilder.OpenElement(_i++, "code");
+								contentBuilder.AddAttribute(_i++, "class", "mud-markdown-code");
 								contentBuilder.AddContent(_i++, x.Content);
 								contentBuilder.CloseElement();
 							}
