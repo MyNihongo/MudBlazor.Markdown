@@ -69,6 +69,10 @@ namespace MudBlazor
 						case LiteralInline x:
 							contentBuilder.AddContent(_i++, x.Content);
 							break;
+						case LineBreakInline:
+							contentBuilder.OpenElement(_i++, "br");
+							contentBuilder.CloseElement();
+							break;
 						case CodeInline x:
 							{
 								contentBuilder.OpenElement(_i++, "code");

@@ -34,5 +34,17 @@ namespace MudBlazor.Markdown.Tests
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
+
+		[Theory]
+		[InlineData("\r\n")]
+		[InlineData("\n")]
+		public void ReplaceNewLineSymbols(string newLine)
+		{
+			var value = "line1" + newLine + "line2";
+			const string expectedValue = "<article class=\"mud-markdown-body\"><p class=\"mud-typography mud-typography-body1 mud-inherit-text\">line1<br />line2</p></article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
 	}
 }
