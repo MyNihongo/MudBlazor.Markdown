@@ -19,13 +19,19 @@ namespace MudBlazor.Markdown.Tests
 		public void RenderCodeItalicAndBold()
 		{
 			const string value = "Some text `code` again text - *italics* text and **bold** text.";
-			const string expectedValue = "<p class=\"mud-typography mud-typography-body1 mud-inherit-text\">Some text <code class=\"mud-markdown-code\">code</code> again text - <i>italics</i> text and <b>bold</b> text.</p>";
+			const string expectedValue = "<article class=\"mud-markdown-body\"><p class=\"mud-typography mud-typography-body1 mud-inherit-text\">Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.</p></article>";
 
-			using var ctx = new TestContext();
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
 
-			using var fixture = ctx.RenderComponent<MudMarkdown>(parameters => parameters
-				.Add(x => x.Value, value));
+		[Fact]
+		public void RenderBlockQuotes()
+		{
+			const string value = ">Some text `code` again text - *italics* text and **bold** text.";
+			const string expectedValue = "<article class=\"mud-markdown-body\"><blockquote><p class=\"mud-typography mud-typography-body1 mud-inherit-text\">Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.</p></blockquote></article>";
 
+			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
 	}

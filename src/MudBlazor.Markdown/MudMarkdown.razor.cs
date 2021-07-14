@@ -20,20 +20,40 @@ namespace MudBlazor
 				return;
 
 			_i = 0;
-			
+
 			var parsedText = Markdig.Markdown.Parse(Value);
-			for (var i = 0; i < parsedText.Count; i++)
+			if (parsedText.Count == 0)
+				return;
+
+			builder.OpenElement(_i++, "article");
+			builder.AddAttribute(_i++, "class", "mud-markdown-body");
+			RenderMarkdown(parsedText, builder);
+			builder.CloseElement();
+		}
+
+		private void RenderMarkdown(ContainerBlock container, RenderTreeBuilder builder)
+		{
+			for (var i = 0; i < container.Count; i++)
 			{
-				switch (parsedText[i])
+				switch (container[i])
 				{
-					case ParagraphBlock x:
-						ProcessParagraph(x, builder);
-						break;
+					case ParagraphBlock paragraph:
+						{
+							RenderParagraphBlock(paragraph, builder);
+							break;
+						}
+					case QuoteBlock quote:
+						{
+							builder.OpenElement(_i++, "blockquote");
+							RenderMarkdown(quote, builder);
+							builder.CloseElement();
+							break;
+						}
 				}
 			}
 		}
 
-		private void ProcessParagraph(LeafBlock paragraph, RenderTreeBuilder builder)
+		private void RenderParagraphBlock(ParagraphBlock paragraph, RenderTreeBuilder builder)
 		{
 			if (paragraph.Inline == null)
 				return;
@@ -52,7 +72,6 @@ namespace MudBlazor
 						case CodeInline x:
 							{
 								contentBuilder.OpenElement(_i++, "code");
-								contentBuilder.AddAttribute(_i++, "class", "mud-markdown-code");
 								contentBuilder.AddContent(_i++, x.Content);
 								contentBuilder.CloseElement();
 							}
