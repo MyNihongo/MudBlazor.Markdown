@@ -113,7 +113,8 @@ namespace MudBlazor
 								var content = (LiteralInline)x.Single();
 
 								contentBuilder.OpenComponent<MudLinkButton>(_i++);
-								//contentBuilder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
+								contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
+								contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
 								contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder =>
 								{
 									linkBuilder.AddContent(_i++, content);

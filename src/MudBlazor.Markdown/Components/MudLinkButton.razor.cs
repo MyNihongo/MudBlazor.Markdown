@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Windows.Input;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using MudBlazor.Extensions;
 using MudBlazor.Utilities;
@@ -47,6 +49,18 @@ namespace MudBlazor
 		[Parameter]
 		public RenderFragment? ChildContent { get; set; }
 
+		/// <summary>
+		/// Command executed on click
+		/// </summary>
+		[Parameter]
+		public ICommand? Command { get; set; }
+
+		/// <summary>
+		/// Parameter passed to the command
+		/// </summary>
+		[Parameter]
+		public object? CommandParameter { get; set; }
+
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
 			var i = 0;
@@ -54,8 +68,14 @@ namespace MudBlazor
 			builder.OpenElement(i++, "span");
 			builder.AddAttribute(i++, "class", Classname);
 			builder.AddAttribute(i++, "style", Style);
+			builder.AddAttribute(i++, "onclick", EventCallback.Factory.Create(this, OnClick));
 			builder.AddContent(i++, ChildContent);
 			builder.CloseElement();
+		}
+
+		private void OnClick()
+		{
+			Console.WriteLine("aaa");
 		}
 	}
 }
