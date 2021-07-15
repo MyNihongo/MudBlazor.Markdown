@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows.Input;
 using Markdig;
 using Markdig.Extensions.Tables;
 using Markdig.Syntax;
@@ -16,6 +17,9 @@ namespace MudBlazor
 
 		[Parameter]
 		public string Value { get; set; } = string.Empty;
+
+		[Parameter]
+		public ICommand? LinkCommand { get; set; }
 
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
@@ -75,19 +79,23 @@ namespace MudBlazor
 					switch (inline)
 					{
 						case LiteralInline x:
-							contentBuilder.AddContent(_i++, x.Content);
-							break;
+							{
+								contentBuilder.AddContent(_i++, x.Content);
+								break;
+							}
 						case LineBreakInline:
-							contentBuilder.OpenElement(_i++, "br");
-							contentBuilder.CloseElement();
-							break;
+							{
+								contentBuilder.OpenElement(_i++, "br");
+								contentBuilder.CloseElement();
+								break;
+							}
 						case CodeInline x:
 							{
 								contentBuilder.OpenElement(_i++, "code");
 								contentBuilder.AddContent(_i++, x.Content);
 								contentBuilder.CloseElement();
+								break;
 							}
-							break;
 						case EmphasisInline x:
 							{
 								if (TryGetEmphasisElement(x, out var elementName))
@@ -98,8 +106,21 @@ namespace MudBlazor
 									contentBuilder.AddContent(_i++, content);
 									contentBuilder.CloseElement();
 								}
+								break;
 							}
-							break;
+						case LinkInline x:
+							{
+								var content = (LiteralInline)x.Single();
+
+								contentBuilder.OpenComponent<MudLinkButton>(_i++);
+								//contentBuilder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
+								contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder =>
+								{
+									linkBuilder.AddContent(_i++, content);
+								}));
+								contentBuilder.CloseComponent();
+								break;
+							}
 					}
 				}
 			}));

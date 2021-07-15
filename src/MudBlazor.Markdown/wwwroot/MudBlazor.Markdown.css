@@ -15,3 +15,7 @@
 .mud-markdown-body table {
 	margin: 1.25em 0;
 }
+
+.mud-markdown-body .mud-link:hover {
+	cursor: pointer !important;
+}
