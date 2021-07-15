@@ -46,5 +46,113 @@ namespace MudBlazor.Markdown.Tests
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
+
+		[Fact]
+		public void RenderTable()
+		{
+			const string value =
+@"|Column1|Column2|Column3|
+|-|-|-|
+|cell1-1|cell1-2|cell1-3|
+|cell2-1|cell2-2|cell2-3|";
+
+			const string expectedValue =
+@"<article class=""mud-markdown-body"">
+  <div class=""mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1"">
+    <div class=""mud-table-container"">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">Column1</p>
+            </th>
+            <th>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">Column2</p>
+            </th>
+            <th>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">Column3</p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell1-1</p>
+            </td>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell1-2</p>
+            </td>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell1-3</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell2-1</p>
+            </td>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell2-2</p>
+            </td>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell2-3</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderTableWithAdjacentText()
+		{
+			const string value =
+@"text before
+
+|col1|col2|
+|-|-|
+|cell1|cell2|
+
+text after";
+
+            const string expectedValue =
+@"<article class=""mud-markdown-body"">
+  <p class=""mud-typography mud-typography-body1 mud-inherit-text"">text before</p>
+  <div class=""mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1"">
+    <div class=""mud-table-container"">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">col1</p>
+            </th>
+            <th>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">col2</p>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell1</p>
+            </td>
+            <td>
+              <p class=""mud-typography mud-typography-body1 mud-inherit-text"">cell2</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p class=""mud-typography mud-typography-body1 mud-inherit-text"">text after</p>
+</article>";
+
+            using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
 	}
 }

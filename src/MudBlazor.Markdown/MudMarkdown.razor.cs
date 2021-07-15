@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Markdig;
+using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
@@ -9,6 +11,7 @@ namespace MudBlazor
 {
 	public sealed class MudMarkdown : ComponentBase
 	{
+		private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 		private int _i;
 
 		[Parameter]
@@ -21,7 +24,7 @@ namespace MudBlazor
 
 			_i = 0;
 
-			var parsedText = Markdig.Markdown.Parse(Value);
+			var parsedText = Markdig.Markdown.Parse(Value, _pipeline);
 			if (parsedText.Count == 0)
 				return;
 
@@ -47,6 +50,11 @@ namespace MudBlazor
 							builder.OpenElement(_i++, "blockquote");
 							RenderMarkdown(quote, builder);
 							builder.CloseElement();
+							break;
+						}
+					case Table table:
+						{
+							RenderTable(table, builder);
 							break;
 						}
 				}
@@ -97,6 +105,52 @@ namespace MudBlazor
 			}));
 
 			builder.CloseComponent();
+		}
+
+		private void RenderTable(Table table, RenderTreeBuilder builder)
+		{
+			// First child is columns
+			if (table.Count < 2)
+				return;
+
+			builder.OpenComponent<MudSimpleTable>(_i++);
+			builder.AddAttribute(_i++, nameof(MudSimpleTable.Striped), true);
+			builder.AddAttribute(_i++, nameof(MudSimpleTable.Bordered), true);
+			builder.AddAttribute(_i++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
+			{
+				// thread
+				contentBuilder.OpenElement(_i++, "thead");
+				RenderTableRow((TableRow)table[0], "th", contentBuilder);
+				contentBuilder.CloseElement();
+
+				// tbody
+				contentBuilder.OpenElement(_i++, "tbody");
+				for (var j = 1; j < table.Count; j++)
+				{
+					RenderTableRow((TableRow)table[j], "td", contentBuilder);
+				}
+
+				contentBuilder.CloseElement();
+			}));
+			builder.CloseComponent();
+		}
+
+		private void RenderTableRow(TableRow row, string cellElementName, RenderTreeBuilder builder)
+		{
+			builder.OpenElement(_i++, "tr");
+
+			for (var j = 0; j < row.Count; j++)
+			{
+				var cell = (TableCell)row[j];
+				builder.OpenElement(_i++, cellElementName);
+
+				if (cell.Count != 0 && cell[0] is ParagraphBlock paragraphBlock)
+					RenderParagraphBlock(paragraphBlock, builder);
+
+				builder.CloseElement();
+			}
+
+			builder.CloseElement();
 		}
 
 		private static bool TryGetEmphasisElement(EmphasisInline emphasis, out string value)

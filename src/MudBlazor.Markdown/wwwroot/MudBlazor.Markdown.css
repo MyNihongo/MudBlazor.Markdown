@@ -11,3 +11,7 @@
 	background-color: var(--mud-palette-drawer-background);
 	padding: 0.25em 1em;
 }
+
+.mud-markdown-body table {
+	margin: 1.25em 0;
+}
