@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using MudBlazor.Extensions;
@@ -15,7 +14,7 @@ namespace MudBlazor
 				.AddClass($"mud-{Color.ToDescriptionString()}-text")
 				.AddClass($"mud-link-underline-{Underline.ToDescriptionString()}")
 				.AddClass($"mud-typography-{Typo.ToDescriptionString()}")
-				.AddClass("mud-link-disabled", Disabled)
+				.AddClass("mud-link-disabled", IsDisabled)
 				.AddClass(Class)
 				.Build();
 
@@ -41,7 +40,7 @@ namespace MudBlazor
 		/// If true, the navlink will be disabled.
 		/// </summary>
 		[Parameter]
-		public bool Disabled { get; set; }
+		public bool IsDisabled { get; set; }
 
 		/// <summary>
 		/// Child content of component.
@@ -75,7 +74,11 @@ namespace MudBlazor
 
 		private void OnClick()
 		{
-			Console.WriteLine("aaa");
+			if (IsDisabled)
+				return;
+
+			if (Command?.CanExecute(CommandParameter) ?? false)
+				Command.Execute(CommandParameter);
 		}
 	}
 }
