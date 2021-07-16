@@ -19,7 +19,12 @@ namespace MudBlazor.Markdown.Tests
 		public void RenderCodeItalicAndBold()
 		{
 			const string value = "Some text `code` again text - *italics* text and **bold** text.";
-			const string expectedValue = "<article class='mud-markdown-body'><p class='mud-typography mud-typography-body1 mud-inherit-text'>Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.</p></article>";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
+	</p>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
@@ -29,7 +34,14 @@ namespace MudBlazor.Markdown.Tests
 		public void RenderBlockQuotes()
 		{
 			const string value = ">Some text `code` again text - *italics* text and **bold** text.";
-			const string expectedValue = "<article class='mud-markdown-body'><blockquote><p class='mud-typography mud-typography-body1 mud-inherit-text'>Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.</p></blockquote></article>";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<blockquote>
+		<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+			Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
+		</p>
+	</blockquote>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
@@ -41,24 +53,48 @@ namespace MudBlazor.Markdown.Tests
 		public void ReplaceNewLineSymbols(string newLine)
 		{
 			var value = "line1" + newLine + "line2";
-			const string expectedValue = "<article class='mud-markdown-body'><p class='mud-typography mud-typography-body1 mud-inherit-text'>line1<br />line2</p></article>";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		line1<br />line2
+	</p>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
 
 		[Fact]
-		public void RenderLink()
+		public void RenderLinkAsLink()
 		{
 			const string value = "text before [link display](123) text after";
 			const string expectedValue =
 @"<article class='mud-markdown-body'>
-<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-text before <button blazor:onclick='1' type='button' class='mud-button-root mud-button mud-button-text mud-button-text-primary mud-button-text-size-medium mud-ripple' blazor:onclick:stopPropagation blazor:elementReference=''><span class='mud-button-label'>link display</span></button> text after
-</p>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		text before 
+		<a href='123' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</a>
+		text after
+	</p>
 </article>";
 
 			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+        [Fact]
+		public void RenderLinkAsButton()
+		{
+			const string value = "text before [link display](123) text after";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		text before
+		<span class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</span>
+		text after
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value, new TestCommand());
 			fixture.MarkupMatches(expectedValue);
 		}
 

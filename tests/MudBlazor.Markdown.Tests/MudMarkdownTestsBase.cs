@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using Bunit;
 
 namespace MudBlazor.Markdown.Tests
@@ -7,8 +8,10 @@ namespace MudBlazor.Markdown.Tests
 	{
 		private readonly TestContext _ctx = new();
 
-		protected IRenderedComponent<MudMarkdown> CreateFixture(string value) =>
-			_ctx.RenderComponent<MudMarkdown>(@params => @params.Add(static x => x.Value, value));
+		protected IRenderedComponent<MudMarkdown> CreateFixture(string value, ICommand command = null) =>
+			_ctx.RenderComponent<MudMarkdown>(@params =>
+				@params.Add(static x => x.Value, value)
+					.Add(static x => x.LinkCommand, command));
 
 		public void Dispose()
 		{
