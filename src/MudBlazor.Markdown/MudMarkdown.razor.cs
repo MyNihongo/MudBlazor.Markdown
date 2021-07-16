@@ -61,6 +61,11 @@ namespace MudBlazor
 							RenderTable(table, builder);
 							break;
 						}
+					case ListBlock list:
+					{
+						RenderList(list, builder);
+						break;
+					}
 				}
 			}
 		}
@@ -187,6 +192,26 @@ namespace MudBlazor
 			}
 
 			builder.CloseElement();
+		}
+
+		private void RenderList(ListBlock list, RenderTreeBuilder builder)
+		{
+			if (list.Count == 0)
+				return;
+
+			builder.OpenComponent<MudList>(_i++);
+			builder.AddAttribute(_i++, nameof(MudList.DisablePadding), true);
+			builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(contentBuilder =>
+			{
+				for (var j = 0; j < list.Count; j++)
+					if (list[j] is ListItemBlock {Count: 1} listItem && listItem[0] is ParagraphBlock paragraph)
+					{
+						contentBuilder.OpenComponent<MudListItem>(_i++);
+						RenderParagraphBlock(paragraph, contentBuilder);
+						contentBuilder.CloseComponent();
+					}
+			}));
+			builder.CloseComponent();
 		}
 
 		private static bool TryGetEmphasisElement(EmphasisInline emphasis, out string value)

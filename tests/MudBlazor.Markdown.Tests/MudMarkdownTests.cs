@@ -99,6 +99,20 @@ namespace MudBlazor.Markdown.Tests
 		}
 
 		[Fact]
+		public void RenderUnorderedList()
+		{
+			const string value =
+@"some text before
+* `item1` - text **bold**
+* `item2` - text *italic*";
+
+			const string expectedValue = "aa";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
 		public void RenderTable()
 		{
 			const string value =
