@@ -12,6 +12,7 @@
 	color: var(--mud-palette-text-secondary);
 	background-color: var(--mud-palette-drawer-background);
 	padding: 0.25em 1em;
+	margin: 0.5em 0;
 }
 
 /* Table */
@@ -46,5 +47,11 @@
 /* Headers */
 .mud-markdown-body h1, .mud-markdown-body h2 {
 	border-bottom: 1px solid var(--mud-palette-text-secondary);
-	padding-bottom: 0.3em;
+	padding-bottom: 0.2em;
+	margin-bottom: 0.4em;
+}
+
+.mud-markdown-body .mud-divider {
+	margin: 0.5em 0;
+	height: 0.25em;
 }
