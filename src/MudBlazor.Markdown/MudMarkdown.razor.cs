@@ -199,19 +199,16 @@ namespace MudBlazor
 			if (list.Count == 0)
 				return;
 
-			builder.OpenComponent<MudList>(_i++);
-			builder.AddAttribute(_i++, nameof(MudList.DisablePadding), true);
-			builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(contentBuilder =>
+			builder.OpenElement(_i++, "ul");
+
+			for (var j = 0; j < list.Count; j++)
 			{
-				for (var j = 0; j < list.Count; j++)
-					if (list[j] is ListItemBlock {Count: 1} listItem && listItem[0] is ParagraphBlock paragraph)
-					{
-						contentBuilder.OpenComponent<MudListItem>(_i++);
-						RenderParagraphBlock(paragraph, contentBuilder);
-						contentBuilder.CloseComponent();
-					}
-			}));
-			builder.CloseComponent();
+				builder.OpenElement(_i++, "li");
+				builder.AddContent(_i, "list item");
+				builder.CloseElement();
+			}
+
+			builder.CloseElement();
 		}
 
 		private static bool TryGetEmphasisElement(EmphasisInline emphasis, out string value)

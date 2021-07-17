@@ -103,8 +103,41 @@ namespace MudBlazor.Markdown.Tests
 		{
 			const string value =
 @"some text before
-* `item1` - text **bold**
-* `item2` - text *italic*";
+- `item1` - text **bold**
+- `item2` - text *italic*";
+
+			const string expectedValue = "aa";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderNestedUnorderedList2()
+		{
+			const string value =
+@"some text before
+- `item1` - text *italic*
+  - `item1-1` - text
+  - `item1-2` - text
+- `item2` - text **bold**";
+
+			const string expectedValue = "aa";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderNestedUnorderedList3()
+		{
+			const string value =
+@"some text before
+- `item1` - text *italic*
+  - `item1-1` - text
+  - `item1-2` - text
+    - `item1-2-1` - text
+- `item2` - text **bold**";
 
 			const string expectedValue = "aa";
 
