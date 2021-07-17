@@ -49,6 +49,26 @@ namespace MudBlazor
 							RenderParagraphBlock(paragraph, builder);
 							break;
 						}
+					case HeadingBlock heading:
+						{
+							Typo? typo = heading.Level switch
+							{
+								1 => Typo.h1,
+								2 => Typo.h2,
+								3 => Typo.h3,
+								4 => Typo.h4,
+								5 => Typo.h5,
+								6 => Typo.h6,
+								_ => null
+							};
+
+							if (typo.HasValue)
+							{
+								RenderParagraphBlock(heading, builder, typo.Value);
+							}
+
+							break;
+						}
 					case QuoteBlock quote:
 						{
 							builder.OpenElement(_i++, "blockquote");
@@ -62,21 +82,21 @@ namespace MudBlazor
 							break;
 						}
 					case ListBlock list:
-					{
-						RenderList(list, builder);
-						break;
-					}
+						{
+							RenderList(list, builder);
+							break;
+						}
 				}
 			}
 		}
 
-		private void RenderParagraphBlock(ParagraphBlock paragraph, RenderTreeBuilder builder)
+		private void RenderParagraphBlock(LeafBlock paragraph, RenderTreeBuilder builder, Typo typo = Typo.body1)
 		{
 			if (paragraph.Inline == null)
 				return;
 
 			builder.OpenComponent<MudText>(_i++);
-			builder.AddAttribute(_i++, nameof(MudText.Typo), Typo.body1);
+			builder.AddAttribute(_i++, nameof(MudText.Typo), typo);
 			builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder =>
 			{
 				foreach (var inline in paragraph.Inline)

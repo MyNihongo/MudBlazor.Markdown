@@ -42,3 +42,9 @@
 	display: list-item !important;
 	text-align: -webkit-match-parent;
 }
+
+/* Headers */
+.mud-markdown-body h1, .mud-markdown-body h2 {
+	border-bottom: 1px solid var(--mud-palette-text-secondary);
+	padding-bottom: 0.3em;
+}

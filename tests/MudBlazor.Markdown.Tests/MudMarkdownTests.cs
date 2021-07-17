@@ -81,7 +81,7 @@ namespace MudBlazor.Markdown.Tests
 			fixture.MarkupMatches(expectedValue);
 		}
 
-        [Fact]
+		[Fact]
 		public void RenderLinkAsButton()
 		{
 			const string value = "text before [link display](123) text after";
@@ -305,7 +305,7 @@ namespace MudBlazor.Markdown.Tests
 
 text after";
 
-            const string expectedValue =
+			const string expectedValue =
 @"<article class='mud-markdown-body'>
   <p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
@@ -337,7 +337,23 @@ text after";
   <p class='mud-typography mud-typography-body1 mud-inherit-text'>text after</p>
 </article>";
 
-            using var fixture = CreateFixture(value);
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Theory]
+		[InlineData("#", "h1")]
+		[InlineData("##", "h2")]
+		[InlineData("###", "h3")]
+		[InlineData("####", "h4")]
+		[InlineData("#####", "h5")]
+		[InlineData("######", "h6")]
+		public void RenderHeaders(string valueInput, string expected)
+		{
+			var value = valueInput + " some text";
+			var expectedValue = string.Format("<article class='mud-markdown-body'><{0} class='mud-typography mud-typography-{0} mud-inherit-text'>some text</{0}></article>", expected);
+
+			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
 	}
