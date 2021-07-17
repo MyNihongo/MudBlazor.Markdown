@@ -201,11 +201,24 @@ namespace MudBlazor
 
 			builder.OpenElement(_i++, "ul");
 
-			for (var j = 0; j < list.Count; j++)
+			for (var i = 0; i < list.Count; i++)
 			{
-				builder.OpenElement(_i++, "li");
-				builder.AddContent(_i, "list item");
-				builder.CloseElement();
+				var block = (ListItemBlock)list[i];
+
+				for (var j = 0; j < block.Count; j++)
+				{
+					switch (block[j])
+					{
+						case ListBlock x:
+							RenderList(x, builder);
+							break;
+						case ParagraphBlock x:
+							builder.OpenElement(_i++, "li");
+							RenderParagraphBlock(x, builder);
+							builder.CloseElement();
+							break;
+					}
+				}
 			}
 
 			builder.CloseElement();

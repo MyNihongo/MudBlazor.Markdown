@@ -106,7 +106,26 @@ namespace MudBlazor.Markdown.Tests
 - `item1` - text **bold**
 - `item2` - text *italic*";
 
-			const string expectedValue = "aa";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
+	<ul>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+				<code>item1</code>
+				- text 
+				<b>bold</b>
+			</p>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+				<code>item2</code>
+				- text 
+				<i>italic</i>
+			</p>
+		</li>
+	</ul>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
@@ -122,7 +141,38 @@ namespace MudBlazor.Markdown.Tests
   - `item1-2` - text
 - `item2` - text **bold**";
 
-			const string expectedValue = "aa";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
+	<ul>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+				<code>item1</code>
+				- text 
+				<i>italic</i>
+			</p>
+		</li>
+		<ul>
+			<li>
+				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+					<code>item1-1</code> - text
+				</p>
+			</li>
+			<li>
+				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+					<code>item1-2</code> - text
+				</p>
+			</li>
+		</ul>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+				<code>item2</code>
+				- text 
+				<b>bold</b>
+			</p>
+		</li>
+	</ul>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
@@ -139,7 +189,45 @@ namespace MudBlazor.Markdown.Tests
     - `item1-2-1` - text
 - `item2` - text **bold**";
 
-			const string expectedValue = "aa";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
+	<ul>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+				<code>item1</code>
+				- text 
+				<i>italic</i>
+			</p>
+		</li>
+		<ul>
+			<li>
+				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+					<code>item1-1</code> - text
+				</p>
+			</li>
+			<li>
+				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+					<code>item1-2</code> - text
+				</p>
+			</li>
+			<ul>
+				<li>
+					<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+						<code>item1-2-1</code> - text
+					</p>
+				</li>
+			</ul>
+		</ul>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+				<code>item2</code>
+				- text 
+				<b>bold</b>
+			</p>
+		</li>
+	</ul>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
