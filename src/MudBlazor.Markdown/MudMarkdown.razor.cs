@@ -129,14 +129,7 @@ namespace MudBlazor
 							}
 						case EmphasisInline x:
 							{
-								if (TryGetEmphasisElement(x, out var elementName))
-								{
-									var content = (LiteralInline)x.Single();
-
-									contentBuilder.OpenElement(_i++, elementName);
-									contentBuilder.AddContent(_i++, content);
-									contentBuilder.CloseElement();
-								}
+								RenterEmphasis(x, contentBuilder);
 								break;
 							}
 						case LinkInline x:
@@ -172,6 +165,31 @@ namespace MudBlazor
 			}));
 
 			builder.CloseComponent();
+		}
+
+		private void RenterEmphasis(EmphasisInline emphasis, RenderTreeBuilder builder)
+		{
+			if (!emphasis.TryGetEmphasisElement(out var elementName))
+				return;
+
+			builder.OpenElement(_i++, elementName);
+
+			foreach (var inline in emphasis)
+				switch (inline)
+				{
+					case LiteralInline x:
+					{
+						builder.AddContent(_i++, x);
+						break;
+					}
+					case EmphasisInline x:
+					{
+						RenterEmphasis(x, builder);
+						break;
+					}
+				}
+
+			builder.CloseElement();
 		}
 
 		private void RenderTable(Table table, RenderTreeBuilder builder)
@@ -248,22 +266,6 @@ namespace MudBlazor
 			}
 
 			builder.CloseElement();
-		}
-
-		private static bool TryGetEmphasisElement(EmphasisInline emphasis, out string value)
-		{
-			value = emphasis.DelimiterChar switch
-			{
-				'*' => emphasis.DelimiterCount switch
-				{
-					1 => "i",
-					2 => "b",
-					_ => string.Empty
-				},
-				_ => string.Empty
-			};
-
-			return !string.IsNullOrEmpty(value);
 		}
 	}
 }

@@ -219,46 +219,6 @@ namespace MudBlazor.Markdown.Tests
 			fixture.MarkupMatches(expectedValue);
 		}
 
-		[Fact]
-		public void RenderTableWithAdjacentText()
-		{
-			const string value =
-@"text before
-
-|col1|col2|
-|-|-|
-|cell1|cell2|
-
-text after";
-
-			const string expectedValue =
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
-	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
-		<div class='mud-table-container'>
-			<table>
-				<thead>
-					<tr>
-						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>col1</p></th>
-						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>col2</p></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1</p></td>
-						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2</p></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text after</p>
-</article>";
-
-			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
-		}
-
 		[Theory]
 		[InlineData("#", "h1")]
 		[InlineData("##", "h2")]
