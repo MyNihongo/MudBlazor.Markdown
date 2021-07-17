@@ -5,15 +5,15 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-
-	<ItemGroup>
-		<SupportedPlatform Include="browser" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.25.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
 		<PackageReference Include="MudBlazor" Version="5.0.13" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>
