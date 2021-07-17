@@ -86,6 +86,12 @@ namespace MudBlazor
 							RenderList(list, builder);
 							break;
 						}
+					case ThematicBreakBlock:
+						{
+							builder.OpenComponent<MudDivider>(_i++);
+							builder.CloseComponent();
+							break;
+						}
 				}
 			}
 		}

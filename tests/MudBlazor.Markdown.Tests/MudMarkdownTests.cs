@@ -110,20 +110,8 @@ namespace MudBlazor.Markdown.Tests
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
-		<li>
-			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-				<code>item1</code>
-				- text 
-				<b>bold</b>
-			</p>
-		</li>
-		<li>
-			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-				<code>item2</code>
-				- text 
-				<i>italic</i>
-			</p>
-		</li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1</code>- text <b>bold</b></p></li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item2</code> - text <i>italic</i></p></li>
 	</ul>
 </article>";
 
@@ -145,32 +133,12 @@ namespace MudBlazor.Markdown.Tests
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
-		<li>
-			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-				<code>item1</code>
-				- text 
-				<i>italic</i>
-			</p>
-		</li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1</code> - text <i>italic</i></p></li>
 		<ul>
-			<li>
-				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-					<code>item1-1</code> - text
-				</p>
-			</li>
-			<li>
-				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-					<code>item1-2</code> - text
-				</p>
-			</li>
+			<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1-1</code> - text</p></li>
+			<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1-2</code> - text</p></li>
 		</ul>
-		<li>
-			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-				<code>item2</code>
-				- text 
-				<b>bold</b>
-			</p>
-		</li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item2</code> - text <b>bold</b></p></li>
 	</ul>
 </article>";
 
@@ -193,39 +161,15 @@ namespace MudBlazor.Markdown.Tests
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
-		<li>
-			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-				<code>item1</code>
-				- text 
-				<i>italic</i>
-			</p>
-		</li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1</code> - text <i>italic</i></p></li>
 		<ul>
-			<li>
-				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-					<code>item1-1</code> - text
-				</p>
-			</li>
-			<li>
-				<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-					<code>item1-2</code> - text
-				</p>
-			</li>
+			<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1-1</code> - text</p></li>
+			<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1-2</code> - text</p></li>
 			<ul>
-				<li>
-					<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-						<code>item1-2-1</code> - text
-					</p>
-				</li>
+				<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1-2-1</code> - text</p></li>
 			</ul>
 		</ul>
-		<li>
-			<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-				<code>item2</code>
-				- text 
-				<b>bold</b>
-			</p>
-		</li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item2</code> - text <b>bold</b></p></li>
 	</ul>
 </article>";
 
@@ -244,49 +188,31 @@ namespace MudBlazor.Markdown.Tests
 
 			const string expectedValue =
 @"<article class='mud-markdown-body'>
-  <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
-    <div class='mud-table-container'>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>Column1</p>
-            </th>
-            <th>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>Column2</p>
-            </th>
-            <th>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>Column3</p>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1-1</p>
-            </td>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1-2</p>
-            </td>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1-3</p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2-1</p>
-            </td>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2-2</p>
-            </td>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2-3</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
+		<div class='mud-table-container'>
+			<table>
+				<thead>
+					<tr>
+						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>Column1</p></th>
+						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>Column2</p></th>
+						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>Column3</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1-1</p></td>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1-2</p></td>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1-3</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2-1</p></td>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2-2</p></td>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2-3</p></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </article>";
 
 			using var fixture = CreateFixture(value);
@@ -307,34 +233,26 @@ text after";
 
 			const string expectedValue =
 @"<article class='mud-markdown-body'>
-  <p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
-  <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
-    <div class='mud-table-container'>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>col1</p>
-            </th>
-            <th>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>col2</p>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1</p>
-            </td>
-            <td>
-              <p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <p class='mud-typography mud-typography-body1 mud-inherit-text'>text after</p>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
+	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
+		<div class='mud-table-container'>
+			<table>
+				<thead>
+					<tr>
+						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>col1</p></th>
+						<th><p class='mud-typography mud-typography-body1 mud-inherit-text'>col2</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell1</p></td>
+						<td><p class='mud-typography mud-typography-body1 mud-inherit-text'>cell2</p></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text after</p>
 </article>";
 
 			using var fixture = CreateFixture(value);
@@ -352,6 +270,25 @@ text after";
 		{
 			var value = valueInput + " some text";
 			var expectedValue = string.Format("<article class='mud-markdown-body'><{0} class='mud-typography mud-typography-{0} mud-inherit-text'>some text</{0}></article>", expected);
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderLineSeparator()
+		{
+			const string value =
+@"first line
+***
+second line";
+
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>first line</p>
+	<hr class='mud-divider'/>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>second line</p>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
