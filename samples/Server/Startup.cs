@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor.Markdown.Core.Utils.ServiceRegistration;
 using MudBlazor.Markdown.Server.Data;
+using MudBlazor.Services;
 
 namespace MudBlazor.Markdown.Server
 {
@@ -20,6 +22,8 @@ namespace MudBlazor.Markdown.Server
 		{
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
+			services.AddCoreServices();
+			services.AddMudServices();
 			services.AddSingleton<WeatherForecastService>();
 		}
 
