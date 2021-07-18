@@ -28,7 +28,7 @@ namespace MudBlazor
 
 			_i = 0;
 
-			var parsedText = Markdig.Markdown.Parse(Value, _pipeline);
+			var parsedText = Markdown.Parse(Value, _pipeline);
 			if (parsedText.Count == 0)
 				return;
 
