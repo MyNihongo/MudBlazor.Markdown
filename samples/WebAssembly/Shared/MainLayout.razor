@@ -1,17 +1,43 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Reactive
+@using MudBlazor.Markdown.Core.Services.Interfaces
+@using ReactiveUI
+@inherits LayoutComponentBase
 
 <MudLayout>
-	<MudAppBar Color="Color.Primary" Fixed="true" Elevation="5">
+	<MudAppBar Fixed="true" Elevation="5">
 		<MudText Typo="Typo.h4">WebAssembly sample</MudText>
-		<MudSpacer/>
+		<MudSpacer />
 		<MudTooltip Text="Toggle theme">
-			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit"/>
+			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit" Command="@ToggleTheme" />
 		</MudTooltip>
 	</MudAppBar>
-	
+
 	<MudMainContent>
 		<MudContainer Class="pt-2">
 			@Body
 		</MudContainer>
 	</MudMainContent>
 </MudLayout>
+
+@code
+{
+	public MainLayout()
+	{
+		ToggleTheme = CreateToggleThemeCommand();
+	}
+
+	[Inject]
+	private IThemeService? ThemeService { get; init; }
+
+	private ReactiveCommand<Unit, Unit> ToggleTheme { get; }
+
+	private ReactiveCommand<Unit, Unit> CreateToggleThemeCommand() =>
+		ReactiveCommand
+			.Create(() =>
+			{
+				if (ThemeService == null)
+					return;
+
+				ThemeService.ToggleTheme();
+			});
+}

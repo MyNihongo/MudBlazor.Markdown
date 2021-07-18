@@ -9,6 +9,6 @@ namespace MudBlazor.Markdown.Core.Utils.ServiceRegistration
 		public static IServiceCollection AddCoreServices(this IServiceCollection @this) =>
 			@this
 				.AddSingleton<IMarkdownService>(new MarkdownService())
-				.AddSingleton<IThemeService>(new ThemeService());
+				.AddScoped<IThemeService, ThemeService>();
 	}
 }
