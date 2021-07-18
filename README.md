@@ -34,7 +34,7 @@ For the Blazor Server in the `Startup.cs` add this method.
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
-	services.AddMudServices();
+    services.AddMudServices();
 }
 ```
 For the Blazor WebAssembly in the `Program.cs` add this method.
@@ -42,3 +42,23 @@ For the Blazor WebAssembly in the `Program.cs` add this method.
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddMudServices();
 ```
+## Using the component
+```razor
+<MudText Typo="Typo.h3">My markdown</MudText>
+<MudMarkdown Value="@Value" />
+
+@code
+{
+    private string Value { get; } = "text *italics* and **bold**";
+}
+```
+### Available properties
+- `Value` - string value of the markdown text;
+- `LinkCommand` - `<MudLink>` components will not navigate to the provided URL, but instead invoke the command. If the `LinkCommand` is `null` then `<MudLink>` will navigate to the link automatically (behaviour of `<a>`).
+### Palette (colour) configurations
+The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). The palette can be configured as described [here](https://mudblazor.com/customization/theming/overview). These are the colors which are used in the `<MudMarkdown>`:
+- DrawerBackground - background-color of the quoted text;
+- OverlayDark - background-color of the code block;
+- TextDisabled - border-color of the quoted text and border-color of the h1 and h2 bottom divider;
+- TextPrimary - regular text in the markdown;
+- TextSecondary - color of the quoted text;

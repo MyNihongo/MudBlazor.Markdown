@@ -46,7 +46,7 @@
 
 /* Headers */
 .mud-markdown-body h1, .mud-markdown-body h2 {
-	border-bottom: 1px solid var(--mud-palette-text-secondary);
+	border-bottom: 1px solid var(--mud-palette-text-disabled);
 	padding-bottom: 0.125em;
 	margin-bottom: 0.4em;
 }
