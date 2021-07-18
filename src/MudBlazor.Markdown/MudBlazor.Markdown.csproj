@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<Version>0.0.1</Version>
+		<Authors>MyNihongo</Authors>
+		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
+		<Copyright>Copyright © 2021 MyNihongo</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/MyNihongo/MudBlazor.Markdown</RepositoryUrl>
+		<PackageProjectUrl>https://mudblazor.com/</PackageProjectUrl>
+		<PackageIcon>favico.png</PackageIcon>
+		<PackageTags>mudblazor, blazor, markdown</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.25.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
+		<PackageReference Include="MudBlazor" Version="5.0.13" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+		<Folder Include="wwwroot\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\favico.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+	  <Exec Command="gulp" />
+	</Target>
+
+</Project>

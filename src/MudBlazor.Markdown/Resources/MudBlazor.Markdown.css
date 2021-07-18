@@ -1,0 +1,57 @@
+﻿/* Code */
+.mud-markdown-body code {
+	background: var(--mud-palette-overlay-dark);
+	color: var(--mud-palette-text-primary) !important;
+	padding: 2.5px 7.5px;
+	border-radius: 5px;
+}
+
+/* Quote */
+.mud-markdown-body blockquote {
+	border-left: .25em solid var(--mud-palette-text-disabled);
+	color: var(--mud-palette-text-secondary);
+	background-color: var(--mud-palette-drawer-background);
+	padding: 0.25em 1em;
+	margin: 0.5em 0;
+}
+
+/* Table */
+.mud-markdown-body table {
+	margin: 1.25em 0;
+}
+
+/* Link */
+.mud-markdown-body .mud-link:hover {
+	cursor: pointer !important;
+}
+
+/* List */
+.mud-markdown-body ul, .mud-markdown-body ol {
+	list-style-type: disc;
+	padding-left: 2em;
+}
+
+.mud-markdown-body ul ul {
+	list-style-type: circle;
+}
+
+.mud-markdown-body ul ul ul {
+	list-style-type: square;
+}
+
+.mud-markdown-body li {
+	display: list-item !important;
+	text-align: -webkit-match-parent;
+}
+
+/* Headers */
+.mud-markdown-body h1, .mud-markdown-body h2 {
+	border-bottom: 1px solid var(--mud-palette-text-disabled);
+	padding-bottom: 0.125em;
+	margin-bottom: 0.4em;
+}
+
+.mud-markdown-body .mud-divider {
+	margin: 0.5em 0;
+	height: 0.25em;
+}
