@@ -1,5 +1,21 @@
 ﻿@page "/"
+@using MudBlazor.Markdown.Core
 
-<h1>Hello, world!</h1>
+<MudMarkdown Value="@Value" />
 
-Welcome to your new app.
+@code
+{
+	[Inject]
+	private IMarkdownService? MarkdownService { get; init; }
+
+	private string Value { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (MarkdownService == null)
+			return;
+
+		Value = await MarkdownService.GetSampleAsync()
+			.ConfigureAwait(false);
+	}
+}

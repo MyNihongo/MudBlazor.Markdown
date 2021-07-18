@@ -1,2 +1,17 @@
 ﻿@inherits LayoutComponentBase
-@Body
+
+<MudLayout>
+	<MudAppBar Color="Color.Primary" Fixed="true" Elevation="5">
+		<MudText Typo="Typo.h4">WebAssembly sample</MudText>
+		<MudSpacer/>
+		<MudTooltip Text="Toggle theme">
+			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit"/>
+		</MudTooltip>
+	</MudAppBar>
+	
+	<MudMainContent>
+		<MudContainer Class="pt-2">
+			@Body
+		</MudContainer>
+	</MudMainContent>
+</MudLayout>
