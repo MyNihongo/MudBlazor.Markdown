@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using MudBlazor.Markdown.Core.Services.Interfaces;
@@ -19,9 +20,14 @@ namespace MudBlazor.Markdown.Core.Services
 		{
 			_localStorageService = localStorageService;
 
-			// TODO:
-			//_isDark = localStorageService.GetItem<bool>(IsDarkKey);
-			PublishTheme(_isDark);
+			// Sync service is not available in Blazor.Server
+			Task.Run(async () =>
+			{
+				_isDark = await localStorageService.GetItemAsync<bool>(IsDarkKey)
+					.ConfigureAwait(false);
+
+				PublishTheme(_isDark);
+			});
 		}
 
 		public IObservable<bool> IsDarkTheme => _isDarkThemeSubject;
