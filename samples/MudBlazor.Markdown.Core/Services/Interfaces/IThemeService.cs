@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MudBlazor.Markdown.Core.Services.Interfaces
 {
@@ -6,6 +7,6 @@ namespace MudBlazor.Markdown.Core.Services.Interfaces
 	{
 		IObservable<bool> IsDarkTheme { get; }
 
-		void ToggleTheme();
+		Task ToggleThemeAsync();
 	}
 }

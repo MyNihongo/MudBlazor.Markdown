@@ -33,11 +33,12 @@
 
 	private ReactiveCommand<Unit, Unit> CreateToggleThemeCommand() =>
 		ReactiveCommand
-			.Create(() =>
+			.CreateFromTask(async () =>
 			{
 				if (ThemeService == null)
 					return;
 
-				ThemeService.ToggleTheme();
+				await ThemeService.ToggleThemeAsync()
+					.ConfigureAwait(false);
 			});
 }

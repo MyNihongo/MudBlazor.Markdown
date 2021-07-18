@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using MudBlazor.Markdown.Core.Services.Interfaces;
 
@@ -9,32 +10,30 @@ namespace MudBlazor.Markdown.Core.Services
 	{
 		private const string IsDarkKey = "HnT";
 
-		private readonly ISyncLocalStorageService _localStorageService;
+		private readonly ILocalStorageService _localStorageService;
 
 		private readonly ReplaySubject<bool> _isDarkThemeSubject = new(1);
 		private bool _isDark;
 
-		public ThemeService(ISyncLocalStorageService localStorageService)
+		public ThemeService(ILocalStorageService localStorageService)
 		{
 			_localStorageService = localStorageService;
 
-			_isDark = localStorageService.GetItem<bool>(IsDarkKey);
+			// TODO:
+			//_isDark = localStorageService.GetItem<bool>(IsDarkKey);
 			PublishTheme(_isDark);
 		}
 
 		public IObservable<bool> IsDarkTheme => _isDarkThemeSubject;
 
-		public void ToggleTheme()
+		public async Task ToggleThemeAsync()
 		{
-			SetTheme(!_isDark);
-		}
+			_isDark = !_isDark;
 
-		private void SetTheme(bool isDark)
-		{
-			_localStorageService.SetItem(IsDarkKey, isDark);
-			_isDark = isDark;
+			await _localStorageService.SetItemAsync(IsDarkKey, _isDark)
+				.ConfigureAwait(false);
 
-			PublishTheme(isDark);
+			PublishTheme(_isDark);
 		}
 
 		private void PublishTheme(bool isDark)

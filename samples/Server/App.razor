@@ -72,7 +72,7 @@
 				return;
 
 			_currentTheme = value;
-			StateHasChanged();
+			Task.Run(() => InvokeAsync(StateHasChanged));
 		}
 	}
 
