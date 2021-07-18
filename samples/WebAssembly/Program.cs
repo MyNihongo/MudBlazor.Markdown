@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Markdown.Core;
+using MudBlazor.Markdown.Core.Utils.ServiceRegistration;
 using MudBlazor.Services;
 
 namespace MudBlazor.Markdown.Wasm
@@ -16,7 +16,7 @@ namespace MudBlazor.Markdown.Wasm
 			builder.RootComponents.Add<App>("#app");
 
 			builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-			builder.Services.AddSingleton<IMarkdownService, MarkdownService>();
+			builder.Services.AddCoreServices();
 			builder.Services.AddMudServices();
 
 			await builder.Build().RunAsync()

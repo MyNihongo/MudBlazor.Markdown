@@ -2,10 +2,11 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using MudBlazor.Markdown.Core.Services.Interfaces;
 
-namespace MudBlazor.Markdown.Core
+namespace MudBlazor.Markdown.Core.Services
 {
-	public sealed class MarkdownService : IMarkdownService
+	internal sealed class MarkdownService : IMarkdownService
 	{
 		public async Task<string> GetSampleAsync()
 		{
