@@ -4,7 +4,7 @@ namespace MudBlazor.Markdown.Core.Services.Interfaces
 {
 	public interface IThemeService
 	{
-		IObservable<bool> IsLightTheme { get; }
+		IObservable<bool> IsDarkTheme { get; }
 
 		void ToggleTheme();
 	}

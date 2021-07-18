@@ -76,11 +76,11 @@
 
 	protected override void OnInitialized()
 	{
-		ThemeService?.IsLightTheme
+		ThemeService?.IsDarkTheme
 			.Select(SelectTheme)
 			.Subscribe(x => CurrentTheme = x);
 
-		MudTheme SelectTheme(bool isLight) =>
-			isLight ? _light : _dark;
+		MudTheme SelectTheme(bool isDark) =>
+			isDark ? _dark : _light;
 	}
 }
