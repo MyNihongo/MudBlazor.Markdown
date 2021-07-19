@@ -13,11 +13,11 @@
 		<PackageIcon>favico.png</PackageIcon>
 		<PackageTags>mudblazor, blazor, markdown</PackageTags>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReleaseNotes>https://github.com/MyNihongo/MudBlazor.Markdown/releases</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.25.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.7" />
 		<PackageReference Include="MudBlazor" Version="5.0.13" />
 	</ItemGroup>
 
