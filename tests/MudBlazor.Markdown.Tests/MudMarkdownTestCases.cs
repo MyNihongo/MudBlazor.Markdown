@@ -46,6 +46,22 @@ text after";
 		}
 
 		[Fact]
+		public void RenderTableWithEmptyCells()
+		{
+			const string value =
+@"|col1|col2|
+|-|-|
+|row1-1|row1-2|
+|row2-1||
+|row3-1|";
+
+			const string expectedValue = "";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
 		public void RenderBoldWithinItalic1()
 		{
 			const string value = "text *italic **bold within***";
