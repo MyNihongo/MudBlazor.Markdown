@@ -220,6 +220,26 @@ namespace MudBlazor.Markdown.Tests
 		}
 
 		[Theory]
+		[InlineData("<br>")]
+		[InlineData("<br/>")]
+		[InlineData("<br />")]
+		[InlineData("<BR>")]
+		[InlineData("<BR/>")]
+		[InlineData("<BR />")]
+		public void RenderTableWithNewLines(string newLineChar)
+		{
+			var value =
+$@"|1|2|
+|-|-|
+|a{newLineChar}b|c";
+
+			const string expectedValue = "";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Theory]
 		[InlineData("#", "h1")]
 		[InlineData("##", "h2")]
 		[InlineData("###", "h3")]
