@@ -1,0 +1,36 @@
+name: Build MudBlazor.Markdown
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [ main ]
+  workflow_dispatch:
+    
+env:
+  configuration: RELEASE
+  productNamespacePrefix: "MudBlazor"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
+    - name: Install .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+          
+    - name: NuGet restore
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build -c RELEASE -v m --no-restore
+
+    - name: Run tests
+      run: dotnet test -c RELEASE -v m --no-restore --no-build
