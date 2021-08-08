@@ -114,6 +114,11 @@ namespace MudBlazor
 								contentBuilder.AddContent(_i++, x.Content);
 								break;
 							}
+						case HtmlInline x:
+							{
+								contentBuilder.AddMarkupContent(_i++, x.Tag);
+								break;
+							}
 						case LineBreakInline:
 							{
 								contentBuilder.OpenElement(_i++, "br");
@@ -178,15 +183,15 @@ namespace MudBlazor
 				switch (inline)
 				{
 					case LiteralInline x:
-					{
-						builder.AddContent(_i++, x);
-						break;
-					}
+						{
+							builder.AddContent(_i++, x);
+							break;
+						}
 					case EmphasisInline x:
-					{
-						RenterEmphasis(x, builder);
-						break;
-					}
+						{
+							RenterEmphasis(x, builder);
+							break;
+						}
 				}
 
 			builder.CloseElement();

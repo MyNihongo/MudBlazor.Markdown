@@ -233,7 +233,35 @@ $@"|1|2|
 |-|-|
 |a{newLineChar}b|c";
 
-			const string expectedValue = "";
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
+      <div class='mud-table-container'>
+         <table>
+            <thead>
+               <tr>
+                  <th>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>1</p>
+                  </th>
+                  <th>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>2</p>
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>a{newLineChar}b</p>
+                  </td>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>c</p>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
