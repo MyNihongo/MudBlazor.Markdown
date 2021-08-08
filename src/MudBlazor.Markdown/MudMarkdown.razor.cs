@@ -204,6 +204,7 @@ namespace MudBlazor
 				return;
 
 			builder.OpenComponent<MudSimpleTable>(_i++);
+			builder.AddAttribute(_i++, nameof(MudSimpleTable.Style), "overflow-x: auto;");
 			builder.AddAttribute(_i++, nameof(MudSimpleTable.Striped), true);
 			builder.AddAttribute(_i++, nameof(MudSimpleTable.Bordered), true);
 			builder.AddAttribute(_i++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
