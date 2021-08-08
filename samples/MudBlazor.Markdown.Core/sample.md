@@ -44,7 +44,7 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 
 \* Source: [Wikipedia](https://en.wikipedia.org/wiki/Largest_cities_in_Japan_by_population_by_decade#2010)
 
-|Counter description|1 (one_object)|2 (two_objects)|3 (three_objects)|4 (four_objects)|5 (five_objects)|
+|Counter|1|2|3|4|5|
 |-|-|-|-|-|-|
 |**本 (ほん)**<br>long thin objects|**いっぽん**|にほん|**さんぼん**|よんほん|ごほん|
 |**つ**<br>general purpose|**ひとつ**|**ふたつ**|**みっつ**|**よっつ**|**いつつ**|
