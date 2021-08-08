@@ -32,7 +32,7 @@ jobs:
         node-version: 16.x
       
     - name: Setup npm package
-      run: npm init -y && npm install
+      run: npm init -y && npm ci
           
     - name: NuGet restore
       run: dotnet restore
