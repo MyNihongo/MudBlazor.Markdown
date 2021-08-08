@@ -31,8 +31,8 @@ jobs:
       with:
         node-version: 16.x
       
-    - run: npm ci
-      working-directory: src
+    - name: Setup npm package
+      run: npm init -y && npm install
           
     - name: NuGet restore
       run: dotnet restore
