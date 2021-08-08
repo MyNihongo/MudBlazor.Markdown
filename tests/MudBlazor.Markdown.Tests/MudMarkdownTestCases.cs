@@ -55,7 +55,49 @@ text after";
 |row2-1||
 |row3-1|";
 
-			const string expectedValue = "";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
+      <div class='mud-table-container'>
+         <table>
+            <thead>
+               <tr>
+                  <th>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>col1</p>
+                  </th>
+                  <th>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>col2</p>
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>row1-1</p>
+                  </td>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>row1-2</p>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>row2-1</p>
+                  </td>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'></p>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <p class='mud-typography mud-typography-body1 mud-inherit-text'>row3-1</p>
+                  </td>
+                  <td></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
