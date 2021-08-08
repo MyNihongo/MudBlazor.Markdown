@@ -25,6 +25,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+        
+    - name: Install Node.js
+      uses: actions/setup-node@v2.4.0
+      
+    - name: Install gulp
+      run: npm install --global gulp-cli
           
     - name: NuGet restore
       run: dotnet restore
