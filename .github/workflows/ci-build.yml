@@ -45,13 +45,6 @@ jobs:
 
     - name: Run tests
       run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
-      
-    - name: NuGet push
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
-        SOURCE_URL: https://api.nuget.org/v3/index.json
-      run: dotnet nuget push -s ${{ env.SOURCE_URL }} -k something **/*.nupkg
-      working-directory: src
 
   release:
     runs-on: ubuntu-latest
@@ -68,3 +61,4 @@ jobs:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
         SOURCE_URL: https://api.nuget.org/v3/index.json
       run: dotnet nuget push -s ${{ env.SOURCE_URL }} -k ${{ env.NUGET_AUTH_TOKEN }} **/*.nupkg
+      working-directory: src
