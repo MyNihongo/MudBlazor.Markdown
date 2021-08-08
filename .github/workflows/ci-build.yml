@@ -34,3 +34,19 @@ jobs:
 
     - name: Run tests
       run: dotnet test -c RELEASE -v m --no-restore --no-build
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: contains(github.event.pull_request.labels.*.name, 'release') && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: NuGet push
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+        SOURCE_URL: https://api.nuget.org/v3/index.json
+      run: dotnet nuget push -s ${{ env.SOURCE_URL }} -k ${{ env.NUGET_AUTH_TOKEN }} **/*.nupkg
