@@ -28,12 +28,7 @@ jobs:
         
     - name: Install Node.js
       uses: actions/setup-node@v2.4.0
-      
-    - name: Init npm
-      run: npm install
-      
-    - name: Init gulp
-      run: npm install gulp-cli
+    - run: npm ci
           
     - name: NuGet restore
       run: dotnet restore
