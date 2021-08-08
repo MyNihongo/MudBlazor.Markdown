@@ -31,6 +31,9 @@ jobs:
       
     - name: Init npm
       run: npm install
+      
+    - name: Init gulp
+      run: npm install gulp-cli
           
     - name: NuGet restore
       run: dotnet restore
