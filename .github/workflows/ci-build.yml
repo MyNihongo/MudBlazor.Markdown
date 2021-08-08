@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     
 env:
-  configuration: RELEASE
+  Configuration: RELEASE
   productNamespacePrefix: "MudBlazor"
   
 jobs:
@@ -25,15 +25,26 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+        
+    - name: Install Node.js
+      uses: actions/setup-node@v2.4.0
+      with:
+        node-version: 16.x
+        cache: 'npm'
+        cache-dependency-path: src/MudBlazor.Markdown/package-lock.json
+      
+    - name: Setup npm packages
+      run: npm ci
+      working-directory: src/MudBlazor.Markdown
           
     - name: NuGet restore
       run: dotnet restore
       
     - name: Build
-      run: dotnet build -c RELEASE -v m --no-restore
+      run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
 
     - name: Run tests
-      run: dotnet test -c RELEASE -v m --no-restore --no-build
+      run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
 
   release:
     runs-on: ubuntu-latest
