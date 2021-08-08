@@ -20,7 +20,7 @@ text after";
 			const string expectedValue =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
-	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
+	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 		<div class='mud-table-container'>
 			<table>
 				<thead>
@@ -57,7 +57,7 @@ text after";
 
 			const string expectedValue =
 @"<article class='mud-markdown-body'>
-   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1'>
+   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
          <table>
             <thead>
