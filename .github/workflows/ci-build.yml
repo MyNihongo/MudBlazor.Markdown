@@ -30,9 +30,11 @@ jobs:
       uses: actions/setup-node@v2.4.0
       with:
         node-version: 16.x
+        cache: 'npm'
+        cache-dependency-path: src/MudBlazor.Markdown/package-lock.json
       
-    - name: Setup npm package
-      run: npm init -y && npm ci
+    - name: Setup npm packages
+      run: npm ci
           
     - name: NuGet restore
       run: dotnet restore
