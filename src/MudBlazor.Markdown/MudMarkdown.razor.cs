@@ -15,9 +15,23 @@ namespace MudBlazor
 		private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 		private int _i;
 
+		/// <summary>
+		/// Markdown text to be rendered in the component.
+		/// </summary>
 		[Parameter]
 		public string Value { get; set; } = string.Empty;
 
+		/// <summary>
+		/// Minimum width (in pixels) for a table cell.<br/>
+		/// If <see langword="null" /> or negative the minimum width is not applied.
+		/// </summary>
+		[Parameter]
+		public int? TableCellMinWidth { get; set; }
+
+		/// <summary>
+		/// Command which is invoked when a link is clicked.<br/>
+		/// If <see langword="null" /> a link is opened in the browser.
+		/// </summary>
 		[Parameter]
 		public ICommand? LinkCommand { get; set; }
 
@@ -114,6 +128,11 @@ namespace MudBlazor
 								contentBuilder.AddContent(_i++, x.Content);
 								break;
 							}
+						case HtmlInline x:
+							{
+								contentBuilder.AddMarkupContent(_i++, x.Tag);
+								break;
+							}
 						case LineBreakInline:
 							{
 								contentBuilder.OpenElement(_i++, "br");
@@ -178,15 +197,15 @@ namespace MudBlazor
 				switch (inline)
 				{
 					case LiteralInline x:
-					{
-						builder.AddContent(_i++, x);
-						break;
-					}
+						{
+							builder.AddContent(_i++, x);
+							break;
+						}
 					case EmphasisInline x:
-					{
-						RenterEmphasis(x, builder);
-						break;
-					}
+						{
+							RenterEmphasis(x, builder);
+							break;
+						}
 				}
 
 			builder.CloseElement();
@@ -199,13 +218,14 @@ namespace MudBlazor
 				return;
 
 			builder.OpenComponent<MudSimpleTable>(_i++);
+			builder.AddAttribute(_i++, nameof(MudSimpleTable.Style), "overflow-x: auto;");
 			builder.AddAttribute(_i++, nameof(MudSimpleTable.Striped), true);
 			builder.AddAttribute(_i++, nameof(MudSimpleTable.Bordered), true);
 			builder.AddAttribute(_i++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
 			{
 				// thread
 				contentBuilder.OpenElement(_i++, "thead");
-				RenderTableRow((TableRow)table[0], "th", contentBuilder);
+				RenderTableRow((TableRow)table[0], "th", contentBuilder, TableCellMinWidth);
 				contentBuilder.CloseElement();
 
 				// tbody
@@ -220,7 +240,7 @@ namespace MudBlazor
 			builder.CloseComponent();
 		}
 
-		private void RenderTableRow(TableRow row, string cellElementName, RenderTreeBuilder builder)
+		private void RenderTableRow(TableRow row, string cellElementName, RenderTreeBuilder builder, int? minWidth = null)
 		{
 			builder.OpenElement(_i++, "tr");
 
@@ -228,6 +248,9 @@ namespace MudBlazor
 			{
 				var cell = (TableCell)row[j];
 				builder.OpenElement(_i++, cellElementName);
+
+				if (minWidth is > 0)
+					builder.AddAttribute(_i++, "style", $"min-width:{minWidth}px");
 
 				if (cell.Count != 0 && cell[0] is ParagraphBlock paragraphBlock)
 					RenderParagraphBlock(paragraphBlock, builder);

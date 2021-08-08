@@ -1,4 +1,4 @@
-# Heading 1
+﻿# Heading 1
 ## Heading 2
 ### Heading 3
 #### Heading 4
@@ -43,3 +43,8 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 |10|Saitama|Saitama|1,222,434|
 
 \* Source: [Wikipedia](https://en.wikipedia.org/wiki/Largest_cities_in_Japan_by_population_by_decade#2010)
+
+|Counter|1|2|3|4|5|
+|-|-|-|-|-|-|
+|**本 (ほん)**<br>long thin objects|**いっぽん**|にほん|**さんぼん**|よんほん|ごほん|
+|**つ**<br>general purpose|**ひとつ**|**ふたつ**|**みっつ**|**よっつ**|**いつつ**|

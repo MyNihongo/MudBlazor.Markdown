@@ -1,0 +1,63 @@
+name: Build MudBlazor.Markdown
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [ main ]
+  workflow_dispatch:
+    
+env:
+  Configuration: RELEASE
+  productNamespacePrefix: "MudBlazor"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
+    - name: Install .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Install Node.js
+      uses: actions/setup-node@v2.4.0
+      with:
+        node-version: 16.x
+        cache: 'npm'
+        cache-dependency-path: src/MudBlazor.Markdown/package-lock.json
+      
+    - name: Setup npm packages
+      run: npm ci
+      working-directory: src/MudBlazor.Markdown
+          
+    - name: NuGet restore
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
+
+    - name: Run tests
+      run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: contains(github.event.pull_request.labels.*.name, 'release') && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: NuGet push
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+        SOURCE_URL: https://api.nuget.org/v3/index.json
+      run: dotnet nuget push -s ${{ env.SOURCE_URL }} -k ${{ env.NUGET_AUTH_TOKEN }} **/*.nupkg

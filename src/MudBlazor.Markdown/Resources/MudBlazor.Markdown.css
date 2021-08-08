@@ -51,6 +51,10 @@
 	margin-bottom: 0.4em;
 }
 
+.mud-markdown-body h1, .mud-markdown-body h2, .mud-markdown-body h3, .mud-markdown-body h4, .mud-markdown-body h5, .mud-markdown-body h6 {
+	word-wrap: break-word;
+}
+
 .mud-markdown-body .mud-divider {
 	margin: 0.5em 0;
 	height: 0.25em;
