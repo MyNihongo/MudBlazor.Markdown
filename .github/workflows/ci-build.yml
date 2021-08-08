@@ -35,6 +35,7 @@ jobs:
       
     - name: Setup npm packages
       run: npm ci
+      working-directory: src/MudBlazor.Markdown
           
     - name: NuGet restore
       run: dotnet restore
