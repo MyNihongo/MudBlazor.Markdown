@@ -10,7 +10,7 @@ on:
     
 env:
   Configuration: RELEASE
-  productNamespacePrefix: "MudBlazor"
+  ArtifactsName: nuget
   
 jobs:
   build:
@@ -45,6 +45,12 @@ jobs:
 
     - name: Run tests
       run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
+      
+    - name: Create NuGet Artifacts
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ env.ArtifactsName }}
+        path: '**/*.nupkg'
 
   release:
     runs-on: ubuntu-latest
@@ -55,7 +61,12 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
+        
+    - name: Download NuGet Artifacts
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: ${{ env.ArtifactsName }}
+        
     - name: NuGet push
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
