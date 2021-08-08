@@ -36,15 +36,12 @@ jobs:
           
     - name: NuGet restore
       run: dotnet restore
-      working-directory: src
       
     - name: Build
       run: dotnet build -c RELEASE -v m --no-restore
-      working-directory: src
 
     - name: Run tests
       run: dotnet test -c RELEASE -v m --no-restore --no-build
-      working-directory: src
 
   release:
     runs-on: ubuntu-latest
