@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Windows.Input;
 using Markdig;
 using Markdig.Extensions.Tables;
 using Markdig.Syntax;
@@ -194,29 +195,8 @@ namespace MudBlazor
 							}
 						case LinkInline x:
 							{
-								if (LinkCommand == null)
-								{
-									contentBuilder.OpenComponent<MudLink>(_i++);
-									contentBuilder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
-									contentBuilder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, x)));
-									contentBuilder.CloseComponent();
-								}
-								else
-								{
-									contentBuilder.OpenComponent<MudLinkButton>(_i++);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, x)));
-									contentBuilder.CloseComponent();
-								}
-
+								RenderLink(x, contentBuilder);
 								break;
-
-								void RenderContent(RenderTreeBuilder linkInlineBuilder, LinkInline linkInline)
-								{
-									foreach (var item in linkInline)
-										linkInlineBuilder.AddContent(_i++, item);
-								}
 							}
 					}
 				}
@@ -248,6 +228,50 @@ namespace MudBlazor
 				}
 
 			builder.CloseElement();
+		}
+
+		private void RenderLink(LinkInline link, RenderTreeBuilder builder)
+		{
+			if (link.IsImage)
+			{
+				var alt = link
+					.OfType<LiteralInline>()
+					.Select(x => x.Content);
+
+				builder.OpenElement(_i++, "img");
+				builder.AddAttribute(_i++, "src", link.Url);
+				builder.AddAttribute(_i++, "alt", string.Join(null, alt));
+				builder.CloseElement();
+			}
+			else if (LinkCommand == null)
+			{
+				builder.OpenComponent<MudLink>(_i++);
+				builder.AddAttribute(_i++, nameof(MudLink.Href), link.Url);
+				builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, link)));
+				builder.CloseComponent();
+			}
+			else
+			{
+				builder.OpenComponent<MudLinkButton>(_i++);
+				builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
+				builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), link.Url);
+				builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, link)));
+				builder.CloseComponent();
+			}
+
+			void RenderContent(RenderTreeBuilder linkInlineBuilder, LinkInline linkInline)
+			{
+				foreach (var item in linkInline)
+					switch (item)
+					{
+						case LinkInline x:
+							RenderLink(x, linkInlineBuilder);
+							break;
+						default:
+							linkInlineBuilder.AddContent(_i++, item);
+							break;
+					}
+			}
 		}
 
 		private void RenderTable(Table table, RenderTreeBuilder builder)

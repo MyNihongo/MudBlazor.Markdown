@@ -99,6 +99,38 @@ namespace MudBlazor.Markdown.Tests
 		}
 
 		[Fact]
+		public void RenderImage()
+		{
+			const string value = "![emw-banner](extra/emw.png)";
+			const string expectedResult =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<img src='extra/emw.png' alt='emw-banner' />
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedResult);
+		}
+
+		[Fact]
+		public void RenderImageLink()
+		{
+			const string value = "[![emw-banner](extra/emw.png)](https://www.google.co.jp/)";
+			const string expectedResult = 
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a href='https://www.google.co.jp/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			<img src='extra/emw.png' alt='emw-banner' />
+		</a>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedResult);
+		}
+
+		[Fact]
 		public void RenderUnorderedList()
 		{
 			const string value =
