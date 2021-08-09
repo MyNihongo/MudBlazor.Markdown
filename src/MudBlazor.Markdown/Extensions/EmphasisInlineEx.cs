@@ -7,14 +7,17 @@ namespace MudBlazor
 	{
 		public static bool TryGetEmphasisElement(this EmphasisInline emphasis, out string value)
 		{
+			const string italics = "i", bold = "b";
+
 			value = emphasis.DelimiterChar switch
 			{
 				'*' => emphasis.DelimiterCount switch
 				{
-					1 => "i",
-					2 => "b",
+					1 => italics,
+					2 => bold,
 					_ => string.Empty
 				},
+				'_' => italics,
 				_ => string.Empty
 			};
 

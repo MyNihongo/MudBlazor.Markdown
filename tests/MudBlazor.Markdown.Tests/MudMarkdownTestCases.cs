@@ -197,5 +197,21 @@ text after";
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
+
+		[Fact]
+		public void RenderUnderscoreItalics()
+		{
+			const string value = "Text _italics_";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		Text
+		<i>italics</i>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
 	}
 }
