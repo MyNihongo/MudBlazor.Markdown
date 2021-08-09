@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazor.Markdown", "src\MudBlazor.Markdown\MudBlazor.Markdown.csproj", "{D98CF970-15A6-4174-9180-FD5BACA76BDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MudBlazor.Markdown.Tests", "tests\MudBlazor.Markdown.Tests\MudBlazor.Markdown.Tests.csproj", "{CEE74ADB-80A4-4011-A2C6-68EB7902409A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MudBlazor.Markdown.Tests", "tests\MudBlazor.Markdown.Tests\MudBlazor.Markdown.Tests.csproj", "{CEE74ADB-80A4-4011-A2C6-68EB7902409A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
