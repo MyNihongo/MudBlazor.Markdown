@@ -7,6 +7,7 @@ using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
 // ReSharper disable once CheckNamespace
 namespace MudBlazor
 {
@@ -120,7 +121,8 @@ namespace MudBlazor
 
 							if (typo.HasValue)
 							{
-								RenderParagraphBlock(heading, builder, typo.Value);
+								var id = heading.BuildIdString();
+								RenderParagraphBlock(heading, builder, typo.Value, id);
 							}
 
 							break;
@@ -152,12 +154,16 @@ namespace MudBlazor
 			}
 		}
 
-		private void RenderParagraphBlock(LeafBlock paragraph, RenderTreeBuilder builder, Typo typo = Typo.body1)
+		private void RenderParagraphBlock(LeafBlock paragraph, RenderTreeBuilder builder, Typo typo = Typo.body1, string? id = null)
 		{
 			if (paragraph.Inline == null)
 				return;
 
 			builder.OpenComponent<MudText>(_i++);
+
+			if (!string.IsNullOrEmpty(id))
+				builder.AddAttribute(_i++, "id", id);
+
 			builder.AddAttribute(_i++, nameof(MudText.Typo), typo);
 			builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
 			builder.CloseComponent();

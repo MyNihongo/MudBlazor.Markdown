@@ -381,7 +381,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -403,7 +403,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -425,7 +425,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -447,7 +447,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -469,7 +469,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -491,7 +491,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -513,7 +513,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
