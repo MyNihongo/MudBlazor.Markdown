@@ -153,7 +153,7 @@ namespace MudBlazor
 							}
 						case LinkInline x:
 							{
-								var content = (LiteralInline)x.Single();
+								var content = (LiteralInline)x.First();
 
 								if (LinkCommand == null)
 								{
