@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Bunit;
+using MyNihongo.Option;
 
 namespace MudBlazor.Markdown.Tests
 {
@@ -8,18 +9,21 @@ namespace MudBlazor.Markdown.Tests
 	{
 		private readonly TestContext _ctx = new();
 
-		protected IRenderedComponent<MudMarkdown> CreateFixture(string value, ICommand command = null, int? tableCellMinWidth = null,
-			Typo h1Typo = Typo.h1, Typo h2Typo = Typo.h2, Typo h3Typo = Typo.h3, Typo h4Typo = Typo.h4, Typo h5Typo = Typo.h5, Typo h6Typo = Typo.h6) =>
-			_ctx.RenderComponent<MudMarkdown>(@params =>
+		protected IRenderedComponent<MudMarkdown> CreateFixture(string value,
+			Optional<ICommand> command = default, Optional<int?> tableCellMinWidth = default,
+			Optional<Typo> h1Typo = default, Optional<Typo> h2Typo = default, Optional<Typo> h3Typo = default, Optional<Typo> h4Typo = default, Optional<Typo> h5Typo = default, Optional<Typo> h6Typo = default)
+		{
+			return _ctx.RenderComponent<MudMarkdown>(@params =>
 				@params.Add(static x => x.Value, value)
-					.Add(static x => x.LinkCommand, command)
-					.Add(static x => x.TableCellMinWidth, tableCellMinWidth)
-					.AddIfNotNull(static x => x.H1Typo, h1Typo)
-					.AddIfNotNull(static x => x.H2Typo, h2Typo)
-					.AddIfNotNull(static x => x.H3Typo, h3Typo)
-					.AddIfNotNull(static x => x.H4Typo, h4Typo)
-					.AddIfNotNull(static x => x.H5Typo, h5Typo)
-					.AddIfNotNull(static x => x.H6Typo, h6Typo));
+					.TryAdd(static x => x.LinkCommand, command)
+					.TryAdd(static x => x.TableCellMinWidth, tableCellMinWidth)
+					.TryAdd(static x => x.H1Typo, h1Typo)
+					.TryAdd(static x => x.H2Typo, h2Typo)
+					.TryAdd(static x => x.H3Typo, h3Typo)
+					.TryAdd(static x => x.H4Typo, h4Typo)
+					.TryAdd(static x => x.H5Typo, h5Typo)
+					.TryAdd(static x => x.H6Typo, h6Typo));
+		}
 
 		public void Dispose()
 		{
