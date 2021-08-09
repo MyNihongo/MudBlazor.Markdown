@@ -27,12 +27,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\favico.png" Pack="true" PackagePath=""/>
+		<None Include="..\..\favico.png" Pack="true" PackagePath=""/>
 		<Content Remove="**\package*.json" />
 	</ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-	  <Exec Command="gulp" />
+		<Exec Command="gulp" />
 	</Target>
 
 </Project>
