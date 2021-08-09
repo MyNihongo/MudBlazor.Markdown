@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Markdig;
 using Markdig.Extensions.Tables;
 using Markdig.Syntax;
@@ -39,37 +38,43 @@ namespace MudBlazor
 		/// Typography variant to use for Heading Level 1.<br/>
 		/// Default: <see cref="Typo.h1"/>
 		/// </summary>
-		[Parameter] public Typo H1Typo { get; set; } = Typo.h1;
+		[Parameter]
+		public Typo H1Typo { get; set; } = Typo.h1;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 2.<br/>
 		/// Default: <see cref="Typo.h2"/>
 		/// </summary>
-		[Parameter] public Typo H2Typo { get; set; } = Typo.h2;
+		[Parameter]
+		public Typo H2Typo { get; set; } = Typo.h2;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 3.<br/>
 		/// Default: <see cref="Typo.h3"/>
 		/// </summary>
-		[Parameter] public Typo H3Typo { get; set; } = Typo.h3;
+		[Parameter]
+		public Typo H3Typo { get; set; } = Typo.h3;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 4.<br/>
 		/// Default: <see cref="Typo.h4"/>
 		/// </summary>
-		[Parameter] public Typo H4Typo { get; set; } = Typo.h4;
+		[Parameter] 
+		public Typo H4Typo { get; set; } = Typo.h4;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 5.<br/>
 		/// Default: <see cref="Typo.h5"/>
 		/// </summary>
-		[Parameter] public Typo H5Typo { get; set; } = Typo.h5;
+		[Parameter]
+		public Typo H5Typo { get; set; } = Typo.h5;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 6.<br/>
 		/// Default: <see cref="Typo.h6"/>
 		/// </summary>
-		[Parameter] public Typo H6Typo { get; set; } = Typo.h6;
+		[Parameter]
+		public Typo H6Typo { get; set; } = Typo.h6;
 
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
@@ -189,16 +194,11 @@ namespace MudBlazor
 							}
 						case LinkInline x:
 							{
-								var content = (LiteralInline)x.Single();
-
 								if (LinkCommand == null)
 								{
 									contentBuilder.OpenComponent<MudLink>(_i++);
 									contentBuilder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
-									contentBuilder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder =>
-									{
-										linkBuilder.AddContent(_i++, content);
-									}));
+									contentBuilder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, x)));
 									contentBuilder.CloseComponent();
 								}
 								else
@@ -206,14 +206,17 @@ namespace MudBlazor
 									contentBuilder.OpenComponent<MudLinkButton>(_i++);
 									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
 									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder =>
-									{
-										linkBuilder.AddContent(_i++, content);
-									}));
+									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, x)));
 									contentBuilder.CloseComponent();
 								}
 
 								break;
+
+								void RenderContent(RenderTreeBuilder linkInlineBuilder, LinkInline linkInline)
+								{
+									foreach (var item in linkInline)
+										linkInlineBuilder.AddContent(_i++, item);
+								}
 							}
 					}
 				}
