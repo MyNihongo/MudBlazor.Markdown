@@ -52,6 +52,7 @@
 }
 
 .mud-markdown-body h1, .mud-markdown-body h2, .mud-markdown-body h3, .mud-markdown-body h4, .mud-markdown-body h5, .mud-markdown-body h6 {
+	margin-top: 0.25em;
 	word-wrap: break-word;
 }
 
