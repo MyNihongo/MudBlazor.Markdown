@@ -319,27 +319,150 @@ $@"<article class='mud-markdown-body'>
 		public void RenderHeaders(string valueInput, string expected)
 		{
 			var value = valueInput + " some text";
-			var expectedValue = string.Format("<article class='mud-markdown-body'><{0} class='mud-typography mud-typography-{0} mud-inherit-text'>some text</{0}></article>", expected);
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
 
 		[Theory]
+		[InlineData(Typo.h1, "h1")]
 		[InlineData(Typo.h2, "h2")]
 		[InlineData(Typo.h3, "h3")]
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypo(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH1(Typo newTypo, string expected)
 		{
 			const string value = "# some text";
-			var expectedValue = string.Format("<article class='mud-markdown-body'><{0} class='mud-typography mud-typography-{0} mud-inherit-text'>some text</{0}></article>", expected);
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
 
 			using var fixture = CreateFixture(value, h1Typo: newTypo);
 			fixture.MarkupMatches(expectedValue);
 		}
-		
+
+		[Theory]
+		[InlineData(Typo.h1, "h1")]
+		[InlineData(Typo.h2, "h2")]
+		[InlineData(Typo.h3, "h3")]
+		[InlineData(Typo.h4, "h4")]
+		[InlineData(Typo.h5, "h5")]
+		[InlineData(Typo.h6, "h6")]
+		public void RenderHeadersWithDifferentTypoH2(Typo newTypo, string expected)
+		{
+			const string value = "## some text";
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
+
+			using var fixture = CreateFixture(value, h2Typo: newTypo);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Theory]
+		[InlineData(Typo.h1, "h1")]
+		[InlineData(Typo.h2, "h2")]
+		[InlineData(Typo.h3, "h3")]
+		[InlineData(Typo.h4, "h4")]
+		[InlineData(Typo.h5, "h5")]
+		[InlineData(Typo.h6, "h6")]
+		public void RenderHeadersWithDifferentTypoH3(Typo newTypo, string expected)
+		{
+			const string value = "### some text";
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
+
+			using var fixture = CreateFixture(value, h3Typo: newTypo);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Theory]
+		[InlineData(Typo.h1, "h1")]
+		[InlineData(Typo.h2, "h2")]
+		[InlineData(Typo.h3, "h3")]
+		[InlineData(Typo.h4, "h4")]
+		[InlineData(Typo.h5, "h5")]
+		[InlineData(Typo.h6, "h6")]
+		public void RenderHeadersWithDifferentTypoH4(Typo newTypo, string expected)
+		{
+			const string value = "#### some text";
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
+
+			using var fixture = CreateFixture(value, h4Typo: newTypo);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Theory]
+		[InlineData(Typo.h1, "h1")]
+		[InlineData(Typo.h2, "h2")]
+		[InlineData(Typo.h3, "h3")]
+		[InlineData(Typo.h4, "h4")]
+		[InlineData(Typo.h5, "h5")]
+		[InlineData(Typo.h6, "h6")]
+		public void RenderHeadersWithDifferentTypoH5(Typo newTypo, string expected)
+		{
+			const string value = "##### some text";
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
+
+			using var fixture = CreateFixture(value, h5Typo: newTypo);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Theory]
+		[InlineData(Typo.h1, "h1")]
+		[InlineData(Typo.h2, "h2")]
+		[InlineData(Typo.h3, "h3")]
+		[InlineData(Typo.h4, "h4")]
+		[InlineData(Typo.h5, "h5")]
+		[InlineData(Typo.h6, "h6")]
+		public void RenderHeadersWithDifferentTypoH6(Typo newTypo, string expected)
+		{
+			const string value = "###### some text";
+
+			var expectedValue =
+$@"<article class='mud-markdown-body'>
+	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+		some text
+	</{expected}>
+</article>";
+
+			using var fixture = CreateFixture(value, h6Typo: newTypo);
+			fixture.MarkupMatches(expectedValue);
+		}
+
 		[Fact]
 		public void RenderLineSeparator()
 		{

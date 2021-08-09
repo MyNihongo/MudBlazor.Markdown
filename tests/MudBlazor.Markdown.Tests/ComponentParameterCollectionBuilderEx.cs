@@ -2,19 +2,20 @@
 using System.Linq.Expressions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using MyNihongo.Option;
 
 namespace MudBlazor.Markdown.Tests
 {
     public static class ComponentParameterCollectionBuilderEx
     {
-        public static ComponentParameterCollectionBuilder<TComponent> AddIfNotNull<TComponent, TValue>(
+        public static ComponentParameterCollectionBuilder<TComponent> TryAdd<TComponent, TValue>(
             this ComponentParameterCollectionBuilder<TComponent> @this,
             Expression<Func<TComponent, TValue>> parameterSelector,
-            TValue value)
+            Optional<TValue> valueOptional)
             where TComponent : IComponent
         {
-            return value != null
-                ? @this.Add(parameterSelector, value)
+            return valueOptional.HasValue
+                ? @this.Add(parameterSelector, valueOptional.Value)
                 : @this;
         }
     }
