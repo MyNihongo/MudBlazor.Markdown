@@ -26,17 +26,23 @@
 }
 
 /* List */
-.mud-markdown-body ul, .mud-markdown-body ol {
+.mud-markdown-body ul {
 	list-style-type: disc;
+}
+
+.mud-markdown-body ul, .mud-markdown-body ol {
 	padding-left: 2em;
+	margin-bottom: 1.25em !important;
 }
 
 .mud-markdown-body ul ul {
 	list-style-type: circle;
+	margin-bottom: 0 !important;
 }
 
 .mud-markdown-body ul ul ul {
 	list-style-type: square;
+	margin-bottom: 0 !important;
 }
 
 .mud-markdown-body li {
@@ -52,10 +58,21 @@
 }
 
 .mud-markdown-body h1, .mud-markdown-body h2, .mud-markdown-body h3, .mud-markdown-body h4, .mud-markdown-body h5, .mud-markdown-body h6 {
+	margin-top: 0.25em;
 	word-wrap: break-word;
+	margin-bottom: 0.3em !important;
 }
 
 .mud-markdown-body .mud-divider {
 	margin: 0.5em 0;
 	height: 0.25em;
+}
+
+/* Paragraphs */
+.mud-markdown-body p {
+	margin-bottom: 1.25em !important;
+}
+
+.mud-markdown-body li p {
+	margin-bottom: 0 !important;
 }

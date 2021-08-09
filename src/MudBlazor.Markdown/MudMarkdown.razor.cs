@@ -7,6 +7,7 @@ using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
 // ReSharper disable once CheckNamespace
 namespace MudBlazor
 {
@@ -39,37 +40,43 @@ namespace MudBlazor
 		/// Typography variant to use for Heading Level 1.<br/>
 		/// Default: <see cref="Typo.h1"/>
 		/// </summary>
-		[Parameter] public Typo H1Typo { get; set; } = Typo.h1;
+		[Parameter]
+		public Typo H1Typo { get; set; } = Typo.h1;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 2.<br/>
 		/// Default: <see cref="Typo.h2"/>
 		/// </summary>
-		[Parameter] public Typo H2Typo { get; set; } = Typo.h2;
+		[Parameter]
+		public Typo H2Typo { get; set; } = Typo.h2;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 3.<br/>
 		/// Default: <see cref="Typo.h3"/>
 		/// </summary>
-		[Parameter] public Typo H3Typo { get; set; } = Typo.h3;
+		[Parameter]
+		public Typo H3Typo { get; set; } = Typo.h3;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 4.<br/>
 		/// Default: <see cref="Typo.h4"/>
 		/// </summary>
-		[Parameter] public Typo H4Typo { get; set; } = Typo.h4;
+		[Parameter]
+		public Typo H4Typo { get; set; } = Typo.h4;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 5.<br/>
 		/// Default: <see cref="Typo.h5"/>
 		/// </summary>
-		[Parameter] public Typo H5Typo { get; set; } = Typo.h5;
+		[Parameter]
+		public Typo H5Typo { get; set; } = Typo.h5;
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 6.<br/>
 		/// Default: <see cref="Typo.h6"/>
 		/// </summary>
-		[Parameter] public Typo H6Typo { get; set; } = Typo.h6;
+		[Parameter]
+		public Typo H6Typo { get; set; } = Typo.h6;
 
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
@@ -114,7 +121,8 @@ namespace MudBlazor
 
 							if (typo.HasValue)
 							{
-								RenderParagraphBlock(heading, builder, typo.Value);
+								var id = heading.BuildIdString();
+								RenderParagraphBlock(heading, builder, typo.Value, id);
 							}
 
 							break;
@@ -146,105 +154,92 @@ namespace MudBlazor
 			}
 		}
 
-		private void RenderParagraphBlock(LeafBlock paragraph, RenderTreeBuilder builder, Typo typo = Typo.body1)
+		private void RenderParagraphBlock(LeafBlock paragraph, RenderTreeBuilder builder, Typo typo = Typo.body1, string? id = null)
 		{
 			if (paragraph.Inline == null)
 				return;
 
 			builder.OpenComponent<MudText>(_i++);
+
+			if (!string.IsNullOrEmpty(id))
+				builder.AddAttribute(_i++, "id", id);
+
 			builder.AddAttribute(_i++, nameof(MudText.Typo), typo);
-			builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder =>
-			{
-				foreach (var inline in paragraph.Inline)
-				{
-					switch (inline)
-					{
-						case LiteralInline x:
-							{
-								contentBuilder.AddContent(_i++, x.Content);
-								break;
-							}
-						case HtmlInline x:
-							{
-								contentBuilder.AddMarkupContent(_i++, x.Tag);
-								break;
-							}
-						case LineBreakInline:
-							{
-								contentBuilder.OpenElement(_i++, "br");
-								contentBuilder.CloseElement();
-								break;
-							}
-						case CodeInline x:
-							{
-								contentBuilder.OpenElement(_i++, "code");
-								contentBuilder.AddContent(_i++, x.Content);
-								contentBuilder.CloseElement();
-								break;
-							}
-						case EmphasisInline x:
-							{
-								RenterEmphasis(x, contentBuilder);
-								break;
-							}
-						case LinkInline x:
-							{
-								var content = (LiteralInline)x.Single();
-
-								if (LinkCommand == null)
-								{
-									contentBuilder.OpenComponent<MudLink>(_i++);
-									contentBuilder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
-									contentBuilder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder =>
-									{
-										linkBuilder.AddContent(_i++, content);
-									}));
-									contentBuilder.CloseComponent();
-								}
-								else
-								{
-									contentBuilder.OpenComponent<MudLinkButton>(_i++);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
-									contentBuilder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder =>
-									{
-										linkBuilder.AddContent(_i++, content);
-									}));
-									contentBuilder.CloseComponent();
-								}
-
-								break;
-							}
-					}
-				}
-			}));
-
+			builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
 			builder.CloseComponent();
 		}
 
-		private void RenterEmphasis(EmphasisInline emphasis, RenderTreeBuilder builder)
+		private void RenderInlines(ContainerInline inlines, RenderTreeBuilder builder)
 		{
-			if (!emphasis.TryGetEmphasisElement(out var elementName))
-				return;
-
-			builder.OpenElement(_i++, elementName);
-
-			foreach (var inline in emphasis)
+			foreach (var inline in inlines)
+			{
 				switch (inline)
 				{
 					case LiteralInline x:
 						{
-							builder.AddContent(_i++, x);
+							builder.AddContent(_i++, x.Content);
+							break;
+						}
+					case HtmlInline x:
+						{
+							builder.AddMarkupContent(_i++, x.Tag);
+							break;
+						}
+					case LineBreakInline:
+						{
+							builder.OpenElement(_i++, "br");
+							builder.CloseElement();
+							break;
+						}
+					case CodeInline x:
+						{
+							builder.OpenElement(_i++, "code");
+							builder.AddContent(_i++, x.Content);
+							builder.CloseElement();
 							break;
 						}
 					case EmphasisInline x:
 						{
-							RenterEmphasis(x, builder);
+							if (!x.TryGetEmphasisElement(out var elementName))
+								continue;
+
+							builder.OpenElement(_i++, elementName);
+							RenderInlines(x, builder);
+							builder.CloseElement();
+							break;
+						}
+					case LinkInline x:
+						{
+							if (x.IsImage)
+							{
+								var alt = x
+									.OfType<LiteralInline>()
+									.Select(static x => x.Content);
+
+								builder.OpenElement(_i++, "img");
+								builder.AddAttribute(_i++, "src", x.Url);
+								builder.AddAttribute(_i++, "alt", string.Join(null, alt));
+								builder.CloseElement();
+							}
+							else if (LinkCommand == null)
+							{
+								builder.OpenComponent<MudLink>(_i++);
+								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+								builder.CloseComponent();
+							}
+							else
+							{
+								builder.OpenComponent<MudLinkButton>(_i++);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+								builder.CloseComponent();
+							}
 							break;
 						}
 				}
-
-			builder.CloseElement();
+			}
 		}
 
 		private void RenderTable(Table table, RenderTreeBuilder builder)
@@ -302,7 +297,8 @@ namespace MudBlazor
 			if (list.Count == 0)
 				return;
 
-			builder.OpenElement(_i++, "ul");
+			var elementName = list.IsOrdered ? "ol" : "ul";
+			builder.OpenElement(_i++, elementName);
 
 			for (var i = 0; i < list.Count; i++)
 			{

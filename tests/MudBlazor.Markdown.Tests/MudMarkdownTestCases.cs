@@ -180,5 +180,38 @@ text after";
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
+
+		[Fact]
+		public void RenderLinkWithMultipleContent()
+		{
+			const string value = "[Installing Microsoft Visual C++ Redistributable Package](#installing-microsoft-visual-c-redistributable-package)";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a href='#installing-microsoft-visual-c-redistributable-package' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			Installing Microsoft Visual C&#x2B;&#x2B; Redistributable Package
+		</a>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderUnderscoreItalics()
+		{
+			const string value = "Text _italics_";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		Text
+		<i>italics</i>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
 	}
 }

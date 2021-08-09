@@ -99,6 +99,38 @@ namespace MudBlazor.Markdown.Tests
 		}
 
 		[Fact]
+		public void RenderImage()
+		{
+			const string value = "![emw-banner](extra/emw.png)";
+			const string expectedResult =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<img src='extra/emw.png' alt='emw-banner' />
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedResult);
+		}
+
+		[Fact]
+		public void RenderImageLink()
+		{
+			const string value = "[![emw-banner](extra/emw.png)](https://www.google.co.jp/)";
+			const string expectedResult = 
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a href='https://www.google.co.jp/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			<img src='extra/emw.png' alt='emw-banner' />
+		</a>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedResult);
+		}
+
+		[Fact]
 		public void RenderUnorderedList()
 		{
 			const string value =
@@ -171,6 +203,33 @@ namespace MudBlazor.Markdown.Tests
 		</ul>
 		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item2</code> - text <b>bold</b></p></li>
 	</ul>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderOrderedList()
+		{
+			const string value =
+@"1. Do thing 1
+2. Do next
+3. Go to Sapporo";
+
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<ol>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Do thing 1</p>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Do next</p>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Go to Sapporo</p>
+		</li>
+	</ol>
 </article>";
 
 			using var fixture = CreateFixture(value);
@@ -322,7 +381,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -344,7 +403,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -366,7 +425,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -388,7 +447,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -410,7 +469,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -432,7 +491,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
@@ -454,7 +513,7 @@ $@"<article class='mud-markdown-body'>
 
 			var expectedValue =
 $@"<article class='mud-markdown-body'>
-	<{expected} class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
 		some text
 	</{expected}>
 </article>";
