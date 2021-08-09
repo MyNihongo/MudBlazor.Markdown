@@ -7,6 +7,9 @@
 		"markdown",
 		"blazor"
 	],
+	"scripts": {
+		"build": "gulp"
+	},
 	"author": "MyNihongo",
 	"license": "MIT",
 	"devDependencies": {

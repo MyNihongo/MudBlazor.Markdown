@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="gulp" />
+		<Exec Command="npm run build" />
 	</Target>
 
 </Project>
