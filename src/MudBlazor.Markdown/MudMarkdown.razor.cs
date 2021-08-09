@@ -60,7 +60,7 @@ namespace MudBlazor
 		/// Typography variant to use for Heading Level 4.<br/>
 		/// Default: <see cref="Typo.h4"/>
 		/// </summary>
-		[Parameter] 
+		[Parameter]
 		public Typo H4Typo { get; set; } = Typo.h4;
 
 		/// <summary>
@@ -159,118 +159,80 @@ namespace MudBlazor
 
 			builder.OpenComponent<MudText>(_i++);
 			builder.AddAttribute(_i++, nameof(MudText.Typo), typo);
-			builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder =>
-			{
-				foreach (var inline in paragraph.Inline)
-				{
-					switch (inline)
-					{
-						case LiteralInline x:
-							{
-								contentBuilder.AddContent(_i++, x.Content);
-								break;
-							}
-						case HtmlInline x:
-							{
-								contentBuilder.AddMarkupContent(_i++, x.Tag);
-								break;
-							}
-						case LineBreakInline:
-							{
-								contentBuilder.OpenElement(_i++, "br");
-								contentBuilder.CloseElement();
-								break;
-							}
-						case CodeInline x:
-							{
-								contentBuilder.OpenElement(_i++, "code");
-								contentBuilder.AddContent(_i++, x.Content);
-								contentBuilder.CloseElement();
-								break;
-							}
-						case EmphasisInline x:
-							{
-								RenterEmphasis(x, contentBuilder);
-								break;
-							}
-						case LinkInline x:
-							{
-								RenderLink(x, contentBuilder);
-								break;
-							}
-					}
-				}
-			}));
-
+			builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
 			builder.CloseComponent();
 		}
 
-		private void RenterEmphasis(EmphasisInline emphasis, RenderTreeBuilder builder)
+		private void RenderInlines(ContainerInline inlines, RenderTreeBuilder builder)
 		{
-			if (!emphasis.TryGetEmphasisElement(out var elementName))
-				return;
-
-			builder.OpenElement(_i++, elementName);
-
-			foreach (var inline in emphasis)
+			foreach (var inline in inlines)
+			{
 				switch (inline)
 				{
 					case LiteralInline x:
 						{
-							builder.AddContent(_i++, x);
+							builder.AddContent(_i++, x.Content);
+							break;
+						}
+					case HtmlInline x:
+						{
+							builder.AddMarkupContent(_i++, x.Tag);
+							break;
+						}
+					case LineBreakInline:
+						{
+							builder.OpenElement(_i++, "br");
+							builder.CloseElement();
+							break;
+						}
+					case CodeInline x:
+						{
+							builder.OpenElement(_i++, "code");
+							builder.AddContent(_i++, x.Content);
+							builder.CloseElement();
 							break;
 						}
 					case EmphasisInline x:
 						{
-							RenterEmphasis(x, builder);
+							if (!x.TryGetEmphasisElement(out var elementName))
+								continue;
+
+							builder.OpenElement(_i++, elementName);
+							RenderInlines(x, builder);
+							builder.CloseElement();
+							break;
+						}
+					case LinkInline x:
+						{
+							if (x.IsImage)
+							{
+								var alt = x
+									.OfType<LiteralInline>()
+									.Select(static x => x.Content);
+
+								builder.OpenElement(_i++, "img");
+								builder.AddAttribute(_i++, "src", x.Url);
+								builder.AddAttribute(_i++, "alt", string.Join(null, alt));
+								builder.CloseElement();
+							}
+							else if (LinkCommand == null)
+							{
+								builder.OpenComponent<MudLink>(_i++);
+								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+								builder.CloseComponent();
+							}
+							else
+							{
+								builder.OpenComponent<MudLinkButton>(_i++);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+								builder.CloseComponent();
+							}
 							break;
 						}
 				}
-
-			builder.CloseElement();
-		}
-
-		private void RenderLink(LinkInline link, RenderTreeBuilder builder)
-		{
-			if (link.IsImage)
-			{
-				var alt = link
-					.OfType<LiteralInline>()
-					.Select(x => x.Content);
-
-				builder.OpenElement(_i++, "img");
-				builder.AddAttribute(_i++, "src", link.Url);
-				builder.AddAttribute(_i++, "alt", string.Join(null, alt));
-				builder.CloseElement();
-			}
-			else if (LinkCommand == null)
-			{
-				builder.OpenComponent<MudLink>(_i++);
-				builder.AddAttribute(_i++, nameof(MudLink.Href), link.Url);
-				builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, link)));
-				builder.CloseComponent();
-			}
-			else
-			{
-				builder.OpenComponent<MudLinkButton>(_i++);
-				builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-				builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), link.Url);
-				builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderContent(linkBuilder, link)));
-				builder.CloseComponent();
-			}
-
-			void RenderContent(RenderTreeBuilder linkInlineBuilder, LinkInline linkInline)
-			{
-				foreach (var item in linkInline)
-					switch (item)
-					{
-						case LinkInline x:
-							RenderLink(x, linkInlineBuilder);
-							break;
-						default:
-							linkInlineBuilder.AddContent(_i++, item);
-							break;
-					}
 			}
 		}
 
