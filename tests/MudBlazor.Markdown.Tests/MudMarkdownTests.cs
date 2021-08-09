@@ -210,6 +210,33 @@ namespace MudBlazor.Markdown.Tests
 		}
 
 		[Fact]
+		public void RenderOrderedList()
+		{
+			const string value =
+@"1. Do thing 1
+2. Do next
+3. Go to Sapporo";
+
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<ol>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Do thing 1</p>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Do next</p>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Go to Sapporo</p>
+		</li>
+	</ol>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
 		public void RenderTable()
 		{
 			const string value =

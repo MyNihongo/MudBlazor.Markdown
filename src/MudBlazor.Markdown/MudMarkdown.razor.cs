@@ -291,7 +291,8 @@ namespace MudBlazor
 			if (list.Count == 0)
 				return;
 
-			builder.OpenElement(_i++, "ul");
+			var elementName = list.IsOrdered ? "ol" : "ul";
+			builder.OpenElement(_i++, elementName);
 
 			for (var i = 0; i < list.Count; i++)
 			{
