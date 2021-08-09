@@ -35,6 +35,42 @@ namespace MudBlazor
 		[Parameter]
 		public ICommand? LinkCommand { get; set; }
 
+		/// <summary>
+		/// Typography variant to use for Heading Level 1.<br/>
+		/// Default: <see cref="Typo.h1"/>
+		/// </summary>
+		[Parameter] public Typo H1Typo { get; set; } = Typo.h1;
+
+		/// <summary>
+		/// Typography variant to use for Heading Level 2.<br/>
+		/// Default: <see cref="Typo.h2"/>
+		/// </summary>
+		[Parameter] public Typo H2Typo { get; set; } = Typo.h2;
+
+		/// <summary>
+		/// Typography variant to use for Heading Level 3.<br/>
+		/// Default: <see cref="Typo.h3"/>
+		/// </summary>
+		[Parameter] public Typo H3Typo { get; set; } = Typo.h3;
+
+		/// <summary>
+		/// Typography variant to use for Heading Level 4.<br/>
+		/// Default: <see cref="Typo.h4"/>
+		/// </summary>
+		[Parameter] public Typo H4Typo { get; set; } = Typo.h4;
+
+		/// <summary>
+		/// Typography variant to use for Heading Level 5.<br/>
+		/// Default: <see cref="Typo.h5"/>
+		/// </summary>
+		[Parameter] public Typo H5Typo { get; set; } = Typo.h5;
+
+		/// <summary>
+		/// Typography variant to use for Heading Level 6.<br/>
+		/// Default: <see cref="Typo.h6"/>
+		/// </summary>
+		[Parameter] public Typo H6Typo { get; set; } = Typo.h6;
+
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
 			if (string.IsNullOrEmpty(Value))
@@ -67,12 +103,12 @@ namespace MudBlazor
 						{
 							Typo? typo = heading.Level switch
 							{
-								1 => Typo.h1,
-								2 => Typo.h2,
-								3 => Typo.h3,
-								4 => Typo.h4,
-								5 => Typo.h5,
-								6 => Typo.h6,
+								1 => H1Typo,
+								2 => H2Typo,
+								3 => H3Typo,
+								4 => H4Typo,
+								5 => H5Typo,
+								6 => H6Typo,
 								_ => null
 							};
 

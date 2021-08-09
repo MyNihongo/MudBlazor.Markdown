@@ -325,6 +325,21 @@ $@"<article class='mud-markdown-body'>
 			fixture.MarkupMatches(expectedValue);
 		}
 
+		[Theory]
+		[InlineData(Typo.h2, "h2")]
+		[InlineData(Typo.h3, "h3")]
+		[InlineData(Typo.h4, "h4")]
+		[InlineData(Typo.h5, "h5")]
+		[InlineData(Typo.h6, "h6")]
+		public void RenderHeadersWithDifferentTypo(Typo newTypo, string expected)
+		{
+			const string value = "# some text";
+			var expectedValue = string.Format("<article class='mud-markdown-body'><{0} class='mud-typography mud-typography-{0} mud-inherit-text'>some text</{0}></article>", expected);
+
+			using var fixture = CreateFixture(value, h1Typo: newTypo);
+			fixture.MarkupMatches(expectedValue);
+		}
+		
 		[Fact]
 		public void RenderLineSeparator()
 		{
