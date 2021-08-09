@@ -9,7 +9,8 @@ namespace MudBlazor.Markdown.Tests
 	{
 		private readonly TestContext _ctx = new();
 
-		protected IRenderedComponent<MudMarkdown> CreateFixture(string value,
+		protected IRenderedComponent<MudMarkdown> CreateFixture(
+			string value,
 			Optional<ICommand> command = default, Optional<int?> tableCellMinWidth = default,
 			Optional<Typo> h1Typo = default, Optional<Typo> h2Typo = default, Optional<Typo> h3Typo = default, Optional<Typo> h4Typo = default, Optional<Typo> h5Typo = default, Optional<Typo> h6Typo = default)
 		{
