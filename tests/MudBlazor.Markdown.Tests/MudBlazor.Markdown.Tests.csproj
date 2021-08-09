@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
@@ -6,8 +6,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="bunit" Version="1.1.5" />
+		<PackageReference Include="bunit" Version="1.2.49" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+		<PackageReference Include="MyNihongo.Option" Version="2.0.6" />
 		<PackageReference Include="xunit" Version="2.4.1" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,7 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\MudBlazor.Markdown\MudBlazor.Markdown.csproj" />
+		<ProjectReference Include="..\..\src\MudBlazor.Markdown\MudBlazor.Markdown.csproj" />
 	</ItemGroup>
 
 </Project>
