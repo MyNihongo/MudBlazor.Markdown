@@ -273,9 +273,14 @@ namespace MudBlazor
 								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
 								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
+								if (x.Url.IsExternalUri(NavigationManager?.BaseUri))
+								{
+									builder.AddAttribute(_i++, nameof(MudLink.Target), "_blank");
+									builder.AddAttribute(_i++, "rel", "noopener noreferrer");
+								}
 								// (prevent scrolling to the top of the page)
 								// custom implementation only for links on the same page
-								if (x.Url?.StartsWith('#') ?? false)
+								else if (x.Url?.StartsWith('#') ?? false)
 								{
 									builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
 									builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
