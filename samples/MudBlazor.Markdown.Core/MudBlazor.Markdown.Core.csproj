@@ -5,8 +5,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="sample.md" />
-		<EmbeddedResource Include="sample.md" />
+		<None Remove="*.md" />
+		<EmbeddedResource Include="*.md" />
 	</ItemGroup>
 
 	<ItemGroup>
