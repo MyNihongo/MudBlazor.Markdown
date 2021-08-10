@@ -18,7 +18,8 @@ namespace MudBlazor
 				return null;
 
 			var slices = @this.Inline
-				.Select(static x => x.GetStringContent());
+				.Select(static x => x.GetStringContent())
+				.Where(static x => x.Length > 0);
 
 			return string.Join(JoinChar, slices);
 		}
