@@ -32,6 +32,7 @@ In the `<head>` node add these CSS stylesheets.
 At the bottom of the `<body>` node add this JS source.
 ```html
 <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+<script src="_content/MudBlazor.Markdown/MudBlazor.Markdown.min.js"></script>
 ```
 Register MudBlazor services in the DI container.  
 For the Blazor Server in the `Startup.cs` add this method.
