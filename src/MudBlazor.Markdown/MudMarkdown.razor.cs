@@ -274,7 +274,7 @@ namespace MudBlazor
 								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
 								// (prevent scrolling to the top of the page)
-								// custom implementation only for links in the same page
+								// custom implementation only for links on the same page
 								if (x.Url?.StartsWith('#') ?? false)
 								{
 									builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
