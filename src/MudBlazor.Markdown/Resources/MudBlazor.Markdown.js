@@ -1,0 +1,3 @@
+﻿window.scrollToElementId = function(elementId) {
+
+}
