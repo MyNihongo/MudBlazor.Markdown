@@ -99,6 +99,40 @@ namespace MudBlazor.Markdown.Tests
 		}
 
 		[Fact]
+		public void PreventDefaultIfNavigatesToId()
+		{
+			const string value = "[link](#id)";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a blazor:onclick:preventDefault blazor:onclick='2' href='#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			link
+		</a>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void NotPreventDefaultIfNavigateToAnotherPage()
+		{
+			const string value = "[link](tokyo/#id)";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			link
+		</a>
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
 		public void RenderImage()
 		{
 			const string value = "![emw-banner](extra/emw.png)";
@@ -117,7 +151,7 @@ namespace MudBlazor.Markdown.Tests
 		public void RenderImageLink()
 		{
 			const string value = "[![emw-banner](extra/emw.png)](https://www.google.co.jp/)";
-			const string expectedResult = 
+			const string expectedResult =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a href='https://www.google.co.jp/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
