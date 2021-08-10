@@ -8,6 +8,7 @@ using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
@@ -271,6 +272,22 @@ namespace MudBlazor
 								builder.OpenComponent<MudLink>(_i++);
 								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
 								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+
+								// (prevent scrolling to the top of the page)
+								// custom implementation only for links in the same page
+								if (x.Url?.StartsWith('#') ?? false)
+								{
+									builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
+									builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
+									{
+										if (NavigationManager == null)
+											return;
+
+										var args = new LocationChangedEventArgs(NavigationManager.Uri + x.Url, true);
+										NavigationManagerOnLocationChanged(NavigationManager, args);
+									}));
+								}
+
 								builder.CloseComponent();
 							}
 							else
