@@ -55,6 +55,7 @@ namespace MudBlazor.Markdown.Tests
 
 			// Navigate to Sapporo
 			fixture.Find("a[href$='#sapporo']").Click();
+			MockNavigationManager.NavigateTo("#sapporo");
 
 			MockJsRuntime
 				.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "sapporo" }), Times.Once);
