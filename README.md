@@ -4,6 +4,9 @@
 
 This README covers configuration steps for Blazor Server and Blazor WebAssembly. For images how the markup component looks like in the browser go to the [README of samples](/samples).
 
+## Update guide
+For guidance with update errors please visit the [wiki page](wiki/Update-guide).
+
 ## Getting started
 Install the NuGet package.
 ```
