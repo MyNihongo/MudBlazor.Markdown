@@ -1,4 +1,5 @@
 ﻿using Bunit;
+using MudBlazor.Markdown.Tests.Services;
 using Xunit;
 
 namespace MudBlazor.Markdown.Tests
@@ -59,6 +60,26 @@ namespace MudBlazor.Markdown.Tests
 		line1<br />line2
 	</p>
 </article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderExternalLink()
+		{
+			const string value = "[link display](https://www.google.co.jp/)";
+			const string expectedValue = "";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
+
+		[Fact]
+		public void RenderInternalLink()
+		{
+			const string value = "[link display](" + TestNavigationManager.TestUrl + ")";
+			const string expectedValue = "";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
