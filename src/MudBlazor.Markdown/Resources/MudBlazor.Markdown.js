@@ -2,7 +2,7 @@
 	const element = document.getElementById(elementId);
 	if (element) {
 		const elementIdHref = `#${elementId}`;
-		if (!window.location.href.endsWith(elementIdHref)) {
+		if (!window.location.pathname.endsWith(elementIdHref)) {
 			history.replaceState(null, "", window.location.pathname + elementIdHref);
 		}
 
