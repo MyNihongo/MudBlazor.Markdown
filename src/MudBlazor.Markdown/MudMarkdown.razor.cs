@@ -275,7 +275,8 @@ namespace MudBlazor
 
 								if (x.Url.IsExternalUri(NavigationManager?.BaseUri))
 								{
-
+									builder.AddAttribute(_i++, nameof(MudLink.Target), "_blank");
+									builder.AddAttribute(_i++, "rel", "noopener noreferrer");
 								}
 								// (prevent scrolling to the top of the page)
 								// custom implementation only for links on the same page

@@ -69,7 +69,14 @@ namespace MudBlazor.Markdown.Tests
 		public void RenderExternalLink()
 		{
 			const string value = "[link display](https://www.google.co.jp/)";
-			const string expectedValue = "";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			link display
+		</a>
+	</p>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
@@ -79,7 +86,14 @@ namespace MudBlazor.Markdown.Tests
 		public void RenderInternalLink()
 		{
 			const string value = "[link display](" + TestNavigationManager.TestUrl + ")";
-			const string expectedValue = "";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			link display
+		</a>
+	</p>
+</article>";
 
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
@@ -175,7 +189,7 @@ namespace MudBlazor.Markdown.Tests
 			const string expectedResult =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
-		<a href='https://www.google.co.jp/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			<img src='extra/emw.png' alt='emw-banner' />
 		</a>
 	</p>
