@@ -115,11 +115,12 @@ namespace MudBlazor
 
 		protected override void OnAfterRender(bool firstRender)
 		{
-			if (!firstRender || !_enableLinkNavigation)
+			if (!firstRender || !_enableLinkNavigation || NavigationManager == null)
 				return;
 
-			if (NavigationManager != null)
-				NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
+			var args = new LocationChangedEventArgs(NavigationManager.Uri, true);
+			NavigationManagerOnLocationChanged(NavigationManager, args);
+			NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
 		}
 
 		private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)
