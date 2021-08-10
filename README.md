@@ -4,6 +4,9 @@
 
 This README covers configuration steps for Blazor Server and Blazor WebAssembly. For images how the markup component looks like in the browser go to the [README of samples](/samples).
 
+## Update guide
+For guidance with update errors please visit the [wiki page](https://github.com/MyNihongo/MudBlazor.Markdown/wiki/Update-guide).
+
 ## Getting started
 Install the NuGet package.
 ```
@@ -56,7 +59,8 @@ builder.Services.AddMudServices();
 ### Available properties
 - `Value` - string value of the markdown text;
 - `LinkCommand` - `<MudLink>` components will not navigate to the provided URL, but instead invoke the command. If the property is `null` then `<MudLink>` will navigate to the link automatically (behaviour of `<a>`);
-- `TableCellMinWidth` - minimum width (in pixels) for a table cell. If the property is `null` or negative the min width is not applied.
+- `TableCellMinWidth` - minimum width (in pixels) for a table cell. If the property is `null` or negative the min width is not applied;
+- `H*Typo` - override a Typo parameter for tags `<h1>`, `<h2>`, etc.
 ### Palette (colour) configurations
 The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). The palette can be configured as described [here](https://mudblazor.com/customization/theming/overview). These are the colors which are used in the `<MudMarkdown>`:
 - DrawerBackground - background-color of the quoted text;

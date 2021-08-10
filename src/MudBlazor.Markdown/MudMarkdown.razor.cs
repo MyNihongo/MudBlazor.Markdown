@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using Markdig;
 using Markdig.Extensions.Tables;
@@ -6,14 +7,18 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
 // ReSharper disable once CheckNamespace
 namespace MudBlazor
 {
-	public sealed class MudMarkdown : ComponentBase
+	public sealed class MudMarkdown : ComponentBase, IDisposable
 	{
 		private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+		private bool _enableLinkNavigation;
 		private int _i;
 
 		/// <summary>
@@ -78,6 +83,20 @@ namespace MudBlazor
 		[Parameter]
 		public Typo H6Typo { get; set; } = Typo.h6;
 
+		[Inject]
+		private NavigationManager? NavigationManager { get; init; }
+
+		[Inject]
+		private IJSRuntime? JsRuntime { get; init; }
+
+		public void Dispose()
+		{
+			if (NavigationManager == null)
+				return;
+
+			NavigationManager.LocationChanged -= NavigationManagerOnLocationChanged;
+		}
+
 		protected override void BuildRenderTree(RenderTreeBuilder builder)
 		{
 			if (string.IsNullOrEmpty(Value))
@@ -93,6 +112,31 @@ namespace MudBlazor
 			builder.AddAttribute(_i++, "class", "mud-markdown-body");
 			RenderMarkdown(parsedText, builder);
 			builder.CloseElement();
+		}
+
+		protected override void OnAfterRender(bool firstRender)
+		{
+			if (!firstRender || !_enableLinkNavigation || NavigationManager == null)
+				return;
+
+			var args = new LocationChangedEventArgs(NavigationManager.Uri, true);
+			NavigationManagerOnLocationChanged(NavigationManager, args);
+			NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
+		}
+
+		private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)
+		{
+			if (JsRuntime == null)
+				return;
+
+			var idFragment = new Uri(e.Location, UriKind.Absolute).Fragment;
+			if (!idFragment.StartsWith('#') || idFragment.Length < 2)
+				return;
+
+			idFragment = idFragment[1..];
+
+			await JsRuntime.InvokeVoidAsync("scrollToElementId", idFragment)
+				.ConfigureAwait(false);
 		}
 
 		private void RenderMarkdown(ContainerBlock container, RenderTreeBuilder builder)
@@ -121,6 +165,8 @@ namespace MudBlazor
 
 							if (typo.HasValue)
 							{
+								_enableLinkNavigation = true;
+
 								var id = heading.BuildIdString();
 								RenderParagraphBlock(heading, builder, typo.Value, id);
 							}
@@ -226,6 +272,26 @@ namespace MudBlazor
 								builder.OpenComponent<MudLink>(_i++);
 								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
 								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+
+								// (prevent scrolling to the top of the page)
+								// custom implementation only for links on the same page
+								if (x.Url?.StartsWith('#') ?? false)
+								{
+									builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
+									builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
+									{
+										if (NavigationManager == null)
+											return;
+
+										var uriBuilder = new UriBuilder(NavigationManager.Uri)
+										{
+											Fragment = x.Url
+										};
+										var args = new LocationChangedEventArgs(uriBuilder.Uri.AbsoluteUri, true);
+										NavigationManagerOnLocationChanged(NavigationManager, args);
+									}));
+								}
+
 								builder.CloseComponent();
 							}
 							else
