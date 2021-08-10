@@ -37,17 +37,27 @@ namespace MudBlazor.Markdown.Tests
 		{
 			const string value =
 @"[東京](#tokyo)
-# Tokyo";
+[札幌](#sapporo)
+# Tokyo
+## Sapporo";
 
 			using var fixture = CreateFixture(value);
 
 			MockJsRuntime
 				.Verify(x => x.InvokeAsync<object>(MethodIdentifier, It.IsAny<object[]>()), Times.Never);
 
+			// Navigate to Tokyo
 			fixture.Find("a[href$='#tokyo']").Click();
+			MockNavigationManager.NavigateTo("#tokyo");
 
 			MockJsRuntime
 				.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "tokyo" }), Times.Once);
+
+			// Navigate to Sapporo
+			fixture.Find("a[href$='#sapporo']").Click();
+
+			MockJsRuntime
+				.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "sapporo" }), Times.Once);
 		}
 	}
 }

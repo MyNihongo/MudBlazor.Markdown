@@ -22,7 +22,10 @@ namespace MudBlazor.Markdown.Tests.Services
 
 		protected override void NavigateToCore(string uri, bool forceLoad)
 		{
-			throw new NotImplementedException();
+			var newUri = new Uri(BaseUri);
+			newUri = new Uri(newUri, uri);
+
+			Uri = newUri.AbsoluteUri;
 		}
 	}
 }

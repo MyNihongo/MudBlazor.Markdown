@@ -283,7 +283,11 @@ namespace MudBlazor
 										if (NavigationManager == null)
 											return;
 
-										var args = new LocationChangedEventArgs(NavigationManager.Uri + x.Url, true);
+										var uriBuilder = new UriBuilder(NavigationManager.Uri)
+										{
+											Fragment = x.Url
+										};
+										var args = new LocationChangedEventArgs(uriBuilder.Uri.AbsoluteUri, true);
 										NavigationManagerOnLocationChanged(NavigationManager, args);
 									}));
 								}
