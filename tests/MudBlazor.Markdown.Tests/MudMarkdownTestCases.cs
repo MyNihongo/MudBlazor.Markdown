@@ -213,5 +213,25 @@ text after";
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
+
+		[Theory]
+		[InlineData("favico.png", "https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/main/")]
+		[InlineData("/favico.png", "https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/main/")]
+		[InlineData("/favico.png", "https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/main")]
+		public void RenderImageWithRelativeLinkPrefix(string relative, string prefix)
+		{
+			//https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/main/favico.png
+			
+			var value = $"![some image]({relative})";
+			var expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<img src='https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/main/favico.png' alt='some image' />
+	</p>
+</article>";
+
+			using var fixture = CreateFixture(value, relativeLinkPrefix: prefix);
+			fixture.MarkupMatches(expectedValue);
+		}
 	}
 }

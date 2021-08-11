@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Input;
 using Markdig;
 using Markdig.Extensions.Tables;
@@ -35,6 +36,13 @@ namespace MudBlazor
 		/// </summary>
 		[Parameter]
 		public ICommand? LinkCommand { get; set; }
+
+		/// <summary>
+		/// Prefix to use for relative links. This is useful if you load Markdown from
+		/// external sites like GitHub and want to have working links and images.
+		/// </summary>
+		[Parameter]
+		public string? RelativeLinkPrefix { get; set; }
 
 		/// <summary>
 		/// Typography variant to use for Heading Level 1.<br/>
@@ -217,14 +225,14 @@ namespace MudBlazor
 									.Select(static x => x.Content);
 
 								builder.OpenElement(_i++, "img");
-								builder.AddAttribute(_i++, "src", x.Url);
+								builder.AddAttribute(_i++, "src", CreateAbsoluteUrlWithPrefix(x.Url));
 								builder.AddAttribute(_i++, "alt", string.Join(null, alt));
 								builder.CloseElement();
 							}
 							else if (LinkCommand == null)
 							{
 								builder.OpenComponent<MudLink>(_i++);
-								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLink.Href), CreateAbsoluteUrlWithPrefix(x.Url));
 								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 								builder.CloseComponent();
 							}
@@ -232,7 +240,7 @@ namespace MudBlazor
 							{
 								builder.OpenComponent<MudLinkButton>(_i++);
 								builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-								builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), CreateAbsoluteUrlWithPrefix(x.Url));
 								builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 								builder.CloseComponent();
 							}
@@ -321,6 +329,25 @@ namespace MudBlazor
 			}
 
 			builder.CloseElement();
+		}
+
+		private string CreateAbsoluteUrlWithPrefix(string originalUrl)
+		{
+			if (RelativeLinkPrefix == null) return originalUrl;
+
+			// anchors
+			if (originalUrl.StartsWith('#')) return originalUrl;
+
+			// already absolute urls
+			if (originalUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase)) return originalUrl;
+			if (originalUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return originalUrl;
+			if (originalUrl.StartsWith("www", StringComparison.OrdinalIgnoreCase)) return originalUrl;
+
+			if (originalUrl.StartsWith('/') && RelativeLinkPrefix.EndsWith('/'))
+				return RelativeLinkPrefix + originalUrl[1..];
+			if (!originalUrl.StartsWith('/') && !RelativeLinkPrefix.EndsWith('/'))
+				return $"{RelativeLinkPrefix}/{originalUrl}";
+			return RelativeLinkPrefix + originalUrl;
 		}
 	}
 }
