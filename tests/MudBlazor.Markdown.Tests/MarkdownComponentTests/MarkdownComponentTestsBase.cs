@@ -1,31 +1,12 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Bunit;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-using Moq;
-using MudBlazor.Markdown.Tests.Services;
 using MyNihongo.Option;
 
 namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 {
-	public abstract class MarkdownComponentTestsBase : IDisposable
+	public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 	{
-		private readonly TestContext _ctx = new();
-
-		protected MarkdownComponentTestsBase()
-		{
-			_ctx.Services
-				.AddSingleton(MockJsRuntime.Object)
-				.AddSingleton<NavigationManager>(MockNavigationManager);
-		}
-
 		protected string Uri { get; set; } = string.Empty;
-
-		protected Mock<IJSRuntime> MockJsRuntime { get; } = new();
-
-		protected TestNavigationManager MockNavigationManager { get; } = new();
 
 		protected IRenderedComponent<MudMarkdown> CreateFixture(
 			string value,
@@ -34,7 +15,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 		{
 			MockNavigationManager.Initialize(Uri);
 
-			return _ctx.RenderComponent<MudMarkdown>(@params =>
+			return Ctx.RenderComponent<MudMarkdown>(@params =>
 				@params.Add(static x => x.Value, value)
 					.TryAdd(static x => x.LinkCommand, command)
 					.TryAdd(static x => x.TableCellMinWidth, tableCellMinWidth)
@@ -44,12 +25,6 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 					.TryAdd(static x => x.H4Typo, h4Typo)
 					.TryAdd(static x => x.H5Typo, h5Typo)
 					.TryAdd(static x => x.H6Typo, h6Typo));
-		}
-
-		public void Dispose()
-		{
-			GC.SuppressFinalize(this);
-			_ctx.Dispose();
 		}
 	}
 }
