@@ -89,6 +89,12 @@ namespace MudBlazor
 		[Inject]
 		private IJSRuntime? JsRuntime { get; init; }
 
+		/// <summary>
+		/// Override the original URL address of the <see cref="LinkInline"/>
+		/// </summary>
+		/// <remarks>
+		///	https://github.com/MyNihongo/MudBlazor.Markdown/issues/21
+		/// </remarks>
 		protected virtual string? OverrideLinkInlineUrl(string? originalUrl) =>
 			originalUrl;
 
