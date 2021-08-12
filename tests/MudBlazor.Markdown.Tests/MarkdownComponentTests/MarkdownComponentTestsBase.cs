@@ -8,13 +8,13 @@ using Moq;
 using MudBlazor.Markdown.Tests.Services;
 using MyNihongo.Option;
 
-namespace MudBlazor.Markdown.Tests
+namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 {
-	public abstract class MudMarkdownTestsBase : IDisposable
+	public abstract class MarkdownComponentTestsBase : IDisposable
 	{
 		private readonly TestContext _ctx = new();
 
-		protected MudMarkdownTestsBase()
+		protected MarkdownComponentTestsBase()
 		{
 			_ctx.Services
 				.AddSingleton(MockJsRuntime.Object)

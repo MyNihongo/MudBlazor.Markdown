@@ -2,9 +2,9 @@
 using MudBlazor.Markdown.Tests.Services;
 using Xunit;
 
-namespace MudBlazor.Markdown.Tests
+namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 {
-	public sealed class MudMarkdownTests : MudMarkdownTestsBase
+	public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		[Theory]
 		[InlineData(null)]
