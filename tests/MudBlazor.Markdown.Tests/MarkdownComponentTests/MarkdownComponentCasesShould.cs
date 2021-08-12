@@ -1,9 +1,9 @@
 ﻿using Bunit;
 using Xunit;
 
-namespace MudBlazor.Markdown.Tests
+namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 {
-	public sealed class MudMarkdownTestCases : MudMarkdownTestsBase
+	public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 	{
 		[Fact]
 		public void RenderTableWithAdjacentText()

@@ -15,7 +15,7 @@ using Microsoft.JSInterop;
 // ReSharper disable once CheckNamespace
 namespace MudBlazor
 {
-	public sealed class MudMarkdown : ComponentBase, IDisposable
+	public class MudMarkdown : ComponentBase, IDisposable
 	{
 		private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 		private bool _enableLinkNavigation;
@@ -89,15 +89,24 @@ namespace MudBlazor
 		[Inject]
 		private IJSRuntime? JsRuntime { get; init; }
 
+		/// <summary>
+		/// Override the original URL address of the <see cref="LinkInline"/>
+		/// </summary>
+		/// <remarks>
+		///	https://github.com/MyNihongo/MudBlazor.Markdown/issues/21
+		/// </remarks>
+		protected virtual string? OverrideLinkInlineUrl(string? originalUrl) =>
+			originalUrl;
+
 		public void Dispose()
 		{
-			if (NavigationManager == null)
-				return;
+			if (NavigationManager != null)
+				NavigationManager.LocationChanged -= NavigationManagerOnLocationChanged;
 
-			NavigationManager.LocationChanged -= NavigationManagerOnLocationChanged;
+			GC.SuppressFinalize(this);
 		}
 
-		protected override void BuildRenderTree(RenderTreeBuilder builder)
+		protected sealed override void BuildRenderTree(RenderTreeBuilder builder)
 		{
 			if (string.IsNullOrEmpty(Value))
 				return;
@@ -256,6 +265,8 @@ namespace MudBlazor
 						}
 					case LinkInline x:
 						{
+							var url = OverrideLinkInlineUrl(x.Url);
+
 							if (x.IsImage)
 							{
 								var alt = x
@@ -263,24 +274,24 @@ namespace MudBlazor
 									.Select(static x => x.Content);
 
 								builder.OpenElement(_i++, "img");
-								builder.AddAttribute(_i++, "src", x.Url);
+								builder.AddAttribute(_i++, "src", url);
 								builder.AddAttribute(_i++, "alt", string.Join(null, alt));
 								builder.CloseElement();
 							}
 							else if (LinkCommand == null)
 							{
 								builder.OpenComponent<MudLink>(_i++);
-								builder.AddAttribute(_i++, nameof(MudLink.Href), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLink.Href), url);
 								builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
-								if (x.Url.IsExternalUri(NavigationManager?.BaseUri))
+								if (url.IsExternalUri(NavigationManager?.BaseUri))
 								{
 									builder.AddAttribute(_i++, nameof(MudLink.Target), "_blank");
 									builder.AddAttribute(_i++, "rel", "noopener noreferrer");
 								}
 								// (prevent scrolling to the top of the page)
 								// custom implementation only for links on the same page
-								else if (x.Url?.StartsWith('#') ?? false)
+								else if (url?.StartsWith('#') ?? false)
 								{
 									builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
 									builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
@@ -290,7 +301,7 @@ namespace MudBlazor
 
 										var uriBuilder = new UriBuilder(NavigationManager.Uri)
 										{
-											Fragment = x.Url
+											Fragment = url
 										};
 										var args = new LocationChangedEventArgs(uriBuilder.Uri.AbsoluteUri, true);
 										NavigationManagerOnLocationChanged(NavigationManager, args);
@@ -303,7 +314,7 @@ namespace MudBlazor
 							{
 								builder.OpenComponent<MudLinkButton>(_i++);
 								builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-								builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), x.Url);
+								builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), url);
 								builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 								builder.CloseComponent();
 							}

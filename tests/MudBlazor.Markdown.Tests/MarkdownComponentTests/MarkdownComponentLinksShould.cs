@@ -2,9 +2,9 @@
 using Moq;
 using Xunit;
 
-namespace MudBlazor.Markdown.Tests
+namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 {
-	public sealed class MudMarkdownTestsLinkNav : MudMarkdownTestsBase
+	public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 	{
 		private const string MethodIdentifier = "scrollToElementId";
 
