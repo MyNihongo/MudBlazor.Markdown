@@ -124,16 +124,13 @@ namespace MudBlazor
 						}
 					case HeadingBlock heading:
 						{
-							Typo? typo = (Typo)heading.Level;
-							typo = OverrideHeaderTypo?.Invoke((Typo)heading.Level) ?? typo;
+							var typo = (Typo)heading.Level;
+							typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
 
-							if (typo.HasValue)
-							{
-								_enableLinkNavigation = true;
+							_enableLinkNavigation = true;
 
-								var id = heading.BuildIdString();
-								RenderParagraphBlock(heading, builder, typo.Value, id);
-							}
+							var id = heading.BuildIdString();
+							RenderParagraphBlock(heading, builder, typo, id);
 
 							break;
 						}
