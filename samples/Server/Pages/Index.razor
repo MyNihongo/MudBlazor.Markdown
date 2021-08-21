@@ -1,7 +1,8 @@
 ﻿@page "/"
 @using MudBlazor.Markdown.Core.Services.Interfaces
+@using Markdig.Syntax.Inlines
 
-<MudMarkdown Value="@Value" TableCellMinWidth="100" />
+<MudMarkdown Value="@Value" TableCellMinWidth="100" OverrideLinkUrl="OverrideLink" />
 
 @code
 {
@@ -18,4 +19,7 @@
 		Value = await MarkdownService.GetEnderalSampleAsync()
 			.ConfigureAwait(false);
 	}
+
+	private static string? OverrideLink(LinkInline x) =>
+		x.Url;
 }

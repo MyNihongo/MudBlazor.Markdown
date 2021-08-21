@@ -88,7 +88,7 @@ namespace MudBlazor
 		/// If the parameter is not provider <see cref="LinkInline"/>.<see cref="LinkInline.Url"/> is used
 		/// </summary>
 		[Parameter]
-		public Func<LinkInline, string>? OverrideLinkUrl { get; set; }
+		public Func<LinkInline, string?>? OverrideLinkUrl { get; set; }
 
 		[Inject]
 		private NavigationManager? NavigationManager { get; init; }
