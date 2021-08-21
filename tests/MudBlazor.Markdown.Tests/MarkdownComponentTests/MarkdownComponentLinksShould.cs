@@ -1,5 +1,8 @@
-﻿using Bunit;
+﻿using System;
+using Bunit;
+using Markdig.Syntax.Inlines;
 using Moq;
+using MyNihongo.Option;
 using Xunit;
 
 namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
@@ -59,6 +62,60 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 
 			MockJsRuntime
 				.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "sapporo" }), Times.Once);
+		}
+
+		[Fact]
+		public void OverrideAllLinks()
+		{
+			const string value =
+@"[absolute](https://www.google.co.jp/)
+[relative](/tokyo)
+[id](#edogawa)";
+
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			absolute
+		</a>
+		<br />
+		<a href='overridden/tokyo' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			relative
+		</a>
+		<br />
+		<a href='overridden#edogawa' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			id
+		</a>
+	</p>
+</article>";
+
+			var @override = Optional<Func<LinkInline, string>>.Of(Override);
+
+			using var fixture = CreateFixture(value, overrideLinkUrl: @override);
+			fixture.MarkupMatches(expectedValue);
+
+			static string Override(LinkInline x) =>
+				"overridden" + x.Url;
+		}
+
+		[Fact]
+		public void OverrideImageLink()
+		{
+			const string value = @"![img](/tokyo/sky-tree.png)";
+			const string expectedValue =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
+		<img src='overridden/tokyo/sky-tree.png' alt='img' />
+	</p>
+</article>";
+
+			var @override = Optional<Func<LinkInline, string>>.Of(Override);
+
+			using var fixture = CreateFixture(value, overrideLinkUrl: @override);
+			fixture.MarkupMatches(expectedValue);
+
+			static string Override(LinkInline x) =>
+				"overridden" + x.Url;
 		}
 	}
 }

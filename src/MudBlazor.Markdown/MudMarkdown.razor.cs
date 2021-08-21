@@ -83,20 +83,18 @@ namespace MudBlazor
 		[Parameter]
 		public Typo H6Typo { get; set; } = Typo.h6;
 
+		/// <summary>
+		/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
+		/// If the parameter is not provider <see cref="LinkInline"/>.<see cref="LinkInline.Url"/> is used
+		/// </summary>
+		[Parameter]
+		public Func<LinkInline, string>? OverrideLinkUrl { get; set; }
+
 		[Inject]
 		private NavigationManager? NavigationManager { get; init; }
 
 		[Inject]
 		private IJSRuntime? JsRuntime { get; init; }
-
-		/// <summary>
-		/// Override the original URL address of the <see cref="LinkInline"/>
-		/// </summary>
-		/// <remarks>
-		///	https://github.com/MyNihongo/MudBlazor.Markdown/issues/21
-		/// </remarks>
-		protected virtual string? OverrideLinkInlineUrl(string? originalUrl) =>
-			originalUrl;
 
 		public void Dispose()
 		{
@@ -265,7 +263,7 @@ namespace MudBlazor
 						}
 					case LinkInline x:
 						{
-							var url = OverrideLinkInlineUrl(x.Url);
+							var url = OverrideLinkUrl?.Invoke(x) ?? x.Url;
 
 							if (x.IsImage)
 							{
