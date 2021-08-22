@@ -61,7 +61,8 @@ builder.Services.AddMudServices();
 - `Value` - string value of the markdown text;
 - `LinkCommand` - `<MudLink>` components will not navigate to the provided URL, but instead invoke the command. If the property is `null` then `<MudLink>` will navigate to the link automatically (behaviour of `<a>`);
 - `TableCellMinWidth` - minimum width (in pixels) for a table cell. If the property is `null` or negative the min width is not applied;
-- `H*Typo` - override a Typo parameter for tags `<h1>`, `<h2>`, etc.
+- `OverrideHeaderTypo` - override a Typo parameter for tags `<h1>`, `<h2>`, etc.;
+- `OverrideLinkUrl` - override a URL address for links.
 ### Palette (colour) configurations
 The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). The palette can be configured as described [here](https://mudblazor.com/customization/theming/overview). These are the colors which are used in the `<MudMarkdown>`:
 - DrawerBackground - background-color of the quoted text;
