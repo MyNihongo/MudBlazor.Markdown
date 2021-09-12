@@ -157,6 +157,17 @@ namespace MudBlazor
 							builder.CloseComponent();
 							break;
 						}
+					case FencedCodeBlock code:
+						{
+							var text = code.CreateCodeBlockText();
+
+							builder.OpenComponent<MudCodeHighlight>(i++);
+							builder.AddAttribute(i++, nameof(MudCodeHighlight.Text), text);
+							builder.AddAttribute(i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+							builder.CloseComponent();
+
+							break;
+						}
 				}
 			}
 		}

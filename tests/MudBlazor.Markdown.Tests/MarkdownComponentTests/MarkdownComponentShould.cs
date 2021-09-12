@@ -455,5 +455,23 @@ second line";
 			using var fixture = CreateFixture(value);
 			fixture.MarkupMatches(expectedValue);
 		}
+
+		[Fact]
+		public void RenderCodeBlock()
+		{
+			const string value =
+@"```cs
+public bool IsMudBlazorCool()
+{
+	return true;
+}
+```";
+
+			const string expectedValue =
+@"<article class='mud-markdown-body'><pre><code blazor:elementReference='3b498767-f59e-4a18-a27d-a828bf3dd0e5'>public bool IsMudBlazorCool()&#xD;&#xA;{&#xD;&#xA;&#x9;return true;&#xD;&#xA;}</code></pre></article>";
+
+			using var fixture = CreateFixture(value);
+			fixture.MarkupMatches(expectedValue);
+		}
 	}
 }
