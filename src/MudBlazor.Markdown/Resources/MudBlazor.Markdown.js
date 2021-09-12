@@ -1,7 +1,7 @@
 ﻿import hljs from "highlight.js";
 
-window.highlightCodeElement = function (element) {
-	hljs.highlightElement(element, { language: "cs" });
+window.highlightCodeElement = function (element, lang) {
+	hljs.highlightElement(element, { language: lang });
 }
 
 window.scrollToElementId = function (elementId) {

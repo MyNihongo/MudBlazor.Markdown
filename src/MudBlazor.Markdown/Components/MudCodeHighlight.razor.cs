@@ -32,7 +32,7 @@ namespace MudBlazor
 			if (!firstRender || Js == null)
 				return;
 
-			await Js.InvokeVoidAsync("highlightCodeElement", _ref)
+			await Js.InvokeVoidAsync("highlightCodeElement", _ref, "cs")
 				.ConfigureAwait(false);
 		}
 	}
