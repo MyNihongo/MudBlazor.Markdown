@@ -2,8 +2,7 @@
 @using MudBlazor.Markdown.Core.Services.Interfaces
 @using Markdig.Syntax.Inlines
 
-@*<MudMarkdown Value="@Value" TableCellMinWidth="100" OverrideLinkUrl="OverrideLink" />*@
-<MudCodeHighlight/>
+<MudMarkdown Value="@Value" TableCellMinWidth="100" OverrideLinkUrl="OverrideLink" />
 
 @code
 {
@@ -17,7 +16,7 @@
 		if (MarkdownService == null)
 			return;
 
-		Value = await MarkdownService.GetEnderalSampleAsync()
+		Value = await MarkdownService.GetSampleAsync()
 			.ConfigureAwait(false);
 	}
 

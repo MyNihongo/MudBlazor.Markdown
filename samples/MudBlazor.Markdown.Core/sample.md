@@ -48,3 +48,10 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 |-|-|-|-|-|-|
 |**本 (ほん)**<br>long thin objects|**いっぽん**|にほん|**さんぼん**|よんほん|ごほん|
 |**つ**<br>general purpose|**ひとつ**|**ふたつ**|**みっつ**|**よっつ**|**いつつ**|
+
+#### Code block
+```go
+func main() {
+    fmt.Println("Hello, 世界")
+}
+```
