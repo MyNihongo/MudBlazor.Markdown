@@ -1,4 +1,10 @@
-﻿window.scrollToElementId = function (elementId) {
+﻿import hljs from "highlight.js";
+
+window.highlightCodeElement = function (element) {
+	hljs.highlightElement(element, { language: "cs" });
+}
+
+window.scrollToElementId = function (elementId) {
 	const element = document.getElementById(elementId);
 	if (element) {
 		const elementIdHref = `#${elementId}`;

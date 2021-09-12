@@ -1,11 +1,10 @@
 ﻿const path = require("path");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
 	entry: [
-		"./Resources/Npm.js",
 		 "./Resources/MudBlazor.Markdown.js",
 		 "./Resources/MudBlazor.Markdown.css"
 		],
@@ -14,6 +13,7 @@ module.exports = {
 		filename: "MudBlazor.Markdown.min.js",
 		publicPath: "/"
 	},
+	mode: "production",
 	module: {
 		rules: [
 			{
@@ -26,9 +26,10 @@ module.exports = {
 		]
 	},
 	optimization: {
+		minimize: true,
 		minimizer: [
 			new CssMinimizerPlugin(),
-			new UglifyJsPlugin()
+			new TerserPlugin({ parallel: true })
 		]
 	},
 	plugins: [

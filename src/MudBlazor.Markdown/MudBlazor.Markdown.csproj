@@ -23,16 +23,11 @@
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
-		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\favico.png" Pack="true" PackagePath="" />
 		<Content Remove="**\package*.json" />
 	</ItemGroup>
-
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="npm run build" />
-	</Target>
 
 </Project>
