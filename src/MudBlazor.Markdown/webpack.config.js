@@ -1,5 +1,7 @@
 ﻿const path = require("path");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
 	entry: [
@@ -20,12 +22,18 @@ module.exports = {
 					MiniCssExtractPlugin.loader,
 					"css-loader"
 				]
-			},
+			}
+		]
+	},
+	optimization: {
+		minimizer: [
+			new CssMinimizerPlugin(),
+			new UglifyJsPlugin()
 		]
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: "MudBlazor.Markdown.min.css"
 		})
-	],
+	]
 };
