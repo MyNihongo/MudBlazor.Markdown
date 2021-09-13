@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.ObjectPool;
@@ -53,7 +54,7 @@ namespace MudBlazor.Markdown.Build
 				break;
 			}
 
-			var projDir = Path.Combine(sb.ToString(), "src", "MudBlazor.Markdown");
+			var projDir = Path.Combine(GetProjDir(sb.ToString()), "src", "MudBlazor.Markdown");
 
 			string codeStyleDir = Path.Combine(projDir, "Resources", CodeStylesDir),
 				outputDir = Path.Combine(projDir, "wwwroot");
@@ -62,6 +63,12 @@ namespace MudBlazor.Markdown.Build
 			Console.WriteLine(dirs);
 
 			return dirs;
+
+			static string GetProjDir(string path) =>
+				// split removes the leading slash - indicator of the root
+				RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+					? Path.DirectorySeparatorChar + path
+					: path;
 		}
 	}
 }
