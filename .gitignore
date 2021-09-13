@@ -29,7 +29,7 @@ bld/
 
 # npm-generated js
 **/wwwroot/js/index.bundle.js
-**/wwwroot/*.min.*
+**/wwwroot/**/*.min.*
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
