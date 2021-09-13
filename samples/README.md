@@ -17,6 +17,6 @@ Or see WebAssembly or Server samples.
 ![table-dark](images/table-dark.jpg)
 ## Code block
 Code block theme-switching is not supported out-of-the-box.  
-See [Server](https://github.com/MyNihongo/MudBlazor.Markdown/blob/main/samples/Server/App.razor) or [WebAssembly](https://github.com/MyNihongo/MudBlazor.Markdown/blob/main/samples/WebAssembly/App.razor) for examples.
+See [Server](https://github.com/MyNihongo/MudBlazor.Markdown/blob/main/samples/Server/App.razor) or [WebAssembly](https://github.com/MyNihongo/MudBlazor.Markdown/blob/main/samples/WebAssembly/App.razor) for examples.  
 ![code-light](images/code-light.jpg)
 ![table-dark](images/code-dark.jpg)
