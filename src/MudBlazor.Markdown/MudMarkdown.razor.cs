@@ -45,7 +45,8 @@ namespace MudBlazor
 		public ICommand? LinkCommand { get; set; }
 
 		/// <summary>
-		/// Theme of the code block.
+		/// Theme of the code block.<br/>
+		/// Browse available themes here: https://highlightjs.org/static/demo/
 		/// </summary>
 		[Parameter]
 		public CodeBlockTheme CodeBlockTheme { get; set; }

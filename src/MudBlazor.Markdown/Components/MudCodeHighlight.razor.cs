@@ -29,6 +29,7 @@ namespace MudBlazor
 
 		/// <summary>
 		/// Theme of the code block.<br/>
+		/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 		/// Default is <see cref="CodeBlockTheme.Default"/>
 		/// </summary>
 		[Parameter]

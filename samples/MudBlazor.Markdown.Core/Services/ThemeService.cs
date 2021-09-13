@@ -47,7 +47,7 @@ namespace MudBlazor.Markdown.Core.Services
 
 		private void PublishTheme(bool isDark)
 		{
-			var codeBlockTheme = isDark ? CodeBlockTheme.DraculaBase16 : CodeBlockTheme.AtomOneLight;
+			var codeBlockTheme = isDark ? CodeBlockTheme.DraculaBase16 : CodeBlockTheme.SummerfruitLightBase16;
 			_mudMarkdownThemeService.SetCodeBlockTheme(codeBlockTheme);
 
 			_isDarkThemeSubject.OnNext(isDark);
