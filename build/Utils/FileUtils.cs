@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MudBlazor.Markdown.Build.Utils
@@ -11,9 +12,13 @@ namespace MudBlazor.Markdown.Build.Utils
 			{
 				var dir = Path.GetDirectoryName(path);
 				if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+				{
+					Console.WriteLine("Creating a directory: {0}", dir);
 					Directory.CreateDirectory(dir);
+				}
 			}
 
+			Console.WriteLine("Opening a file: {0}", path);
 			return new FileStream(path, fileMode, FileAccess.ReadWrite, FileShare.ReadWrite, 4086, true);
 		}
 
