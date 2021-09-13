@@ -31,7 +31,7 @@ namespace MyNihongo.CodeThemeEnumGenerator
 
 			for (var i = pathSplit.Length - 1; i >= 0; i--)
 			{
-				if (pathSplit[i] != "dev")
+				if (pathSplit[i] != "build")
 					continue;
 
 				for (var j = 0; j < i; j++)
