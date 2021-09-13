@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.ObjectPool;
 using MudBlazor.Markdown.Build.Models;
 using MudBlazor.Markdown.Build.Steps;
 using MudBlazor.Markdown.Build.Steps.Interfaces;
@@ -12,6 +13,9 @@ namespace MudBlazor.Markdown.Build
 	internal class Program
 	{
 		public const string CodeStylesDir = "CodeStyles";
+
+		public static readonly ObjectPool<StringBuilder> StringBuilderPool = new DefaultObjectPoolProvider()
+			.CreateStringBuilderPool();
 
 		private static async Task Main()
 		{

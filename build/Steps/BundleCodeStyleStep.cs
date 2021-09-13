@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.ObjectPool;
 using MudBlazor.Markdown.Build.Models;
 using MudBlazor.Markdown.Build.Steps.Interfaces;
 using MudBlazor.Markdown.Build.Utils;
@@ -16,9 +14,6 @@ namespace MudBlazor.Markdown.Build.Steps
 		{
 			CommentMode = CssComment.None
 		};
-
-		private static readonly ObjectPool<StringBuilder> StringBuilderPool = new DefaultObjectPoolProvider()
-			.CreateStringBuilderPool();
 
 		/// <remarks>
 		///	Due to not being good at webpack I could not bundle these .css files with webpack :(
@@ -84,7 +79,7 @@ namespace MudBlazor.Markdown.Build.Steps
 
 		private static string AdjustOutputDirectories(string directories)
 		{
-			var stringBuilder = StringBuilderPool.Get();
+			var stringBuilder = Program.StringBuilderPool.Get();
 			stringBuilder.Append(char.ToLower(directories[0]));
 
 			for (var i = 1; i < directories.Length; i++)

@@ -9,16 +9,30 @@ namespace MudBlazor.Markdown.Build.Steps
 {
 	public sealed class GenerateCodeStyleEnumStep : IStep
 	{
-		private readonly StringBuilder _stringBuilder = new();
+		private readonly StringBuilder _declarationBuilder = new(),
+			_extensionBuilder = new();
+
+		private const string EnumName = "CodeBlockTheme",
+			EnumExName = EnumName + "Ex";
 
 		public GenerateCodeStyleEnumStep()
 		{
-			_stringBuilder.AppendLine("// ReSharper disable once CheckNamespace")
+			_declarationBuilder
+				.AppendLine("// ReSharper disable once CheckNamespace")
 				.AppendLine("namespace MudBlazor")
 				.AppendLine("{")
-				.AppendLine("\tpublic enum CodeBlockTheme : ushort")
+				.AppendFormat("\tpublic enum {0} : ushort", EnumName).AppendLine()
 				.AppendLine("\t{")
 				.Append("\t\tDefault = 0");
+
+			_extensionBuilder
+				.AppendLine("namespace MudBlazor")
+				.AppendLine("{")
+				.AppendFormat("\tinternal static class {0}", EnumExName).AppendLine()
+				.AppendLine("\t{")
+				.AppendFormat("\t\tpublic static string GetStylePath(this {0} @this) =>", EnumName).AppendLine()
+				.AppendLine("\t\t\t@this switch")
+				.AppendLine("\t\t\t{");
 		}
 
 		public ValueTask ProcessFileAsync(string filePath, ProjectDirs dirs)
@@ -27,10 +41,51 @@ namespace MudBlazor.Markdown.Build.Steps
 				return ValueTask.CompletedTask;
 
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
+			var parentDirName = Path.GetFileName(Path.GetDirectoryName(filePath));
+			var enumName = CreateEnumName(filePath, parentDirName);
 
-			_stringBuilder.AppendLine(",");
-			_stringBuilder.Append("\t\t");
-			_stringBuilder.Append(char.ToUpper(fileName[0]));
+			if (fileName == "default")
+				return ValueTask.CompletedTask;
+
+			_declarationBuilder.AppendLine(",");
+			_declarationBuilder.Append("\t\t");
+			_declarationBuilder.Append(enumName);
+
+			return ValueTask.CompletedTask;
+		}
+
+		public async ValueTask CompleteAsync(ProjectDirs dirs)
+		{
+			var enumString = _declarationBuilder
+				.AppendLine()
+				.AppendLine("\t}")
+				.Append('}')
+				.ToString();
+
+			var enumExString = _extensionBuilder
+				.AppendLine("\t\t\t\t_ => string.Empty")
+				.AppendLine("\t\t\t}")
+				.AppendLine("\t}")
+				.Append('}')
+				.ToString();
+
+			string enumDstPath = Path.Combine(dirs.ProjectDir, "Enums", $"{EnumName}.cs"),
+				enumExDstPath = Path.Combine(dirs.ProjectDir, "Extensions", $"{EnumExName}.cs");
+
+			var tasks = new[]
+			{
+				FileUtils.WriteAsync(enumDstPath, enumString),
+				FileUtils.WriteAsync(enumExDstPath, enumExString)
+			};
+
+			await Task.WhenAll(tasks)
+				.ConfigureAwait(false);
+		}
+
+		private static string CreateEnumName(string fileName, string parentDir)
+		{
+			var sb = Program.StringBuilderPool.Get();
+			sb.Append(char.ToUpper(fileName[0]));
 
 			var isUpperCase = false;
 			for (var i = 1; i < fileName.Length; i++)
@@ -44,33 +99,18 @@ namespace MudBlazor.Markdown.Build.Steps
 				if (isUpperCase)
 				{
 					isUpperCase = false;
-					_stringBuilder.Append(char.ToUpper(fileName[i]));
+					sb.Append(char.ToUpper(fileName[i]));
 				}
 				else
 				{
-					_stringBuilder.Append(fileName[i]);
+					sb.Append(fileName[i]);
 				}
 			}
 
-			var parentDirName = Path.GetFileName(Path.GetDirectoryName(filePath));
-			if (parentDirName != Program.CodeStylesDir)
-				_stringBuilder.Append(parentDirName);
+			if (parentDir != Program.CodeStylesDir)
+				sb.Append(parentDir);
 
-			return ValueTask.CompletedTask;
-		}
-
-		public async ValueTask CompleteAsync(ProjectDirs dirs)
-		{
-			var enumString = _stringBuilder
-				.AppendLine()
-				.AppendLine("\t}")
-				.Append('}')
-				.ToString();
-
-			var enumDstPath = Path.Combine(dirs.ProjectDir, "Enums", "CodeBlockTheme.cs");
-
-			await FileUtils.WriteAsync(enumDstPath, enumString)
-				.ConfigureAwait(false);
+			return sb.ToString();
 		}
 	}
 }
