@@ -40,9 +40,6 @@ namespace MyNihongo.CodeThemeEnumGenerator.Tasks
 		{
 			foreach (var file in Directory.EnumerateFiles(path))
 			{
-				if (Path.GetExtension(file) != ".css")
-					continue;
-
 				var fileName = Path.GetFileNameWithoutExtension(file);
 
 				if (fileName == "default")
@@ -50,6 +47,9 @@ namespace MyNihongo.CodeThemeEnumGenerator.Tasks
 
 				await BundleCodeStyle.BundleStyleFileAsync(file, dirs)
 					.ConfigureAwait(false);
+
+				if (Path.GetExtension(file) != ".css")
+					continue;
 
 				sb.AppendLine(",");
 				sb.Append("\t\t");
