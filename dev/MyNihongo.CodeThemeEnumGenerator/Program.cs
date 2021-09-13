@@ -55,12 +55,62 @@ namespace MyNihongo.CodeThemeEnumGenerator
 				.AppendLine("{")
 				.AppendLine("\tpublic enum CodeBlockTheme : ushort")
 				.AppendLine("\t{")
-				.AppendLine("\t\tDefault = 0,");
+				.Append("\t\tDefault = 0");
+
+			WriteStyles(sb, path, string.Empty);
+
+			foreach (var nestedPath in Directory.EnumerateDirectories(path))
+			{
+				var suffix = Path.GetFileName(nestedPath);
+				suffix = char.ToUpper(suffix[0]) + suffix[1..];
+				WriteStyles(sb, nestedPath, suffix);
+			}
 
 			return sb
+				.AppendLine()
 				.AppendLine("\t}")
-				.Append("}")
+				.Append('}')
 				.ToString();
+
+			static void WriteStyles(in StringBuilder sb, in string path, in string suffix)
+			{
+				foreach (var file in Directory.EnumerateFiles(path))
+				{
+					if (Path.GetExtension(file) != ".css")
+						continue;
+
+					var fileName = Path.GetFileNameWithoutExtension(file);
+
+					if (fileName == "default")
+						continue;
+
+					sb.AppendLine(",");
+					sb.Append("\t\t");
+					sb.Append(char.ToUpper(fileName[0]));
+
+					var isUpperCase = false;
+					for (var i = 1; i < fileName.Length; i++)
+					{
+						if (fileName[i] == '-')
+						{
+							isUpperCase = true;
+							continue;
+						}
+
+						if (isUpperCase)
+						{
+							isUpperCase = false;
+							sb.Append(char.ToUpper(fileName[i]));
+						}
+						else
+						{
+							sb.Append(fileName[i]);
+						}
+					}
+
+					sb.Append(suffix);
+				}
+			}
 		}
 	}
 }
