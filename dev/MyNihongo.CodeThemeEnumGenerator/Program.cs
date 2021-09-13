@@ -41,7 +41,7 @@ namespace MyNihongo.CodeThemeEnumGenerator
 			}
 
 			var projDir = Path.Combine(sb.ToString(), "src", "MudBlazor.Markdown");
-			string codeStyleDir = Path.Combine(projDir, "wwwroot", "code-styles"),
+			string codeStyleDir = Path.Combine(projDir, "Resources", "CodeStyles"),
 				enumFilePath = Path.Combine(projDir, "Enums", "CodeBlockTheme.cs");
 
 			return new ProjectDirs(codeStyleDir, enumFilePath);
