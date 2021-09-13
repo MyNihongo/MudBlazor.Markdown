@@ -29,6 +29,9 @@ namespace MudBlazor.Markdown.Build.Utils
 
 		private static async Task ProcessAsync(this IReadOnlyList<IStep> @this, string path, ProjectDirs dirs)
 		{
+			// hack??
+			path = "/" + path;
+
 			foreach (var file in Directory.EnumerateFiles(path))
 				for (var i = 0; i < @this.Count; i++)
 					await @this[i].ProcessFileAsync(file, dirs)

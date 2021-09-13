@@ -27,7 +27,6 @@ namespace MudBlazor.Markdown.Build
 			};
 
 			var dirs = GetCodeProjectDirs();
-			Console.WriteLine(dirs);
 
 			await steps.ProcessAsync(dirs)
 				.ConfigureAwait(false);
@@ -59,7 +58,10 @@ namespace MudBlazor.Markdown.Build
 			string codeStyleDir = Path.Combine(projDir, "Resources", CodeStylesDir),
 				outputDir = Path.Combine(projDir, "wwwroot");
 
-			return new ProjectDirs(projDir, codeStyleDir, outputDir);
+			var dirs = new ProjectDirs(projDir, codeStyleDir, outputDir);
+			Console.WriteLine(dirs);
+
+			return dirs;
 		}
 	}
 }
