@@ -11,7 +11,6 @@ on:
 env:
   Configuration: RELEASE
   ArtifactsName: nuget
-  BuildOutDir: build/bin/${{ env.Configuration }}/net5.0
   
 jobs:
   build:
@@ -46,8 +45,8 @@ jobs:
 
     - name: Run .NET build
       run: |
-        sudo chmod +x ${{ BuildOutDir }}/MudBlazor.Markdown.Build
-        ./${{ BuildOutDir }}/MudBlazor.Markdown.Build
+        sudo chmod +x build/bin/${{ env.Configuration }}/net5.0/MudBlazor.Markdown.Build
+        ./build/bin/${{ env.Configuration }}/net5.0/MudBlazor.Markdown.Build
 
     - name: Run Node.js build
       run: npm run build
