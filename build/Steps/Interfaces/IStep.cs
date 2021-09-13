@@ -5,6 +5,8 @@ namespace MudBlazor.Markdown.Build.Steps.Interfaces
 {
 	public interface IStep
 	{
-		Task ProcessFileAsync(string filePath, ProjectDirs dirs);
+		ValueTask ProcessFileAsync(string filePath, ProjectDirs dirs);
+
+		ValueTask CompleteAsync(ProjectDirs dirs);
 	}
 }

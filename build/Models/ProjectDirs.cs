@@ -2,16 +2,16 @@
 {
 	public readonly struct ProjectDirs
 	{
-		public ProjectDirs(string codeStyleDir, string enumFilePath, string outputDir)
+		public ProjectDirs(string projectDir, string codeStyleDir, string outputDir)
 		{
+			ProjectDir = projectDir;
 			CodeStyleDir = codeStyleDir;
-			EnumFilePath = enumFilePath;
 			OutputDir = outputDir;
 		}
 
-		public string CodeStyleDir { get; }
+		public string ProjectDir { get; }
 
-		public string EnumFilePath { get; }
+		public string CodeStyleDir { get; }
 
 		public string OutputDir { get; }
 	}

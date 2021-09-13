@@ -16,6 +16,10 @@ namespace MudBlazor.Markdown.Build.Utils
 			foreach (var dir in Directory.EnumerateDirectories(dirs.CodeStyleDir))
 				await @this.ProcessAsync(dir, dirs)
 					.ConfigureAwait(false);
+
+			for (var i = 0; i < @this.Length; i++)
+				await @this[i].CompleteAsync(dirs)
+					.ConfigureAwait(false);
 		}
 
 		private static async Task ProcessAsync(this IReadOnlyList<IStep> @this, string path, ProjectDirs dirs)

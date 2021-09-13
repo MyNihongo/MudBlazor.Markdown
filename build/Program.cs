@@ -11,10 +11,13 @@ namespace MudBlazor.Markdown.Build
 {
 	internal class Program
 	{
+		public const string CodeStylesDir = "CodeStyles";
+
 		private static async Task Main()
 		{
 			var steps = new IStep[]
 			{
+				new GenerateCodeStyleEnumStep(),
 				new BundleCodeStyleStep()
 			};
 
@@ -22,15 +25,6 @@ namespace MudBlazor.Markdown.Build
 
 			await steps.ProcessAsync(dirs)
 				.ConfigureAwait(false);
-
-			//var enumClassDeclaration = await ProcessCodeStyles.CreateEnumDeclaration(dirs)
-			//	.ConfigureAwait(false);
-
-			//await using var stream = FileUtils.Open(dirs.EnumFilePath, FileMode.Create);
-			//await using var writer = new StreamWriter(stream);
-
-			//await writer.WriteAsync(enumClassDeclaration)
-			//	.ConfigureAwait(false);
 		}
 
 		private static ProjectDirs GetCodeProjectDirs()
@@ -56,11 +50,10 @@ namespace MudBlazor.Markdown.Build
 
 			var projDir = Path.Combine(sb.ToString(), "src", "MudBlazor.Markdown");
 
-			string codeStyleDir = Path.Combine(projDir, "Resources", "CodeStyles"),
-				enumFilePath = Path.Combine(projDir, "Enums", "CodeBlockTheme.cs"),
+			string codeStyleDir = Path.Combine(projDir, "Resources", CodeStylesDir),
 				outputDir = Path.Combine(projDir, "wwwroot");
 
-			return new ProjectDirs(codeStyleDir, enumFilePath, outputDir);
+			return new ProjectDirs(projDir, codeStyleDir, outputDir);
 		}
 	}
 }

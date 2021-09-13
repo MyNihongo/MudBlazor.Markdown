@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace MudBlazor.Markdown.Build.Utils
 {
@@ -14,6 +15,15 @@ namespace MudBlazor.Markdown.Build.Utils
 			}
 
 			return new FileStream(path, fileMode, FileAccess.ReadWrite, FileShare.ReadWrite, 4086, true);
+		}
+
+		public static async Task WriteAsync(string path, string content)
+		{
+			await using var stream = Open(path, FileMode.Create);
+			await using var writer = new StreamWriter(stream);
+
+			await writer.WriteAsync(content)
+				.ConfigureAwait(false);
 		}
 	}
 }

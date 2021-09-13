@@ -24,7 +24,7 @@ namespace MudBlazor.Markdown.Build.Steps
 		///	Due to not being good at webpack I could not bundle these .css files with webpack :(
 		/// Any help?
 		/// </remarks>
-		public Task ProcessFileAsync(string filePath, ProjectDirs dirs)
+		public ValueTask ProcessFileAsync(string filePath, ProjectDirs dirs)
 		{
 			var fileExtension = Path.GetExtension(filePath);
 
@@ -32,11 +32,14 @@ namespace MudBlazor.Markdown.Build.Steps
 			{
 				".css" => BundleCssAsync(filePath, dirs),
 				".png" => CopyFile(filePath, dirs, fileExtension),
-				_ => Task.CompletedTask
+				_ => ValueTask.CompletedTask
 			};
 		}
 
-		private static async Task BundleCssAsync(string filePath, ProjectDirs dirs)
+		public ValueTask CompleteAsync(ProjectDirs dirs) =>
+			ValueTask.CompletedTask;
+
+		private static async ValueTask BundleCssAsync(string filePath, ProjectDirs dirs)
 		{
 			string styleContent;
 
@@ -58,12 +61,12 @@ namespace MudBlazor.Markdown.Build.Steps
 			}
 		}
 
-		private static Task CopyFile(string filePath, ProjectDirs dirs, string fileExtension)
+		private static ValueTask CopyFile(string filePath, ProjectDirs dirs, string fileExtension)
 		{
 			var dstPath = CreateDestinationPath(filePath, dirs, fileExtension);
 			File.Copy(filePath, dstPath, true);
 
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 
 		private static string CreateDestinationPath(string filePath, ProjectDirs dirs, string fileExtension)
