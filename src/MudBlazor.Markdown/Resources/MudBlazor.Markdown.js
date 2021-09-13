@@ -1,6 +1,7 @@
 ﻿import hljs from "highlight.js";
 
-const codeStylesSegment = "/MudBlazor.Markdown/code-styles/";
+const codeStylesDir = "code-styles";
+const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 
 window.highlightCodeElement = function (element, lang) {
 	hljs.highlightElement(element, { language: lang });
@@ -30,9 +31,13 @@ window.setHighlightStylesheet = function (stylesheetPath) {
 		}
 	}
 
-	//if (!isFound) {
-	//	console.log("not found");
-	//}
+	if (!isFound) {
+		const link = document.createElement("link");
+		link.rel = "stylesheet";
+		link.href = `_content/MudBlazor.Markdown/${codeStylesDir}/${stylesheetPath}`;
+
+		document.head.appendChild(link);
+	}
 }
 
 window.scrollToElementId = function (elementId) {
