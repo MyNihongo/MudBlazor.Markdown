@@ -42,6 +42,12 @@ namespace MudBlazor
 		public ICommand? LinkCommand { get; set; }
 
 		/// <summary>
+		/// Theme of the code block.
+		/// </summary>
+		[Parameter]
+		public CodeBlockTheme CodeBlockTheme { get; set; }
+
+		/// <summary>
 		/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
 		/// If a function is not provided <see cref="LinkInline.Url"/> is used
 		/// </summary>
@@ -162,8 +168,9 @@ namespace MudBlazor
 							var text = code.CreateCodeBlockText();
 
 							builder.OpenComponent<MudCodeHighlight>(i++);
-							builder.AddAttribute(i++, nameof(MudCodeHighlight.Text), text);
-							builder.AddAttribute(i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+							builder.AddAttribute(_i++, nameof(MudCodeHighlight.Text), text);
+							builder.AddAttribute(_i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+							builder.AddAttribute(_i++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
 							builder.CloseComponent();
 
 							break;
