@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using MudBlazor.Markdown.Build.Models;
@@ -18,8 +19,12 @@ namespace MudBlazor.Markdown.Build.Utils
 					.ConfigureAwait(false);
 
 			for (var i = 0; i < @this.Length; i++)
+			{
 				await @this[i].CompleteAsync(dirs)
 					.ConfigureAwait(false);
+
+				Console.WriteLine("Finished: {0}", @this[i].GetType().Name);
+			}
 		}
 
 		private static async Task ProcessAsync(this IReadOnlyList<IStep> @this, string path, ProjectDirs dirs)

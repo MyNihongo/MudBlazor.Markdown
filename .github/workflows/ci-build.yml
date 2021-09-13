@@ -39,6 +39,16 @@ jobs:
           
     - name: NuGet restore
       run: dotnet restore
+
+    - name: Build MudBlazor.Markown.Build
+      run: dotnet build build/MudBlazor.Markdown.Build.csproj -c ${{ env.Configuration }} -v m --no-restore
+
+    - name: Run .NET build
+      run: build/bin/${{ env.Configuration }}/net5.0/MudBlazor.Markdown.Build.exe
+
+    - name: Run Node.js build
+      run: npm start build
+      working-directory: src/MudBlazor.Markdown
       
     - name: Build
       run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
