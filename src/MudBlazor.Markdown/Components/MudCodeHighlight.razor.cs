@@ -63,10 +63,18 @@ namespace MudBlazor
 
 		protected override async Task OnAfterRenderAsync(bool firstRender)
 		{
-			if (!firstRender || Js == null)
+			if (Js == null)
 				return;
 
-			await Js.InvokeVoidAsync("highlightCodeElement", _ref, Language)
+			if (firstRender)
+			{
+				await Js.InvokeVoidAsync("highlightCodeElement", _ref, Language)
+					.ConfigureAwait(false);
+			}
+
+			var stylesheetPath = Theme.GetStylesheetPath();
+			
+			await Js.InvokeVoidAsync("setHighlightStylesheet", stylesheetPath)
 				.ConfigureAwait(false);
 		}
 	}

@@ -5,7 +5,7 @@ namespace MudBlazor.Markdown.Build.Utils
 {
 	public static class CodeStyleUtils
 	{
-		public static string CreateDestinationRelativePath(string filePath, ProjectDirs dirs, string fileExtension)
+		public static string CreateDestinationRelativePath(string filePath, ProjectDirs dirs, string fileExtension, bool includeBaseDir)
 		{
 			var dstFileRelativePath = filePath[(dirs.CodeStyleDir.Length + 1)..];
 			var dstDirectory = Path.GetDirectoryName(dstFileRelativePath) ?? string.Empty;
@@ -15,7 +15,10 @@ namespace MudBlazor.Markdown.Build.Utils
 				dstDirectory = AdjustOutputDirectories(dstDirectory);
 
 			fileName += fileExtension;
-			return Path.Combine(dstDirectory, fileName);
+
+			return includeBaseDir
+				? Path.Combine("code-styles", dstDirectory, fileName)
+				: Path.Combine(dstDirectory, fileName);
 		}
 
 		private static string AdjustOutputDirectories(string directories)

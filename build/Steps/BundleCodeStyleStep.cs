@@ -46,7 +46,7 @@ namespace MudBlazor.Markdown.Build.Steps
 			}
 
 			styleContent = Uglify.Css(styleContent, CssSettings).Code;
-			var dstPath = CreateDestinationPath(filePath, dirs, ".min.css");
+			var dstPath = CreateDestinationPath(filePath, dirs, Program.CssOutputExtension);
 
 			await using (var stream = FileUtils.Open(dstPath, FileMode.Create))
 			await using (var writer = new StreamWriter(stream))
@@ -66,7 +66,7 @@ namespace MudBlazor.Markdown.Build.Steps
 
 		private static string CreateDestinationPath(string filePath, ProjectDirs dirs, string fileExtension)
 		{
-			var relativePath = CodeStyleUtils.CreateDestinationRelativePath(filePath, dirs, fileExtension);
+			var relativePath = CodeStyleUtils.CreateDestinationRelativePath(filePath, dirs, fileExtension, true);
 			return Path.Combine(dirs.OutputDir, relativePath);
 		}
 	}

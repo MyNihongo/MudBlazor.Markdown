@@ -31,7 +31,7 @@ namespace MudBlazor.Markdown.Build.Steps
 				.AppendLine("{")
 				.AppendFormat("\tinternal static class {0}", EnumExName).AppendLine()
 				.AppendLine("\t{")
-				.AppendFormat("\t\tpublic static string GetStylePath(this {0} @this) =>", EnumName).AppendLine()
+				.AppendFormat("\t\tpublic static string GetStylesheetPath(this {0} @this) =>", EnumName).AppendLine()
 				.AppendLine("\t\t\t@this switch")
 				.AppendLine("\t\t\t{");
 		}
@@ -120,8 +120,7 @@ namespace MudBlazor.Markdown.Build.Steps
 
 		private static string CreateDestinationPath(string filePath, ProjectDirs dirs)
 		{
-			var fileExtension = Path.GetExtension(filePath);
-			var relativePath = CodeStyleUtils.CreateDestinationRelativePath(filePath, dirs, fileExtension);
+			var relativePath = CodeStyleUtils.CreateDestinationRelativePath(filePath, dirs, Program.CssOutputExtension, false);
 
 			if (Program.HtmlPathSeparatorChar != Path.DirectorySeparatorChar)
 				relativePath = relativePath.Replace(Path.DirectorySeparatorChar, Program.HtmlPathSeparatorChar);
