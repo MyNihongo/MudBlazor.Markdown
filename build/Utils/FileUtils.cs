@@ -18,7 +18,6 @@ namespace MudBlazor.Markdown.Build.Utils
 				}
 			}
 
-			Console.WriteLine("Opening a file: {0}", path);
 			return new FileStream(path, fileMode, FileAccess.ReadWrite, FileShare.ReadWrite, 4086, true);
 		}
 
