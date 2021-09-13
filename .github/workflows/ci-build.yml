@@ -44,7 +44,9 @@ jobs:
       run: dotnet build build/MudBlazor.Markdown.Build.csproj -c ${{ env.Configuration }} -v m --no-restore
 
     - name: Run .NET build
-      run: MudBlazor.Markdown.Build
+      run: |
+        sudo chmod +x MudBlazor.Markdown.Build
+        ./MudBlazor.Markdown.Build
       working-directory: build/bin/${{ env.Configuration }}/net5.0
 
     - name: Run Node.js build
