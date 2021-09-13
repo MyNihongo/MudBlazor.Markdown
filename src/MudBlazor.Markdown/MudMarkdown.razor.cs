@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
@@ -17,6 +18,8 @@ namespace MudBlazor
 {
 	public class MudMarkdown : ComponentBase, IDisposable
 	{
+		private IMudMarkdownThemeService? _themeService;
+
 		private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 		private bool _enableLinkNavigation;
 		private int _i;
@@ -42,6 +45,13 @@ namespace MudBlazor
 		public ICommand? LinkCommand { get; set; }
 
 		/// <summary>
+		/// Theme of the code block.<br/>
+		/// Browse available themes here: https://highlightjs.org/static/demo/
+		/// </summary>
+		[Parameter]
+		public CodeBlockTheme CodeBlockTheme { get; set; }
+
+		/// <summary>
 		/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
 		/// If a function is not provided <see cref="LinkInline.Url"/> is used
 		/// </summary>
@@ -61,10 +71,16 @@ namespace MudBlazor
 		[Inject]
 		private IJSRuntime? JsRuntime { get; init; }
 
+		[Inject]
+		private IServiceProvider? ServiceProvider { get; init; }
+
 		public void Dispose()
 		{
 			if (NavigationManager != null)
 				NavigationManager.LocationChanged -= NavigationManagerOnLocationChanged;
+
+			if (_themeService != null)
+				_themeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
 
 			GC.SuppressFinalize(this);
 		}
@@ -84,6 +100,16 @@ namespace MudBlazor
 			builder.AddAttribute(_i++, "class", "mud-markdown-body");
 			RenderMarkdown(parsedText, builder);
 			builder.CloseElement();
+		}
+
+		protected override void OnInitialized()
+		{
+			base.OnInitialized();
+
+			_themeService = ServiceProvider?.GetService<IMudMarkdownThemeService>();
+
+			if (_themeService != null)
+				_themeService.CodeBlockThemeChanged += OnCodeBlockThemeChanged;
 		}
 
 		protected override void OnAfterRender(bool firstRender)
@@ -155,6 +181,18 @@ namespace MudBlazor
 						{
 							builder.OpenComponent<MudDivider>(_i++);
 							builder.CloseComponent();
+							break;
+						}
+					case FencedCodeBlock code:
+						{
+							var text = code.CreateCodeBlockText();
+
+							builder.OpenComponent<MudCodeHighlight>(i++);
+							builder.AddAttribute(_i++, nameof(MudCodeHighlight.Text), text);
+							builder.AddAttribute(_i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+							builder.AddAttribute(_i++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+							builder.CloseComponent();
+
 							break;
 						}
 				}
@@ -356,5 +394,8 @@ namespace MudBlazor
 
 			builder.CloseElement();
 		}
+
+		private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
+			CodeBlockTheme = e;
 	}
 }

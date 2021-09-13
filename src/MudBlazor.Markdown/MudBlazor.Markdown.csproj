@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<Version>0.0.4</Version>
+		<Version>0.0.4.1</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
 		<Copyright>Copyright © 2021 MyNihongo</Copyright>
@@ -23,16 +23,15 @@
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
-		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\..\favico.png" Pack="true" PackagePath=""/>
+		<None Include="..\..\favico.png" Pack="true" PackagePath="" />
 		<Content Remove="**\package*.json" />
 	</ItemGroup>
 
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="npm run build" />
-	</Target>
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
+	</ItemGroup>
 
 </Project>
