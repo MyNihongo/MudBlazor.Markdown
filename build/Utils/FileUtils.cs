@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace MyNihongo.CodeThemeEnumGenerator.Utils
+namespace MudBlazor.Markdown.Build.Utils
 {
 	public static class FileUtils
 	{

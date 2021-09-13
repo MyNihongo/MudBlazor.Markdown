@@ -10,4 +10,8 @@
     <PackageReference Include="NUglify" Version="1.16.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Steps\Interfaces\" />
+  </ItemGroup>
+
 </Project>

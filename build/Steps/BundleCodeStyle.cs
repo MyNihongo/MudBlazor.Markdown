@@ -2,12 +2,12 @@
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.ObjectPool;
-using MyNihongo.CodeThemeEnumGenerator.Models;
-using MyNihongo.CodeThemeEnumGenerator.Utils;
+using MudBlazor.Markdown.Build.Models;
+using MudBlazor.Markdown.Build.Utils;
 using NUglify;
 using NUglify.Css;
 
-namespace MyNihongo.CodeThemeEnumGenerator.Tasks
+namespace MudBlazor.Markdown.Build.Steps
 {
 	internal static class BundleCodeStyle
 	{
@@ -61,7 +61,7 @@ namespace MyNihongo.CodeThemeEnumGenerator.Tasks
 		private static Task CopyFile(string filePath, ProjectDirs dirs, string fileExtension)
 		{
 			var dstPath = CreateDestinationPath(filePath, dirs, fileExtension);
-			File.Copy(filePath, dstPath);
+			File.Copy(filePath, dstPath, true);
 
 			return Task.CompletedTask;
 		}

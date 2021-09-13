@@ -2,11 +2,11 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using MyNihongo.CodeThemeEnumGenerator.Models;
-using MyNihongo.CodeThemeEnumGenerator.Tasks;
-using MyNihongo.CodeThemeEnumGenerator.Utils;
+using MudBlazor.Markdown.Build.Models;
+using MudBlazor.Markdown.Build.Steps;
+using MudBlazor.Markdown.Build.Utils;
 
-namespace MyNihongo.CodeThemeEnumGenerator
+namespace MudBlazor.Markdown.Build
 {
 	internal class Program
 	{

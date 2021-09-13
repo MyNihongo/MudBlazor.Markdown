@@ -1,4 +1,4 @@
-﻿namespace MyNihongo.CodeThemeEnumGenerator.Models
+﻿namespace MudBlazor.Markdown.Build.Models
 {
 	internal readonly struct ProjectDirs
 	{

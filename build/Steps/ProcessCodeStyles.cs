@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using MyNihongo.CodeThemeEnumGenerator.Models;
+using MudBlazor.Markdown.Build.Models;
 
-namespace MyNihongo.CodeThemeEnumGenerator.Tasks
+namespace MudBlazor.Markdown.Build.Steps
 {
 	internal static class ProcessCodeStyles
 	{
@@ -23,7 +23,6 @@ namespace MyNihongo.CodeThemeEnumGenerator.Tasks
 			foreach (var nestedPath in Directory.EnumerateDirectories(dirs.CodeStyleDir))
 			{
 				var suffix = Path.GetFileName(nestedPath);
-				suffix = char.ToUpper(suffix[0]) + suffix[1..];
 
 				await ProcessStylesAsync(sb, nestedPath, suffix, dirs)
 					.ConfigureAwait(false);
