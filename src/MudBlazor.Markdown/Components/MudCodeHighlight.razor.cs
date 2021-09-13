@@ -9,6 +9,7 @@ namespace MudBlazor
 	public class MudCodeHighlight : MudComponentBase
 	{
 		private ElementReference _ref;
+		private CodeBlockTheme _theme;
 
 		/// <summary>
 		/// Code text to render
@@ -21,6 +22,24 @@ namespace MudBlazor
 		/// </summary>
 		[Parameter]
 		public string Language { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Theme of the code block.<br/>
+		/// Default is <see cref="CodeBlockTheme.Default"/>
+		/// </summary>
+		[Parameter]
+		public CodeBlockTheme Theme
+		{
+			get => _theme;
+			set
+			{
+				if (_theme == value)
+					return;
+
+				_theme = value;
+				StateHasChanged();
+			}
+		}
 
 		[Inject]
 		private IJSRuntime? Js { get; init; }
