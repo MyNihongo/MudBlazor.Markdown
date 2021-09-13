@@ -41,7 +41,9 @@ jobs:
       run: dotnet restore
 
     - name: Build MudBlazor.Markown.Build
-      run: dotnet build build/MudBlazor.Markdown.Build.csproj -c ${{ env.Configuration }} -v m --no-restore
+      run: |
+        dotnet build build/MudBlazor.Markdown.Build.csproj -c ${{ env.Configuration }} -v m --no-restore
+        ls -al build -R
 
     - name: Run .NET build
       run: build/bin/${{ env.Configuration }}/net5.0/MudBlazor.Markdown.Build.exe
