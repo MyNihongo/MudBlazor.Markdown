@@ -26,6 +26,7 @@ namespace MudBlazor.Markdown.Build.Steps
 				.Append("\t\tDefault = 0");
 
 			_extensionBuilder
+				.AppendLine("// ReSharper disable once CheckNamespace")
 				.AppendLine("namespace MudBlazor")
 				.AppendLine("{")
 				.AppendFormat("\tinternal static class {0}", EnumExName).AppendLine()
@@ -42,7 +43,11 @@ namespace MudBlazor.Markdown.Build.Steps
 
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
 			var parentDirName = Path.GetFileName(Path.GetDirectoryName(filePath));
-			var enumName = CreateEnumName(filePath, parentDirName);
+			var enumName = CreateEnumName(fileName, parentDirName);
+
+			_extensionBuilder.Append("\t\t\t\t");
+			_extensionBuilder.AppendFormat(EnumName + ".{0} => \"{1}\"", enumName, CreateDestinationPath(filePath, dirs));
+			_extensionBuilder.AppendLine(",");
 
 			if (fileName == "default")
 				return ValueTask.CompletedTask;
@@ -64,7 +69,7 @@ namespace MudBlazor.Markdown.Build.Steps
 
 			var enumExString = _extensionBuilder
 				.AppendLine("\t\t\t\t_ => string.Empty")
-				.AppendLine("\t\t\t}")
+				.AppendLine("\t\t\t};")
 				.AppendLine("\t}")
 				.Append('}')
 				.ToString();
@@ -111,6 +116,17 @@ namespace MudBlazor.Markdown.Build.Steps
 				sb.Append(parentDir);
 
 			return sb.ToString();
+		}
+
+		private static string CreateDestinationPath(string filePath, ProjectDirs dirs)
+		{
+			var fileExtension = Path.GetExtension(filePath);
+			var relativePath = CodeStyleUtils.CreateDestinationRelativePath(filePath, dirs, fileExtension);
+
+			if (Program.HtmlPathSeparatorChar != Path.DirectorySeparatorChar)
+				relativePath = relativePath.Replace(Path.DirectorySeparatorChar, Program.HtmlPathSeparatorChar);
+
+			return relativePath;
 		}
 	}
 }

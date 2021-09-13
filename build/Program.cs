@@ -13,6 +13,7 @@ namespace MudBlazor.Markdown.Build
 	internal class Program
 	{
 		public const string CodeStylesDir = "CodeStyles";
+		public const char HtmlPathSeparatorChar = '/';
 
 		public static readonly ObjectPool<StringBuilder> StringBuilderPool = new DefaultObjectPoolProvider()
 			.CreateStringBuilderPool();
