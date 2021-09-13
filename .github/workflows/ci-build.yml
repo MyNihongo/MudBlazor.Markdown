@@ -44,11 +44,11 @@ jobs:
       run: dotnet build build/MudBlazor.Markdown.Build.csproj -c ${{ env.Configuration }} -v m --no-restore
 
     - name: Run .NET build
-      run: ls
+      run: MudBlazor.Markdown.Build
       working-directory: build/bin/${{ env.Configuration }}/net5.0
 
     - name: Run Node.js build
-      run: npm start build
+      run: npm run build
       working-directory: src/MudBlazor.Markdown
       
     - name: Build
