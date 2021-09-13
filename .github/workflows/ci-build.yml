@@ -45,8 +45,9 @@ jobs:
 
     - name: Run .NET build
       run: |
-        sudo chmod +x build/bin/${{ env.Configuration }}/net5.0/MudBlazor.Markdown.Build
-        ./build/bin/${{ env.Configuration }}/net5.0/MudBlazor.Markdown.Build
+        sudo chmod +x MudBlazor.Markdown.Build
+        ./MudBlazor.Markdown.Build
+      working-directory: build/bin/${{ env.Configuration }}/net5.0
 
     - name: Run Node.js build
       run: npm run build

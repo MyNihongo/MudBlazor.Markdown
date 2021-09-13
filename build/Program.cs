@@ -27,6 +27,7 @@ namespace MudBlazor.Markdown.Build
 			};
 
 			var dirs = GetCodeProjectDirs();
+			Console.WriteLine(dirs);
 
 			await steps.ProcessAsync(dirs)
 				.ConfigureAwait(false);
