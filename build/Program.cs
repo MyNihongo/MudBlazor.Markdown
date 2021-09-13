@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MudBlazor.Markdown.Build.Models;
 using MudBlazor.Markdown.Build.Steps;
+using MudBlazor.Markdown.Build.Steps.Interfaces;
 using MudBlazor.Markdown.Build.Utils;
 
 namespace MudBlazor.Markdown.Build
@@ -12,16 +13,24 @@ namespace MudBlazor.Markdown.Build
 	{
 		private static async Task Main()
 		{
+			var steps = new IStep[]
+			{
+				new BundleCodeStyleStep()
+			};
+
 			var dirs = GetCodeProjectDirs();
 
-			var enumClassDeclaration = await ProcessCodeStyles.CreateEnumDeclaration(dirs)
+			await steps.ProcessAsync(dirs)
 				.ConfigureAwait(false);
 
-			await using var stream = FileUtils.Open(dirs.EnumFilePath, FileMode.Create);
-			await using var writer = new StreamWriter(stream);
+			//var enumClassDeclaration = await ProcessCodeStyles.CreateEnumDeclaration(dirs)
+			//	.ConfigureAwait(false);
 
-			await writer.WriteAsync(enumClassDeclaration)
-				.ConfigureAwait(false);
+			//await using var stream = FileUtils.Open(dirs.EnumFilePath, FileMode.Create);
+			//await using var writer = new StreamWriter(stream);
+
+			//await writer.WriteAsync(enumClassDeclaration)
+			//	.ConfigureAwait(false);
 		}
 
 		private static ProjectDirs GetCodeProjectDirs()

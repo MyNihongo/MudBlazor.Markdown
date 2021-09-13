@@ -1,6 +1,6 @@
 ﻿namespace MudBlazor.Markdown.Build.Models
 {
-	internal readonly struct ProjectDirs
+	public readonly struct ProjectDirs
 	{
 		public ProjectDirs(string codeStyleDir, string enumFilePath, string outputDir)
 		{
