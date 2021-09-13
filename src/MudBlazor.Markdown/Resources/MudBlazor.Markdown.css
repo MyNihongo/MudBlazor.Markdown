@@ -6,6 +6,13 @@
 	border-radius: 5px;
 }
 
+/* This component is public, so apply styling in all places, not only within mud-markdown-body */
+pre code.hljs {
+	display: block !important;
+	overflow-x: auto;
+	padding: 1em;
+}
+
 /* Quote */
 .mud-markdown-body blockquote {
 	border-left: .25em solid var(--mud-palette-text-disabled);
