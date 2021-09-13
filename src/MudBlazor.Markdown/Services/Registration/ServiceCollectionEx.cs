@@ -5,7 +5,7 @@ namespace MudBlazor
 {
 	public static class ServiceCollectionEx
 	{
-		public static IServiceCollection AddMubMarkdownServices(this IServiceCollection @this)
+		public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this)
 		{
 			@this.AddScoped<IMudMarkdownThemeService, MudMarkdownThemeService>();
 

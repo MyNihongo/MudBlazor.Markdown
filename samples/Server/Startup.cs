@@ -23,7 +23,7 @@ namespace MudBlazor.Markdown.Server
 			services.AddServerSideBlazor();
 			services.AddCoreServices();
 			services.AddMudServices();
-			services.AddMubMarkdownServices();
+			services.AddMudMarkdownServices();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

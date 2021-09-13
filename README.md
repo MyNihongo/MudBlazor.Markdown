@@ -40,12 +40,14 @@ For the Blazor Server in the `Startup.cs` add this method.
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddMudServices();
+    services.AddMudMarkdownServices();
 }
 ```
 For the Blazor WebAssembly in the `Program.cs` add this method.
 ```cs
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddMudServices();
+builder.Services.AddMudMarkdownServices();
 ```
 ## Using the component
 ```razor

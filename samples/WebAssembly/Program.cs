@@ -18,7 +18,7 @@ namespace MudBlazor.Markdown.Wasm
 			builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 			builder.Services.AddCoreServices();
 			builder.Services.AddMudServices();
-			builder.Services.AddMubMarkdownServices();
+			builder.Services.AddMudMarkdownServices();
 
 			await builder.Build().RunAsync()
 				.ConfigureAwait(false);
