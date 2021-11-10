@@ -11,7 +11,7 @@ on:
 env:
   Configuration: RELEASE
   ArtifactsName: nuget
-  DotNetVersion: net5.0
+  DotNetVersion: net6.0
   
 jobs:
   build:
