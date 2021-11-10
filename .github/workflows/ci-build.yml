@@ -11,6 +11,7 @@ on:
 env:
   Configuration: RELEASE
   ArtifactsName: nuget
+  DotNetVersion: net6.0
   
 jobs:
   build:
@@ -21,10 +22,10 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Install .NET 5
+    - name: Install .NET 6
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
         
     - name: Install Node.js
       uses: actions/setup-node@v2.4.0
@@ -47,7 +48,7 @@ jobs:
       run: |
         sudo chmod +x MudBlazor.Markdown.Build
         ./MudBlazor.Markdown.Build
-      working-directory: build/bin/${{ env.Configuration }}/net5.0
+      working-directory: build/bin/${{ env.Configuration }}/${{ env.DotNetVersion }}
 
     - name: Run Node.js build
       run: npm run build

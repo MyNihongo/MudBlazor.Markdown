@@ -2,31 +2,30 @@
 using Markdig.Syntax;
 
 // ReSharper disable once CheckNamespace
-namespace MudBlazor
+namespace MudBlazor;
+
+internal static class FencedCodeBlockEx
 {
-	internal static class FencedCodeBlockEx
+	public static string CreateCodeBlockText(this FencedCodeBlock @this)
 	{
-		public static string CreateCodeBlockText(this FencedCodeBlock @this)
+		if (@this.Lines.Count == 0)
+			return string.Empty;
+
+		var sb = new StringBuilder();
+
+		foreach (var line in @this.Lines)
 		{
-			if (@this.Lines.Count == 0)
-				return string.Empty;
+			var str = line.ToString();
 
-			var sb = new StringBuilder();
+			if (string.IsNullOrEmpty(str))
+				continue;
 
-			foreach (object line in @this.Lines)
-			{
-				var str = line.ToString();
+			if (sb.Length != 0)
+				sb.AppendLine();
 
-				if (string.IsNullOrEmpty(str))
-					continue;
-
-				if (sb.Length != 0)
-					sb.AppendLine();
-
-				sb.Append(str);
-			}
-
-			return sb.ToString();
+			sb.Append(str);
 		}
+
+		return sb.ToString();
 	}
 }
