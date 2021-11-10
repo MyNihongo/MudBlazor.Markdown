@@ -1,12 +1,11 @@
 ﻿using System;
 
 // ReSharper disable once CheckNamespace
-namespace MudBlazor
-{
-	public interface IMudMarkdownThemeService
-	{
-		event EventHandler<CodeBlockTheme> CodeBlockThemeChanged;
+namespace MudBlazor;
 
-		void SetCodeBlockTheme(CodeBlockTheme theme);
-	}
+public interface IMudMarkdownThemeService
+{
+	event EventHandler<CodeBlockTheme> CodeBlockThemeChanged;
+
+	void SetCodeBlockTheme(CodeBlockTheme theme);
 }
