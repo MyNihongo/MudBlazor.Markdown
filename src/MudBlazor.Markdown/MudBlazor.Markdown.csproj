@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<Version>0.0.5</Version>
+		<Version>0.0.6</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
 		<Copyright>Copyright © 2021 MyNihongo</Copyright>
