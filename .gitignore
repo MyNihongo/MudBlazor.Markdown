@@ -31,6 +31,7 @@ bld/
 **/wwwroot/js/index.bundle.js
 **/wwwroot/**/*.min.*
 **/wwwroot/**/*.png
+**/wwwroot/**/*.jpg
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Markdig.Helpers;
+﻿using Markdig.Helpers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
-using Markdig;
+﻿using Markdig;
 using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
 // ReSharper disable once CheckNamespace
@@ -144,57 +137,57 @@ public class MudMarkdown : ComponentBase, IDisposable
 			switch (container[i])
 			{
 				case ParagraphBlock paragraph:
-				{
-					RenderParagraphBlock(paragraph, builder);
-					break;
-				}
+					{
+						RenderParagraphBlock(paragraph, builder);
+						break;
+					}
 				case HeadingBlock heading:
-				{
-					var typo = (Typo)heading.Level;
-					typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
+					{
+						var typo = (Typo)heading.Level;
+						typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
 
-					_enableLinkNavigation = true;
+						_enableLinkNavigation = true;
 
-					var id = heading.BuildIdString();
-					RenderParagraphBlock(heading, builder, typo, id);
+						var id = heading.BuildIdString();
+						RenderParagraphBlock(heading, builder, typo, id);
 
-					break;
-				}
+						break;
+					}
 				case QuoteBlock quote:
-				{
-					builder.OpenElement(_i++, "blockquote");
-					RenderMarkdown(quote, builder);
-					builder.CloseElement();
-					break;
-				}
+					{
+						builder.OpenElement(_i++, "blockquote");
+						RenderMarkdown(quote, builder);
+						builder.CloseElement();
+						break;
+					}
 				case Table table:
-				{
-					RenderTable(table, builder);
-					break;
-				}
+					{
+						RenderTable(table, builder);
+						break;
+					}
 				case ListBlock list:
-				{
-					RenderList(list, builder);
-					break;
-				}
+					{
+						RenderList(list, builder);
+						break;
+					}
 				case ThematicBreakBlock:
-				{
-					builder.OpenComponent<MudDivider>(_i++);
-					builder.CloseComponent();
-					break;
-				}
+					{
+						builder.OpenComponent<MudDivider>(_i++);
+						builder.CloseComponent();
+						break;
+					}
 				case FencedCodeBlock code:
-				{
-					var text = code.CreateCodeBlockText();
+					{
+						var text = code.CreateCodeBlockText();
 
-					builder.OpenComponent<MudCodeHighlight>(i++);
-					builder.AddAttribute(_i++, nameof(MudCodeHighlight.Text), text);
-					builder.AddAttribute(_i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
-					builder.AddAttribute(_i++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
-					builder.CloseComponent();
+						builder.OpenComponent<MudCodeHighlight>(i++);
+						builder.AddAttribute(_i++, nameof(MudCodeHighlight.Text), text);
+						builder.AddAttribute(_i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+						builder.AddAttribute(_i++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+						builder.CloseComponent();
 
-					break;
-				}
+						break;
+					}
 			}
 		}
 	}
@@ -221,95 +214,95 @@ public class MudMarkdown : ComponentBase, IDisposable
 			switch (inline)
 			{
 				case LiteralInline x:
-				{
-					builder.AddContent(_i++, x.Content);
-					break;
-				}
+					{
+						builder.AddContent(_i++, x.Content);
+						break;
+					}
 				case HtmlInline x:
-				{
-					builder.AddMarkupContent(_i++, x.Tag);
-					break;
-				}
+					{
+						builder.AddMarkupContent(_i++, x.Tag);
+						break;
+					}
 				case LineBreakInline:
-				{
-					builder.OpenElement(_i++, "br");
-					builder.CloseElement();
-					break;
-				}
-				case CodeInline x:
-				{
-					builder.OpenElement(_i++, "code");
-					builder.AddContent(_i++, x.Content);
-					builder.CloseElement();
-					break;
-				}
-				case EmphasisInline x:
-				{
-					if (!x.TryGetEmphasisElement(out var elementName))
-						continue;
-
-					builder.OpenElement(_i++, elementName);
-					RenderInlines(x, builder);
-					builder.CloseElement();
-					break;
-				}
-				case LinkInline x:
-				{
-					var url = OverrideLinkUrl?.Invoke(x) ?? x.Url;
-
-					if (x.IsImage)
 					{
-						var alt = x
-							.OfType<LiteralInline>()
-							.Select(static x => x.Content);
-
-						builder.OpenElement(_i++, "img");
-						builder.AddAttribute(_i++, "src", url);
-						builder.AddAttribute(_i++, "alt", string.Join(null, alt));
+						builder.OpenElement(_i++, "br");
 						builder.CloseElement();
+						break;
 					}
-					else if (LinkCommand == null)
+				case CodeInline x:
 					{
-						builder.OpenComponent<MudLink>(_i++);
-						builder.AddAttribute(_i++, nameof(MudLink.Href), url);
-						builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+						builder.OpenElement(_i++, "code");
+						builder.AddContent(_i++, x.Content);
+						builder.CloseElement();
+						break;
+					}
+				case EmphasisInline x:
+					{
+						if (!x.TryGetEmphasisElement(out var elementName))
+							continue;
 
-						if (url.IsExternalUri(NavigationManager?.BaseUri))
+						builder.OpenElement(_i++, elementName);
+						RenderInlines(x, builder);
+						builder.CloseElement();
+						break;
+					}
+				case LinkInline x:
+					{
+						var url = OverrideLinkUrl?.Invoke(x) ?? x.Url;
+
+						if (x.IsImage)
 						{
-							builder.AddAttribute(_i++, nameof(MudLink.Target), "_blank");
-							builder.AddAttribute(_i++, "rel", "noopener noreferrer");
+							var alt = x
+								.OfType<LiteralInline>()
+								.Select(static x => x.Content);
+
+							builder.OpenElement(_i++, "img");
+							builder.AddAttribute(_i++, "src", url);
+							builder.AddAttribute(_i++, "alt", string.Join(null, alt));
+							builder.CloseElement();
 						}
-						// (prevent scrolling to the top of the page)
-						// custom implementation only for links on the same page
-						else if (url?.StartsWith('#') ?? false)
+						else if (LinkCommand == null)
 						{
-							builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
-							builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
+							builder.OpenComponent<MudLink>(_i++);
+							builder.AddAttribute(_i++, nameof(MudLink.Href), url);
+							builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+
+							if (url.IsExternalUri(NavigationManager?.BaseUri))
 							{
-								if (NavigationManager == null)
-									return;
-
-								var uriBuilder = new UriBuilder(NavigationManager.Uri)
+								builder.AddAttribute(_i++, nameof(MudLink.Target), "_blank");
+								builder.AddAttribute(_i++, "rel", "noopener noreferrer");
+							}
+							// (prevent scrolling to the top of the page)
+							// custom implementation only for links on the same page
+							else if (url?.StartsWith('#') ?? false)
+							{
+								builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
+								builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
 								{
-									Fragment = url
-								};
-								var args = new LocationChangedEventArgs(uriBuilder.Uri.AbsoluteUri, true);
-								NavigationManagerOnLocationChanged(NavigationManager, args);
-							}));
-						}
+									if (NavigationManager == null)
+										return;
 
-						builder.CloseComponent();
+									var uriBuilder = new UriBuilder(NavigationManager.Uri)
+									{
+										Fragment = url
+									};
+									var args = new LocationChangedEventArgs(uriBuilder.Uri.AbsoluteUri, true);
+									NavigationManagerOnLocationChanged(NavigationManager, args);
+								}));
+							}
+
+							builder.CloseComponent();
+						}
+						else
+						{
+							builder.OpenComponent<MudLinkButton>(_i++);
+							builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
+							builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), url);
+							builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+							builder.CloseComponent();
+						}
+						break;
 					}
-					else
-					{
-						builder.OpenComponent<MudLinkButton>(_i++);
-						builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-						builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), url);
-						builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
-						builder.CloseComponent();
-					}
-					break;
-				}
 			}
 		}
 	}

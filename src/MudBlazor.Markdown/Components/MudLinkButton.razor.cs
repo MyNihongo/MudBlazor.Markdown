@@ -1,7 +1,4 @@
-﻿using System.Windows.Input;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using MudBlazor.Extensions;
+﻿using MudBlazor.Extensions;
 using MudBlazor.Utilities;
 
 // ReSharper disable once CheckNamespace
