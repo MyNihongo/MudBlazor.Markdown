@@ -1,8 +1,7 @@
 const { src, dest, series } = require("gulp");
-const webpack = require('webpack-stream');
+const webpack = require("webpack-stream");
 const rename = require("gulp-rename");
 const minifyCss = require("gulp-minify-css");
-const minifyJs = require("gulp-minify");
 
 function css() {
     return src("Resources/*.css")
