@@ -11,7 +11,6 @@ on:
 env:
   Configuration: RELEASE
   ArtifactsName: nuget
-  DotNetVersion: net6.0
   
 jobs:
   build:
@@ -41,19 +40,6 @@ jobs:
     - name: NuGet restore
       run: dotnet restore
 
-    - name: Build MudBlazor.Markown.Build
-      run: dotnet build build/MudBlazor.Markdown.Build.csproj -c ${{ env.Configuration }} -v m --no-restore
-
-    - name: Run .NET build
-      run: |
-        sudo chmod +x MudBlazor.Markdown.Build
-        ./MudBlazor.Markdown.Build
-      working-directory: build/bin/${{ env.Configuration }}/${{ env.DotNetVersion }}
-
-    - name: Run Node.js build
-      run: npm run build
-      working-directory: src/MudBlazor.Markdown
-      
     - name: Build
       run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
 
