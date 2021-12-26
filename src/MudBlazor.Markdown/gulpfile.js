@@ -21,6 +21,11 @@ function cssCodeStyles() {
 		.pipe(dest("wwwroot/code-styles"));
 }
 
+function img() {
+	return src("Resources/CodeStyles/src/**/*.{png,jpg}")
+		.pipe(dest("wwwroot/code-styles"));
+}
+
 function js() {
 	return src("Resources/MudBlazor.Markdown.js")
 		.pipe(webpack())
@@ -28,4 +33,4 @@ function js() {
 		.pipe(dest("wwwroot"));
 }
 
-exports.default = series(cssMain, cssCodeStyles, js);
+exports.default = series(cssMain, cssCodeStyles, img, js);
