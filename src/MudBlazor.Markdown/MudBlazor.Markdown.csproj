@@ -12,7 +12,7 @@
 		<PackageProjectUrl>https://mudblazor.com/</PackageProjectUrl>
 		<PackageIcon>favico.png</PackageIcon>
 		<PackageTags>mudblazor, blazor, markdown</PackageTags>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 		<PackageReleaseNotes>https://github.com/MyNihongo/MudBlazor.Markdown/releases</PackageReleaseNotes>
 	</PropertyGroup>
 
@@ -24,6 +24,10 @@
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)'=='Release'">
+		<Exec Command="npm run build" />
+	</Target>
 
 	<ItemGroup>
 		<None Include="..\..\favico.png" Pack="true" PackagePath="" />
