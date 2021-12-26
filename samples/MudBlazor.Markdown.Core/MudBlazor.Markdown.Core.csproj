@@ -11,12 +11,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="4.1.5" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
 		<PackageReference Include="System.Reactive" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\MudBlazor.Markdown\MudBlazor.Markdown.csproj" />
+		<ProjectReference Include="..\..\src\MudBlazor.Markdown\MudBlazor.Markdown.csproj" />
 	</ItemGroup>
 
 </Project>
