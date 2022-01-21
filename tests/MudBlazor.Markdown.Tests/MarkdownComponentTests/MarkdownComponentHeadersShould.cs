@@ -14,19 +14,19 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 		[InlineData("####", "h4")]
 		[InlineData("#####", "h5")]
 		[InlineData("######", "h6")]
-		public void RenderHeaders(string valueInput, string expected)
+		public void RenderHeaders(string valueInput, string expectedTag)
 		{
 			var value = valueInput + " some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Theory]
@@ -36,21 +36,21 @@ $@"<article class='mud-markdown-body'>
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypoH1(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH1(Typo newTypo, string expectedTag)
 		{
 			const string value = "# some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			var @override = Optional<Func<Typo, Typo>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideHeaderTypo: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			Typo Override(Typo x) =>
 				x == Typo.h1 ? newTypo : x;
@@ -63,21 +63,21 @@ $@"<article class='mud-markdown-body'>
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypoH2(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH2(Typo newTypo, string expectedTag)
 		{
 			const string value = "## some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			var @override = Optional<Func<Typo, Typo>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideHeaderTypo: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			Typo Override(Typo x) =>
 				x == Typo.h2 ? newTypo : x;
@@ -90,21 +90,21 @@ $@"<article class='mud-markdown-body'>
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypoH3(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH3(Typo newTypo, string expectedTag)
 		{
 			const string value = "### some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			var @override = Optional<Func<Typo, Typo>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideHeaderTypo: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			Typo Override(Typo x) =>
 				x == Typo.h3 ? newTypo : x;
@@ -117,21 +117,21 @@ $@"<article class='mud-markdown-body'>
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypoH4(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH4(Typo newTypo, string expectedTag)
 		{
 			const string value = "#### some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			var @override = Optional<Func<Typo, Typo>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideHeaderTypo: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			Typo Override(Typo x) =>
 				x == Typo.h4 ? newTypo : x;
@@ -144,21 +144,21 @@ $@"<article class='mud-markdown-body'>
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypoH5(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH5(Typo newTypo, string expectedTag)
 		{
 			const string value = "##### some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			var @override = Optional<Func<Typo, Typo>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideHeaderTypo: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			Typo Override(Typo x) =>
 				x == Typo.h5 ? newTypo : x;
@@ -171,21 +171,21 @@ $@"<article class='mud-markdown-body'>
 		[InlineData(Typo.h4, "h4")]
 		[InlineData(Typo.h5, "h5")]
 		[InlineData(Typo.h6, "h6")]
-		public void RenderHeadersWithDifferentTypoH6(Typo newTypo, string expected)
+		public void RenderHeadersWithDifferentTypoH6(Typo newTypo, string expectedTag)
 		{
 			const string value = "###### some text";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
-	<{expected} id='some-text' class='mud-typography mud-typography-{expected} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
 		some text
-	</{expected}>
+	</{expectedTag}>
 </article>";
 
 			var @override = Optional<Func<Typo, Typo>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideHeaderTypo: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			Typo Override(Typo x) =>
 				x == Typo.h6 ? newTypo : x;

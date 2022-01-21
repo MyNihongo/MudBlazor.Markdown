@@ -20,7 +20,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 		public void RenderCodeItalicAndBold()
 		{
 			const string value = "Some text `code` again text - *italics* text and **bold** text.";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
@@ -28,14 +28,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderBlockQuotes()
 		{
 			const string value = ">Some text `code` again text - *italics* text and **bold** text.";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<blockquote>
 		<p class='mud-typography mud-typography-body1 mud-inherit-text'>
@@ -45,7 +45,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Theory]
@@ -54,7 +54,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 		public void ReplaceNewLineSymbols(string newLine)
 		{
 			var value = "line1" + newLine + "line2";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		line1<br />line2
@@ -62,14 +62,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderExternalLink()
 		{
 			const string value = "[link display](https://www.google.co.jp/)";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
@@ -79,14 +79,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderInternalLink()
 		{
 			const string value = "[link display](" + TestNavigationManager.TestUrl + ")";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
@@ -96,14 +96,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderLinkAsLink()
 		{
 			const string value = "text before [link display](123) text after";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text before 
@@ -113,14 +113,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderLinkAsButton()
 		{
 			const string value = "text before [link display](123) text after";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text before
@@ -130,14 +130,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value, new TestCommand());
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void PreventDefaultIfNavigatesToId()
 		{
 			const string value = "[link](#id)";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a blazor:onclick:preventDefault blazor:onclick='2' href='#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
@@ -147,14 +147,14 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void NotPreventDefaultIfNavigateToAnotherPage()
 		{
 			const string value = "[link](tokyo/#id)";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
@@ -164,7 +164,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -207,7 +207,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 - `item1` - text **bold**
 - `item2` - text *italic*";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
@@ -217,7 +217,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -230,7 +230,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
   - `item1-2` - text
 - `item2` - text **bold**";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
@@ -244,7 +244,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -258,7 +258,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
     - `item1-2-1` - text
 - `item2` - text **bold**";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
@@ -275,7 +275,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -286,7 +286,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 2. Do next
 3. Go to Sapporo";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<ol>
 		<li>
@@ -302,7 +302,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -314,7 +314,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 |cell1-1|cell1-2|cell1-3|
 |cell2-1|cell2-2|cell2-3|";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 		<div class='mud-table-container'>
@@ -344,7 +344,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Theory]
@@ -361,7 +361,7 @@ $@"|1|2|
 |-|-|
 |a{newLineChar}b|c";
 
-			var expectedValue =
+			var expected =
 $@"<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
@@ -392,7 +392,7 @@ $@"<article class='mud-markdown-body'>
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -403,7 +403,7 @@ $@"<article class='mud-markdown-body'>
 |-|-|
 |cell1|cell2|";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
@@ -434,7 +434,7 @@ $@"<article class='mud-markdown-body'>
 </article>";
 
 			using var fixture = CreateFixture(value, tableCellMinWidth: 200);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -445,7 +445,7 @@ $@"<article class='mud-markdown-body'>
 ***
 second line";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>first line</p>
 	<hr class='mud-divider'/>
@@ -453,7 +453,7 @@ second line";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -467,11 +467,11 @@ public bool IsMudBlazorCool()
 }
 ```";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'><pre><code blazor:elementReference='3b498767-f59e-4a18-a27d-a828bf3dd0e5'>public bool IsMudBlazorCool()&#xD;&#xA;{&#xD;&#xA;&#x9;return true;&#xD;&#xA;}</code></pre></article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 	}
 }

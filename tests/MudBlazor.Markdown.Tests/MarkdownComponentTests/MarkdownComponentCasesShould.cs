@@ -17,7 +17,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 
 text after";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
 	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
@@ -42,7 +42,7 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
@@ -55,7 +55,7 @@ text after";
 |row2-1||
 |row3-1|";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
@@ -100,14 +100,14 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderBoldWithinItalic1()
 		{
 			const string value = "text *italic **bold within***";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
@@ -119,14 +119,14 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderBoldWithinItalic2()
 		{
 			const string value = "text *italic **bold within** more italic*";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
@@ -139,14 +139,14 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenterItalicWithinBold1()
 		{
 			const string value = "text **bold *italic within***";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
@@ -158,14 +158,14 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenterItalicWithinBold2()
 		{
 			const string value = "text **bold *italic within* more bold**";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
@@ -178,14 +178,14 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderLinkWithMultipleContent()
 		{
 			const string value = "[Installing Microsoft Visual C++ Redistributable Package](#installing-microsoft-visual-c-redistributable-package)";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a href='#installing-microsoft-visual-c-redistributable-package' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
@@ -195,14 +195,14 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
 
 		[Fact]
 		public void RenderUnderscoreItalics()
 		{
 			const string value = "Text _italics_";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		Text
@@ -211,7 +211,31 @@ text after";
 </article>";
 
 			using var fixture = CreateFixture(value);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 		}
+
+		#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/64
+
+		[Fact]
+		public void RenderHeaderAfterCode()
+		{
+			const string value =
+@"# Heading 1
+Some text.
+
+```csharp
+public int GetTheAnswer()
+{
+   return 42;
+}
+```
+
+## Another headline
+## Another headline";
+
+			const string expected = "";
+		}
+
+		#endregion
 	}
 }

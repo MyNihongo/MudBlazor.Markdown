@@ -72,7 +72,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 [relative](/tokyo)
 [id](#edogawa)";
 
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
@@ -92,7 +92,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 			var @override = Optional<Func<LinkInline, string>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideLinkUrl: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			static string Override(LinkInline x) =>
 				"overridden" + x.Url;
@@ -102,7 +102,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 		public void OverrideImageLink()
 		{
 			const string value = @"![img](/tokyo/sky-tree.png)";
-			const string expectedValue =
+			const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<img src='overridden/tokyo/sky-tree.png' alt='img' />
@@ -112,7 +112,7 @@ namespace MudBlazor.Markdown.Tests.MarkdownComponentTests
 			var @override = Optional<Func<LinkInline, string>>.Of(Override);
 
 			using var fixture = CreateFixture(value, overrideLinkUrl: @override);
-			fixture.MarkupMatches(expectedValue);
+			fixture.MarkupMatches(expected);
 
 			static string Override(LinkInline x) =>
 				"overridden" + x.Url;

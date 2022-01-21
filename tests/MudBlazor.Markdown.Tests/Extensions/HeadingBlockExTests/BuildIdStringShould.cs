@@ -10,7 +10,7 @@ namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests
 		[InlineData("  ")]
 		public void EscapeWhitespace(string whitespace)
 		{
-			const string expectedValue = "some-text";
+			const string expected = "some-text";
 			var value = $"# some{whitespace}text";
 
 			var result = CreateFixture(value)
@@ -18,21 +18,21 @@ namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests
 
 			result
 				.Should()
-				.Be(expectedValue);
+				.Be(expected);
 		}
 
 		[Fact]
 		public void ConvertToLower()
 		{
 			const string value = "# Some Text",
-				expectedValue = "some-text";
+				expected = "some-text";
 
 			var result = CreateFixture(value)
 				.BuildIdString();
 
 			result
 				.Should()
-				.Be(expectedValue);
+				.Be(expected);
 		}
 
 		[Theory]
@@ -41,7 +41,7 @@ namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests
 		[InlineData('&')]
 		public void EscapeCharacters(char inputChar)
 		{
-			const string expectedValue = "some--text";
+			const string expected = "some--text";
 			var value = $"# some {inputChar} text";
 
 			var result = CreateFixture(value)
@@ -49,7 +49,7 @@ namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests
 
 			result
 				.Should()
-				.Be(expectedValue);
+				.Be(expected);
 		}
 	}
 }
