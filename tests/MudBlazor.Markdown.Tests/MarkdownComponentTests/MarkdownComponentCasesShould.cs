@@ -230,7 +230,14 @@ public int GetTheAnswer()
 ## Another headline 1
 ## Another headline 2";
 
-		const string expected = "";
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<h1 id='heading-1' class='mud-typography mud-typography-h1 mud-inherit-text'>Heading 1</h1>
+	<p class='mud-typography mud-typography-body1 mud-inherit-text'>Some text.</p>
+	<pre><code blazor:elementReference='8035dc45-0e97-419e-869c-51a5d65602d4'>public int GetTheAnswer()&#xD;&#xA;{&#xD;&#xA;   return 42;&#xD;&#xA;}</code></pre>
+	<h2 id='another-headline-1' class='mud-typography mud-typography-h2 mud-inherit-text'>Another headline 1</h2>
+	<h2 id='another-headline-2' class='mud-typography mud-typography-h2 mud-inherit-text'>Another headline 2</h2>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -251,7 +258,16 @@ code
 
 ## Another headline";
 
-		const string expected = "";
+		const string expected = 
+@"<article class='mud-markdown-body'>
+	<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30'>some&#xD;&#xA;code</code></pre>
+	<ul>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'>List item 1</p></li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'>List item 2</p></li>
+		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'>List item 3</p></li>
+	</ul>
+	<h2 id='another-headline' class='mud-typography mud-typography-h2 mud-inherit-text'>Another headline</h2>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
