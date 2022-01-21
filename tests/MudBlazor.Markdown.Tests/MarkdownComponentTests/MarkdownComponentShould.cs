@@ -19,7 +19,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "Some text `code` again text - *italics* text and **bold** text.";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
 	</p>
@@ -34,7 +34,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = ">Some text `code` again text - *italics* text and **bold** text.";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<blockquote>
 		<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 			Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
@@ -53,7 +53,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		var value = "line1" + newLine + "line2";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		line1<br />line2
 	</p>
@@ -68,7 +68,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link display](https://www.google.co.jp/)";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link display
@@ -85,7 +85,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link display](" + TestNavigationManager.TestUrl + ")";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link display
@@ -102,7 +102,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "text before [link display](123) text after";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text before 
 		<a href='123' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</a>
@@ -119,7 +119,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "text before [link display](123) text after";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text before
 		<span class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</span>
@@ -136,7 +136,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link](#id)";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a blazor:onclick:preventDefault blazor:onclick='2' href='#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link
@@ -153,7 +153,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link](tokyo/#id)";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link
@@ -170,7 +170,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "![emw-banner](extra/emw.png)";
 		const string expectedResult =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<img src='extra/emw.png' alt='emw-banner' />
 	</p>
@@ -185,7 +185,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[![emw-banner](extra/emw.png)](https://www.google.co.jp/)";
 		const string expectedResult =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			<img src='extra/emw.png' alt='emw-banner' />
@@ -201,12 +201,12 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderUnorderedList()
 	{
 		const string value =
-			@"some text before
+@"some text before
 - `item1` - text **bold**
 - `item2` - text *italic*";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1</code>- text <b>bold</b></p></li>
@@ -222,14 +222,14 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderNestedUnorderedList2()
 	{
 		const string value =
-			@"some text before
+@"some text before
 - `item1` - text *italic*
   - `item1-1` - text
   - `item1-2` - text
 - `item2` - text **bold**";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1</code> - text <i>italic</i></p></li>
@@ -249,7 +249,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderNestedUnorderedList3()
 	{
 		const string value =
-			@"some text before
+@"some text before
 - `item1` - text *italic*
   - `item1-1` - text
   - `item1-2` - text
@@ -257,7 +257,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 - `item2` - text **bold**";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>some text before</p>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1 mud-inherit-text'><code>item1</code> - text <i>italic</i></p></li>
@@ -280,12 +280,12 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderOrderedList()
 	{
 		const string value =
-			@"1. Do thing 1
+@"1. Do thing 1
 2. Do next
 3. Go to Sapporo";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<ol>
 		<li>
 			<p class='mud-typography mud-typography-body1 mud-inherit-text'>Do thing 1</p>
@@ -307,13 +307,13 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderTable()
 	{
 		const string value =
-			@"|Column1|Column2|Column3|
+@"|Column1|Column2|Column3|
 |-|-|-|
 |cell1-1|cell1-2|cell1-3|
 |cell2-1|cell2-2|cell2-3|";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 		<div class='mud-table-container'>
 			<table>
@@ -397,12 +397,12 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderTableMinWidth()
 	{
 		const string value =
-			@"|col1|col2|
+@"|col1|col2|
 |-|-|
 |cell1|cell2|";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
          <table>
@@ -439,12 +439,12 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderLineSeparator()
 	{
 		const string value =
-			@"first line
+@"first line
 ***
 second line";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>first line</p>
 	<hr class='mud-divider'/>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>second line</p>
@@ -458,7 +458,7 @@ second line";
 	public void RenderCodeBlock()
 	{
 		const string value =
-			@"```cs
+@"```cs
 public bool IsMudBlazorCool()
 {
 	return true;
@@ -466,7 +466,7 @@ public bool IsMudBlazorCool()
 ```";
 
 		const string expected =
-			@"<article class='mud-markdown-body'><pre><code blazor:elementReference='3b498767-f59e-4a18-a27d-a828bf3dd0e5'>public bool IsMudBlazorCool()&#xD;&#xA;{&#xD;&#xA;&#x9;return true;&#xD;&#xA;}</code></pre></article>";
+@"<article class='mud-markdown-body'><pre><code blazor:elementReference='3b498767-f59e-4a18-a27d-a828bf3dd0e5'>public bool IsMudBlazorCool()&#xD;&#xA;{&#xD;&#xA;&#x9;return true;&#xD;&#xA;}</code></pre></article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);

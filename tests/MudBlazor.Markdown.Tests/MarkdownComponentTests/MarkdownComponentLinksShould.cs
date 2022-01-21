@@ -35,7 +35,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 	public void NavigateWhenLinkClicked()
 	{
 		const string value =
-			@"[東京](#tokyo)
+@"[東京](#tokyo)
 [札幌](#sapporo)
 # Tokyo
 ## Sapporo";
@@ -64,12 +64,12 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 	public void OverrideAllLinks()
 	{
 		const string value =
-			@"[absolute](https://www.google.co.jp/)
+@"[absolute](https://www.google.co.jp/)
 [relative](/tokyo)
 [id](#edogawa)";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			absolute
@@ -99,7 +99,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 	{
 		const string value = @"![img](/tokyo/sky-tree.png)";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<img src='overridden/tokyo/sky-tree.png' alt='img' />
 	</p>

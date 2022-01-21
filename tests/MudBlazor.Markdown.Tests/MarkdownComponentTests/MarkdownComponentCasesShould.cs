@@ -6,7 +6,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 	public void RenderTableWithAdjacentText()
 	{
 		const string value =
-			@"text before
+@"text before
 
 |col1|col2|
 |-|-|
@@ -15,7 +15,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 text after";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>text before</p>
 	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 		<div class='mud-table-container'>
@@ -46,14 +46,14 @@ text after";
 	public void RenderTableWithEmptyCells()
 	{
 		const string value =
-			@"|col1|col2|
+@"|col1|col2|
 |-|-|
 |row1-1|row1-2|
 |row2-1||
 |row3-1|";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
          <table>
@@ -105,7 +105,7 @@ text after";
 	{
 		const string value = "text *italic **bold within***";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
 		<i>
@@ -124,7 +124,7 @@ text after";
 	{
 		const string value = "text *italic **bold within** more italic*";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
 		<i>
@@ -144,7 +144,7 @@ text after";
 	{
 		const string value = "text **bold *italic within***";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
 		<b>
@@ -163,7 +163,7 @@ text after";
 	{
 		const string value = "text **bold *italic within* more bold**";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		text 
 		<b>
@@ -183,7 +183,7 @@ text after";
 	{
 		const string value = "[Installing Microsoft Visual C++ Redistributable Package](#installing-microsoft-visual-c-redistributable-package)";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		<a href='#installing-microsoft-visual-c-redistributable-package' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			Installing Microsoft Visual C&#x2B;&#x2B; Redistributable Package
@@ -200,7 +200,7 @@ text after";
 	{
 		const string value = "Text _italics_";
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1 mud-inherit-text'>
 		Text
 		<i>italics</i>
@@ -217,7 +217,7 @@ text after";
 	public void RenderHeaderAfterCode()
 	{
 		const string value =
-			@"# Heading 1
+@"# Heading 1
 Some text.
 
 ```csharp
