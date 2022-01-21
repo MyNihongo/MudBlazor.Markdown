@@ -231,6 +231,30 @@ public int GetTheAnswer()
 ## Another headline";
 
 		const string expected = "";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderListAfterCode()
+	{
+		const string value =
+@"```text
+some
+code
+```
+
+* List item 1
+* List item 2
+* List item 3
+
+## Another headline";
+
+		const string expected = "";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
 	}
 
 	#endregion
