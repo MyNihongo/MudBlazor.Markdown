@@ -12,7 +12,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 	private bool _enableLinkNavigation;
-	private int _i;
+	private int _elementIndex;
 
 	/// <summary>
 	/// Markdown text to be rendered in the component.
@@ -80,14 +80,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (string.IsNullOrEmpty(Value))
 			return;
 
-		_i = 0;
+		_elementIndex = 0;
 
 		var parsedText = Markdown.Parse(Value, _pipeline);
 		if (parsedText.Count == 0)
 			return;
 
-		builder.OpenElement(_i++, "article");
-		builder.AddAttribute(_i++, "class", "mud-markdown-body");
+		builder.OpenElement(_elementIndex++, "article");
+		builder.AddAttribute(_elementIndex++, "class", "mud-markdown-body");
 		RenderMarkdown(parsedText, builder);
 		builder.CloseElement();
 	}
@@ -152,7 +152,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 				case QuoteBlock quote:
 					{
-						builder.OpenElement(_i++, "blockquote");
+						builder.OpenElement(_elementIndex++, "blockquote");
 						RenderMarkdown(quote, builder);
 						builder.CloseElement();
 						break;
@@ -169,7 +169,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 				case ThematicBreakBlock:
 					{
-						builder.OpenComponent<MudDivider>(_i++);
+						builder.OpenComponent<MudDivider>(_elementIndex++);
 						builder.CloseComponent();
 						break;
 					}
@@ -177,10 +177,10 @@ public class MudMarkdown : ComponentBase, IDisposable
 					{
 						var text = code.CreateCodeBlockText();
 
-						builder.OpenComponent<MudCodeHighlight>(i++);
-						builder.AddAttribute(_i++, nameof(MudCodeHighlight.Text), text);
-						builder.AddAttribute(_i++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
-						builder.AddAttribute(_i++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+						builder.OpenComponent<MudCodeHighlight>(_elementIndex++);
+						builder.AddAttribute(_elementIndex++, nameof(MudCodeHighlight.Text), text);
+						builder.AddAttribute(_elementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+						builder.AddAttribute(_elementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
 						builder.CloseComponent();
 
 						break;
@@ -194,13 +194,13 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (paragraph.Inline == null)
 			return;
 
-		builder.OpenComponent<MudText>(_i++);
+		builder.OpenComponent<MudText>(_elementIndex++);
 
 		if (!string.IsNullOrEmpty(id))
-			builder.AddAttribute(_i++, "id", id);
+			builder.AddAttribute(_elementIndex++, "id", id);
 
-		builder.AddAttribute(_i++, nameof(MudText.Typo), typo);
-		builder.AddAttribute(_i++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
+		builder.AddAttribute(_elementIndex++, nameof(MudText.Typo), typo);
+		builder.AddAttribute(_elementIndex++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
 		builder.CloseComponent();
 	}
 
@@ -212,24 +212,24 @@ public class MudMarkdown : ComponentBase, IDisposable
 			{
 				case LiteralInline x:
 					{
-						builder.AddContent(_i++, x.Content);
+						builder.AddContent(_elementIndex++, x.Content);
 						break;
 					}
 				case HtmlInline x:
 					{
-						builder.AddMarkupContent(_i++, x.Tag);
+						builder.AddMarkupContent(_elementIndex++, x.Tag);
 						break;
 					}
 				case LineBreakInline:
 					{
-						builder.OpenElement(_i++, "br");
+						builder.OpenElement(_elementIndex++, "br");
 						builder.CloseElement();
 						break;
 					}
 				case CodeInline x:
 					{
-						builder.OpenElement(_i++, "code");
-						builder.AddContent(_i++, x.Content);
+						builder.OpenElement(_elementIndex++, "code");
+						builder.AddContent(_elementIndex++, x.Content);
 						builder.CloseElement();
 						break;
 					}
@@ -238,7 +238,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						if (!x.TryGetEmphasisElement(out var elementName))
 							continue;
 
-						builder.OpenElement(_i++, elementName);
+						builder.OpenElement(_elementIndex++, elementName);
 						RenderInlines(x, builder);
 						builder.CloseElement();
 						break;
@@ -253,28 +253,28 @@ public class MudMarkdown : ComponentBase, IDisposable
 								.OfType<LiteralInline>()
 								.Select(static x => x.Content);
 
-							builder.OpenElement(_i++, "img");
-							builder.AddAttribute(_i++, "src", url);
-							builder.AddAttribute(_i++, "alt", string.Join(null, alt));
+							builder.OpenElement(_elementIndex++, "img");
+							builder.AddAttribute(_elementIndex++, "src", url);
+							builder.AddAttribute(_elementIndex++, "alt", string.Join(null, alt));
 							builder.CloseElement();
 						}
 						else if (LinkCommand == null)
 						{
-							builder.OpenComponent<MudLink>(_i++);
-							builder.AddAttribute(_i++, nameof(MudLink.Href), url);
-							builder.AddAttribute(_i++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+							builder.OpenComponent<MudLink>(_elementIndex++);
+							builder.AddAttribute(_elementIndex++, nameof(MudLink.Href), url);
+							builder.AddAttribute(_elementIndex++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
 							if (url.IsExternalUri(NavigationManager?.BaseUri))
 							{
-								builder.AddAttribute(_i++, nameof(MudLink.Target), "_blank");
-								builder.AddAttribute(_i++, "rel", "noopener noreferrer");
+								builder.AddAttribute(_elementIndex++, nameof(MudLink.Target), "_blank");
+								builder.AddAttribute(_elementIndex++, "rel", "noopener noreferrer");
 							}
 							// (prevent scrolling to the top of the page)
 							// custom implementation only for links on the same page
 							else if (url?.StartsWith('#') ?? false)
 							{
-								builder.AddEventPreventDefaultAttribute(_i++, "onclick", true);
-								builder.AddAttribute(_i++, "onclick", EventCallback.Factory.Create(this, () =>
+								builder.AddEventPreventDefaultAttribute(_elementIndex++, "onclick", true);
+								builder.AddAttribute(_elementIndex++, "onclick", EventCallback.Factory.Create(this, () =>
 								{
 									if (NavigationManager == null)
 										return;
@@ -292,10 +292,10 @@ public class MudMarkdown : ComponentBase, IDisposable
 						}
 						else
 						{
-							builder.OpenComponent<MudLinkButton>(_i++);
-							builder.AddAttribute(_i++, nameof(MudLinkButton.Command), LinkCommand);
-							builder.AddAttribute(_i++, nameof(MudLinkButton.CommandParameter), url);
-							builder.AddAttribute(_i++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
+							builder.OpenComponent<MudLinkButton>(_elementIndex++);
+							builder.AddAttribute(_elementIndex++, nameof(MudLinkButton.Command), LinkCommand);
+							builder.AddAttribute(_elementIndex++, nameof(MudLinkButton.CommandParameter), url);
+							builder.AddAttribute(_elementIndex++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 							builder.CloseComponent();
 						}
 						break;
@@ -310,19 +310,19 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (table.Count < 2)
 			return;
 
-		builder.OpenComponent<MudSimpleTable>(_i++);
-		builder.AddAttribute(_i++, nameof(MudSimpleTable.Style), "overflow-x: auto;");
-		builder.AddAttribute(_i++, nameof(MudSimpleTable.Striped), true);
-		builder.AddAttribute(_i++, nameof(MudSimpleTable.Bordered), true);
-		builder.AddAttribute(_i++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
+		builder.OpenComponent<MudSimpleTable>(_elementIndex++);
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Style), "overflow-x: auto;");
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Striped), true);
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Bordered), true);
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
 		{
 			// thread
-			contentBuilder.OpenElement(_i++, "thead");
+			contentBuilder.OpenElement(_elementIndex++, "thead");
 			RenderTableRow((TableRow)table[0], "th", contentBuilder, TableCellMinWidth);
 			contentBuilder.CloseElement();
 
 			// tbody
-			contentBuilder.OpenElement(_i++, "tbody");
+			contentBuilder.OpenElement(_elementIndex++, "tbody");
 			for (var j = 1; j < table.Count; j++)
 			{
 				RenderTableRow((TableRow)table[j], "td", contentBuilder);
@@ -335,15 +335,15 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private void RenderTableRow(TableRow row, string cellElementName, RenderTreeBuilder builder, int? minWidth = null)
 	{
-		builder.OpenElement(_i++, "tr");
+		builder.OpenElement(_elementIndex++, "tr");
 
 		for (var j = 0; j < row.Count; j++)
 		{
 			var cell = (TableCell)row[j];
-			builder.OpenElement(_i++, cellElementName);
+			builder.OpenElement(_elementIndex++, cellElementName);
 
 			if (minWidth is > 0)
-				builder.AddAttribute(_i++, "style", $"min-width:{minWidth}px");
+				builder.AddAttribute(_elementIndex++, "style", $"min-width:{minWidth}px");
 
 			if (cell.Count != 0 && cell[0] is ParagraphBlock paragraphBlock)
 				RenderParagraphBlock(paragraphBlock, builder);
@@ -360,7 +360,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			return;
 
 		var elementName = list.IsOrdered ? "ol" : "ul";
-		builder.OpenElement(_i++, elementName);
+		builder.OpenElement(_elementIndex++, elementName);
 
 		for (var i = 0; i < list.Count; i++)
 		{
@@ -374,7 +374,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						RenderList(x, builder);
 						break;
 					case ParagraphBlock x:
-						builder.OpenElement(_i++, "li");
+						builder.OpenElement(_elementIndex++, "li");
 						RenderParagraphBlock(x, builder);
 						builder.CloseElement();
 						break;

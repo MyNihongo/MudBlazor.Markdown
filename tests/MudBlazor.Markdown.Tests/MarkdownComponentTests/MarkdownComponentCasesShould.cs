@@ -227,8 +227,8 @@ public int GetTheAnswer()
 }
 ```
 
-## Another headline
-## Another headline";
+## Another headline 1
+## Another headline 2";
 
 		const string expected = "";
 
