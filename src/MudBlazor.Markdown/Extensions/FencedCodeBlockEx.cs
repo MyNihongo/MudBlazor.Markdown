@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Markdig.Syntax;
 
-// ReSharper disable once CheckNamespace
 namespace MudBlazor;
 
 internal static class FencedCodeBlockEx

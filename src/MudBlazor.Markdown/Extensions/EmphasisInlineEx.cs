@@ -1,6 +1,5 @@
 ﻿using Markdig.Syntax.Inlines;
 
-// ReSharper disable once CheckNamespace
 namespace MudBlazor;
 
 internal static class EmphasisInlineEx

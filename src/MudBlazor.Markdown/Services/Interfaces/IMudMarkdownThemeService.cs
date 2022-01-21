@@ -1,5 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 public interface IMudMarkdownThemeService
 {

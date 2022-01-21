@@ -2,7 +2,6 @@
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
-// ReSharper disable once CheckNamespace
 namespace MudBlazor;
 
 internal static class HeadingBlockEx

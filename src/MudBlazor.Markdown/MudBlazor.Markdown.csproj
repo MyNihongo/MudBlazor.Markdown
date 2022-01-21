@@ -4,10 +4,11 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Version>0.0.6</Version>
+		<RootNamespace>MudBlazor</RootNamespace>
+		<Version>0.0.7</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
-		<Copyright>Copyright © 2021 MyNihongo</Copyright>
+		<Copyright>Copyright © 2022 MyNihongo</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/MyNihongo/MudBlazor.Markdown</RepositoryUrl>
 		<PackageProjectUrl>https://mudblazor.com/</PackageProjectUrl>
@@ -33,6 +34,7 @@
 	<ItemGroup>
 		<None Include="..\..\favico.png" Pack="true" PackagePath="" />
 		<Content Remove="**\package*.json" />
+		<None Remove="*.csproj.DotSettings" />
 	</ItemGroup>
 
 	<ItemGroup>

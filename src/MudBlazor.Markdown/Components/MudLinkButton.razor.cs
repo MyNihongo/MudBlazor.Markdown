@@ -1,8 +1,4 @@
-﻿using MudBlazor.Extensions;
-using MudBlazor.Utilities;
-
-// ReSharper disable once CheckNamespace
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 internal sealed class MudLinkButton : MudComponentBase
 {
