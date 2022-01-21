@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>MudBlazor</RootNamespace>
 		<Version>0.0.6</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
@@ -33,6 +34,7 @@
 	<ItemGroup>
 		<None Include="..\..\favico.png" Pack="true" PackagePath="" />
 		<Content Remove="**\package*.json" />
+		<None Remove="*.csproj.DotSettings" />
 	</ItemGroup>
 
 	<ItemGroup>

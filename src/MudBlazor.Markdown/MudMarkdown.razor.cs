@@ -5,8 +5,6 @@ using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("MudBlazor.Markdown.Tests")]
-// ReSharper disable once CheckNamespace
 namespace MudBlazor;
 
 public class MudMarkdown : ComponentBase, IDisposable

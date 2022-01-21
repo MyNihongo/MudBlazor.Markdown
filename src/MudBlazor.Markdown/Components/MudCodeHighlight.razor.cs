@@ -1,5 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {

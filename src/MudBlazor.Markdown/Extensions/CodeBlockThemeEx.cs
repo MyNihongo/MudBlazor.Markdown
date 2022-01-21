@@ -1,4 +1,3 @@
-// ReSharper disable once CheckNamespace
 namespace MudBlazor;
 
 internal static class CodeBlockThemeEx
