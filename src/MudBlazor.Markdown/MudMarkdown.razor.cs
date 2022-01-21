@@ -1,5 +1,4 @@
-﻿using Markdig;
-using Markdig.Extensions.Tables;
+﻿using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components.Routing;

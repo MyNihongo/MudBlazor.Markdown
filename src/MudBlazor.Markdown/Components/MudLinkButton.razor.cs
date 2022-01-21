@@ -1,7 +1,4 @@
-﻿using MudBlazor.Extensions;
-using MudBlazor.Utilities;
-
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 internal sealed class MudLinkButton : MudComponentBase
 {

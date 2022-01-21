@@ -1,31 +1,28 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.AspNetCore.Components;
+﻿using System.Reflection;
 
-namespace MudBlazor.Markdown.Tests.Services
+namespace MudBlazor.Markdown.Tests.Services;
+
+public sealed class TestNavigationManager : NavigationManager
 {
-	public sealed class TestNavigationManager : NavigationManager
+	internal const string TestUrl = "http://localhost:1234/";
+
+	public void Initialize(string uri)
 	{
-		internal const string TestUrl = "http://localhost:1234/";
-
-		public void Initialize(string uri)
-		{
 #if DEBUG
-			var isInitialised = (bool)typeof(NavigationManager)
-				.GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic)
-				!.GetValue(this)!;
+		var isInitialised = (bool)typeof(NavigationManager)
+			.GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic)
+			!.GetValue(this)!;
 
-			if (!isInitialised)
+		if (!isInitialised)
 #endif
-				Initialize(TestUrl, TestUrl + uri);
-		}
+			Initialize(TestUrl, TestUrl + uri);
+	}
 
-		protected override void NavigateToCore(string uri, bool forceLoad)
-		{
-			var newUri = new Uri(BaseUri);
-			newUri = new Uri(newUri, uri);
+	protected override void NavigateToCore(string uri, bool forceLoad)
+	{
+		var newUri = new Uri(BaseUri);
+		newUri = new Uri(newUri, uri);
 
-			Uri = newUri.AbsoluteUri;
-		}
+		Uri = newUri.AbsoluteUri;
 	}
 }

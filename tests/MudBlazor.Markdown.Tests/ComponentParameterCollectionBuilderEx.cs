@@ -1,22 +1,18 @@
-﻿using System;
-using System.Linq.Expressions;
-using Bunit;
-using Microsoft.AspNetCore.Components;
+﻿using System.Linq.Expressions;
 using MyNihongo.Option;
 
-namespace MudBlazor.Markdown.Tests
+namespace MudBlazor.Markdown.Tests;
+
+public static class ComponentParameterCollectionBuilderEx
 {
-    public static class ComponentParameterCollectionBuilderEx
-    {
-        public static ComponentParameterCollectionBuilder<TComponent> TryAdd<TComponent, TValue>(
-            this ComponentParameterCollectionBuilder<TComponent> @this,
-            Expression<Func<TComponent, TValue>> parameterSelector,
-            Optional<TValue> valueOptional)
-            where TComponent : IComponent
-        {
-            return valueOptional.HasValue
-                ? @this.Add(parameterSelector, valueOptional.Value)
-                : @this;
-        }
-    }
+	public static ComponentParameterCollectionBuilder<TComponent> TryAdd<TComponent, TValue>(
+		this ComponentParameterCollectionBuilder<TComponent> @this,
+		Expression<Func<TComponent, TValue>> parameterSelector,
+		Optional<TValue> valueOptional)
+		where TComponent : IComponent
+	{
+		return valueOptional.HasValue
+			? @this.Add(parameterSelector, valueOptional.Value)
+			: @this;
+	}
 }

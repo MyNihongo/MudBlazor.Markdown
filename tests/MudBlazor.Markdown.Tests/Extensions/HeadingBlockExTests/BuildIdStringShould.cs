@@ -1,55 +1,51 @@
-﻿using FluentAssertions;
-using Xunit;
+﻿namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests;
 
-namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests
+public sealed class BuildIdStringShould : BuildIdStringShouldTestsBase
 {
-	public sealed class BuildIdStringShould : BuildIdStringShouldTestsBase
+	[Theory]
+	[InlineData(" ")]
+	[InlineData("  ")]
+	public void EscapeWhitespace(string whitespace)
 	{
-		[Theory]
-		[InlineData(" ")]
-		[InlineData("  ")]
-		public void EscapeWhitespace(string whitespace)
-		{
-			const string expected = "some-text";
-			var value = $"# some{whitespace}text";
+		const string expected = "some-text";
+		var value = $"# some{whitespace}text";
 
-			var result = CreateFixture(value)
-				.BuildIdString();
+		var result = CreateFixture(value)
+			.BuildIdString();
 
-			result
-				.Should()
-				.Be(expected);
-		}
+		result
+			.Should()
+			.Be(expected);
+	}
 
-		[Fact]
-		public void ConvertToLower()
-		{
-			const string value = "# Some Text",
-				expected = "some-text";
+	[Fact]
+	public void ConvertToLower()
+	{
+		const string value = "# Some Text",
+			expected = "some-text";
 
-			var result = CreateFixture(value)
-				.BuildIdString();
+		var result = CreateFixture(value)
+			.BuildIdString();
 
-			result
-				.Should()
-				.Be(expected);
-		}
+		result
+			.Should()
+			.Be(expected);
+	}
 
-		[Theory]
-		[InlineData('+')]
-		[InlineData(':')]
-		[InlineData('&')]
-		public void EscapeCharacters(char inputChar)
-		{
-			const string expected = "some--text";
-			var value = $"# some {inputChar} text";
+	[Theory]
+	[InlineData('+')]
+	[InlineData(':')]
+	[InlineData('&')]
+	public void EscapeCharacters(char inputChar)
+	{
+		const string expected = "some--text";
+		var value = $"# some {inputChar} text";
 
-			var result = CreateFixture(value)
-				.BuildIdString();
+		var result = CreateFixture(value)
+			.BuildIdString();
 
-			result
-				.Should()
-				.Be(expected);
-		}
+		result
+			.Should()
+			.Be(expected);
 	}
 }
