@@ -20,7 +20,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.28.1" />
-		<PackageReference Include="MudBlazor" Version="6.0.7" />
+		<PackageReference Include="MudBlazor" Version="6.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
