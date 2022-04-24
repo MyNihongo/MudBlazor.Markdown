@@ -67,7 +67,11 @@ builder.Services.AddMudMarkdownServices();
 - `OverrideLinkUrl` - override a URL address for links;
 - `CodeBlockTheme` - default theme for code blocks.
 ### Palette (colour) configurations
-The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). The palette can be configured as described [here](https://mudblazor.com/customization/theming/overview). These are the colors which are used in the `<MudMarkdown>`:
+Useful links for configuring the palette:
+- [Default theme](https://mudblazor.com/customization/default-theme#mudtheme) - all CSS variables and their default values
+- [Overview](https://mudblazor.com/customization/overview#theme-provider) - how the theme can be configured
+
+The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). These are the colors which are used in the `<MudMarkdown>`:
 - DrawerBackground - background-color of the quoted text;
 - OverlayDark - background-color of the code block;
 - TextDisabled - border-color of the quoted text and border-color of the h1 and h2 bottom divider;
