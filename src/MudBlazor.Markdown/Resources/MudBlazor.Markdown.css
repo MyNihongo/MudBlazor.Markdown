@@ -1,5 +1,5 @@
 ﻿/* Code */
-.mud-markdown-body code {
+.mud-markdown-body code:not(.hljs) {
 	background: var(--mud-palette-overlay-dark);
 	color: var(--mud-palette-text-primary) !important;
 	padding: 2.5px 7.5px;
