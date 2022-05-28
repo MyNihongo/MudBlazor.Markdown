@@ -17,7 +17,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
@@ -39,7 +39,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
@@ -66,7 +66,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
@@ -93,7 +93,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
@@ -120,7 +120,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
@@ -147,7 +147,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
@@ -174,7 +174,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$@"<article class='mud-markdown-body'>
-	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag} mud-inherit-text'>
+	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
 </article>";
