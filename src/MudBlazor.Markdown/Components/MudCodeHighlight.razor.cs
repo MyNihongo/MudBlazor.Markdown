@@ -61,7 +61,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
-
+		builder.AddAttribute(i++, "class", $"language-{Language}");
 		builder.AddElementReferenceCapture(i++, x => _ref = x);
 		builder.AddContent(i++, Text);
 
@@ -84,7 +84,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		if (!firstRender || Js == null)
 			return;
 
-		await Js.InvokeVoidAsync("highlightCodeElement", _ref, Language)
+		await Js.InvokeVoidAsync("highlightCodeElement", _ref)
 			.ConfigureAwait(false);
 
 		if (!_isFirstThemeSet)
