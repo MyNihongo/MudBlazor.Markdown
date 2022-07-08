@@ -62,10 +62,10 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
 
-        if (!string.IsNullOrEmpty(Language))
-            builder.AddAttribute(i++, "class", $"language-{Language}");
+		if (!string.IsNullOrEmpty(Language))
+			builder.AddAttribute(i++, "class", $"language-{Language}");
 
-        builder.AddElementReferenceCapture(i++, x => _ref = x);
+		builder.AddElementReferenceCapture(i++, x => _ref = x);
 		builder.AddContent(i++, Text);
 
 		builder.CloseElement();
