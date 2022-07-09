@@ -290,10 +290,7 @@ public bool IsMudBlazorCool()
 
 		const string expected =
 @"<article class='mud-markdown-body'>
-	<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30'>public bool IsMudBlazorCool()
-{
-    return true;
-}</code></pre>
+	<pre><code blazor:elementReference='3acd6993-4f90-4ff3-b73c-670bc06e8008'>public bool IsMudBlazorCool()&#xD;&#xA;{&#xD;&#xA;&#x9;return true;&#xD;&#xA;}</code></pre>
 </article>";
 
 		using var fixture = CreateFixture(value);
