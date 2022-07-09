@@ -275,14 +275,13 @@ code
 
 	#endregion
 
-
 	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/102
 
 	[Fact]
 	public void RenderCodeBlockWithoutLanguage()
 	{
 		const string value =
-			@"```
+@"```
 public bool IsMudBlazorCool()
 {
 	return true;
@@ -290,7 +289,7 @@ public bool IsMudBlazorCool()
 ```";
 
 		const string expected =
-			@"<article class='mud-markdown-body'>
+@"<article class='mud-markdown-body'>
 	<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30'>public bool IsMudBlazorCool()
 {
     return true;
