@@ -234,7 +234,7 @@ public int GetTheAnswer()
 @"<article class='mud-markdown-body'>
 	<h1 id='heading-1' class='mud-typography mud-typography-h1'>Heading 1</h1>
 	<p class='mud-typography mud-typography-body1'>Some text.</p>
-	<pre><code blazor:elementReference='8035dc45-0e97-419e-869c-51a5d65602d4'>public int GetTheAnswer()&#xD;&#xA;{&#xD;&#xA;   return 42;&#xD;&#xA;}</code></pre>
+	<pre><code blazor:elementReference='8035dc45-0e97-419e-869c-51a5d65602d4' class='language-csharp'>public int GetTheAnswer()&#xD;&#xA;{&#xD;&#xA;   return 42;&#xD;&#xA;}</code></pre>
 	<h2 id='another-headline-1' class='mud-typography mud-typography-h2'>Another headline 1</h2>
 	<h2 id='another-headline-2' class='mud-typography mud-typography-h2'>Another headline 2</h2>
 </article>";
@@ -260,13 +260,41 @@ code
 
 		const string expected = 
 @"<article class='mud-markdown-body'>
-	<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30'>some&#xD;&#xA;code</code></pre>
+	<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30' class='language-text'>some&#xD;&#xA;code</code></pre>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1'>List item 1</p></li>
 		<li><p class='mud-typography mud-typography-body1'>List item 2</p></li>
 		<li><p class='mud-typography mud-typography-body1'>List item 3</p></li>
 	</ul>
 	<h2 id='another-headline' class='mud-typography mud-typography-h2'>Another headline</h2>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	#endregion
+
+
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/102
+
+	[Fact]
+	public void RenderCodeBlockWithoutLanguage()
+	{
+		const string value =
+			@"```
+public bool IsMudBlazorCool()
+{
+	return true;
+}
+```";
+
+		const string expected =
+			@"<article class='mud-markdown-body'>
+	<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30'>public bool IsMudBlazorCool()
+{
+    return true;
+}</code></pre>
 </article>";
 
 		using var fixture = CreateFixture(value);
