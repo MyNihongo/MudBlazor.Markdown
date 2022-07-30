@@ -4,11 +4,18 @@ namespace MudBlazor.Markdown.Core.Services;
 
 internal sealed class MarkdownService : IMarkdownService
 {
-	public Task<string> GetSampleAsync() =>
-		GetMarkdownAsync("sample");
+	public Task<string> GetSampleAsync(MarkdownResourceType resourceType)
+	{
+		var resourceName = resourceType switch
+		{
+			MarkdownResourceType.Main => "sample",
+			MarkdownResourceType.Enderal => "sample-enderal",
+			MarkdownResourceType.Math => "sample-math",
+			_ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, $"Unknown {nameof(MarkdownResourceType)}: {resourceType}")
+		};
 
-	public Task<string> GetEnderalSampleAsync() =>
-		GetMarkdownAsync("sample-enderal");
+		return GetMarkdownAsync(resourceName);
+	}
 
 	private static async Task<string> GetMarkdownAsync(string name)
 	{

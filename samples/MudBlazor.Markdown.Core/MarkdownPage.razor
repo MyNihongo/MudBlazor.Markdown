@@ -8,6 +8,9 @@
 
 @code
 {
+	[Parameter]
+	public MarkdownResourceType MarkdownResource { get; set; }
+
 	[Inject]
 	private IMarkdownService MarkdownService { get; init; } = default!;
 
@@ -15,7 +18,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		Value = await MarkdownService.GetSampleAsync()
+		Value = await MarkdownService.GetSampleAsync(MarkdownResource)
 			.ConfigureAwait(false);
 	}
 

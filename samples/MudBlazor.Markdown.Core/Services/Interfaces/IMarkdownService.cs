@@ -2,7 +2,5 @@
 
 public interface IMarkdownService
 {
-	Task<string> GetSampleAsync();
-
-	Task<string> GetEnderalSampleAsync();
+	Task<string> GetSampleAsync(MarkdownResourceType resourceType);
 }
