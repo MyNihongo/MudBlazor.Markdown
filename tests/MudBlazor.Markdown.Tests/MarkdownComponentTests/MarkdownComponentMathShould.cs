@@ -3,9 +3,9 @@
 public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 {
 	[Fact]
-	public void RenderNotEquals()
+	public void RenderEquals()
 	{
-		const string value = "$a \\ne 0$";
+		const string value = "$x = y$";
 		const string expected = "";
 
 		using var fixture = CreateFixture(value);

@@ -303,8 +303,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 				case MathInline x:
 					{
-
-						var a = "";
+						builder.OpenComponent<MudMathJax>(_elementIndex++);
+						builder.AddAttribute(_elementIndex++, nameof(MudMathJax.Value), x.Content);
+						builder.CloseComponent();
 						break;
 					}
 			}

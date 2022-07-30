@@ -84,3 +84,13 @@ pre code.hljs {
 .mud-markdown-body li p {
 	margin-bottom: 0 !important;
 }
+
+/* Math */
+.mud-markdown-mjx-container {
+	font-size: 101.1%;
+	position: relative;
+}
+
+.mud-markdown-mjx-assistive-mml {
+    display: inline;
+}
