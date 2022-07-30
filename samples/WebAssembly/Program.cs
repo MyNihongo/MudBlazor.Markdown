@@ -6,22 +6,21 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Markdown.Core.Utils.ServiceRegistration;
 using MudBlazor.Services;
 
-namespace MudBlazor.Markdown.Wasm
+namespace MudBlazor.Markdown.Wasm;
+
+public class Program
 {
-	public class Program
+	public static async Task Main(string[] args)
 	{
-		public static async Task Main(string[] args)
-		{
-			var builder = WebAssemblyHostBuilder.CreateDefault(args);
-			builder.RootComponents.Add<App>("#app");
+		var builder = WebAssemblyHostBuilder.CreateDefault(args);
+		builder.RootComponents.Add<App>("#app");
 
-			builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-			builder.Services.AddCoreServices();
-			builder.Services.AddMudServices();
-			builder.Services.AddMudMarkdownServices();
+		builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+		builder.Services.AddCoreServices();
+		builder.Services.AddMudServices();
+		builder.Services.AddMudMarkdownServices();
 
-			await builder.Build().RunAsync()
-				.ConfigureAwait(false);
-		}
+		await builder.Build().RunAsync()
+			.ConfigureAwait(false);
 	}
 }

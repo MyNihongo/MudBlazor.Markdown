@@ -1,20 +1,17 @@
 ﻿@page "/"
-@using MudBlazor.Markdown.Core.Services.Interfaces
+@using MudBlazor.Markdown.Core.Services
 
 <MudMarkdown Value="@Value" />
 
 @code
 {
 	[Inject]
-	private IMarkdownService? MarkdownService { get; init; }
+	private IMarkdownService MarkdownService { get; init; } = default!;
 
 	private string Value { get; set; } = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
-		if (MarkdownService == null)
-			return;
-
 		Value = await MarkdownService.GetSampleAsync()
 			.ConfigureAwait(false);
 	}

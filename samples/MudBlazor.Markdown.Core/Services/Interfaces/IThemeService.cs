@@ -1,12 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace MudBlazor.Markdown.Core.Services;
 
-namespace MudBlazor.Markdown.Core.Services.Interfaces
+public interface IThemeService
 {
-	public interface IThemeService
-	{
-		IObservable<bool> IsDarkTheme { get; }
+	IObservable<bool> IsDarkTheme { get; }
 
-		Task ToggleThemeAsync();
-	}
+	Task ToggleThemeAsync();
 }
