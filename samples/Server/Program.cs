@@ -1,7 +1,3 @@
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-
 namespace MudBlazor.Markdown.Server;
 
 public class Program
