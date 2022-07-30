@@ -4,6 +4,11 @@ const rename = require("gulp-rename");
 const minifyCss = require("gulp-clean-css");
 const changeCase = require("change-case");
 
+function fonts() {
+	return src("Resources/Fonts/*.woff")
+		.pipe(dest("wwwroot/fonts"));
+}
+
 function cssMain() {
 	return src("Resources/*.css")
 		.pipe(minifyCss())
@@ -33,11 +38,4 @@ function jsMain() {
 		.pipe(dest("wwwroot"));
 }
 
-function jsMathJax() {
-	return src("Resources/Math/*.js")
-		.pipe(webpack({ mode: "production" }))
-		.pipe(rename({ basename: "MudBlazor.Markdown.Math", extname: ".min.js" }))
-		.pipe(dest("wwwroot"));
-}
-
-exports.default = series(cssMain, cssCodeStyles, img, jsMain, jsMathJax);
+exports.default = series(fonts, cssMain, cssCodeStyles, img, jsMain);

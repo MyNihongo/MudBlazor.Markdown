@@ -1,4 +1,9 @@
-﻿/* Code */
+﻿@font-face {
+	font-family: "MathJax";
+	src: url('fonts/MathJax_Math-Regular.woff') format("woff");
+}
+
+/* Code */
 .mud-markdown-body code:not(.hljs) {
 	background: var(--mud-palette-overlay-dark);
 	color: var(--mud-palette-text-primary) !important;
@@ -89,6 +94,8 @@ pre code.hljs {
 .mud-markdown-mjx-container {
 	font-size: 101.1%;
 	position: relative;
+	line-height: 0;
+	font-family: "MathJax";
 }
 
 .mud-markdown-mjx-assistive-mml {
