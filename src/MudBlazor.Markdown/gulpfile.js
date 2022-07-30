@@ -26,11 +26,18 @@ function img() {
 		.pipe(dest("wwwroot/code-styles"));
 }
 
-function js() {
+function jsMain() {
 	return src("Resources/MudBlazor.Markdown.js")
-		.pipe(webpack())
+		.pipe(webpack({ mode: "production" }))
 		.pipe(rename({ basename: "MudBlazor.Markdown", extname: ".min.js" }))
 		.pipe(dest("wwwroot"));
 }
 
-exports.default = series(cssMain, cssCodeStyles, img, js);
+function jsMathJax() {
+	return src("Resources/Math/*.js")
+		.pipe(webpack({ mode: "production" }))
+		.pipe(rename({ basename: "MudBlazor.Markdown.Math", extname: ".min.js" }))
+		.pipe(dest("wwwroot"));
+}
+
+exports.default = series(cssMain, cssCodeStyles, img, jsMain, jsMathJax);

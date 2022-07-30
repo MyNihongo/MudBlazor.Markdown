@@ -1,4 +1,5 @@
-﻿using Markdig.Extensions.Tables;
+﻿using Markdig.Extensions.Mathematics;
+using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components.Routing;
@@ -298,6 +299,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 							builder.AddAttribute(_elementIndex++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 							builder.CloseComponent();
 						}
+						break;
+					}
+				case MathInline x:
+					{
+
+						var a = "";
 						break;
 					}
 			}

@@ -21,6 +21,7 @@
 		"webpack-stream": "^7.0.0"
 	},
 	"dependencies": {
-		"highlight.js": "^11.2.0"
+		"highlight.js": "^11.2.0",
+		"mathjax": "^3.2.2"
 	}
 }
