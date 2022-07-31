@@ -23,6 +23,8 @@ internal sealed class MudMathJax : ComponentBase
 
 	private void BuildMarkupContent(RenderTreeBuilder builder, ReadOnlySpan<char> value)
 	{
+		var prependSpacing = false;
+
 		for (var i = 0; i < value.Length; i++)
 		{
 			if (i + 1 < value.Length && value[i + 1] == '^')
@@ -31,31 +33,47 @@ internal sealed class MudMathJax : ComponentBase
 			}
 			else if (value[i].IsAlpha())
 			{
-				RenderAlpha(builder, value[i]);
+				RenderAlpha(builder, value[i], prependSpacing);
 			}
 			else if (value[i].IsDigit())
 			{
-				RenderDigit(builder, value[i]);
+				RenderDigit(builder, value[i], prependSpacing);
 			}
 			else if (value[i].IsMathOperation())
 			{
 				RenderMathOperation(builder, value[i]);
+				prependSpacing = true;
+				continue;
 			}
+			else
+			{
+				continue;
+			}
+
+			prependSpacing = false;
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderAlpha(in RenderTreeBuilder builder, in char value)
+	private void RenderAlpha(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
 	{
 		builder.OpenElement(_elementIndex++, "mi");
+
+		if (prependSpacing)
+			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
+
 		builder.AddContent(_elementIndex++, value);
 		builder.CloseComponent();
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderDigit(in RenderTreeBuilder builder, in char value)
+	private void RenderDigit(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
 	{
 		builder.OpenElement(_elementIndex++, "mn");
+
+		if (prependSpacing)
+			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
+
 		builder.AddContent(_elementIndex++, value);
 		builder.CloseComponent();
 	}
