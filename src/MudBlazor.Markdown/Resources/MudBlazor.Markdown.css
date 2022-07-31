@@ -1,6 +1,11 @@
 ﻿@font-face {
-	font-family: "MathJax";
+	font-family: "MathJaxMath";
 	src: url('fonts/MathJax_Math-Regular.woff') format("woff");
+}
+
+@font-face {
+    font-family: "MathJaxMain";
+    src: url('fonts/MathJax_Main-Regular.woff') format("woff");
 }
 
 /* Code */
@@ -95,9 +100,9 @@ pre code.hljs {
 	font-size: 101.1%;
 	position: relative;
 	line-height: 0;
-	font-family: "MathJax";
+	font-family: "MathJaxMath";
 }
 
-.mud-markdown-mjx-assistive-mml {
-    display: inline;
+.mud-markdown-mjx-expression {
+	font-family: "MathJaxMain";
 }
