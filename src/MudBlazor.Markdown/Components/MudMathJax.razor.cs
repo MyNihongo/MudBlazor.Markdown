@@ -29,7 +29,13 @@ internal sealed class MudMathJax : ComponentBase
 		{
 			if (i + 1 < value.Length && value[i + 1] == '^')
 			{
-				i++;
+				i += 2;
+				if (i < value.Length)
+				{
+					var firstChar = value[i - 2];
+					var lastChar = value[i];
+					RenderPower(builder, firstChar, lastChar);
+				}
 			}
 			else if (value[i].IsAlpha())
 			{
@@ -39,11 +45,15 @@ internal sealed class MudMathJax : ComponentBase
 			{
 				RenderDigit(builder, value[i], prependSpacing);
 			}
-			else if (value[i].IsMathOperation())
+			else if (value[i].IsMathOperation(out var hasSpacing))
 			{
-				RenderMathOperation(builder, value[i]);
-				prependSpacing = true;
-				continue;
+				RenderMathOperation(builder, value[i], hasSpacing);
+
+				if (hasSpacing)
+				{
+					prependSpacing = true;
+					continue;
+				}
 			}
 			else
 			{
@@ -52,6 +62,26 @@ internal sealed class MudMathJax : ComponentBase
 
 			prependSpacing = false;
 		}
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private void RenderPower(in RenderTreeBuilder builder, in char firstChar, in char lastChar)
+	{
+		builder.OpenElement(_elementIndex++, "msup");
+
+		RenderAlphaOrDigit(builder, firstChar);
+		RenderAlphaOrDigit(builder, lastChar);
+
+		builder.CloseElement();
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private void RenderAlphaOrDigit(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
+	{
+		if (value.IsAlpha())
+			RenderAlpha(builder, value, prependSpacing);
+		else if (value.IsDigit())
+			RenderDigit(builder, value, prependSpacing);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -79,10 +109,13 @@ internal sealed class MudMathJax : ComponentBase
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderMathOperation(in RenderTreeBuilder builder, in char value)
+	private void RenderMathOperation(in RenderTreeBuilder builder, in char value, in bool prependSpacing = true)
 	{
 		builder.OpenElement(_elementIndex++, "mo");
-		builder.AddAttribute(_elementIndex++, "class", $"mud-markdown-mjx-expression {SpacingClass}");
+
+		if (prependSpacing)
+			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
+
 		builder.AddContent(_elementIndex++, value);
 		builder.CloseComponent();
 	}
