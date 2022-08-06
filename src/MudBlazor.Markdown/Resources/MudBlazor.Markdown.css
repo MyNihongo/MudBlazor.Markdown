@@ -107,7 +107,7 @@ pre code.hljs {
 		font-family: "MathJaxMain";
 	}
 
-	.mud-markdown-mjx-container msup mn {
+	.mud-markdown-mjx-container msup > *:last-child {
         position: relative;
         top: -0.5em;
         font-size: 70.7%;
