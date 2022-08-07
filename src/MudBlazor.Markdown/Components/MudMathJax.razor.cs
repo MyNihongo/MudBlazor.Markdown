@@ -17,37 +17,52 @@ internal sealed class MudMathJax : ComponentBase
 		builder.OpenElement(_elementIndex++, "mjx-container");
 		builder.AddAttribute(_elementIndex++, "tabindex", "0");
 		builder.AddAttribute(_elementIndex++, "class", "mud-markdown-mjx-container");
-		BuildMarkupContent(builder, Value.AsSpan());
+		BuildMarkupContent(builder, Value.AsSpan(), true);
 		builder.CloseComponent();
 	}
 
-	private void BuildMarkupContent(RenderTreeBuilder builder, ReadOnlySpan<char> value)
+	private void BuildMarkupContent(RenderTreeBuilder builder, ReadOnlySpan<char> value, bool withSpacing)
 	{
 		var prependSpacing = false;
 
 		for (var i = 0; i < value.Length; i++)
 		{
-			if (i + 1 < value.Length && value[i + 1] == '^')
+			if (i + 2 < value.Length && value[i + 1] == '^')
 			{
-				i += 2;
-				if (i < value.Length)
+				var firstChar = value[i];
+
+				if (value[i + 2] == '{')
 				{
-					var firstChar = value[i - 2];
-					var lastChar = value[i];
-					RenderPower(builder, firstChar, lastChar);
+					var startIndex = i + 3;
+					var endIndex = value.IndexOf('}', startIndex);
+					if (endIndex != -1)
+					{
+						RenderPower(builder, firstChar, value.Slice(startIndex, endIndex - startIndex));
+						i = endIndex + 1;
+					}
+				}
+				else
+				{
+					// For the power sign and next symbol
+					i += 2;
+					if (i < value.Length)
+					{
+						var lastChar = value[i];
+						RenderPower(builder, firstChar, lastChar);
+					}
 				}
 			}
 			else if (value[i].IsAlpha())
 			{
-				RenderAlpha(builder, value[i], prependSpacing);
+				RenderAlpha(builder, value[i], prependSpacing && withSpacing);
 			}
 			else if (value[i].IsDigit())
 			{
-				RenderDigit(builder, value[i], prependSpacing);
+				RenderDigit(builder, value[i], prependSpacing && withSpacing);
 			}
 			else if (value[i].IsMathOperation(out var hasSpacing))
 			{
-				RenderMathOperation(builder, value[i], hasSpacing);
+				RenderMathOperation(builder, value[i], hasSpacing && withSpacing);
 
 				if (hasSpacing)
 				{
@@ -107,6 +122,19 @@ internal sealed class MudMathJax : ComponentBase
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private void RenderPower(in RenderTreeBuilder builder, in char firstChar, in ReadOnlySpan<char> value)
+	{
+		builder.OpenElement(_elementIndex++, "msup");
+
+		RenderAlphaOrDigit(builder, firstChar);
+		builder.OpenElement(_elementIndex++,  "mrow");
+		BuildMarkupContent(builder, value, false);
+		builder.CloseElement();
+
+		builder.CloseElement();
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private void RenderAlphaOrDigit(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
 	{
 		if (value.IsAlpha())
@@ -153,11 +181,10 @@ internal sealed class MudMathJax : ComponentBase
 
 	private static string GetExpressionString(in ReadOnlySpan<char> value, in int i)
 	{
-		var j = i;
-		for (; j < value.Length; j++)
-			if (value[j] == ' ')
-				break;
+		var j = value.IndexOf(' ', i);
 
-		return value.Slice(i, j - i).ToString();
+		return j != -1
+			? value.Slice(i, j - i).ToString()
+			: string.Empty;
 	}
 }
