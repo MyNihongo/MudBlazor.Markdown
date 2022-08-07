@@ -66,6 +66,18 @@ internal sealed class MudMathJax : ComponentBase
 							prependSpacing = true;
 							break;
 						}
+					case "le":
+						{
+							RenderMathOperation(builder, '≤');
+							prependSpacing = true;
+							break;
+						}
+					case "ge":
+					{
+						RenderMathOperation(builder, '≥');
+						prependSpacing = true;
+						break;
+					}
 					default:
 						continue;
 				}
