@@ -29,28 +29,11 @@ internal sealed class MudMathJax : ComponentBase
 		{
 			if (i + 2 < value.Length && value[i + 1] == '^')
 			{
-				var firstChar = value[i];
-
-				if (value[i + 2] == '{')
-				{
-					var startIndex = i + 3;
-					var endIndex = value.IndexOf('}', startIndex);
-					if (endIndex != -1)
-					{
-						RenderPower(builder, firstChar, value.Slice(startIndex, endIndex - startIndex));
-						i = endIndex + 1;
-					}
-				}
-				else
-				{
-					// For the power sign and next symbol
-					i += 2;
-					if (i < value.Length)
-					{
-						var lastChar = value[i];
-						RenderPower(builder, firstChar, lastChar);
-					}
-				}
+				RenderCharOrBlock(builder, "msup", value, ref i);
+			}
+			else if (i + 2 < value.Length && value[i + 1] == '_')
+			{
+				RenderCharOrBlock(builder, "msub", value, ref i);
 			}
 			else if (value[i].IsAlpha())
 			{
@@ -110,10 +93,35 @@ internal sealed class MudMathJax : ComponentBase
 		}
 	}
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderPower(in RenderTreeBuilder builder, in char firstChar, in char lastChar)
+	private void RenderCharOrBlock(in RenderTreeBuilder builder, in string elementName, in ReadOnlySpan<char> value, ref int i)
 	{
-		builder.OpenElement(_elementIndex++, "msup");
+		var firstChar = value[i];
+
+		if (value[i + 2] == '{')
+		{
+			var startIndex = i + 3;
+			var endIndex = value.IndexOf('}', startIndex);
+			if (endIndex != -1)
+			{
+				RenderRow(builder, elementName, firstChar, value.Slice(startIndex, endIndex - startIndex));
+				i = endIndex + 1;
+			}
+		}
+		else
+		{
+			// For the power sign and next symbol
+			i += 2;
+			if (i < value.Length)
+			{
+				var lastChar = value[i];
+				RenderRow(builder, elementName, firstChar, lastChar);
+			}
+		}
+	}
+
+	private void RenderRow(in RenderTreeBuilder builder, in string elementName, in char firstChar, in char lastChar)
+	{
+		builder.OpenElement(_elementIndex++, elementName);
 
 		RenderAlphaOrDigit(builder, firstChar);
 		RenderAlphaOrDigit(builder, lastChar);
@@ -121,13 +129,12 @@ internal sealed class MudMathJax : ComponentBase
 		builder.CloseElement();
 	}
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderPower(in RenderTreeBuilder builder, in char firstChar, in ReadOnlySpan<char> value)
+	private void RenderRow(RenderTreeBuilder builder, in string elementName, char firstChar, in ReadOnlySpan<char> value)
 	{
-		builder.OpenElement(_elementIndex++, "msup");
+		builder.OpenElement(_elementIndex++, elementName);
 
 		RenderAlphaOrDigit(builder, firstChar);
-		builder.OpenElement(_elementIndex++,  "mrow");
+		builder.OpenElement(_elementIndex++, "mrow");
 		BuildMarkupContent(builder, value, false);
 		builder.CloseElement();
 

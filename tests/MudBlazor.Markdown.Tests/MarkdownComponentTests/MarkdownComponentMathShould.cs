@@ -131,4 +131,48 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void RenderSubscriptChar()
+	{
+		const string value = "$x_n$";
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<msub>
+				<mi>x</mi>
+				<mi>n</mi>
+			</msub>
+		</mjx-container>
+	</p>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderSubscriptBlock()
+	{
+		const string value = "$x_{n + 1}$";
+		const string expected = 
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<msub>
+				<mi>x</mi>
+				<mrow>
+					<mi>n</mi>
+					<mo>&#x2B;</mo>
+					<mn>1</mn>
+				</mrow>
+			</msub>
+		</mjx-container>
+	</p>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
 }

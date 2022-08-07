@@ -112,3 +112,9 @@ pre code.hljs {
         top: -0.5em;
         font-size: 70.7%;
 	}
+
+    .mud-markdown-mjx-container msub > *:last-child {
+        position: relative;
+        bottom: -0.25em;
+        font-size: 70.7%;
+    }
