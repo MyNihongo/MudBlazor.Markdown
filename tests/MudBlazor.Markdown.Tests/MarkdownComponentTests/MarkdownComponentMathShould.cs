@@ -50,4 +50,23 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void RenderNotEquals()
+	{
+		const string value = "$x \\ne y$";
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mi>x</mi>
+			<mo class='pl-2'>&#x2260;</mo>
+			<mi class='pl-2'>y</mi>
+		</mjx-container>
+	</p>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
 }

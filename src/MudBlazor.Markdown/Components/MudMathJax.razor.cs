@@ -55,6 +55,25 @@ internal sealed class MudMathJax : ComponentBase
 					continue;
 				}
 			}
+			else if (value[i] == '\\')
+			{
+				var expressionString = GetExpressionString(value, i + 1);
+				switch (expressionString)
+				{
+					case "ne":
+						{
+							RenderMathOperation(builder, '≠');
+							prependSpacing = true;
+							break;
+						}
+					default:
+						continue;
+				}
+
+				// +1 for the space
+				i += expressionString.Length + 1;
+				continue;
+			}
 			else
 			{
 				continue;
@@ -118,5 +137,15 @@ internal sealed class MudMathJax : ComponentBase
 
 		builder.AddContent(_elementIndex++, value);
 		builder.CloseComponent();
+	}
+
+	private static string GetExpressionString(in ReadOnlySpan<char> value, in int i)
+	{
+		var j = i;
+		for (; j < value.Length; j++)
+			if (value[j] == ' ')
+				break;
+
+		return value.Slice(i, j - i).ToString();
 	}
 }
