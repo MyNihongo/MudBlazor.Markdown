@@ -175,4 +175,25 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void RenderOverlineBlock()
+	{
+		const string value = "$\\overline{x + 1}$";
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mover>
+				<mi>x</mi>
+				<mo class='pl-2'>&#x2B;</mo>
+				<mn class='pl-2'>1</mn>
+			</mover>
+		</mjx-container>
+	</p>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
 }

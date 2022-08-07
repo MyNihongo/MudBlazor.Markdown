@@ -2,13 +2,18 @@
 
 internal static class CharEx
 {
-	public static bool IsMathOperation(this char @this, out bool hasSpacing)
+	public static bool IsMathOperation(this char @this, out bool hasSpacing, out char? customChar)
 	{
 		hasSpacing = false;
+		customChar = null;
 
 		switch (@this)
 		{
-			case '=' or '>' or '<' or '-' or '+':
+			case '-':
+				customChar = '−';
+				hasSpacing = true;
+				return true;
+			case '=' or '>' or '<' or '+':
 				hasSpacing = true;
 				return true;
 			case '(' or ')':

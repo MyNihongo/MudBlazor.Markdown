@@ -43,9 +43,9 @@ internal sealed class MudMathJax : ComponentBase
 			{
 				RenderDigit(builder, value[i], prependSpacing && withSpacing);
 			}
-			else if (value[i].IsMathOperation(out var hasSpacing))
+			else if (value[i].IsMathOperation(out var hasSpacing, out var customChar))
 			{
-				RenderMathOperation(builder, value[i], hasSpacing && withSpacing);
+				RenderMathOperation(builder, customChar ?? value[i], hasSpacing && withSpacing);
 
 				if (hasSpacing)
 				{
@@ -56,6 +56,8 @@ internal sealed class MudMathJax : ComponentBase
 			else if (value[i] == '\\')
 			{
 				var expressionString = GetExpressionString(value, i + 1);
+				i += expressionString.Length + 1;
+
 				switch (expressionString)
 				{
 					case "ne":
@@ -76,12 +78,13 @@ internal sealed class MudMathJax : ComponentBase
 						prependSpacing = true;
 						break;
 					}
-					default:
+					case "overline":
+					{
+						TryRenderBlock(builder, "mover", value, ref i, true);
 						continue;
+					}
 				}
 
-				// +1 for the space
-				i += expressionString.Length + 1;
 				continue;
 			}
 			else
@@ -103,7 +106,16 @@ internal sealed class MudMathJax : ComponentBase
 			var endIndex = value.IndexOf('}', startIndex);
 			if (endIndex != -1)
 			{
-				RenderRow(builder, elementName, firstChar, value.Slice(startIndex, endIndex - startIndex));
+				builder.OpenElement(_elementIndex++, elementName);
+
+				RenderAlphaOrDigit(builder, firstChar);
+
+				builder.OpenElement(_elementIndex++, "mrow");
+				BuildMarkupContent(builder, value.Slice(startIndex, endIndex - startIndex), false);
+				builder.CloseElement();
+
+				builder.CloseElement();
+
 				i = endIndex + 1;
 			}
 		}
@@ -114,31 +126,31 @@ internal sealed class MudMathJax : ComponentBase
 			if (i < value.Length)
 			{
 				var lastChar = value[i];
-				RenderRow(builder, elementName, firstChar, lastChar);
+				builder.OpenElement(_elementIndex++, elementName);
+
+				RenderAlphaOrDigit(builder, firstChar);
+				RenderAlphaOrDigit(builder, lastChar);
+
+				builder.CloseElement();
 			}
 		}
 	}
 
-	private void RenderRow(in RenderTreeBuilder builder, in string elementName, in char firstChar, in char lastChar)
+	private void TryRenderBlock(in RenderTreeBuilder builder, in string elementName, in ReadOnlySpan<char> value, ref int i, in bool withSpacing = false)
 	{
-		builder.OpenElement(_elementIndex++, elementName);
+		if (value[i] != '{')
+			return;
 
-		RenderAlphaOrDigit(builder, firstChar);
-		RenderAlphaOrDigit(builder, lastChar);
+		var startIndex = i + 1;
+		var endIndex = value.IndexOf('}', startIndex);
+		if (endIndex != -1)
+		{
+			builder.OpenElement(_elementIndex++, elementName);
+			BuildMarkupContent(builder, value.Slice(startIndex, endIndex - startIndex), withSpacing);
+			builder.CloseElement();
 
-		builder.CloseElement();
-	}
-
-	private void RenderRow(RenderTreeBuilder builder, in string elementName, char firstChar, in ReadOnlySpan<char> value)
-	{
-		builder.OpenElement(_elementIndex++, elementName);
-
-		RenderAlphaOrDigit(builder, firstChar);
-		builder.OpenElement(_elementIndex++, "mrow");
-		BuildMarkupContent(builder, value, false);
-		builder.CloseElement();
-
-		builder.CloseElement();
+			i = endIndex + 1;
+		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -188,10 +200,11 @@ internal sealed class MudMathJax : ComponentBase
 
 	private static string GetExpressionString(in ReadOnlySpan<char> value, in int i)
 	{
-		var j = value.IndexOf(' ', i);
+		var j = i;
+		for (; j < value.Length; j++)
+			if (!value[j].IsAlpha())
+				break;
 
-		return j != -1
-			? value.Slice(i, j - i).ToString()
-			: string.Empty;
+		return value.Slice(i, j - i).ToString();
 	}
 }

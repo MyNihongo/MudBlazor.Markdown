@@ -118,3 +118,8 @@ pre code.hljs {
         bottom: -0.25em;
         font-size: 70.7%;
     }
+
+    .mud-markdown-mjx-container mover {
+        padding-top: 14px;
+        border-top: 0.25px solid;
+    }
