@@ -55,6 +55,33 @@ internal sealed class MudMathJax : ComponentBase
 				BuildElement(builder, OperationElement, customChar ?? value[i], prependSpacing);
 				continue;
 			}
+			else if (value[i] == '\\')
+			{
+				var expressionString = GetExpressionString(value, i + 1);
+				i += expressionString.Length + 1;
+
+				switch (expressionString)
+				{
+					case "ne":
+						{
+							BuildElement(builder, OperationElement, '≠');
+							prependSpacing = true;
+							continue;
+						}
+					case "le":
+						{
+							BuildElement(builder, OperationElement, '≤');
+							prependSpacing = true;
+							continue;
+						}
+					case "ge":
+						{
+							BuildElement(builder, OperationElement, '≥');
+							prependSpacing = true;
+							continue;
+						}
+				}
+			}
 			else
 			{
 				continue;
@@ -122,5 +149,15 @@ internal sealed class MudMathJax : ComponentBase
 
 		builder.AddContent(_elementIndex++, @char);
 		builder.CloseElement();
+	}
+
+	private static string GetExpressionString(in ReadOnlySpan<char> value, in int i)
+	{
+		var j = i;
+		for (; j < value.Length; j++)
+			if (!value[j].IsAlpha())
+				break;
+
+		return value.Slice(i, j - i).ToString();
 	}
 }
