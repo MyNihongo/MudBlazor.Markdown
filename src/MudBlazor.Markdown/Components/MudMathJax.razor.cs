@@ -2,7 +2,8 @@
 
 internal sealed class MudMathJax : ComponentBase
 {
-	private const string SpacingClass = "pl-2";
+	private const string SpacingClass = "pl-2",
+		DigitElement = "mn", AlphaElement = "mi", OperationElement = "mo";
 	private const char BlockStartChar = '{', BlockEndChar = '}';
 	private int _elementIndex;
 
@@ -31,22 +32,27 @@ internal sealed class MudMathJax : ComponentBase
 			if (i + 1 < value.Length && value[i + 1] == '^')
 			{
 				var powValue = value[(i + 2)..];
-				i += BuildPower(builder, value[i], powValue, prependSpacing) + 1;
+				i += BuildElementRow(builder, "msup", value[i], powValue, prependSpacing) + 1;
+			}
+			else if (i + 1 < value.Length && value[i + 1] == '_')
+			{
+				var powValue = value[(i + 2)..];
+				i += BuildElementRow(builder, "msub", value[i], powValue, prependSpacing) + 1;
 			}
 			else if (value[i].IsDigit())
 			{
-				BuildDigit(builder, value[i], prependSpacing);
+				BuildElement(builder, DigitElement, value[i], prependSpacing);
 			}
 			else if (value[i].IsAlpha())
 			{
-				BuildAlpha(builder, value[i], prependSpacing);
+				BuildElement(builder, AlphaElement, value[i], prependSpacing);
 			}
 			else if (value[i].IsMathOperation(out var hasSpacing, out var customChar))
 			{
 				if (hasSpacing)
 					prependSpacing = applySpacing;
 
-				BuildOperation(builder, customChar ?? value[i], prependSpacing);
+				BuildElement(builder, OperationElement, customChar ?? value[i], prependSpacing);
 				continue;
 			}
 			else
@@ -58,9 +64,9 @@ internal sealed class MudMathJax : ComponentBase
 		}
 	}
 
-	private int BuildPower(in RenderTreeBuilder builder, in char firstChar, in ReadOnlySpan<char> value, bool prependSpacing = false)
+	private int BuildElementRow(in RenderTreeBuilder builder, in string elementName, in char firstChar, in ReadOnlySpan<char> value, bool prependSpacing = false)
 	{
-		builder.OpenElement(_elementIndex++, "msup");
+		builder.OpenElement(_elementIndex++, elementName);
 		BuildSymbol(builder, firstChar, prependSpacing);
 
 		var blockLength = 0;
@@ -95,43 +101,21 @@ internal sealed class MudMathJax : ComponentBase
 	{
 		if (@char.IsDigit())
 		{
-			BuildDigit(builder, @char, prependSpacing);
+			BuildElement(builder, DigitElement, @char, prependSpacing);
 		}
 		else if (@char.IsAlpha())
 		{
-			BuildAlpha(builder, @char, prependSpacing);
+			BuildElement(builder, AlphaElement, @char, prependSpacing);
 		}
 		else if (@char.IsMathOperation(out _, out var customChar))
 		{
-			BuildOperation(builder, customChar ?? @char, prependSpacing);
+			BuildElement(builder, OperationElement, customChar ?? @char, prependSpacing);
 		}
 	}
 
-	private void BuildDigit(in RenderTreeBuilder builder, in char @char, bool prependSpacing = false)
+	private void BuildElement(in RenderTreeBuilder builder, in string elementName, in char @char, bool prependSpacing = true)
 	{
-		builder.OpenElement(_elementIndex++, "mn");
-
-		if (prependSpacing)
-			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
-
-		builder.AddContent(_elementIndex++, @char);
-		builder.CloseElement();
-	}
-
-	private void BuildAlpha(in RenderTreeBuilder builder, in char @char, bool prependSpacing = false)
-	{
-		builder.OpenElement(_elementIndex++, "mi");
-
-		if (prependSpacing)
-			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
-
-		builder.AddContent(_elementIndex++, @char);
-		builder.CloseElement();
-	}
-
-	private void BuildOperation(in RenderTreeBuilder builder, in char @char, bool prependSpacing = true)
-	{
-		builder.OpenElement(_elementIndex++, "mo");
+		builder.OpenElement(_elementIndex++, elementName);
 
 		if (prependSpacing)
 			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
