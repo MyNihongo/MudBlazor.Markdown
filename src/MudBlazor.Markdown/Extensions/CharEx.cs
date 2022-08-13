@@ -13,7 +13,7 @@ internal static class CharEx
 				customChar = '−';
 				hasSpacing = true;
 				return true;
-			case '=' or '>' or '<' or '+':
+			case '=' or '>' or '<' or '+' or '−':
 				hasSpacing = true;
 				return true;
 			case '(' or ')':

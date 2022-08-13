@@ -1,10 +1,9 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 internal sealed class MudMathJax : ComponentBase
 {
 	private const string SpacingClass = "pl-2";
+	private const char BlockStartChar = '{', BlockEndChar = '}';
 	private int _elementIndex;
 
 	[Parameter]
@@ -17,194 +16,103 @@ internal sealed class MudMathJax : ComponentBase
 		builder.OpenElement(_elementIndex++, "mjx-container");
 		builder.AddAttribute(_elementIndex++, "tabindex", "0");
 		builder.AddAttribute(_elementIndex++, "class", "mud-markdown-mjx-container");
-		BuildMarkupContent(builder, Value.AsSpan(), true);
+
+		BuildBlock(builder, Value.AsSpan());
+
 		builder.CloseComponent();
 	}
 
-	private void BuildMarkupContent(RenderTreeBuilder builder, ReadOnlySpan<char> value, bool withSpacing)
+	private void BuildBlock(in RenderTreeBuilder builder, in ReadOnlySpan<char> value)
 	{
-		var prependSpacing = false;
-
 		for (var i = 0; i < value.Length; i++)
 		{
-			if (i + 2 < value.Length && value[i + 1] == '^')
+			if (i + 1 < value.Length && value[i + 1] == '^')
 			{
-				RenderCharOrBlock(builder, "msup", value, ref i);
-			}
-			else if (i + 2 < value.Length && value[i + 1] == '_')
-			{
-				RenderCharOrBlock(builder, "msub", value, ref i);
-			}
-			else if (value[i].IsAlpha())
-			{
-				RenderAlpha(builder, value[i], prependSpacing && withSpacing);
+				var powValue = value[(i + 2)..];
+				i += BuildPower(builder, value[i], powValue) + 1;
 			}
 			else if (value[i].IsDigit())
 			{
-				RenderDigit(builder, value[i], prependSpacing && withSpacing);
+				BuildDigit(builder, value[i]);
 			}
-			else if (value[i].IsMathOperation(out var hasSpacing, out var customChar))
+			else if (value[i].IsAlpha())
 			{
-				RenderMathOperation(builder, customChar ?? value[i], hasSpacing && withSpacing);
-
-				if (hasSpacing)
-				{
-					prependSpacing = true;
-					continue;
-				}
+				BuildAlpha(builder, value[i]);
 			}
-			else if (value[i] == '\\')
+			else if (value[i].IsMathOperation(out _, out var customChar))
 			{
-				var expressionString = GetExpressionString(value, i + 1);
-				i += expressionString.Length + 1;
+				BuildOperation(builder, customChar ?? value[i]);
+			}
+		}
+	}
 
-				switch (expressionString)
+	private int BuildPower(in RenderTreeBuilder builder, in char firstChar, in ReadOnlySpan<char> value)
+	{
+		builder.OpenElement(_elementIndex++, "msup");
+		BuildMathSymbol(builder, firstChar);
+
+		var blockLength = 0;
+		if (!value.IsEmpty)
+		{
+			if (value[0] == BlockStartChar)
+			{
+				var endIndex = value.IndexOf(BlockEndChar);
+				if (endIndex != -1)
 				{
-					case "ne":
-						{
-							RenderMathOperation(builder, '≠');
-							prependSpacing = true;
-							break;
-						}
-					case "le":
-						{
-							RenderMathOperation(builder, '≤');
-							prependSpacing = true;
-							break;
-						}
-					case "ge":
-					{
-						RenderMathOperation(builder, '≥');
-						prependSpacing = true;
-						break;
-					}
-					case "overline":
-					{
-						TryRenderBlock(builder, "mover", value, ref i, true);
-						continue;
-					}
-				}
+					var blockValue = value[1..endIndex];
 
-				continue;
+					builder.OpenElement(_elementIndex, "mrow");
+					BuildBlock(builder, blockValue);
+					builder.CloseElement();
+
+					blockLength = endIndex + 1;
+				}
 			}
 			else
 			{
-				continue;
-			}
-
-			prependSpacing = false;
-		}
-	}
-
-	private void RenderCharOrBlock(in RenderTreeBuilder builder, in string elementName, in ReadOnlySpan<char> value, ref int i)
-	{
-		var firstChar = value[i];
-
-		if (value[i + 2] == '{')
-		{
-			var startIndex = i + 3;
-			var endIndex = value.IndexOf('}', startIndex);
-			if (endIndex != -1)
-			{
-				builder.OpenElement(_elementIndex++, elementName);
-
-				RenderAlphaOrDigit(builder, firstChar);
-
-				builder.OpenElement(_elementIndex++, "mrow");
-				BuildMarkupContent(builder, value.Slice(startIndex, endIndex - startIndex), false);
-				builder.CloseElement();
-
-				builder.CloseElement();
-
-				i = endIndex + 1;
+				BuildMathSymbol(builder, value[0]);
+				blockLength = 1;
 			}
 		}
-		else
+
+		builder.CloseElement();
+		return blockLength;
+	}
+
+	private void BuildMathSymbol(in RenderTreeBuilder builder, in char @char)
+	{
+		if (@char.IsDigit())
 		{
-			// For the power sign and next symbol
-			i += 2;
-			if (i < value.Length)
-			{
-				var lastChar = value[i];
-				builder.OpenElement(_elementIndex++, elementName);
-
-				RenderAlphaOrDigit(builder, firstChar);
-				RenderAlphaOrDigit(builder, lastChar);
-
-				builder.CloseElement();
-			}
+			BuildDigit(builder, @char);
+		}
+		else if (@char.IsAlpha())
+		{
+			BuildAlpha(builder, @char);
+		}
+		else if (@char.IsMathOperation(out _, out var customChar))
+		{
+			BuildOperation(builder, customChar ?? @char);
 		}
 	}
 
-	private void TryRenderBlock(in RenderTreeBuilder builder, in string elementName, in ReadOnlySpan<char> value, ref int i, in bool withSpacing = false)
-	{
-		if (value[i] != '{')
-			return;
-
-		var startIndex = i + 1;
-		var endIndex = value.IndexOf('}', startIndex);
-		if (endIndex != -1)
-		{
-			builder.OpenElement(_elementIndex++, elementName);
-			BuildMarkupContent(builder, value.Slice(startIndex, endIndex - startIndex), withSpacing);
-			builder.CloseElement();
-
-			i = endIndex + 1;
-		}
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderAlphaOrDigit(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
-	{
-		if (value.IsAlpha())
-			RenderAlpha(builder, value, prependSpacing);
-		else if (value.IsDigit())
-			RenderDigit(builder, value, prependSpacing);
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderAlpha(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
-	{
-		builder.OpenElement(_elementIndex++, "mi");
-
-		if (prependSpacing)
-			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
-
-		builder.AddContent(_elementIndex++, value);
-		builder.CloseComponent();
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderDigit(in RenderTreeBuilder builder, in char value, in bool prependSpacing = false)
+	private void BuildDigit(in RenderTreeBuilder builder, in char @char)
 	{
 		builder.OpenElement(_elementIndex++, "mn");
-
-		if (prependSpacing)
-			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
-
-		builder.AddContent(_elementIndex++, value);
-		builder.CloseComponent();
+		builder.AddContent(_elementIndex++, @char);
+		builder.CloseElement();
 	}
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void RenderMathOperation(in RenderTreeBuilder builder, in char value, in bool prependSpacing = true)
+	private void BuildAlpha(in RenderTreeBuilder builder, in char @char)
+	{
+		builder.OpenElement(_elementIndex++, "mi");
+		builder.AddContent(_elementIndex++, @char);
+		builder.CloseElement();
+	}
+
+	private void BuildOperation(in RenderTreeBuilder builder, in char @char)
 	{
 		builder.OpenElement(_elementIndex++, "mo");
-
-		if (prependSpacing)
-			builder.AddAttribute(_elementIndex++, "class", SpacingClass);
-
-		builder.AddContent(_elementIndex++, value);
-		builder.CloseComponent();
-	}
-
-	private static string GetExpressionString(in ReadOnlySpan<char> value, in int i)
-	{
-		var j = i;
-		for (; j < value.Length; j++)
-			if (!value[j].IsAlpha())
-				break;
-
-		return value.Slice(i, j - i).ToString();
+		builder.AddContent(_elementIndex++, @char);
+		builder.CloseElement();
 	}
 }

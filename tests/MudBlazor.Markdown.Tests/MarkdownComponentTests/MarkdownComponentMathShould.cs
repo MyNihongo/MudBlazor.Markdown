@@ -3,46 +3,17 @@
 public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 {
 	[Fact]
-	public void RenderEquals()
+	public void RenderPowerDigit()
 	{
-		const string value = "$x = y$";
+		const string value = "$x^2$";
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<mi>x</mi>
-			<mo class='pl-2'>=</mo>
-			<mi class='pl-2'>y</mi>
-		</mjx-container>
-	</p>
-</article>";
-
-		using var fixture = CreateFixture(value);
-		fixture.MarkupMatches(expected);
-	}
-
-	[Fact]
-	public void RenderSquireExpression()
-	{
-		const string value = "$(ax^2 + bx + c = 0)$";
-		const string expected =
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1'>
-		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<mo>(</mo>
-			<mi>a</mi>
 			<msup>
 				<mi>x</mi>
 				<mn>2</mn>
 			</msup>
-			<mo class='pl-2'>&#x2B;</mo>
-			<mi class='pl-2'>b</mi>
-			<mi>x</mi>
-			<mo class='pl-2'>&#x2B;</mo>
-			<mi class='pl-2'>c</mi>
-			<mo class='pl-2'>=</mo>
-			<mn class='pl-2'>0</mn>
-			<mo>)</mo>
 		</mjx-container>
 	</p>
 </article>";
@@ -52,16 +23,17 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderNotEquals()
+	public void RenderPowerAlpha()
 	{
-		const string value = "$x \\ne y$";
+		const string value = "$x^y$";
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<mi>x</mi>
-			<mo class='pl-2'>&#x2260;</mo>
-			<mi class='pl-2'>y</mi>
+			<msup>
+				<mi>x</mi>
+				<mi>y</mi>
+			</msup>
 		</mjx-container>
 	</p>
 </article>";
@@ -71,45 +43,7 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderLessThan()
-	{
-		const string value = "$x \\le y$";
-		const string expected =
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1'>
-		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<mi>x</mi>
-			<mo class='pl-2'>&#x2264;</mo>
-			<mi class='pl-2'>y</mi>
-		</mjx-container>
-	</p>
-</article>";
-
-		using var fixture = CreateFixture(value);
-		fixture.MarkupMatches(expected);
-	}
-
-	[Fact]
-	public void RenderGreaterThan()
-	{
-		const string value = "$x \\ge y$";
-		const string expected =
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1'>
-		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<mi>x</mi>
-			<mo class='pl-2'>&#x2265;</mo>
-			<mi class='pl-2'>y</mi>
-		</mjx-container>
-	</p>
-</article>";
-
-		using var fixture = CreateFixture(value);
-		fixture.MarkupMatches(expected);
-	}
-
-	[Fact]
-	public void RenderPowerContainer()
+	public void RenderPowerRow()
 	{
 		const string value = "$x^{n + 1}$";
 		const string expected =
@@ -133,41 +67,25 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderSubscriptChar()
+	public void RenderPowerParentheses()
 	{
-		const string value = "$x_n$";
+		const string value = "$(x + 1)^{n + 1}$";
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<msub>
-				<mi>x</mi>
-				<mi>n</mi>
-			</msub>
-		</mjx-container>
-	</p>
-</article>";
-
-		using var fixture = CreateFixture(value);
-		fixture.MarkupMatches(expected);
-	}
-
-	[Fact]
-	public void RenderSubscriptBlock()
-	{
-		const string value = "$x_{n + 1}$";
-		const string expected = 
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1'>
-		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<msub>
-				<mi>x</mi>
+			<mo>(</mo>
+			<mi>x</mi>
+			<mo>&#x2B;</mo>
+			<mn>1</mn>
+			<msup>
+				<mo>)</mo>
 				<mrow>
 					<mi>n</mi>
 					<mo>&#x2B;</mo>
 					<mn>1</mn>
 				</mrow>
-			</msub>
+			</msup>
 		</mjx-container>
 	</p>
 </article>";
@@ -176,24 +94,176 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		fixture.MarkupMatches(expected);
 	}
 
-	[Fact]
-	public void RenderOverlineBlock()
-	{
-		const string value = "$\\overline{x + 1}$";
-		const string expected =
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1'>
-		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-			<mover>
-				<mi>x</mi>
-				<mo class='pl-2'>&#x2B;</mo>
-				<mn class='pl-2'>1</mn>
-			</mover>
-		</mjx-container>
-	</p>
-</article>";
+	//	[Fact]
+	//	public void RenderEquals()
+	//	{
+	//		const string value = "$x = y$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<mi>x</mi>
+	//			<mo class='pl-2'>=</mo>
+	//			<mi class='pl-2'>y</mi>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
 
-		using var fixture = CreateFixture(value);
-		fixture.MarkupMatches(expected);
-	}
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+	//	[Fact]
+	//	public void RenderSquireExpression()
+	//	{
+	//		const string value = "$(ax^2 + bx + c = 0)$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<mo>(</mo>
+	//			<mi>a</mi>
+	//			<msup>
+	//				<mi>x</mi>
+	//				<mn>2</mn>
+	//			</msup>
+	//			<mo class='pl-2'>&#x2B;</mo>
+	//			<mi class='pl-2'>b</mi>
+	//			<mi>x</mi>
+	//			<mo class='pl-2'>&#x2B;</mo>
+	//			<mi class='pl-2'>c</mi>
+	//			<mo class='pl-2'>=</mo>
+	//			<mn class='pl-2'>0</mn>
+	//			<mo>)</mo>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+	//	[Fact]
+	//	public void RenderNotEquals()
+	//	{
+	//		const string value = "$x \\ne y$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<mi>x</mi>
+	//			<mo class='pl-2'>&#x2260;</mo>
+	//			<mi class='pl-2'>y</mi>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+	//	[Fact]
+	//	public void RenderLessThan()
+	//	{
+	//		const string value = "$x \\le y$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<mi>x</mi>
+	//			<mo class='pl-2'>&#x2264;</mo>
+	//			<mi class='pl-2'>y</mi>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+	//	[Fact]
+	//	public void RenderGreaterThan()
+	//	{
+	//		const string value = "$x \\ge y$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<mi>x</mi>
+	//			<mo class='pl-2'>&#x2265;</mo>
+	//			<mi class='pl-2'>y</mi>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+
+
+	//	[Fact]
+	//	public void RenderSubscriptChar()
+	//	{
+	//		const string value = "$x_n$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<msub>
+	//				<mi>x</mi>
+	//				<mi>n</mi>
+	//			</msub>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+	//	[Fact]
+	//	public void RenderSubscriptBlock()
+	//	{
+	//		const string value = "$x_{n + 1}$";
+	//		const string expected = 
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<msub>
+	//				<mi>x</mi>
+	//				<mrow>
+	//					<mi>n</mi>
+	//					<mo>&#x2B;</mo>
+	//					<mn>1</mn>
+	//				</mrow>
+	//			</msub>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//	}
+
+	//	[Fact]
+	//	public void RenderOverlineBlock()
+	//	{
+	//		const string value = "$\\overline{x + 1}$";
+	//		const string expected =
+	//@"<article class='mud-markdown-body'>
+	//	<p class='mud-typography mud-typography-body1'>
+	//		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+	//			<mover>
+	//				<mi>x</mi>
+	//				<mo class='pl-2'>&#x2B;</mo>
+	//				<mn class='pl-2'>1</mn>
+	//			</mover>
+	//		</mjx-container>
+	//	</p>
+	//</article>";
+
+	//		using var fixture = CreateFixture(value);
+	//		fixture.MarkupMatches(expected);
+	//}
 }
