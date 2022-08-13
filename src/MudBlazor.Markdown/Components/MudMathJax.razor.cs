@@ -80,6 +80,13 @@ internal sealed class MudMathJax : ComponentBase
 							prependSpacing = true;
 							continue;
 						}
+					case "overline":
+						{
+							var overlineValue = value[i..];
+							i += BuildElementRow(builder, "mover", '\r', overlineValue, prependSpacing, true) + 1;
+							break;
+						}
+
 				}
 			}
 			else
@@ -91,7 +98,7 @@ internal sealed class MudMathJax : ComponentBase
 		}
 	}
 
-	private int BuildElementRow(in RenderTreeBuilder builder, in string elementName, in char firstChar, in ReadOnlySpan<char> value, bool prependSpacing = false)
+	private int BuildElementRow(in RenderTreeBuilder builder, in string elementName, in char firstChar, in ReadOnlySpan<char> value, bool prependSpacing = false, bool applySpacing = false)
 	{
 		builder.OpenElement(_elementIndex++, elementName);
 		BuildSymbol(builder, firstChar, prependSpacing);
@@ -107,7 +114,7 @@ internal sealed class MudMathJax : ComponentBase
 					var blockValue = value[1..endIndex];
 
 					builder.OpenElement(_elementIndex, "mrow");
-					BuildBlock(builder, blockValue);
+					BuildBlock(builder, blockValue, applySpacing);
 					builder.CloseElement();
 
 					blockLength = endIndex + 1;
