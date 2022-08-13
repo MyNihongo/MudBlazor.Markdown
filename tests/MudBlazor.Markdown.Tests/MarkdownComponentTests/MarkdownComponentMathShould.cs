@@ -251,25 +251,25 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		const string value = "$(ax_2 + bx + c = 0)$";
 		const string expected =
 @"<article class='mud-markdown-body'>
-		<p class='mud-typography mud-typography-body1'>
-			<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-				<mo>(</mo>
-				<mi>a</mi>
-				<msub>
-					<mi>x</mi>
-					<mn>2</mn>
-				</msub>
-				<mo class='pl-2'>&#x2B;</mo>
-				<mi class='pl-2'>b</mi>
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mo>(</mo>
+			<mi>a</mi>
+			<msub>
 				<mi>x</mi>
-				<mo class='pl-2'>&#x2B;</mo>
-				<mi class='pl-2'>c</mi>
-				<mo class='pl-2'>=</mo>
-				<mn class='pl-2'>0</mn>
-				<mo>)</mo>
-			</mjx-container>
-		</p>
-	</article>";
+				<mn>2</mn>
+			</msub>
+			<mo class='pl-2'>&#x2B;</mo>
+			<mi class='pl-2'>b</mi>
+			<mi>x</mi>
+			<mo class='pl-2'>&#x2B;</mo>
+			<mi class='pl-2'>c</mi>
+			<mo class='pl-2'>=</mo>
+			<mn class='pl-2'>0</mn>
+			<mo>)</mo>
+		</mjx-container>
+	</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -281,24 +281,24 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		const string value = "$x_y - y_x = 123$";
 		const string expected =
 @"<article class='mud-markdown-body'>
-		<p class='mud-typography mud-typography-body1'>
-			<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-				<msub>
-					<mi>x</mi>
-					<mi>y</mi>
-				</msub>
-				<mo class=""pl-2"">&#x2212;</mo>
-				<msub>
-					<mi class=""pl-2"">y</mi>
-					<mi>x</mi>
-				</msub>
-				<mo class=""pl-2"">=</mo>
-				<mn class=""pl-2"">1</mn>
-				<mn>2</mn>
-				<mn>3</mn>
-			</mjx-container>
-		</p>
-	</article>";
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<msub>
+				<mi>x</mi>
+				<mi>y</mi>
+			</msub>
+			<mo class=""pl-2"">&#x2212;</mo>
+			<msub>
+				<mi class=""pl-2"">y</mi>
+				<mi>x</mi>
+			</msub>
+			<mo class=""pl-2"">=</mo>
+			<mn class=""pl-2"">1</mn>
+			<mn>2</mn>
+			<mn>3</mn>
+		</mjx-container>
+	</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -310,14 +310,14 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		const string value = "$x \\ne y$";
 		const string expected =
 @"<article class='mud-markdown-body'>
-		<p class='mud-typography mud-typography-body1'>
-			<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-				<mi>x</mi>
-				<mo class='pl-2'>&#x2260;</mo>
-				<mi class='pl-2'>y</mi>
-			</mjx-container>
-		</p>
-	</article>";
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mi>x</mi>
+			<mo class='pl-2'>&#x2260;</mo>
+			<mi class='pl-2'>y</mi>
+		</mjx-container>
+	</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -329,14 +329,14 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		const string value = "$x \\le y$";
 		const string expected =
 @"<article class='mud-markdown-body'>
-		<p class='mud-typography mud-typography-body1'>
-			<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-				<mi>x</mi>
-				<mo class='pl-2'>&#x2264;</mo>
-				<mi class='pl-2'>y</mi>
-			</mjx-container>
-		</p>
-	</article>";
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mi>x</mi>
+			<mo class='pl-2'>&#x2264;</mo>
+			<mi class='pl-2'>y</mi>
+		</mjx-container>
+	</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -348,14 +348,14 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		const string value = "$x \\ge y$";
 		const string expected =
 @"<article class='mud-markdown-body'>
-		<p class='mud-typography mud-typography-body1'>
-			<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-				<mi>x</mi>
-				<mo class='pl-2'>&#x2265;</mo>
-				<mi class='pl-2'>y</mi>
-			</mjx-container>
-		</p>
-	</article>";
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mi>x</mi>
+			<mo class='pl-2'>&#x2265;</mo>
+			<mi class='pl-2'>y</mi>
+		</mjx-container>
+	</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -367,18 +367,18 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 		const string value = "$\\overline{x + 1}$";
 		const string expected =
 @"<article class='mud-markdown-body'>
-		<p class='mud-typography mud-typography-body1'>
-			<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
-				<mover>
-					<mrow>
-						<mi>x</mi>
-						<mo class='pl-2'>&#x2B;</mo>
-						<mn class='pl-2'>1</mn>
-					</mrow>
-				</mover>
-			</mjx-container>
-		</p>
-	</article>";
+	<p class='mud-typography mud-typography-body1'>
+		<mjx-container tabindex='0' class='mud-markdown-mjx-container'>
+			<mover>
+				<mrow>
+					<mi>x</mi>
+					<mo class='pl-2'>&#x2B;</mo>
+					<mn class='pl-2'>1</mn>
+				</mrow>
+			</mover>
+		</mjx-container>
+	</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
