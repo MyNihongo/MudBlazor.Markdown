@@ -16,7 +16,7 @@ internal static class CharEx
 			case '=' or '>' or '<' or '+' or '−':
 				hasSpacing = true;
 				return true;
-			case '(' or ')':
+			case '(' or ')' or '^' or '~':
 				return true;
 		}
 

@@ -21,3 +21,5 @@ $a \ge 0$
 
 #### Symbols above
 $\overline{x - 1}$  
+$\hat{x - 1}$  
+$\tilde{x - 1}$  

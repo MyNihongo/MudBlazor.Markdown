@@ -55,6 +55,7 @@ internal sealed class MudMathJax : ComponentBase
 				BuildElement(builder, OperationElement, customChar ?? value[i], prependSpacing);
 				continue;
 			}
+			// TODO: more compact
 			else if (value[i] == '\\')
 			{
 				var expressionString = GetExpressionString(value, i + 1);
@@ -86,7 +87,18 @@ internal sealed class MudMathJax : ComponentBase
 							i += BuildElementRow(builder, "mover", '\r', overlineValue, prependSpacing, true) + 1;
 							break;
 						}
-
+					case "hat":
+						{
+							var overlineValue = value[i..];
+							i += BuildElementRow(builder, "mover", '^', overlineValue, prependSpacing, true) + 1;
+							break;
+						}
+					case "tilde":
+					{
+						var overlineValue = value[i..];
+						i += BuildElementRow(builder, "mover", '~', overlineValue, prependSpacing, true) + 1;
+						break;
+					}
 				}
 			}
 			else
