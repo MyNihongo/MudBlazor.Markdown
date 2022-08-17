@@ -1,4 +1,5 @@
 ﻿using Markdig.Extensions.Tables;
+using Markdig.Helpers;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components.Routing;
@@ -185,6 +186,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 						break;
 					}
+				case HtmlBlock html:
+				{
+					RenderHtml(builder, html.Lines);
+					break;
+				}
 			}
 		}
 	}
@@ -383,6 +389,15 @@ public class MudMarkdown : ComponentBase, IDisposable
 		}
 
 		builder.CloseElement();
+	}
+
+	private void RenderHtml(in RenderTreeBuilder builder, in StringLineGroup lines)
+	{
+		for (var i = 0; i < lines.Lines.Length; i++)
+		{
+			var markupString = new MarkupString(lines.Lines[i].ToString().Trim());
+			builder.AddContent(_elementIndex, markupString);
+		}
 	}
 
 	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
