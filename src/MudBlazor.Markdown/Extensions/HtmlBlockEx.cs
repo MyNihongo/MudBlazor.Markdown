@@ -9,7 +9,7 @@ internal static class HtmlBlockEx
 	{
 		htmlDetailsData = new HtmlDetailsData();
 
-		if (!@this.Lines.StartsAndEndsWith("<details>", "</details>"))
+		if (!@this.Lines.StartsAndEndsWith("<details>", "</details>", out var range))
 			return false;
 
 		StringBuilder summaryBuilder = new(), detailsBuilder = new();
