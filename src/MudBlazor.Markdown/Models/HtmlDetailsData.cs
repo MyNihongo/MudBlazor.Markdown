@@ -1,6 +1,6 @@
 ﻿namespace MudBlazor;
 
-internal readonly ref struct HtmlDetailData
+internal readonly ref struct HtmlDetailsData
 {
 	public string Header { get; }
 

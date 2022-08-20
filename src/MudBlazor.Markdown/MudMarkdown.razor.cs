@@ -187,10 +187,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 						break;
 					}
 				case HtmlBlock html:
-				{
-					RenderHtml(builder, html.Lines);
-					break;
-				}
+					{
+						if (html.TryGetDetails(out var detailsData))
+							RenderDetailsHtml(builder, detailsData);
+						else
+							RenderHtml(builder, html.Lines);
+
+						break;
+					}
 			}
 		}
 	}
@@ -389,6 +393,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 		}
 
 		builder.CloseElement();
+	}
+
+	private void RenderDetailsHtml(in RenderTreeBuilder builder, in HtmlDetailsData detailsData)
+	{
+
 	}
 
 	private void RenderHtml(in RenderTreeBuilder builder, in StringLineGroup lines)
