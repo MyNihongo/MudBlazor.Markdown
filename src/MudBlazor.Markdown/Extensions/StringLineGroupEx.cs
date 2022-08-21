@@ -85,4 +85,46 @@ internal static class StringLineGroupEx
 		content = stringBuilder.ToString();
 		return endIndex;
 	}
+
+	public static string GetContent(this StringLineGroup @this, in StringLineGroupIndex startIndex, in StringLineGroupIndex endIndex)
+	{
+		var stringBuilder = new StringBuilder();
+
+		for (var i = startIndex.Line; i <= endIndex.Line; i++)
+		{
+			if (i == startIndex.Line)
+			{
+				if (i == endIndex.Line)
+				{
+					var strValue = @this.Lines[i].Slice.AsSpan()[startIndex.Index..endIndex.Index].ToString().Trim();
+					stringBuilder.Append(strValue);
+
+					break;
+				}
+				else
+				{
+					var strValue = @this.Lines[i].Slice.AsSpan()[startIndex.Index..].ToString().Trim();
+					stringBuilder.Append(strValue);
+				}
+			}
+			else if (i == endIndex.Line)
+			{
+				if (endIndex.Index == -1)
+					break;
+
+				var strValue = @this.Lines[i].Slice.AsSpan()[..endIndex.Index].ToString().Trim();
+				stringBuilder.Append(strValue);
+			}
+			else
+			{
+				if (stringBuilder.Length != 0)
+					stringBuilder.AppendLine();
+
+				var strValue = @this.Lines[i].ToString().Trim();
+				stringBuilder.Append(strValue);
+			}
+		}
+
+		return stringBuilder.ToString();
+	}
 }

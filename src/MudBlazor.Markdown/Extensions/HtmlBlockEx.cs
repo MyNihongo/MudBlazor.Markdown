@@ -11,21 +11,13 @@ internal static class HtmlBlockEx
 		if (!@this.Lines.StartsAndEndsWith("<details>", "</details>", out var range))
 			return false;
 
-		var summaryEndIndex = @this.Lines.TryGetContent("<summary>", "</summary>", range.Start, out var summaryContent);
+		var summaryEndIndex = @this.Lines.TryGetContent("<summary>", "</summary>", range.Start, out var headerContent);
 		if (summaryEndIndex.Line == -1)
 			return false;
 
-		//for (var i = 0; i < @this.Lines.Lines.Length; i++)
-		//{
-		//	@this.Lines.Lines[i].Slice
-		//}
+		var dataContent = @this.Lines.GetContent(summaryEndIndex, range.End);
 
-		//foreach (var stringLine in @this.Lines.Lines)
-		//{
-		//	Debug.WriteLine(stringLine);
-		//}
-
-		htmlDetailsData = new HtmlDetailsData();
-		return false;
+		htmlDetailsData = new HtmlDetailsData(headerContent, dataContent);
+		return true;
 	}
 }
