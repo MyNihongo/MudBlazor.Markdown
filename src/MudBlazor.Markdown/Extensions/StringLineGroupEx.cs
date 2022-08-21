@@ -15,12 +15,13 @@ internal static class StringLineGroupEx
 		var lastLineIndex = @this.Count - 1;
 
 		// Starts with
-		if (@this.Lines[firstLineIndex].Slice.Length < startsWith.Length)
+		var firstLine = @this.Lines[firstLineIndex];
+		if (firstLine.Slice.Length < startsWith.Length)
 			return false;
 
 		var startIndex = 0;
 		for (;startIndex < startsWith.Length; startIndex++)
-			if (@this.Lines[firstLineIndex].Slice[startIndex] != startsWith[startIndex])
+			if (firstLine.Slice[firstLine.Position + startIndex] != startsWith[startIndex])
 				return false;
 
 		// Ends with
@@ -58,7 +59,7 @@ internal static class StringLineGroupEx
 						continue;
 
 					isFound = true;
-					j = start + startsWith.Length;
+					j = @this.Lines[i].IndexOf(">", start);
 				}
 				else
 				{
@@ -71,7 +72,7 @@ internal static class StringLineGroupEx
 					}
 					else
 					{
-						var strValue = @this.Lines[i].Slice.AsSpan()[..end].ToString().Trim();
+						var strValue = @this.Lines[i].Slice.AsSpan()[j..end].ToString().Trim();
 						stringBuilder.Append(strValue);
 
 						endIndex = new StringLineGroupIndex(i, end + endsWith.Length);

@@ -8,10 +8,12 @@ internal static class HtmlBlockEx
 	{
 		htmlDetailsData = new HtmlDetailsData();
 
-		if (!@this.Lines.StartsAndEndsWith("<details>", "</details>", out var range))
+		// Closing `>` for <details> is missing because there might be attributes for this tag
+		if (!@this.Lines.StartsAndEndsWith("<details", "</details>", out var range))
 			return false;
 
-		var summaryEndIndex = @this.Lines.TryGetContent("<summary>", "</summary>", range.Start, out var headerContent);
+		// Closing `>` for <summary> is missing because there might be attributes for this tag
+		var summaryEndIndex = @this.Lines.TryGetContent("<summary", "</summary>", range.Start, out var headerContent);
 		if (summaryEndIndex.Line == -1)
 			return false;
 

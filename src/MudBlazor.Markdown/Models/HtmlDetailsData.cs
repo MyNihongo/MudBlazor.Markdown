@@ -2,13 +2,13 @@
 
 internal readonly ref struct HtmlDetailsData
 {
-	public HtmlDetailsData(string header, string data)
+	public HtmlDetailsData(string header, string content)
 	{
 		Header = header;
-		Data = data;
+		Content = content;
 	}
 
 	public string Header { get; }
 
-	public string Data { get; }
+	public string Content { get; }
 }

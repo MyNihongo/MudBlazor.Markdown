@@ -2,14 +2,14 @@
 
 internal static class StringLineEx
 {
-	public static int IndexOf(this StringLine @this, string value)
+	public static int IndexOf(this StringLine @this, string value, int startIndex = 0)
 	{
 		const int notFoundIndex = -1;
 
 		if (@this.Slice.Length < value.Length)
 			return notFoundIndex;
 
-		for (var i = 0; i <= @this.Slice.Length - value.Length; i++)
+		for (var i = startIndex; i <= @this.Slice.Length - value.Length; i++)
 		{
 			var j = 0;
 			for (; j < value.Length; j++)
