@@ -1,4 +1,6 @@
-﻿namespace MudBlazor;
+﻿using System.Text;
+
+namespace MudBlazor;
 
 internal static class StringLineGroupEx
 {
@@ -36,5 +38,51 @@ internal static class StringLineGroupEx
 			new StringLineGroupIndex(lastLineIndex, endIndex));
 
 		return true;
+	}
+
+	public static StringLineGroupIndex TryGetContent(this StringLineGroup @this, in string startsWith, in string endsWith, in StringLineGroupIndex startIndex, out string content)
+	{
+		var endIndex = new StringLineGroupIndex(-1, -1);
+
+		var isFound = false;
+		var stringBuilder = new StringBuilder();
+
+		for (var i = startIndex.Line; i < @this.Count; i++)
+		{
+			for (var j = i == startIndex.Line ? startIndex.Index : 0; j < @this.Lines[i].Slice.Length; j++)
+			{
+				if (!isFound)
+				{
+					var start = @this.Lines[i].IndexOf(startsWith);
+					if (start == -1)
+						continue;
+
+					isFound = true;
+					j = start + startsWith.Length;
+				}
+				else
+				{
+					var end = @this.Lines[i].IndexOf(endsWith);
+					if (end == -1)
+					{
+						var strValue = @this.Lines[i].ToString().Trim();
+						stringBuilder.Append(strValue);
+						break;
+					}
+					else
+					{
+						var strValue = @this.Lines[i].Slice.AsSpan()[..end].ToString().Trim();
+						stringBuilder.Append(strValue);
+
+						endIndex = new StringLineGroupIndex(i, end + endsWith.Length);
+						goto Return;
+					}
+				}
+			}
+		}
+
+		Return:
+		content = stringBuilder.ToString();
+		return endIndex;
 	}
 }

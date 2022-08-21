@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Markdig.Syntax;
+﻿using Markdig.Syntax;
 
 namespace MudBlazor;
 
@@ -12,8 +11,9 @@ internal static class HtmlBlockEx
 		if (!@this.Lines.StartsAndEndsWith("<details>", "</details>", out var range))
 			return false;
 
-		StringBuilder summaryBuilder = new(), detailsBuilder = new();
-		bool isSummary = false, isDetail = false;
+		var summaryEndIndex = @this.Lines.TryGetContent("<summary>", "</summary>", range.Start, out var summaryContent);
+		if (summaryEndIndex.Line == -1)
+			return false;
 
 		//for (var i = 0; i < @this.Lines.Lines.Length; i++)
 		//{

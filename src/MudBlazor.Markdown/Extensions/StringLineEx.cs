@@ -9,12 +9,12 @@ internal static class StringLineEx
 		if (@this.Slice.Length < value.Length)
 			return notFoundIndex;
 
-		for (var i = 0; i < @this.Slice.Length - value.Length; i++)
+		for (var i = 0; i <= @this.Slice.Length - value.Length; i++)
 		{
 			var j = 0;
 			for (; j < value.Length; j++)
 			{
-				if (@this.Slice[i + j] != value[j])
+				if (@this.Slice[@this.Position + i + j] != value[j])
 					break;
 			}
 
