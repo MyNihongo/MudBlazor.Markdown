@@ -399,15 +399,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 		var header = Markdown.Parse(detailsData.Header, _pipeline);
 		var content = Markdown.Parse(detailsData.Content);
 
-		builder.OpenComponent<MudExpansionPanels>(_elementIndex++);
-		builder.AddAttribute(_elementIndex++, nameof(MudExpansionPanels.ChildContent), (RenderFragment)(panel =>
-		{
-			panel.OpenComponent<MudExpansionPanel>(_elementIndex++);
-			panel.AddAttribute(_elementIndex++, nameof(MudExpansionPanel.TitleContent), (RenderFragment)(titleBuilder => RenderMarkdown(header, titleBuilder)));
-			panel.AddAttribute(_elementIndex++, nameof(MudExpansionPanel.ChildContent), (RenderFragment)(contentBuilder => RenderMarkdown(content, contentBuilder)));
-			panel.CloseComponent();
-		}));
-
+		builder.OpenComponent<MudMarkdownDetails>(_elementIndex++);
+		builder.AddAttribute(_elementIndex++, nameof(MudMarkdownDetails.TitleContent), (RenderFragment)(titleBuilder => RenderMarkdown(header, titleBuilder)));
+		builder.AddAttribute(_elementIndex++, nameof(MudMarkdownDetails.ChildContent), (RenderFragment)(contentBuilder => RenderMarkdown(content, contentBuilder)));
 		builder.CloseComponent();
 	}
 
