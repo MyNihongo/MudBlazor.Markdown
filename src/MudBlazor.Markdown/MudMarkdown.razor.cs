@@ -407,11 +407,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private void RenderHtml(in RenderTreeBuilder builder, in StringLineGroup lines)
 	{
-		for (var i = 0; i < lines.Lines.Length; i++)
-		{
-			var markupString = new MarkupString(lines.Lines[i].ToString().Trim());
-			builder.AddContent(_elementIndex, markupString);
-		}
+		var markupString = new MarkupString(lines.ToString());
+		builder.AddContent(_elementIndex, markupString);
 	}
 
 	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
