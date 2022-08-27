@@ -56,7 +56,18 @@ internal sealed class MudMarkdownDetails : ComponentBase
 
 	private void BuildContent(RenderTreeBuilder builder)
 	{
+		builder.OpenComponent<MudCollapse>(_elementIndex++);
+		builder.AddAttribute(_elementIndex++, nameof(MudCollapse.Expanded), IsExpanded);
 
+		builder.AddAttribute(_elementIndex++, nameof(MudCollapse.ChildContent), (RenderFragment)(contentBuilder =>
+		{
+			contentBuilder.OpenElement(_elementIndex, "div");
+			contentBuilder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-content");
+			contentBuilder.AddContent(_elementIndex++, ChildContent);
+			contentBuilder.CloseElement();
+		}));
+
+		builder.CloseComponent();
 	}
 
 	private void OnHeaderClick()
