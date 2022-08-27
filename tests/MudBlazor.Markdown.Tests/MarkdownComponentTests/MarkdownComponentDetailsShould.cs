@@ -110,4 +110,31 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void RenderDetailsAsHtml()
+	{
+		const string value =
+@"<div>
+	<details>
+		<summary>Header</summary>
+		Some hidden text
+		Another text
+	</details>
+</div>";
+
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<div>
+		<details>
+			<summary>Header</summary>
+			Some hidden text
+			Another text
+		</details>
+	</div>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
 }
