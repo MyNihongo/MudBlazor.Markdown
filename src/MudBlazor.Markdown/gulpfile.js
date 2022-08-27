@@ -28,7 +28,7 @@ function img() {
 
 function js() {
 	return src("Resources/MudBlazor.Markdown.js")
-		.pipe(webpack())
+		.pipe(webpack({ "mode": "production" }))
 		.pipe(rename({ basename: "MudBlazor.Markdown", extname: ".min.js" }))
 		.pipe(dest("wwwroot"));
 }
