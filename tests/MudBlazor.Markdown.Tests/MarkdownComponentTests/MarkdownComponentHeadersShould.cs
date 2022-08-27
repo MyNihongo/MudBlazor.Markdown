@@ -16,7 +16,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		var value = valueInput + " some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
@@ -38,7 +38,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		const string value = "# some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
@@ -65,7 +65,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		const string value = "## some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
@@ -92,7 +92,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		const string value = "### some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
@@ -119,7 +119,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		const string value = "#### some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
@@ -146,7 +146,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		const string value = "##### some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>
@@ -173,7 +173,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		const string value = "###### some text";
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
+$@"<article class='mud-markdown-body'>
 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 		some text
 	</{expectedTag}>

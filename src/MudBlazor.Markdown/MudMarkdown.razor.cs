@@ -186,6 +186,15 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 						break;
 					}
+				case HtmlBlock html:
+					{
+						if (html.TryGetDetails(out var detailsData))
+							RenderDetailsHtml(builder, detailsData);
+						else
+							RenderHtml(builder, html.Lines);
+
+						break;
+					}
 			}
 		}
 	}
@@ -391,6 +400,23 @@ public class MudMarkdown : ComponentBase, IDisposable
 		}
 
 		builder.CloseElement();
+	}
+
+	private void RenderDetailsHtml(in RenderTreeBuilder builder, in HtmlDetailsData detailsData)
+	{
+		var header = Markdown.Parse(detailsData.Header, _pipeline);
+		var content = Markdown.Parse(detailsData.Content);
+
+		builder.OpenComponent<MudMarkdownDetails>(_elementIndex++);
+		builder.AddAttribute(_elementIndex++, nameof(MudMarkdownDetails.TitleContent), (RenderFragment)(titleBuilder => RenderMarkdown(header, titleBuilder)));
+		builder.AddAttribute(_elementIndex++, nameof(MudMarkdownDetails.ChildContent), (RenderFragment)(contentBuilder => RenderMarkdown(content, contentBuilder)));
+		builder.CloseComponent();
+	}
+
+	private void RenderHtml(in RenderTreeBuilder builder, in StringLineGroup lines)
+	{
+		var markupString = new MarkupString(lines.ToString());
+		builder.AddContent(_elementIndex, markupString);
 	}
 
 	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>

@@ -91,7 +91,7 @@ pre code.hljs {
     margin-bottom: 1.25em !important;
 }
 
-.mud-markdown-body li p {
+.mud-markdown-body li p, .mud-markdown-body .mud-expand-panel p {
     margin-bottom: 0 !important;
 }
 

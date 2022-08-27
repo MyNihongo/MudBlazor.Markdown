@@ -55,3 +55,10 @@ func main() {
     fmt.Println("Hello, 世界")
 }
 ```
+
+#### Details
+<details>
+  <summary markdown="span">Release 1.0.1</summary>
+**New**
+-  Error fixes.
+</details>
