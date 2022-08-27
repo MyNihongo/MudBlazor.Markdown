@@ -20,3 +20,6 @@ Code block theme-switching is not supported out-of-the-box.
 See [Server](https://github.com/MyNihongo/MudBlazor.Markdown/blob/main/samples/Server/App.razor) or [WebAssembly](https://github.com/MyNihongo/MudBlazor.Markdown/blob/main/samples/WebAssembly/App.razor) for examples.  
 ![code-light](images/code-light.jpg)
 ![table-dark](images/code-dark.jpg)
+## Details
+![details-light](images/details-light.jpg)
+![details-dark](images/details-dark.jpg)
