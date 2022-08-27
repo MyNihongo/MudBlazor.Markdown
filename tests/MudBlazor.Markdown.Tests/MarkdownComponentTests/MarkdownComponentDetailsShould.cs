@@ -137,4 +137,44 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void BeExpandedOnClick()
+	{
+		const string value =
+@"<details>
+	<summary>Header</summary>
+	Some hidden text
+	Another text
+</details>";
+
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
+		<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
+			<div class='mud-expand-panel-text'>
+				<p class='mud-typography mud-typography-body1'>Header</p>
+			</div>
+			<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium mud-expand-panel-icon mud-transform' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
+				<path d='M0 0h24v24H0z' fill='none'/><path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
+			</svg>
+		</div>
+		<div class='mud-collapse-container mud-collapse-entering' style='height:0px;animation-duration:s;' blazor:elementReference=''>
+			<div class='mud-collapse-wrapper' blazor:elementReference=''>
+				<div class='mud-collapse-wrapper-inner'>
+					<div class='mud-expand-panel-content'>
+						<p class='mud-typography mud-typography-body1'>Some hidden text<br />Another text</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		var header = fixture.Find(".mud-expand-panel-header");
+		header.Click();
+
+		fixture.MarkupMatches(expected);
+	}
 }
