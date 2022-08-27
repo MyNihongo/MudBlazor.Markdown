@@ -37,16 +37,16 @@ internal sealed class MudMarkdownDetails : ComponentBase
 	{
 		builder.OpenElement(_elementIndex++, "div");
 		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-header mud-ripple");
-		builder.AddAttribute(_elementIndex, "onclick", EventCallback.Factory.Create(this, OnHeaderClick));
+		builder.AddAttribute(_elementIndex++, "onclick", EventCallback.Factory.Create(this, OnHeaderClick));
 
 		// Text
 		builder.OpenElement(_elementIndex++, "div");
 		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-text");
-		builder.AddContent(_elementIndex, TitleContent);
+		builder.AddContent(_elementIndex++, TitleContent);
 		builder.CloseElement();
 
 		// Collapse icon
-		builder.OpenComponent<MudIcon>(_elementIndex);
+		builder.OpenComponent<MudIcon>(_elementIndex++);
 		builder.AddAttribute(_elementIndex++, nameof(MudIcon.Icon), Icons.Material.Filled.ExpandMore);
 		builder.AddAttribute(_elementIndex++, "class", IconClasses);
 		builder.CloseComponent();
@@ -61,7 +61,7 @@ internal sealed class MudMarkdownDetails : ComponentBase
 
 		builder.AddAttribute(_elementIndex++, nameof(MudCollapse.ChildContent), (RenderFragment)(contentBuilder =>
 		{
-			contentBuilder.OpenElement(_elementIndex, "div");
+			contentBuilder.OpenElement(_elementIndex++, "div");
 			contentBuilder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-content");
 			contentBuilder.AddContent(_elementIndex++, ChildContent);
 			contentBuilder.CloseElement();
