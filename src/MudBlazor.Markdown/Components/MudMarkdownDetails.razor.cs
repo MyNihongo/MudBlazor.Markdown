@@ -36,7 +36,7 @@ internal sealed class MudMarkdownDetails : ComponentBase
 	private void BuildTitle(RenderTreeBuilder builder)
 	{
 		builder.OpenElement(_elementIndex++, "div");
-		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-header");
+		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-header mud-ripple");
 		builder.AddAttribute(_elementIndex, "onclick", EventCallback.Factory.Create(this, OnHeaderClick));
 
 		// Text
