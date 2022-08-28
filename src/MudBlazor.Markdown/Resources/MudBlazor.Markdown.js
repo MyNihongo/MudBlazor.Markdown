@@ -69,12 +69,9 @@ window.appendMathJaxScript = function (scriptId) {
 	document.head.appendChild(script);
 }
 
-window.refreshMathJaxScript = function(elementId) {
-}
-
-window.removeMathJaxScript = function(scriptId) {
-	const script = document.getElementById(scriptId);
-	if (script) {
-		script.remove();
+window.refreshMathJaxScript = function () {
+	try {
+		MathJax.typeset();
+	} catch (e) {
 	}
 }

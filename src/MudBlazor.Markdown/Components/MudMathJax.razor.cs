@@ -1,6 +1,6 @@
 ﻿namespace MudBlazor;
 
-internal sealed class MudMathJax : ComponentBase, IAsyncDisposable
+internal sealed class MudMathJax : ComponentBase
 {
 	private const string ScriptId = "mudblazor-markdown-mathjax";
 
@@ -26,16 +26,13 @@ internal sealed class MudMathJax : ComponentBase, IAsyncDisposable
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if (!firstRender)
-			return;
+		if (firstRender)
+		{
+			await Js.InvokeVoidAsync("appendMathJaxScript", ScriptId)
+				.ConfigureAwait(false);
+		}
 
-		await Js.InvokeVoidAsync("appendMathJaxScript", ScriptId)
-			.ConfigureAwait(false);
-	}
-
-	public async ValueTask DisposeAsync()
-	{
-		await Js.InvokeVoidAsync("removeMathJaxScript", ScriptId)
+		await Js.InvokeVoidAsync("refreshMathJaxScript")
 			.ConfigureAwait(false);
 	}
 
