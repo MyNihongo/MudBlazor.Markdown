@@ -42,15 +42,15 @@ pre code.hljs {
 	margin-bottom: 1.25em !important;
 }
 
-.mud-markdown-body ul ul {
-	list-style-type: circle;
-	margin-bottom: 0 !important;
-}
+	.mud-markdown-body ul ul {
+		list-style-type: circle;
+		margin-bottom: 0 !important;
+	}
 
-.mud-markdown-body ul ul ul {
-	list-style-type: square;
-	margin-bottom: 0 !important;
-}
+		.mud-markdown-body ul ul ul {
+			list-style-type: square;
+			margin-bottom: 0 !important;
+		}
 
 .mud-markdown-body li {
 	display: list-item !important;

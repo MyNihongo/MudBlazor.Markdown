@@ -1,0 +1,27 @@
+﻿@using Markdig.Syntax.Inlines
+@using MudBlazor.Markdown.Core.Services
+
+<MudMarkdown Value="@Value"
+             TableCellMinWidth="100"
+             OverrideLinkUrl="OverrideLink"
+             CodeBlockTheme="CodeBlockTheme.DraculaBase16" />
+
+@code
+{
+	[Parameter]
+	public MarkdownResourceType MarkdownResource { get; set; }
+
+	[Inject]
+	private IMarkdownService MarkdownService { get; init; } = default!;
+
+	private string Value { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		Value = await MarkdownService.GetSampleAsync(MarkdownResource)
+			.ConfigureAwait(false);
+	}
+
+	private static string? OverrideLink(LinkInline x) =>
+		x.Url;
+}

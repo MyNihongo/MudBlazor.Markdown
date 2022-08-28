@@ -1,11 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace MudBlazor.Markdown.Core.Services;
 
-namespace MudBlazor.Markdown.Core.Services.Interfaces
+public interface IMarkdownService
 {
-	public interface IMarkdownService
-	{
-		Task<string> GetSampleAsync();
-
-		Task<string> GetEnderalSampleAsync();
-	}
+	Task<string> GetSampleAsync(MarkdownResourceType resourceType);
 }

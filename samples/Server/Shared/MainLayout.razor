@@ -1,5 +1,5 @@
 ﻿@using System.Reactive
-@using MudBlazor.Markdown.Core.Services.Interfaces
+@using MudBlazor.Markdown.Core.Services
 @using ReactiveUI
 @inherits LayoutComponentBase
 
@@ -11,6 +11,10 @@
 			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit" Command="@ToggleTheme" />
 		</MudTooltip>
 	</MudAppBar>
+	
+	<MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+		<MarkdownNavMenu />
+	</MudDrawer>
 
 	<MudMainContent>
 		<MudContainer Class="pt-2 pb-5">
@@ -21,6 +25,8 @@
 
 @code
 {
+	private bool _drawerOpen = true;
+
 	public MainLayout()
 	{
 		ToggleTheme = CreateToggleThemeCommand();
@@ -41,4 +47,9 @@
 				await ThemeService.ToggleThemeAsync()
 					.ConfigureAwait(false);
 			});
+
+	void DrawerToggle()
+	{
+		_drawerOpen = !_drawerOpen;
+	}
 }

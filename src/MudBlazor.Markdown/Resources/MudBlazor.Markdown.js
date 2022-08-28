@@ -55,3 +55,24 @@ window.scrollToElementId = function (elementId) {
 		});
 	}
 }
+
+window.appendMathJaxScript = function (scriptId) {
+	if (document.getElementById(scriptId)) {
+		return;
+	}
+
+	const script = document.createElement("script");
+	script.id = scriptId;
+	script.type = "text/javascript";
+	script.src = "_content/MudBlazor.Markdown/MudBlazor.Markdown.MathJax.min.js";
+
+	document.head.appendChild(script);
+}
+
+window.refreshMathJaxScript = function () {
+	try {
+		MathJax.typeset();
+	} catch (e) {
+		// swallow since in some cases MathJax might not be initialized
+	}
+}
