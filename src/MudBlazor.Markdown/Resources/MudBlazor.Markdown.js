@@ -73,5 +73,6 @@ window.refreshMathJaxScript = function () {
 	try {
 		MathJax.typeset();
 	} catch (e) {
+		// swallow since in some cases MathJax might not be initialized
 	}
 }
