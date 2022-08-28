@@ -1,6 +1,6 @@
 ﻿namespace MudBlazor;
 
-internal sealed class MudMathJax : ComponentBase
+internal sealed class MudMathJax : ComponentBase, IAsyncDisposable
 {
 	private const string ScriptId = "mudblazor-markdown-mathjax";
 
@@ -24,6 +24,21 @@ internal sealed class MudMathJax : ComponentBase
 		builder.AddContent(elementIndex, delimiter.End);
 	}
 
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender)
+			return;
+
+		await Js.InvokeVoidAsync("appendMathJaxScript", ScriptId)
+			.ConfigureAwait(false);
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		await Js.InvokeVoidAsync("removeMathJaxScript", ScriptId)
+			.ConfigureAwait(false);
+	}
+
 	private static MathDelimiter GetDelimiter(in string delimiter)
 	{
 		return delimiter switch
@@ -32,15 +47,6 @@ internal sealed class MudMathJax : ComponentBase
 			"$$" => new MathDelimiter(delimiter),
 			_ => new MathDelimiter(delimiter)
 		};
-	}
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (!firstRender)
-			return;
-
-		await Js.InvokeVoidAsync("appendMathJaxScript", ScriptId)
-			.ConfigureAwait(false);
 	}
 
 	private readonly ref struct MathDelimiter

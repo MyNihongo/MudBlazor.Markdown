@@ -70,5 +70,8 @@ window.appendMathJaxScript = function (scriptId) {
 }
 
 window.removeMathJaxScript = function(scriptId) {
-	console.log("fuck you " + scriptId);
+	const script = document.getElementById(scriptId);
+	if (script) {
+		script.remove();
+	}
 }
