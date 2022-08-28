@@ -55,3 +55,11 @@ window.scrollToElementId = function (elementId) {
 		});
 	}
 }
+
+window.appendMathJaxScript = function(scriptId) {
+	console.log("fuck you " + scriptId);
+}
+
+window.removeMathJaxScript = function(scriptId) {
+	console.log("fuck you " + scriptId);
+}

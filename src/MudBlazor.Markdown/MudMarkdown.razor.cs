@@ -60,7 +60,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	private NavigationManager? NavigationManager { get; init; }
 
 	[Inject]
-	private IJSRuntime? JsRuntime { get; init; }
+	private IJSRuntime JsRuntime { get; init; } = default!;
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
@@ -115,9 +115,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)
 	{
-		if (JsRuntime == null)
-			return;
-
 		var idFragment = new Uri(e.Location, UriKind.Absolute).Fragment;
 		if (!idFragment.StartsWith('#') || idFragment.Length < 2)
 			return;

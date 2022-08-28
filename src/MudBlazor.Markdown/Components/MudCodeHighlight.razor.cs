@@ -39,7 +39,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	}
 
 	[Inject]
-	private IJSRuntime? Js { get; init; }
+	private IJSRuntime Js { get; init; } = default!;
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
@@ -84,7 +84,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if (!firstRender || Js == null)
+		if (!firstRender)
 			return;
 
 		await Js.InvokeVoidAsync("highlightCodeElement", _ref)
@@ -102,9 +102,6 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	private async Task SetThemeAsync()
 	{
-		if (Js == null)
-			return;
-
 		var stylesheetPath = Theme.GetStylesheetPath();
 
 		await Js.InvokeVoidAsync("setHighlightStylesheet", stylesheetPath)

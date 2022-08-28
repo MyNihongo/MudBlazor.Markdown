@@ -2,11 +2,16 @@
 
 internal sealed class MudMathJax : ComponentBase
 {
+	private const string ScriptId = "mudblazor-markdown-mathjax";
+
 	[Parameter]
 	public string Delimiter { get; set; } = string.Empty;
 
 	[Parameter]
 	public StringSlice Value { get; set; }
+
+	[Inject]
+	private IJSRuntime Js { get; init; } = default!;
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
@@ -27,6 +32,15 @@ internal sealed class MudMathJax : ComponentBase
 			"$$" => new MathDelimiter(delimiter),
 			_ => new MathDelimiter(delimiter)
 		};
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender)
+			return;
+
+		await Js.InvokeVoidAsync("appendMathJaxScript", ScriptId)
+			.ConfigureAwait(false);
 	}
 
 	private readonly ref struct MathDelimiter

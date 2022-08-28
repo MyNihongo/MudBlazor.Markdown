@@ -3,6 +3,7 @@ const webpack = require("webpack-stream");
 const rename = require("gulp-rename");
 const minifyCss = require("gulp-clean-css");
 const changeCase = require("change-case");
+const all = require("gulp-all");
 
 function fonts() {
 	return src("Resources/Fonts/*.woff")
@@ -32,10 +33,15 @@ function img() {
 }
 
 function jsMain() {
-	return src("Resources/MudBlazor.Markdown.js")
+	const mainJs = src("Resources/MudBlazor.Markdown.js")
 		.pipe(webpack({ mode: "production" }))
 		.pipe(rename({ basename: "MudBlazor.Markdown", extname: ".min.js" }))
 		.pipe(dest("wwwroot"));
+
+	const mathJax = src("Resources/MudBlazor.Markdown.MathJax.min.js")
+		.pipe(dest("wwwroot"));
+
+	return all(mainJs, mathJax);
 }
 
 exports.default = series(fonts, cssMain, cssCodeStyles, img, jsMain);
