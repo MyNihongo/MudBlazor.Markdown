@@ -36,15 +36,13 @@ internal sealed class MudMathJax : ComponentBase
 			.ConfigureAwait(false);
 	}
 
-	private static MathDelimiter GetDelimiter(in string delimiter)
-	{
-		return delimiter switch
+	private static MathDelimiter GetDelimiter(in string delimiter) =>
+		delimiter switch
 		{
 			"$" => new MathDelimiter("\\(", "\\)"),
 			"$$" => new MathDelimiter(delimiter),
 			_ => new MathDelimiter(delimiter)
 		};
-	}
 
 	private readonly ref struct MathDelimiter
 	{
