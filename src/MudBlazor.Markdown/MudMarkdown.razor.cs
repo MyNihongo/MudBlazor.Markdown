@@ -313,6 +313,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 				case MathInline x:
 					{
 						builder.OpenComponent<MudMathJax>(_elementIndex++);
+						builder.AddAttribute(_elementIndex++, nameof(MudMathJax.Delimiter), x.GetDelimiter());
 						builder.AddAttribute(_elementIndex++, nameof(MudMathJax.Value), x.Content);
 						builder.CloseComponent();
 						break;
