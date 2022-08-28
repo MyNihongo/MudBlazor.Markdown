@@ -7,7 +7,7 @@ const all = require("gulp-all");
 
 function fonts() {
 	return src("Resources/Fonts/*.woff")
-		.pipe(dest("wwwroot/fonts"));
+		.pipe(dest("wwwroot/output/chtml/fonts/woff-v2"));
 }
 
 function cssMain() {
