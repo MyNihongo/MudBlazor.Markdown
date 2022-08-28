@@ -94,37 +94,3 @@ pre code.hljs {
 .mud-markdown-body li p, .mud-markdown-body .mud-expand-panel p {
     margin-bottom: 0 !important;
 }
-
-/* Math */
-.mud-markdown-mjx-container {
-    font-size: 101.1%;
-    position: relative;
-    line-height: 0;
-    font-family: "MathJaxMath";
-}
-
-    .mud-markdown-mjx-container mo {
-        font-family: "MathJaxMain";
-    }
-
-    .mud-markdown-mjx-container msup > *:last-child {
-        position: relative;
-        top: -0.5em;
-        font-size: 70.7%;
-    }
-
-    .mud-markdown-mjx-container msub > *:last-child {
-        position: relative;
-        bottom: -0.25em;
-        font-size: 70.7%;
-    }
-
-    .mud-markdown-mjx-container mover {
-        display: inline-grid;
-    }
-
-        .mud-markdown-mjx-container mover mo {
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 1.25px;
-        }
