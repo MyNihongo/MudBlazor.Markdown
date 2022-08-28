@@ -7,7 +7,10 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 	{
 		const string value = "$\\sqrt {2}$";
 
-		const string expected = "";
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>\(\sqrt {2}\)</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -18,7 +21,10 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 	{
 		const string value = "$$\\sqrt {2}$$";
 
-		const string expected = "";
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>$$\sqrt {2}$$</p>
+</article>";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
