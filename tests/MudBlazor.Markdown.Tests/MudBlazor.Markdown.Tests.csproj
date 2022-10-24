@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="bunit" Version="1.11.7" />
-		<PackageReference Include="FluentAssertions" Version="6.7.0" />
+		<PackageReference Include="FluentAssertions" Version="6.8.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
 		<PackageReference Include="MoqMicrosoftConfiguration" Version="1.0.5" />
 		<PackageReference Include="MyNihongo.Option" Version="2.1.0" />
