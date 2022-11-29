@@ -1,10 +1,12 @@
 ﻿@using Markdig.Syntax.Inlines
 @using MudBlazor.Markdown.Core.Services
 
-<MudMarkdown Value="@Value"
-             TableCellMinWidth="100"
-             OverrideLinkUrl="OverrideLink"
-             CodeBlockTheme="CodeBlockTheme.DraculaBase16" />
+<MudMarkdown
+	Value="@Value"
+	Styling="Styling"
+	TableCellMinWidth="100"
+	OverrideLinkUrl="OverrideLink"
+	CodeBlockTheme="CodeBlockTheme.DraculaBase16" />
 
 @code
 {
@@ -15,6 +17,8 @@
 	private IMarkdownService MarkdownService { get; init; } = default!;
 
 	private string Value { get; set; } = string.Empty;
+
+	private MudMarkdownStyling Styling { get; } = new();
 
 	protected override async Task OnInitializedAsync()
 	{
