@@ -65,7 +65,8 @@ builder.Services.AddMudMarkdownServices();
 - `TableCellMinWidth` - minimum width (in pixels) for a table cell. If the property is `null` or negative the min width is not applied;
 - `OverrideHeaderTypo` - override a Typo parameter for tags `<h1>`, `<h2>`, etc.;
 - `OverrideLinkUrl` - override a URL address for links;
-- `CodeBlockTheme` - default theme for code blocks.
+- `CodeBlockTheme` - default theme for code blocks;
+- `Styling` - override default styling.
 ### Palette (colour) configurations
 Useful links for configuring the palette:
 - [Default theme](https://mudblazor.com/customization/default-theme#mudtheme) - all CSS variables and their default values
