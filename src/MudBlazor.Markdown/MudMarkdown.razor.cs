@@ -56,6 +56,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Parameter]
 	public Func<Typo, Typo>? OverrideHeaderTypo { get; set; }
 	
+	/// <summary>
+	/// Override default styling of the markdown component
+	/// </summary>
 	[Parameter]
 	public MudMarkdownStyling Styling { get; set; } = new();
 
