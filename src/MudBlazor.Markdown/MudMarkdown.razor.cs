@@ -55,6 +55,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 	/// </summary>
 	[Parameter]
 	public Func<Typo, Typo>? OverrideHeaderTypo { get; set; }
+	
+	[Parameter]
+	public MudMarkdownStyling Styling { get; set; } = new();
 
 	[Inject]
 	private NavigationManager? NavigationManager { get; init; }
@@ -327,8 +330,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		builder.OpenComponent<MudSimpleTable>(_elementIndex++);
 		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Style), "overflow-x: auto;");
-		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Striped), true);
-		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Bordered), true);
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Striped), Styling.Table.IsStriped);
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Bordered), Styling.Table.IsBordered);
+		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.Elevation), Styling.Table.Elevation);
 		builder.AddAttribute(_elementIndex++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
 		{
 			// thread
