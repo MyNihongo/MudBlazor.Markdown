@@ -287,7 +287,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 							else if (url?.StartsWith('#') ?? false)
 							{
 								builder.AddEventPreventDefaultAttribute(_elementIndex++, "onclick", true);
-								builder.AddAttribute(_elementIndex++, "onclick", EventCallback.Factory.Create(this, () =>
+								builder.AddAttribute(_elementIndex++, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () =>
 								{
 									if (NavigationManager == null)
 										return;
