@@ -24,6 +24,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
+#if NET7_0
+#pragma warning disable BL0007
+#endif
 	[Parameter]
 	public CodeBlockTheme Theme
 	{
@@ -37,6 +40,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			Task.Run(SetThemeAsync);
 		}
 	}
+#if NET7_0
+#pragma warning restore BL0007
+#endif
 
 	[Inject]
 	private IJSRuntime Js { get; init; } = default!;
