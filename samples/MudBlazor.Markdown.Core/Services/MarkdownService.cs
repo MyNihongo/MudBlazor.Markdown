@@ -11,6 +11,7 @@ internal sealed class MarkdownService : IMarkdownService
 			MarkdownResourceType.Main => "sample",
 			MarkdownResourceType.Enderal => "sample-enderal",
 			MarkdownResourceType.Math => "sample-math",
+			MarkdownResourceType.Issues => "sample-issues",
 			_ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, $"Unknown {nameof(MarkdownResourceType)}: {resourceType}")
 		};
 
