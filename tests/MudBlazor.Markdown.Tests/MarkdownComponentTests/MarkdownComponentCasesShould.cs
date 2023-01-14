@@ -298,4 +298,117 @@ public bool IsMudBlazorCool()
 	}
 
 	#endregion
+
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/144
+
+	[Fact]
+	public void RenderTableInsideList()
+	{
+		const string value = 
+@"## The following requirements must be met outside this Terraform code in advance.
+
+1. Created a new resource group..
+2. Created a new AAD group using naming convention..
+3. Created a new AAD group using naming convention..
+4. Created a separate storage account..
+5. Created a new app registration..
+     
+  |Permission | Type | Granted Through|
+  |--|--|--|
+  |User.Read | Delegated | Admin consent|
+  | User.ReadBasic.All |Delegated| Admin consent|
+  |User.Read.All|Delegated| Admin consent|
+  |Directory.Read.Alll|Delegated| Admin consent|
+  |Directory.AccessAsUser.All|Delegated| Admin consent|
+  |User.Invite.All|Application| Admin consent|
+  |Directory.Read.All|Application| Admin consent|
+  |User.Read.All|Application| Admin consent|
+  - Granted permissions User.Invite.All and GroupMember.ReadWrite.All. Admin consent has been granted
+ 
+6. Create a new app registration..
+7. Created the key vault..
+8. Created secrets..";
+
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<h2 id='the-following-requirements-must-be-met-outside-this-terraform-code-in-advance.' class='mud-typography mud-typography-h2'>
+		The following requirements must be met outside this Terraform code in advance.
+	</h2>
+	<ol>
+		<li><p class='mud-typography mud-typography-body1'>Created a new resource group..</p></li>
+		<li><p class='mud-typography mud-typography-body1'>Created a new AAD group using naming convention..</p></li>
+		<li><p class='mud-typography mud-typography-body1'>Created a new AAD group using naming convention..</p></li>
+		<li><p class='mud-typography mud-typography-body1'>Created a separate storage account..</p></li>
+		<li><p class='mud-typography mud-typography-body1'>Created a new app registration..</p></li>
+	</ol>
+	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
+		<div class='mud-table-container'>
+			<table>
+				<thead>
+					<tr>
+						<th><p class='mud-typography mud-typography-body1'>Permission</p></th>
+						<th><p class='mud-typography mud-typography-body1'>Type</p></th>
+						<th><p class='mud-typography mud-typography-body1'>Granted Through</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>User.Read</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Delegated</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>User.ReadBasic.All</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Delegated</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>User.Read.All</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Delegated</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>Directory.Read.Alll</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Delegated</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>Directory.AccessAsUser.All</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Delegated</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>User.Invite.All</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Application</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>Directory.Read.All</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Application</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+					<tr>
+						<td><p class='mud-typography mud-typography-body1'>User.Read.All</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Application</p></td>
+						<td><p class='mud-typography mud-typography-body1'>Admin consent</p></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<ul>
+		<li><p class='mud-typography mud-typography-body1'>Granted permissions User.Invite.All and GroupMember.ReadWrite.All. Admin consent has been granted</p></li>
+	</ul>
+	<ol>
+		<li><p class='mud-typography mud-typography-body1'>Create a new app registration..</p></li>
+		<li><p class='mud-typography mud-typography-body1'>Created the key vault..</p></li>
+		<li><p class='mud-typography mud-typography-body1'>Created secrets..</p></li>
+	</ol>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	#endregion
 }

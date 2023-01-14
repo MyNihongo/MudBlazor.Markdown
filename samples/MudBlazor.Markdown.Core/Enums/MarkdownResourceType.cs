@@ -4,5 +4,6 @@ public enum MarkdownResourceType : byte
 {
 	Main,
 	Enderal,
-	Math
+	Math,
+	Issues
 }
