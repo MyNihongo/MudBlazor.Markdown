@@ -16,6 +16,8 @@
 		<PackageTags>mudblazor, blazor, markdown</PackageTags>
 		<GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
 		<PackageReleaseNotes>https://github.com/MyNihongo/MudBlazor.Markdown/releases</PackageReleaseNotes>
+		<Title>MudBlazor Markdown</Title>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,6 +35,10 @@
 
 	<ItemGroup>
 		<None Include="..\..\favico.png" Pack="true" PackagePath="" />
+		<None Include="..\..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<Content Remove="**\package*.json" />
 		<None Remove="*.csproj.DotSettings" />
 	</ItemGroup>
