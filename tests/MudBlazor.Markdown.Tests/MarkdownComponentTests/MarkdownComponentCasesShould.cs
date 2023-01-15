@@ -399,7 +399,7 @@ public bool IsMudBlazorCool()
 	<ul>
 		<li><p class='mud-typography mud-typography-body1'>Granted permissions User.Invite.All and GroupMember.ReadWrite.All. Admin consent has been granted</p></li>
 	</ul>
-	<ol>
+	<ol start='6'>
 		<li><p class='mud-typography mud-typography-body1'>Create a new app registration..</p></li>
 		<li><p class='mud-typography mud-typography-body1'>Created the key vault..</p></li>
 		<li><p class='mud-typography mud-typography-body1'>Created secrets..</p></li>

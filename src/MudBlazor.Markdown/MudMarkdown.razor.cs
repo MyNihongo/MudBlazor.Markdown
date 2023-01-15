@@ -382,8 +382,15 @@ public class MudMarkdown : ComponentBase, IDisposable
 			return;
 
 		var elementName = list.IsOrdered ? "ol" : "ul";
+		var orderStart = list.OrderedStart.ParseOrDefault();
+		
 		builder.OpenElement(_elementIndex++, elementName);
 
+		if (orderStart > 1)
+		{
+			builder.AddAttribute(_elementIndex++, "start", orderStart);
+		}
+		
 		for (var i = 0; i < list.Count; i++)
 		{
 			var block = (ListItemBlock)list[i];
