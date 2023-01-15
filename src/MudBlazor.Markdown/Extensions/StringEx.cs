@@ -17,4 +17,12 @@ internal static class StringEx
 			return false;
 		}
 	}
+
+	public static int ParseOrDefault(this string? @this)
+	{
+		if (!int.TryParse(@this, out var intValue))
+			intValue = 0;
+
+		return intValue;
+	}
 }
