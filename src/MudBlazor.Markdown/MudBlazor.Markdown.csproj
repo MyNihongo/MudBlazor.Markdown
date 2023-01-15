@@ -5,10 +5,10 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>MudBlazor</RootNamespace>
-		<Version>0.0.12</Version>
+		<Version>0.1.0</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
-		<Copyright>Copyright © 2022 MyNihongo</Copyright>
+		<Copyright>Copyright © 2023 MyNihongo</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/MyNihongo/MudBlazor.Markdown</RepositoryUrl>
 		<PackageProjectUrl>https://mudblazor.com/</PackageProjectUrl>
