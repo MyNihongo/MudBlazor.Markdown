@@ -446,7 +446,7 @@ second line";
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>first line</p>
-	<hr class='mud-divider'/>
+	<hr class='mud-divider mud-divider-fullwidth'/>
 	<p class='mud-typography mud-typography-body1'>second line</p>
 </article>";
 
