@@ -6,6 +6,7 @@
 	Styling="Styling"
 	TableCellMinWidth="100"
 	OverrideLinkUrl="OverrideLink"
+	OverrideHeaderTypo="OverrideHeaderTypo" 
 	CodeBlockTheme="CodeBlockTheme.DraculaBase16" />
 
 @code
@@ -26,6 +27,13 @@
 			.ConfigureAwait(false);
 	}
 
+	// replaces all h1 tags with h4
+	Typo OverrideHeaderTypo(Typo x)
+	{
+		if (x == Typo.h1)
+			return Typo.h4;
+		return x;
+	}
 	private static string? OverrideLink(LinkInline x) =>
 		x.Url;
 }
