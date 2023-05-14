@@ -269,6 +269,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 							builder.OpenElement(_elementIndex++, "img");
 							builder.AddAttribute(_elementIndex++, "src", url);
 							builder.AddAttribute(_elementIndex++, "alt", string.Join(null, alt));
+							builder.AddAttribute(_elementIndex++, "style", "max-width: 100%;");
 							builder.CloseElement();
 						}
 						else if (LinkCommand == null)
