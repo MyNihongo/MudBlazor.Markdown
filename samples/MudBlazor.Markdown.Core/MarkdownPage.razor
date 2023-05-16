@@ -27,13 +27,16 @@
 			.ConfigureAwait(false);
 	}
 
-	// replaces all h1 tags with h4
+	/// <remarks>
+	/// replaces all h1 tags with h4
+	/// </remarks>
 	private Typo OverrideHeaderTypo(Typo x)
 	{
-		if (x == Typo.h1)
-			return Typo.h4;
-		return x;
+		return x == Typo.h1 ? Typo.h4 : x;
 	}
-	private static string? OverrideLink(LinkInline x) =>
-		x.Url;
+
+	private static string? OverrideLink(LinkInline x)
+	{
+		return x.Url;
+	}
 }
