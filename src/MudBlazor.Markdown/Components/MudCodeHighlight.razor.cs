@@ -66,15 +66,15 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		var i = 0;
 
 		builder.OpenElement(i++, "div");
-		builder.AddAttribute(i++, "class", "snippet-clipboard-content relative overflow-auto");
+		builder.AddAttribute(i++, "class", "snippet-clipboard-content overflow-auto");
 
 		// Copy button
 		builder.OpenComponent<MudIconButton>(i++);
 		builder.AddAttribute(i++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-		builder.AddAttribute(i++, nameof(MudIconButton.Variant), Variant.Outlined);
+		builder.AddAttribute(i++, nameof(MudIconButton.Variant), Variant.Filled);
 		builder.AddAttribute(i++, nameof(MudIconButton.Color), Color.Primary);
 		builder.AddAttribute(i++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddAttribute(i++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon");
+		builder.AddAttribute(i++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon m-2");
 		builder.CloseComponent();
 
 		// Code block
