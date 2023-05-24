@@ -1,4 +1,6 @@
-﻿namespace MudBlazor;
+﻿using Microsoft.AspNetCore.Components.Web;
+
+namespace MudBlazor;
 
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
@@ -65,6 +67,20 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	{
 		var i = 0;
 
+		builder.OpenElement(i++, "div");
+		builder.AddAttribute(i++, "class", "snippet-clipboard-content overflow-auto");
+
+		// Copy button
+		builder.OpenComponent<MudIconButton>(i++);
+		builder.AddAttribute(i++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
+		builder.AddAttribute(i++, nameof(MudIconButton.Variant), Variant.Filled);
+		builder.AddAttribute(i++, nameof(MudIconButton.Color), Color.Primary);
+		builder.AddAttribute(i++, nameof(MudIconButton.Size), Size.Medium);
+		builder.AddAttribute(i++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon m-2");
+		builder.AddAttribute(i++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
+		builder.CloseComponent();
+
+		// Code block
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
 
@@ -74,6 +90,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.AddElementReferenceCapture(i++, x => _ref = x);
 		builder.AddContent(i++, Text);
 
+		builder.CloseElement();
 		builder.CloseElement();
 		builder.CloseElement();
 	}
@@ -114,5 +131,11 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			.ConfigureAwait(false);
 
 		_isFirstThemeSet = true;
+	}
+
+	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
+	{
+		await Js.InvokeVoidAsync("navigator.clipboard.writeText", Text)
+			.ConfigureAwait(false);
 	}
 }

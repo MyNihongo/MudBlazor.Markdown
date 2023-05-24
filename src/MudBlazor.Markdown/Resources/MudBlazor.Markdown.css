@@ -13,6 +13,21 @@ pre code.hljs {
 	padding: 1em;
 }
 
+.mud-markdown-body .snippet-clipboard-content {
+	position: relative !important;
+}
+
+	.mud-markdown-body .snippet-clipboard-content:hover > .snippet-clipboard-copy-icon {
+		display: block !important;
+	}
+
+	.mud-markdown-body .snippet-clipboard-content .snippet-clipboard-copy-icon {
+		position: absolute;
+		display: none;
+		top: 0;
+		right: 0;
+	}
+
 /* Quote */
 .mud-markdown-body blockquote {
 	border-left: .25em solid var(--mud-palette-text-disabled);
