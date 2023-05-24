@@ -17,10 +17,15 @@ pre code.hljs {
     position: relative !important;
 }
 
+    .mud-markdown-body .snippet-clipboard-content:hover > .snippet-clipboard-copy-icon {
+        display: block !important;
+    }
+
     .mud-markdown-body .snippet-clipboard-content .snippet-clipboard-copy-icon {
-        position: absolute !important;
-        top: 0 !important;
-        right: 0 !important;
+        position: absolute;
+        display: none;
+        top: 0;
+        right: 0;
     }
 
 /* Quote */

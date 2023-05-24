@@ -1,4 +1,6 @@
-﻿namespace MudBlazor;
+﻿using Microsoft.AspNetCore.Components.Web;
+
+namespace MudBlazor;
 
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
@@ -75,6 +77,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.AddAttribute(i++, nameof(MudIconButton.Color), Color.Primary);
 		builder.AddAttribute(i++, nameof(MudIconButton.Size), Size.Medium);
 		builder.AddAttribute(i++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon m-2");
+		builder.AddAttribute(i++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
 		builder.CloseComponent();
 
 		// Code block
@@ -128,5 +131,10 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			.ConfigureAwait(false);
 
 		_isFirstThemeSet = true;
+	}
+
+	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
+	{
+		var a = "aa";
 	}
 }

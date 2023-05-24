@@ -56,6 +56,12 @@ func main() {
 }
 ```
 
+```kotlin
+fun main(args : Array<String>) {
+    println("Hello, 世界!")
+}
+```
+
 #### Details
 <details>
   <summary markdown="span">Release 1.0.1</summary>
