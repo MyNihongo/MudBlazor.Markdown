@@ -135,6 +135,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
 	{
-		var a = "aa";
+		await Js.InvokeVoidAsync("navigator.clipboard.writeText", Text)
+			.ConfigureAwait(false);
 	}
 }
