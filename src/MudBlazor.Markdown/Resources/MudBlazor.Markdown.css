@@ -99,3 +99,8 @@ pre code.hljs {
 .mud-markdown-body li p, .mud-markdown-body .mud-expand-panel p {
 	margin-bottom: 0 !important;
 }
+
+/* Images */
+.mud-markdown-body img {
+	max-width: 100%;
+}
