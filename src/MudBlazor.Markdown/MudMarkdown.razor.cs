@@ -266,10 +266,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 								.OfType<LiteralInline>()
 								.Select(static x => x.Content);
 
-							builder.OpenElement(_elementIndex++, "img");
-							builder.AddAttribute(_elementIndex++, "src", url);
-							builder.AddAttribute(_elementIndex++, "alt", string.Join(null, alt));
-							builder.CloseElement();
+							builder.OpenComponent<MudImage>(_elementIndex++);
+							builder.AddAttribute(_elementIndex++, nameof(MudImage.Class), "rounded-lg");
+							builder.AddAttribute(_elementIndex++, nameof(MudImage.Src), url);
+							builder.AddAttribute(_elementIndex++, nameof(MudImage.Alt), string.Join(null, alt));
+							builder.AddAttribute(_elementIndex++, nameof(MudImage.Elevation), 25);
+							builder.CloseComponent();
 						}
 						else if (LinkCommand == null)
 						{
