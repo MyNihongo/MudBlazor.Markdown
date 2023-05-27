@@ -101,7 +101,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
-		<img src='overridden/tokyo/sky-tree.png' alt='img' />
+		<img src='overridden/tokyo/sky-tree.png' alt='img' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 	</p>
 </article>";
 
