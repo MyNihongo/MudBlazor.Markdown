@@ -172,7 +172,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string expectedResult =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
-		<img src='extra/emw.png' alt='emw-banner' />
+		<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 	</p>
 </article>";
 
@@ -188,7 +188,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
-			<img src='extra/emw.png' alt='emw-banner' />
+			<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 		</a>
 	</p>
 </article>";

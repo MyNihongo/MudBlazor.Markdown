@@ -48,6 +48,10 @@ jobs:
     - name: Build
       run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
 
+    - name: Build samples
+      run: dotnet build -c ${{ env.Configuration }} -v m
+      working-directory: samples
+
     - name: Run tests
       run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
       
