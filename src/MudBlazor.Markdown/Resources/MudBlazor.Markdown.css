@@ -36,9 +36,10 @@ pre code.hljs {
 	padding: 0.25em 1em;
 	margin: 0.5em 0 1.25em;
 }
-.mud-markdown-body blockquote p {
-	margin-bottom: 0 !important;
-}
+
+	.mud-markdown-body blockquote p {
+		margin-bottom: 0 !important;
+	}
 
 /* Table */
 .mud-markdown-body table {
