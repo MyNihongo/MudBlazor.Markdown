@@ -34,8 +34,12 @@ pre code.hljs {
 	color: var(--mud-palette-text-secondary);
 	background-color: var(--mud-palette-drawer-background);
 	padding: 0.25em 1em;
-	margin: 0.5em 0;
+	margin: 0.5em 0 1.25em;
 }
+
+	.mud-markdown-body blockquote p {
+		margin-bottom: 0 !important;
+	}
 
 /* Table */
 .mud-markdown-body table {
