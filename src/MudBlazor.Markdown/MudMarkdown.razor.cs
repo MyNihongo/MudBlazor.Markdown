@@ -11,7 +11,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 {
 	private IMudMarkdownThemeService? _themeService;
 
-	private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+	private MarkdownPipeline? _pipeline;
 	private bool _enableLinkNavigation;
 	private int _elementIndex;
 
@@ -62,6 +62,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Parameter]
 	public MudMarkdownStyling Styling { get; set; } = new();
 
+	[Parameter]
+	public MarkdownPipeline? MarkdownPipeline { get; set; }
+
 	[Inject]
 	private NavigationManager? NavigationManager { get; init; }
 
@@ -89,7 +92,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		_elementIndex = 0;
 
-		var parsedText = Markdown.Parse(Value, _pipeline);
+		var pipeline = GetMarkdownPipeLine();
+		var parsedText = Markdown.Parse(Value, pipeline);
 		if (parsedText.Count == 0)
 			return;
 
@@ -435,4 +439,19 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
 		CodeBlockTheme = e;
+
+	private MarkdownPipeline GetMarkdownPipeLine()
+	{
+		if (MarkdownPipeline != null)
+			return MarkdownPipeline;
+
+		if (_pipeline == null)
+		{
+			_pipeline = new MarkdownPipelineBuilder()
+				.UseAdvancedExtensions()
+				.Build();
+		}
+
+		return _pipeline;
+	}
 }
