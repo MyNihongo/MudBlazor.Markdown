@@ -1,4 +1,5 @@
-﻿using MudBlazor.Markdown.Tests.Services;
+﻿using Markdig;
+using MudBlazor.Markdown.Tests.Services;
 
 namespace MudBlazor.Markdown.Tests.MarkdownComponentTests;
 
@@ -482,5 +483,35 @@ public bool IsMudBlazorCool()
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void HaveDefaultMarkdownPipeline()
+	{
+		const string value = "**bold**";
+
+		using var fixture = CreateFixture(value, markdownPipeline: null);
+
+		GetMarkdownPipeline(fixture.Instance)
+			.Should()
+			.NotBeNull();
+	}
+
+	[Fact]
+	public void PassCustomMarkdownPipeline()
+	{
+		const string value = "**bold**";
+
+		var input = new MarkdownPipelineBuilder()
+			.UseAdvancedExtensions()
+			.UseAbbreviations()
+			.UseMathematics()
+			.Build();
+
+		using var fixture = CreateFixture(value, markdownPipeline: input);
+
+		GetMarkdownPipeline(fixture.Instance)
+			.Should()
+			.BeNull();
 	}
 }

@@ -1,4 +1,6 @@
-﻿using Markdig.Syntax.Inlines;
+﻿using System.Reflection;
+using Markdig;
+using Markdig.Syntax.Inlines;
 using MyNihongo.Option;
 
 namespace MudBlazor.Markdown.Tests.MarkdownComponentTests;
@@ -11,7 +13,7 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 		string value,
 		Optional<ICommand?> command = default, Optional<int?> tableCellMinWidth = default,
 		Optional<Func<LinkInline, string?>?> overrideLinkUrl = default, Optional<Func<Typo, Typo>?> overrideHeaderTypo = default,
-		Optional<MudMarkdownStyling> styling = default)
+		Optional<MudMarkdownStyling> styling = default, Optional<MarkdownPipeline?> markdownPipeline = default)
 	{
 		MockNavigationManager.Initialize(Uri);
 
@@ -21,6 +23,20 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 				.TryAdd(static x => x.TableCellMinWidth, tableCellMinWidth)
 				.TryAdd(static x => x.OverrideLinkUrl, overrideLinkUrl)
 				.TryAdd(static x => x.OverrideHeaderTypo, overrideHeaderTypo)
-				.TryAdd(static x => x.Styling, styling));
+				.TryAdd(static x => x.Styling, styling)
+				.TryAdd(static x => x.MarkdownPipeline, markdownPipeline));
+	}
+
+	protected static MarkdownPipeline? GetMarkdownPipeline(MudMarkdown fixture)
+	{
+		const string fieldName = "_pipeline";
+
+		var field = typeof(MudMarkdown)
+			.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
+
+		if (field == null)
+			throw new NullReferenceException($"Field `{fieldName}` not found");
+
+		return (MarkdownPipeline?)field.GetValue(fixture);
 	}
 }
