@@ -445,13 +445,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (MarkdownPipeline != null)
 			return MarkdownPipeline;
 
-		if (_pipeline == null)
-		{
-			_pipeline = new MarkdownPipelineBuilder()
-				.UseAdvancedExtensions()
-				.Build();
-		}
-
-		return _pipeline;
+		return _pipeline ??= new MarkdownPipelineBuilder()
+			.UseAdvancedExtensions()
+			.Build();
 	}
 }
