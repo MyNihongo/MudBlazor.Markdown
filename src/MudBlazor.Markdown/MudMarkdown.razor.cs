@@ -4,6 +4,7 @@ using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace MudBlazor;
@@ -192,8 +193,10 @@ public class MudMarkdown : ComponentBase, IDisposable
 					break;
 				}
 				default:
+				{
 					OnRenderMarkdownBlockDefault(container[i]);
 					break;
+				}
 			}
 		}
 	}
@@ -328,12 +331,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 					break;
 				}
 				default:
+				{
 					OnRenderInlinesDefault(inline, builder);
 					break;
+				}
 			}
 		}
 	}
-	
+
 	/// <summary>
 	/// Renders inline block which is not covered by the switch-case block in <see cref="RenderInlines"/> 
 	/// </summary>
@@ -416,25 +421,31 @@ public class MudMarkdown : ComponentBase, IDisposable
 				switch (block[j])
 				{
 					case ListBlock x:
+					{
 						RenderList(x, builder);
 						break;
+					}
 					case ParagraphBlock x:
+					{
 						builder.OpenElement(ElementIndex++, "li");
 						RenderParagraphBlock(x, builder);
 						builder.CloseElement();
 						break;
+					}
 					default:
+					{
 						OnRenderListDefault(block[j], builder);
 						break;
+					}
 				}
 			}
 		}
 
 		builder.CloseElement();
 	}
-	
+
 	/// <summary>
-	/// Renders a markdown block which is not covered by the switch-case block in <see cref="RenderMarkdown"/> 
+	/// Renders a markdown block which is not covered by the switch-case block in <see cref="RenderList"/> 
 	/// </summary>
 	protected virtual void OnRenderListDefault(Markdig.Syntax.Block block, RenderTreeBuilder builder)
 	{
