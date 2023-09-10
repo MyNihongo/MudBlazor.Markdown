@@ -192,10 +192,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 					break;
 				}
 				default:
-					// TODO: add a method
+					OnRenderMarkdownBlockDefault(container[i]);
 					break;
 			}
 		}
+	}
+
+	/// <summary>
+	/// Renders a markdown block which is not covered by the switch-case block in <see cref="RenderMarkdown"/> 
+	/// </summary>
+	protected virtual void OnRenderMarkdownBlockDefault(Markdig.Syntax.Block block)
+	{
 	}
 
 	protected virtual void RenderParagraphBlock(LeafBlock paragraph, RenderTreeBuilder builder, Typo typo = Typo.body1, string? id = null)
@@ -292,7 +299,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 								var uriBuilder = new UriBuilder(NavigationManager.Uri)
 								{
-									Fragment = url
+									Fragment = url,
 								};
 								var args = new LocationChangedEventArgs(uriBuilder.Uri.AbsoluteUri, true);
 								NavigationManagerOnLocationChanged(NavigationManager, args);
@@ -321,10 +328,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 					break;
 				}
 				default:
-					// TODO: add a method
+					OnRenderInlinesDefault(inline, builder);
 					break;
 			}
 		}
+	}
+	
+	/// <summary>
+	/// Renders inline block which is not covered by the switch-case block in <see cref="RenderInlines"/> 
+	/// </summary>
+	protected virtual void OnRenderInlinesDefault(Inline inline, RenderTreeBuilder builder)
+	{
 	}
 
 	protected virtual void RenderTable(Table table, RenderTreeBuilder builder)
@@ -410,13 +424,20 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder.CloseElement();
 						break;
 					default:
-						// TODO: add a method
+						OnRenderListDefault(block[j], builder);
 						break;
 				}
 			}
 		}
 
 		builder.CloseElement();
+	}
+	
+	/// <summary>
+	/// Renders a markdown block which is not covered by the switch-case block in <see cref="RenderMarkdown"/> 
+	/// </summary>
+	protected virtual void OnRenderListDefault(Markdig.Syntax.Block block, RenderTreeBuilder builder)
+	{
 	}
 
 	protected virtual void RenderDetailsHtml(in RenderTreeBuilder builder, in string header, in string content)
