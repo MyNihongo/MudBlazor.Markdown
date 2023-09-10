@@ -29,7 +29,7 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 
 	protected static MarkdownPipeline? GetMarkdownPipeline(MudMarkdown fixture)
 	{
-		const string fieldName = "_pipeline";
+		const string fieldName = "Pipeline";
 
 		var field = typeof(MudMarkdown)
 			.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
