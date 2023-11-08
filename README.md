@@ -64,6 +64,8 @@ builder.Services.AddMudMarkdownServices();
 - `LinkCommand` - `<MudLink>` components will not navigate to the provided URL, but instead invoke the command. If the property is `null` then `<MudLink>` will navigate to the link automatically (behaviour of `<a>`);
 - `TableCellMinWidth` - minimum width (in pixels) for a table cell. If the property is `null` or negative the min width is not applied;
 - `OverrideHeaderTypo` - override a Typo parameter for tags `<h1>`, `<h2>`, etc.;
+- `ParagraphTypo` - override the Typo parameter for <MudText>
+- `TextColor` - override the Color parameter for <MudText>
 - `OverrideLinkUrl` - override a URL address for links;
 - `CodeBlockTheme` - default theme for code blocks;
 - `Styling` - override default styling.

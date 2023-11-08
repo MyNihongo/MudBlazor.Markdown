@@ -59,6 +59,20 @@ public class MudMarkdown : ComponentBase, IDisposable
 	public Func<Typo, Typo>? OverrideHeaderTypo { get; set; }
 
 	/// <summary>
+    /// Typography variant to use for paragrapgh text.<br/>
+    /// If a function is not provided it will use Typo.body1
+    /// </summary>
+    [Parameter]
+    public Typo? ParagraphTypo { get; set; }
+
+    /// <summary>
+    /// Color to use for all text.<br/>
+    /// If a color is not provided it will use the default.
+    /// </summary>
+    [Parameter]
+    public Color? TextColor { get; set; }
+
+    /// <summary>
 	/// Override default styling of the markdown component
 	/// </summary>
 	[Parameter]
@@ -133,7 +147,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			{
 				case ParagraphBlock paragraph:
 				{
-					RenderParagraphBlock(paragraph, builder);
+					RenderParagraphBlock(paragraph, builder, ParagraphTypo ?? Typo.body1);
 					break;
 				}
 				case HeadingBlock heading:
@@ -219,6 +233,10 @@ public class MudMarkdown : ComponentBase, IDisposable
 			builder.AddAttribute(ElementIndex++, "id", id);
 
 		builder.AddAttribute(ElementIndex++, nameof(MudText.Typo), typo);
+		if (TextColor != null)
+		{
+			builder.AddAttribute(ElementIndex++, nameof(MudText.Color), TextColor);
+		}
 		builder.AddAttribute(ElementIndex++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
 		builder.CloseComponent();
 	}
@@ -389,7 +407,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 				builder.AddAttribute(ElementIndex++, "style", $"min-width:{minWidth}px");
 
 			if (cell.Count != 0 && cell[0] is ParagraphBlock paragraphBlock)
-				RenderParagraphBlock(paragraphBlock, builder);
+				RenderParagraphBlock(paragraphBlock, builder, ParagraphTypo ?? Typo.body1);
 
 			builder.CloseElement();
 		}
@@ -428,7 +446,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 					case ParagraphBlock x:
 					{
 						builder.OpenElement(ElementIndex++, "li");
-						RenderParagraphBlock(x, builder);
+						if (TextColor != null)
+						{
+							string color = TextColor.Value.ToString().ToLower();
+                            builder.AddAttribute(ElementIndex++, "class", $"mud-{color}-text");
+						}
+						RenderParagraphBlock(x, builder, ParagraphTypo ?? Typo.body1);
 						builder.CloseElement();
 						break;
 					}
