@@ -9,7 +9,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	[InlineData(null)]
 	[InlineData("")]
 	[InlineData(" ")]
-	public void RenderNothingIfNullOrWhitespace(string value)
+	public void RenderNothingIfNullOrWhitespace(string? value)
 	{
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(string.Empty);
