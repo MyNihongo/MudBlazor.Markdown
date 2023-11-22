@@ -5,7 +5,7 @@ public sealed class IsExternalUriShould
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public void ReturnFalseIfUrlIsNullOrEmpty(string input)
+	public void ReturnFalseIfUrlIsNullOrEmpty(string? input)
 	{
 		var result = input.IsExternalUri("base uri");
 
@@ -17,7 +17,7 @@ public sealed class IsExternalUriShould
 	[Theory]
 	[InlineData(null)]
 	[InlineData("")]
-	public void ReturnFalseIfBaseUrlIsNullOrEmpty(string input)
+	public void ReturnFalseIfBaseUrlIsNullOrEmpty(string? input)
 	{
 		var result = "uri".IsExternalUri(input);
 

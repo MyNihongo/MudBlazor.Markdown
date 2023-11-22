@@ -10,7 +10,7 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 	protected string Uri { get; set; } = string.Empty;
 
 	protected IRenderedComponent<MudMarkdown> CreateFixture(
-		string value,
+		string? value,
 		Optional<ICommand?> command = default, Optional<int?> tableCellMinWidth = default,
 		Optional<Func<LinkInline, string?>?> overrideLinkUrl = default, Optional<Func<Typo, Typo>?> overrideHeaderTypo = default,
 		Optional<MudMarkdownStyling> styling = default, Optional<MarkdownPipeline?> markdownPipeline = default)
@@ -18,7 +18,7 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 		MockNavigationManager.Initialize(Uri);
 
 		return Ctx.RenderComponent<MudMarkdown>(@params =>
-			@params.Add(static x => x.Value, value)
+			@params.Add(static x => x.Value, value!)
 				.TryAdd(static x => x.LinkCommand, command)
 				.TryAdd(static x => x.TableCellMinWidth, tableCellMinWidth)
 				.TryAdd(static x => x.OverrideLinkUrl, overrideLinkUrl)
