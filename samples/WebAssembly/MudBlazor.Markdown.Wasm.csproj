@@ -8,9 +8,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.10" PrivateAssets="all" />
-		<PackageReference Include="ReactiveUI.Blazor" Version="19.4.1" />
-		<PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
+		<PackageReference Include="ReactiveUI.Blazor" Version="19.5.1" />
+		<PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
