@@ -77,7 +77,7 @@ window.refreshMathJaxScript = function () {
 	}
 }
 
-async function copyTextToClipboard(text) {
+window.copyTextToClipboard = async function (text) {
 	try {
 		await navigator.clipboard.writeText(text);
 	} catch (e) {

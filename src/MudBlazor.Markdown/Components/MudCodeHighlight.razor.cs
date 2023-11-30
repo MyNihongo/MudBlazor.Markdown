@@ -1,8 +1,10 @@
-﻿namespace MudBlazor;
+﻿using Microsoft.AspNetCore.Components.Web;
+
+namespace MudBlazor;
 
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
-	private ElementReference _codeBlockRef;
+	private ElementReference _ref;
 	private CodeBlockTheme _theme;
 	private IMudMarkdownThemeService? _themeService;
 	private bool _isFirstThemeSet;
@@ -75,6 +77,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.AddAttribute(i++, nameof(MudIconButton.Color), Color.Primary);
 		builder.AddAttribute(i++, nameof(MudIconButton.Size), Size.Medium);
 		builder.AddAttribute(i++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon m-2");
+		builder.AddAttribute(i++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
 		builder.CloseComponent();
 
 		// Code block
@@ -84,7 +87,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		if (!string.IsNullOrEmpty(Language))
 			builder.AddAttribute(i++, "class", $"language-{Language}");
 
-		builder.AddElementReferenceCapture(i++, x => _codeBlockRef = x);
+		builder.AddElementReferenceCapture(i++, x => _ref = x);
 		builder.AddContent(i++, Text);
 
 		builder.CloseElement();
@@ -107,7 +110,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		if (!firstRender)
 			return;
 
-		await Js.InvokeVoidAsync("highlightCodeElement", _codeBlockRef)
+		await Js.InvokeVoidAsync("highlightCodeElement", _ref)
 			.ConfigureAwait(false);
 
 		if (!_isFirstThemeSet)
@@ -128,5 +131,11 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			.ConfigureAwait(false);
 
 		_isFirstThemeSet = true;
+	}
+
+	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
+	{
+		await Js.InvokeVoidAsync("copyTextToClipboard", Text)
+			.ConfigureAwait(false);
 	}
 }
