@@ -81,6 +81,7 @@ window.copyTextToClipboard = async function (text) {
 	try {
 		await navigator.clipboard.writeText(text);
 	} catch (e) {
+		// In case there are no clipboard permissions we try to copy the text in a hacky way
 		const fakeElement = document.createElement("textarea");
 		fakeElement.value = text;
 		document.body.appendChild(fakeElement);
@@ -90,6 +91,13 @@ window.copyTextToClipboard = async function (text) {
 
 		const commandResult = document.execCommand('copy');
 		document.body.removeChild(fakeElement);
+		
+		if (commandResult) {
+			return;
+		}
+		
+		// In case it was not possible to copy the text the hacky way
+		// The last resource is asking for the permission and copy the text again
 		
 		console.log(commandResult);
 	}
