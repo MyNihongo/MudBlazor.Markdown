@@ -76,3 +76,21 @@ window.refreshMathJaxScript = function () {
 		// swallow since in some cases MathJax might not be initialized
 	}
 }
+
+window.copyTextToClipboard = async function (text) {
+	try {
+		await navigator.clipboard.writeText(text);
+	} catch (e) {
+		const fakeElement = document.createElement("textarea");
+		fakeElement.value = text;
+		document.body.appendChild(fakeElement);
+
+		fakeElement.select();
+		fakeElement.setSelectionRange(0, text.length); // For mobile devices
+
+		const commandResult = document.execCommand('copy');
+		document.body.removeChild(fakeElement);
+		
+		console.log(commandResult);
+	}
+}
