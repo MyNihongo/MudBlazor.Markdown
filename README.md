@@ -48,6 +48,9 @@ For the Blazor WebAssembly in the `Program.cs` add this method.
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddMudServices();
 builder.Services.AddMudMarkdownServices();
+// Optionally if default clipboard functionality fails it is possible to add a custom service
+// NB! MauiClipboardService is just an example
+builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
 ```
 ## Using the component
 ```razor
