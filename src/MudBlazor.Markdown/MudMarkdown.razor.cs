@@ -306,6 +306,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					else if (LinkCommand == null)
 					{
 						builder.OpenComponent<MudLink>(ElementIndex++);
+						builder.AddAttribute(ElementIndex++, nameof(MudLink.Typo), ParagraphTypo ?? Typo.body1);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.Href), url);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
@@ -338,6 +339,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					else
 					{
 						builder.OpenComponent<MudLinkButton>(ElementIndex++);
+						builder.AddAttribute(ElementIndex++, nameof(MudLinkButton.Typo), ParagraphTypo ?? Typo.body1);
 						builder.AddAttribute(ElementIndex++, nameof(MudLinkButton.Command), LinkCommand);
 						builder.AddAttribute(ElementIndex++, nameof(MudLinkButton.CommandParameter), url);
 						builder.AddAttribute(ElementIndex++, nameof(MudLinkButton.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
