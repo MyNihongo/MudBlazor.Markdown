@@ -76,3 +76,12 @@ window.refreshMathJaxScript = function () {
 		// swallow since in some cases MathJax might not be initialized
 	}
 }
+
+window.copyTextToClipboard = async function (text) {
+	try {
+		await navigator.clipboard.writeText(text);
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
