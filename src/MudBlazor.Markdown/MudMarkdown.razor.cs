@@ -432,20 +432,20 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder.CloseElement();
 						break;
 					}
-                    case FencedCodeBlock code:
-                    {
-                        builder.OpenElement(ElementIndex++, "li");
-                        var text = code.CreateCodeBlockText();
+					case FencedCodeBlock code:
+					{
+						builder.OpenElement(ElementIndex++, "li");
+						var text = code.CreateCodeBlockText();
 
-                        builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
-                        builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
-                        builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
-                        builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
-                        builder.CloseComponent();
-                        builder.CloseElement();
-                        break;
-                    }
-                    default:
+						builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
+						builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
+						builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+						builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+						builder.CloseComponent();
+						builder.CloseElement();
+						break;
+					}
+					default:
 					{
 						OnRenderListDefault(block[j], builder);
 						break;
