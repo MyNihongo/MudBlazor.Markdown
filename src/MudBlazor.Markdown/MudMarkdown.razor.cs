@@ -408,6 +408,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		for (var i = 0; i < list.Count; i++)
 		{
 			var block = (ListItemBlock)list[i];
+			builder.OpenElement(ElementIndex++, "li");
 
 			for (var j = 0; j < block.Count; j++)
 			{
@@ -420,9 +421,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 					case ParagraphBlock x:
 					{
-						builder.OpenElement(ElementIndex++, "li");
 						RenderParagraphBlock(x, builder);
-						builder.CloseElement();
 						break;
 					}
 					case FencedCodeBlock x:
@@ -437,6 +436,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 				}
 			}
+
+			// Close </li> 
+			builder.CloseElement();
 		}
 
 		builder.CloseElement();
