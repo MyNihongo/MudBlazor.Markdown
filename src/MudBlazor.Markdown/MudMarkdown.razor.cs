@@ -359,7 +359,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.AddAttribute(ElementIndex++, nameof(MudSimpleTable.Elevation), Styling.Table.Elevation);
 		builder.AddAttribute(ElementIndex++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
 		{
-			// thread
+			// thead
 			contentBuilder.OpenElement(ElementIndex++, "thead");
 			RenderTableRow((TableRow)table[0], "th", contentBuilder, TableCellMinWidth);
 			contentBuilder.CloseElement();
