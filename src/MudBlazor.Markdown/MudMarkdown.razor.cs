@@ -425,6 +425,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder.CloseElement();
 						break;
 					}
+					case FencedCodeBlock x:
+					{
+						RenderFencedCodeBlock(builder, x);
+						break;
+					}
 					default:
 					{
 						OnRenderListDefault(block[j], builder);
