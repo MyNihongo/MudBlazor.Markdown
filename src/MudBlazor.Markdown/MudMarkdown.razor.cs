@@ -173,14 +173,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case FencedCodeBlock code:
 				{
-					var text = code.CreateCodeBlockText();
-
-					builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
-					builder.CloseComponent();
-
+					RenderFencedCodeBlock(builder, code);
 					break;
 				}
 				case HtmlBlock html:
@@ -466,6 +459,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 	{
 		var markupString = new MarkupString(lines.ToString());
 		builder.AddContent(ElementIndex, markupString);
+	}
+
+	protected virtual void RenderFencedCodeBlock(in RenderTreeBuilder builder, in FencedCodeBlock code)
+	{
+		var text = code.CreateCodeBlockText();
+
+		builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+		builder.CloseComponent();
 	}
 
 	private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)
