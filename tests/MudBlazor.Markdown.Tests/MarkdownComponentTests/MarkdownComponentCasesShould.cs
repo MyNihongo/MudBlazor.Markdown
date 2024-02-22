@@ -441,4 +441,35 @@ public bool IsMudBlazorCool()
 	}
 
 	#endregion
+
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/233
+
+	[Fact]
+	public void RenderListWithWithCompositeListItems()
+	{
+		const string value =
+@"To prevent the warning message regarding the deprecation of the `mysql_native_password` plugin from being logged, you have a couple of options:
+
+Option 1: Update User Authentication Method:
+
+1. Connect to your MySQL server using a MySQL client, such as the `mysql` command-line tool:
+   ```bash
+   mysql -u username -p
+   ```
+
+2. Once connected, run the following command to alter the user's authentication method:
+   ```sql
+   ALTER USER 'username'@'hostname' IDENTIFIED WITH caching_sha2_password;
+   ```
+   Replace `'username'` with the actual username and `'hostname'` with the appropriate hostname or IP address. If you want to update for all users, replace `'username'@'hostname'` with `'*'@'%'`.
+
+3. Repeat this process for each user on your MySQL server.";
+
+		const string expected = "";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	#endregion
 }

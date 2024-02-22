@@ -305,6 +305,21 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
+	public void RenderOrderedListWithCodeBlock()
+	{
+		const string value =
+@"1. Connect to your MySQL server using a MySQL client, such as the `mysql` command-line tool:
+  ```bash
+  mysql -u username -p
+  ```";
+
+		const string expected = "";
+		
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
 	public void RenderTable()
 	{
 		const string value =
