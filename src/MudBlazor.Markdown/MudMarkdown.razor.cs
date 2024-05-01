@@ -174,6 +174,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 				case FencedCodeBlock code:
 				{
 					var text = code.CreateCodeBlockText();
+					
+					// Necessary to prevent Blazor from crashing when the code block is empty.
+					// It seems that Blazor does not like empty attributes.
+					//
+					// See:
+					// - https://github.com/dotnet/aspnetcore/issues/17821#issuecomment-565029287
+					if(string.IsNullOrWhiteSpace(text))
+						break;
 
 					builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
 					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
