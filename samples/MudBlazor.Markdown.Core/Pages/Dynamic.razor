@@ -1,0 +1,17 @@
+﻿@page "/dynamic"
+
+@* Code block *@
+<MudText Typo="Typo.h2">Dynamic code block</MudText>
+<MudButton OnClick="UpdateCodeBlock" Variant="Variant.Filled">Update code block</MudButton>
+<MudMarkdown Value="@CodeBlockMarkdown" CodeBlockTheme="CodeBlockTheme.DraculaBase16"/>
+
+@code {
+	private string _codeBlock = "myVar := 123";
+	private string CodeBlockMarkdown => "```go" + Environment.NewLine + _codeBlock + Environment.NewLine + "```";
+
+	private async Task UpdateCodeBlock()
+	{
+		_codeBlock += Environment.NewLine + _codeBlock;
+		await InvokeAsync(StateHasChanged);
+	}
+}
