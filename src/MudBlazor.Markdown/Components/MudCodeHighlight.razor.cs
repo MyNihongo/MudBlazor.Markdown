@@ -85,10 +85,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(i++, "code");
 
 		if (!string.IsNullOrEmpty(Language))
-			builder.AddAttribute(i++, "class", $"language-{Language}");
+			builder.AddAttribute(i++, "class", $"hljs language-{Language}");
 
 		builder.AddElementReferenceCapture(i++, x => _ref = x);
-		builder.AddContent(i++, Text);
 
 		builder.CloseElement();
 		builder.CloseElement();
@@ -107,11 +106,12 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		// make it conditional
+		await Js.InvokeVoidAsync("highlightCodeElement", _ref, Text, Language)
+			.ConfigureAwait(false);
+
 		if (!firstRender)
 			return;
-
-		await Js.InvokeVoidAsync("highlightCodeElement", _ref)
-			.ConfigureAwait(false);
 
 		if (!_isFirstThemeSet)
 		{
