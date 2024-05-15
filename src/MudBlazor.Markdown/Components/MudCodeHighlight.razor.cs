@@ -65,6 +65,11 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
 
+	private string CodeClasses => new CssBuilder()
+		.AddClass("hljs")
+		.AddClass(() => $"language-{Language}", () => !string.IsNullOrEmpty(Language))
+		.Build();
+
 	public void Dispose()
 	{
 		if (_themeService != null)
@@ -96,10 +101,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		// Code block
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
-
-		if (!string.IsNullOrEmpty(Language))
-			builder.AddAttribute(i++, "class", $"hljs language-{Language}");
-
+		builder.AddAttribute(i++, "class", CodeClasses);
 		builder.AddElementReferenceCapture(i++, x => _ref = x);
 
 		builder.CloseElement();
