@@ -16,6 +16,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Code text to render
 	/// </summary>
 	[Parameter]
+#if NET7_0 || NET8_0
+#pragma warning disable BL0007
+#endif
 	public string Text
 	{
 		get => _text;
@@ -39,7 +42,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
-#if NET7_0
+#if NET7_0 || NET8_0
 #pragma warning disable BL0007
 #endif
 	[Parameter]
