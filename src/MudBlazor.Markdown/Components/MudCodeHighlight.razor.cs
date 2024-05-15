@@ -9,11 +9,24 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	private IMudMarkdownThemeService? _themeService;
 	private bool _isFirstThemeSet;
 
+	private string _text = string.Empty;
+	private bool _isTextUpdated;
+
 	/// <summary>
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-	public string Text { get; set; } = string.Empty;
+	public string Text
+	{
+		get => _text;
+		set
+		{
+			if (_text != value)
+				_isTextUpdated = true;
+
+			_text = value;
+		}
+	}
 
 	/// <summary>
 	/// Language of the <see cref="Text"/>
@@ -106,9 +119,13 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		// make it conditional
-		await Js.InvokeVoidAsync("highlightCodeElement", _ref, Text, Language)
-			.ConfigureAwait(false);
+		if (_isTextUpdated)
+		{
+			await Js.InvokeVoidAsync("highlightCodeElement", _ref, Text, Language)
+				.ConfigureAwait(false);
+
+			_isTextUpdated = false;
+		}
 
 		if (!firstRender)
 			return;
