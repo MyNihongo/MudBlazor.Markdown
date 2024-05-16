@@ -243,7 +243,7 @@ public int GetTheAnswer()
 				</svg>
 			</span>
 		</button>
-		<pre><code blazor:elementReference='8035dc45-0e97-419e-869c-51a5d65602d4' class='language-csharp'>public int GetTheAnswer()&#xD;&#xA;{&#xD;&#xA;   return 42;&#xD;&#xA;}</code></pre>
+		<pre><code blazor:elementReference='8035dc45-0e97-419e-869c-51a5d65602d4' class='hljs language-csharp'></code></pre>
 	</div>
 	<h2 id='another-headline-1' class='mud-typography mud-typography-h2'>Another headline 1</h2>
 	<h2 id='another-headline-2' class='mud-typography mud-typography-h2'>Another headline 2</h2>
@@ -279,7 +279,7 @@ code
 				</svg>
 			</span>
 		</button>
-		<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30' class='language-text'>some&#xD;&#xA;code</code></pre>
+		<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30' class='hljs language-text'></code></pre>
 	</div>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1'>List item 1</p></li>
@@ -319,7 +319,7 @@ public bool IsMudBlazorCool()
 				</svg>
 			</span>
 		</button>
-		<pre><code blazor:elementReference='3acd6993-4f90-4ff3-b73c-670bc06e8008'>public bool IsMudBlazorCool()&#xD;&#xA;{&#xD;&#xA;&#x9;return true;&#xD;&#xA;}</code></pre>
+		<pre><code blazor:elementReference='3acd6993-4f90-4ff3-b73c-670bc06e8008' class='hljs'></code></pre>
 	</div>
 </article>";
 

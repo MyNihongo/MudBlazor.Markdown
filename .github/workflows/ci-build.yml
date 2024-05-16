@@ -4,62 +4,67 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [ opened, synchronize, reopened, closed ]
     branches: [ main ]
   workflow_dispatch:
-    
+
 env:
   Configuration: RELEASE
   ArtifactsName: nuget
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        
-    - name: Install .NET 6
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: Install .NET 7
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 7.0.x
-        
-    - name: Install Node.js
-      uses: actions/setup-node@v2.4.0
-      with:
-        node-version: 16.x
-        cache: 'npm'
-        cache-dependency-path: src/MudBlazor.Markdown/package-lock.json
-      
-    - name: Setup npm packages
-      run: npm ci
-      working-directory: src/MudBlazor.Markdown
-          
-    - name: NuGet restore
-      run: dotnet restore
+      - name: Install .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
 
-    - name: Build
-      run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
+      - name: Install .NET 7
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.x
 
-    - name: Build samples
-      run: dotnet build -c ${{ env.Configuration }} -v m
-      working-directory: samples
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.x
 
-    - name: Run tests
-      run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
-      
-    - name: Create NuGet Artifacts
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ env.ArtifactsName }}
-        path: '**/*.nupkg'
+      - name: Install Node.js
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: 16.x
+          cache: 'npm'
+          cache-dependency-path: src/MudBlazor.Markdown/package-lock.json
+
+      - name: Setup npm packages
+        run: npm ci
+        working-directory: src/MudBlazor.Markdown
+
+      - name: NuGet restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c ${{ env.Configuration }} -v m --no-restore
+
+      - name: Build samples
+        run: dotnet build -c ${{ env.Configuration }} -v m
+        working-directory: samples
+
+      - name: Run tests
+        run: dotnet test -c ${{ env.Configuration }} -v m --no-restore --no-build
+
+      - name: Create NuGet Artifacts
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: ${{ env.ArtifactsName }}
+          path: '**/*.nupkg'
 
   release:
     runs-on: ubuntu-latest
@@ -68,22 +73,22 @@ jobs:
     # .net6 does not produce valid .nupkg files with wwwroot
     if: 1 == 2
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-        
-    - name: Download NuGet Artifacts
-      uses: actions/download-artifact@v2.0.10
-      with:
-        name: ${{ env.ArtifactsName }}
-        
-    - name: NuGet push
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
-        NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
-        PACKAGE_GITHUB_AUTH_TOKEN: ${{ secrets.PACKAGE_GITHUB_API_KEY }}
-        PACKAGE_GITHUB_SOURCE_URL: https://nuget.pkg.github.com/MyNihongo/index.json
-      run: |
-        dotnet nuget push -s ${{ env.NUGET_SOURCE_URL }} -k ${{ env.NUGET_AUTH_TOKEN }} --skip-duplicate **/*.nupkg
-        dotnet nuget push -s ${{ env.PACKAGE_GITHUB_SOURCE_URL }} -k ${{ env.PACKAGE_GITHUB_AUTH_TOKEN }} --skip-duplicate **/*.nupkg
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download NuGet Artifacts
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: ${{ env.ArtifactsName }}
+
+      - name: NuGet push
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+          NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
+          PACKAGE_GITHUB_AUTH_TOKEN: ${{ secrets.PACKAGE_GITHUB_API_KEY }}
+          PACKAGE_GITHUB_SOURCE_URL: https://nuget.pkg.github.com/MyNihongo/index.json
+        run: |
+          dotnet nuget push -s ${{ env.NUGET_SOURCE_URL }} -k ${{ env.NUGET_AUTH_TOKEN }} --skip-duplicate **/*.nupkg
+          dotnet nuget push -s ${{ env.PACKAGE_GITHUB_SOURCE_URL }} -k ${{ env.PACKAGE_GITHUB_AUTH_TOKEN }} --skip-duplicate **/*.nupkg
