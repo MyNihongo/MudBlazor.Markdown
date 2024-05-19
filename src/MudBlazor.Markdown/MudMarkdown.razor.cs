@@ -173,14 +173,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case FencedCodeBlock code:
 				{
-					var text = code.CreateCodeBlockText();
-
-					builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
-					builder.CloseComponent();
-
+					RenderFencedCodeBlock(builder, code);
 					break;
 				}
 				case HtmlBlock html:
@@ -359,7 +352,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.AddAttribute(ElementIndex++, nameof(MudSimpleTable.Elevation), Styling.Table.Elevation);
 		builder.AddAttribute(ElementIndex++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
 		{
-			// thread
+			// thead
 			contentBuilder.OpenElement(ElementIndex++, "thead");
 			RenderTableRow((TableRow)table[0], "th", contentBuilder, TableCellMinWidth);
 			contentBuilder.CloseElement();
@@ -415,6 +408,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		for (var i = 0; i < list.Count; i++)
 		{
 			var block = (ListItemBlock)list[i];
+			builder.OpenElement(ElementIndex++, "li");
 
 			for (var j = 0; j < block.Count; j++)
 			{
@@ -427,9 +421,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 					case ParagraphBlock x:
 					{
-						builder.OpenElement(ElementIndex++, "li");
 						RenderParagraphBlock(x, builder);
-						builder.CloseElement();
+						break;
+					}
+					case FencedCodeBlock x:
+					{
+						RenderFencedCodeBlock(builder, x);
 						break;
 					}
 					default:
@@ -439,6 +436,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 				}
 			}
+
+			// Close </li> 
+			builder.CloseElement();
 		}
 
 		builder.CloseElement();
@@ -466,6 +466,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 	{
 		var markupString = new MarkupString(lines.ToString());
 		builder.AddContent(ElementIndex, markupString);
+	}
+
+	protected virtual void RenderFencedCodeBlock(in RenderTreeBuilder builder, in FencedCodeBlock code)
+	{
+		var text = code.CreateCodeBlockText();
+
+		builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+		builder.CloseComponent();
 	}
 
 	private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)

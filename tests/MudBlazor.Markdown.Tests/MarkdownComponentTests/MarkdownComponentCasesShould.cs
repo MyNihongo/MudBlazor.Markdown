@@ -441,4 +441,73 @@ public bool IsMudBlazorCool()
 	}
 
 	#endregion
+
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/233
+
+	[Fact]
+	public void RenderListWithWithCompositeListItems()
+	{
+		const string value =
+@"To prevent the warning message regarding the deprecation of the `mysql_native_password` plugin from being logged, you have a couple of options:
+
+Option 1: Update User Authentication Method:
+
+1. Connect to your MySQL server using a MySQL client, such as the `mysql` command-line tool:
+   ```bash
+   mysql -u username -p
+   ```
+
+2. Once connected, run the following command to alter the user's authentication method:
+   ```sql
+   ALTER USER 'username'@'hostname' IDENTIFIED WITH caching_sha2_password;
+   ```
+   Replace `'username'` with the actual username and `'hostname'` with the appropriate hostname or IP address. If you want to update for all users, replace `'username'@'hostname'` with `'*'@'%'`.
+
+3. Repeat this process for each user on your MySQL server.";
+
+		const string expected = 
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>To prevent the warning message regarding the deprecation of the <code>mysql_native_password</code> plugin from being logged, you have a couple of options:</p>
+	<p class='mud-typography mud-typography-body1'>Option 1: Update User Authentication Method:</p>
+	<ol>
+		<li>
+			<p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p>
+			<div class='snippet-clipboard-content overflow-auto'>
+				<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon m-2' blazor:onclick:stopPropagation blazor:elementReference='04351ea9-1ade-49ae-a456-1569ac5acaac'>
+					<span class='mud-icon-button-label'>
+						<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
+							<g><rect fill='none' height='24' width='24'/></g>
+							<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
+						</svg>
+					</span>
+				</button>
+				<pre><code class='hljs language-bash' blazor:elementReference='13378335-2519-498c-9caf-6ac02a5ae6d9'></code></pre>
+			</div>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1'>Once connected, run the following command to alter the user's authentication method:</p>
+			<div class='snippet-clipboard-content overflow-auto'>
+				<button blazor:onclick='2' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon m-2' blazor:onclick:stopPropagation blazor:elementReference='0909b6fb-9097-41f8-b483-87e80ab4975d'>
+					<span class='mud-icon-button-label'>
+						<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
+							<g><rect fill='none' height='24' width='24'/></g>
+							<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
+						</svg>
+					</span>
+				</button>
+				<pre><code class='hljs language-sql' blazor:elementReference='a285cc1a-bc9c-4264-aac3-7d110a7c0809'></code></pre>
+			</div>
+			<p class='mud-typography mud-typography-body1'>Replace <code>'username'</code> with the actual username and <code>'hostname'</code> with the appropriate hostname or IP address. If you want to update for all users, replace <code>'username'@'hostname'</code> with <code>'*'@'%'</code>.</p>
+		</li>
+		<li>
+			<p class='mud-typography mud-typography-body1'>Repeat this process for each user on your MySQL server.</p>
+		</li>
+	</ol>
+</article>";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	#endregion
 }
