@@ -44,8 +44,8 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 		{
 			Table =
 			{
-				IsStriped = false
-			}
+				IsStriped = false,
+			},
 		};
 
 		using var fixture = CreateFixture(value, styling: styling);
@@ -94,8 +94,8 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 		{
 			Table =
 			{
-				IsBordered = false
-			}
+				IsBordered = false,
+			},
 		};
 
 		using var fixture = CreateFixture(value, styling: styling);
@@ -144,10 +144,76 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 		{
 			Table =
 			{
-				Elevation = 0
-			}
+				Elevation = 0,
+			},
 		};
 
+		using var fixture = CreateFixture(value, styling: styling);
+		fixture.MarkupMatches(expected);
+	}
+	
+	[Fact]
+	public void RenderLinkUnderlineDefault()
+	{
+		const string value = "[my link](https://www.mynihongo.org/)";
+		
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>my link</a>
+	</p>
+</article>";
+
+		var styling = new MudMarkdownStyling();
+		
+		using var fixture = CreateFixture(value, styling: styling);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderLinkUnderlineAlways()
+	{
+		const string value = "[my link](https://www.mynihongo.org/)";
+		
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-always mud-typography-body1'>my link</a>
+	</p>
+</article>";
+
+		var styling = new MudMarkdownStyling
+		{
+			Link =
+			{
+				Underline = Underline.Always,
+			},
+		};
+		
+		using var fixture = CreateFixture(value, styling: styling);
+		fixture.MarkupMatches(expected);
+	}
+	
+	[Fact]
+	public void RenderLinkUnderlineNone()
+	{
+		const string value = "[my link](https://www.mynihongo.org/)";
+		
+		const string expected =
+@"<article class='mud-markdown-body'>
+	<p class='mud-typography mud-typography-body1'>
+		<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-none mud-typography-body1'>my link</a>
+	</p>
+</article>";
+
+		var styling = new MudMarkdownStyling
+		{
+			Link =
+			{
+				Underline = Underline.None,
+			},
+		};
+		
 		using var fixture = CreateFixture(value, styling: styling);
 		fixture.MarkupMatches(expected);
 	}
