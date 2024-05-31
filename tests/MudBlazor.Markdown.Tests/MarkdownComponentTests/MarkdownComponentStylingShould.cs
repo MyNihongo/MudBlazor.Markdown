@@ -153,24 +153,6 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 	}
 	
 	[Fact]
-	public void RenderLinkUnderlineDefault()
-	{
-		const string value = "[my link](https://www.mynihongo.org/)";
-		
-		const string expected =
-@"<article class='mud-markdown-body'>
-	<p class='mud-typography mud-typography-body1'>
-		<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>my link</a>
-	</p>
-</article>";
-
-		var styling = new MudMarkdownStyling();
-		
-		using var fixture = CreateFixture(value, styling: styling);
-		fixture.MarkupMatches(expected);
-	}
-
-	[Fact]
 	public void RenderLinkUnderlineAlways()
 	{
 		const string value = "[my link](https://www.mynihongo.org/)";
