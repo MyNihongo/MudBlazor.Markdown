@@ -276,6 +276,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					{
 						builder.OpenComponent<MudLink>(ElementIndex++);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.Href), url);
+						builder.AddAttribute(ElementIndex++, nameof(MudLink.Underline), Styling.Link.Underline);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
 						if (url.IsExternalUri(NavigationManager?.BaseUri))
