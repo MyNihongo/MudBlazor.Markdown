@@ -9,7 +9,15 @@ const codeStylesDir = "code-styles";
 const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 
 window.highlightCodeElement = function (element, text, language) {
-	const result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+	let result;
+	
+	try {
+		result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+	} catch (e) {
+		console.error(e);
+		result = hljs.highlightAuto(text);
+	}
+	
 	element.innerHTML = result.value;
 }
 
