@@ -1,4 +1,9 @@
 ﻿import hljs from "highlight.js";
+import hljsRazor from "highlightjs-cshtml-razor";
+
+hljs.registerLanguage("cshtml", hljsRazor);
+hljs.registerLanguage("razor", hljsRazor);
+hljs.registerLanguage("razor-cshtml", hljsRazor);
 
 const codeStylesDir = "code-styles";
 const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
