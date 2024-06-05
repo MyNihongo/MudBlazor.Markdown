@@ -32,7 +32,7 @@ pre code.hljs {
 .mud-markdown-body blockquote {
 	border-left: .25em solid var(--mud-palette-text-disabled);
 	color: var(--mud-palette-text-secondary);
-	background-color: var(--mud-palette-drawer-background);
+	background-color: var(--mud-palette-table-hover);
 	padding: 0.25em 1em;
 	margin: 0.5em 0 1.25em;
 }
