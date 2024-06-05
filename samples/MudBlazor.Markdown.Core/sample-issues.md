@@ -1,4 +1,15 @@
-﻿# [Nested text](https://github.com/MyNihongo/MudBlazor.Markdown/issues/233)
+﻿# [Unknown language - Razor](https://github.com/MyNihongo/MudBlazor.Markdown/issues/260)
+```razor
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>@ViewData["Title"]</h2>
+```
+
+# [Nested text](https://github.com/MyNihongo/MudBlazor.Markdown/issues/233)
 > To prevent the warning message regarding the deprecation of the `mysql_native_password` plugin from being logged, you have a couple of options:
 > 
 > Option 1: Update User Authentication Method:

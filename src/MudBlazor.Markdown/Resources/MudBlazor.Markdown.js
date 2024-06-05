@@ -1,10 +1,23 @@
 ﻿import hljs from "highlight.js";
+import hljsRazor from "highlightjs-cshtml-razor";
+
+hljs.registerLanguage("cshtml", hljsRazor);
+hljs.registerLanguage("razor", hljsRazor);
+hljs.registerLanguage("razor-cshtml", hljsRazor);
 
 const codeStylesDir = "code-styles";
 const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 
 window.highlightCodeElement = function (element, text, language) {
-	const result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+	let result;
+	
+	try {
+		result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+	} catch (e) {
+		console.error(e);
+		result = hljs.highlightAuto(text);
+	}
+	
 	element.innerHTML = result.value;
 }
 
