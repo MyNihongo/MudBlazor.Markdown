@@ -1,6 +1,4 @@
-﻿@using System.Reactive
-@using MudBlazor.Markdown.Core.Services
-@using ReactiveUI
+﻿@using MudBlazor.Markdown.Core.Services
 @inherits LayoutComponentBase
 
 <MudLayout>
@@ -8,7 +6,7 @@
 		<MudText Typo="Typo.h4">WebAssembly sample</MudText>
 		<MudSpacer />
 		<MudTooltip Text="Toggle theme">
-			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit" Command="@ToggleTheme" />
+			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit" OnClick="ToggleThemeAsync"/>
 		</MudTooltip>
 	</MudAppBar>
 
@@ -21,24 +19,15 @@
 
 @code
 {
-	public MainLayout()
-	{
-		ToggleTheme = CreateToggleThemeCommand();
-	}
-
 	[Inject]
 	private IThemeService? ThemeService { get; init; }
 
-	private ReactiveCommand<Unit, Unit> ToggleTheme { get; }
+	private async Task ToggleThemeAsync()
+	{
+		if (ThemeService == null)
+			return;
 
-	private ReactiveCommand<Unit, Unit> CreateToggleThemeCommand() =>
-		ReactiveCommand
-			.CreateFromTask(async () =>
-			{
-				if (ThemeService == null)
-					return;
-
-				await ThemeService.ToggleThemeAsync()
-					.ConfigureAwait(false);
-			});
+		await ThemeService.ToggleThemeAsync()
+			.ConfigureAwait(false);
+	}
 }
