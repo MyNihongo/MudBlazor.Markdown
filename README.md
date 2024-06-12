@@ -19,6 +19,7 @@ Add the following using statement in `_Imports.razor`.
 Add the following nodes in either `App.razor` or `MainLayout.razor`.
 ```razor
 <MudThemeProvider />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 ```
