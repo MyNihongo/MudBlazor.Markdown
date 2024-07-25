@@ -1,10 +1,24 @@
 ﻿import hljs from "highlight.js";
+import hljsRazor from "highlightjs-cshtml-razor";
+
+hljs.registerLanguage("cshtml", hljsRazor);
+hljs.registerLanguage("razor", hljsRazor);
+hljs.registerLanguage("razor-cshtml", hljsRazor);
 
 const codeStylesDir = "code-styles";
 const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 
-window.highlightCodeElement = function (element) {
-	hljs.highlightElement(element);
+window.highlightCodeElement = function (element, text, language) {
+	let result;
+	
+	try {
+		result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+	} catch (e) {
+		console.error(e);
+		result = hljs.highlightAuto(text);
+	}
+	
+	element.innerHTML = result.value;
 }
 
 window.setHighlightStylesheet = function (stylesheetPath) {
@@ -74,5 +88,14 @@ window.refreshMathJaxScript = function () {
 		MathJax.typeset();
 	} catch (e) {
 		// swallow since in some cases MathJax might not be initialized
+	}
+}
+
+window.copyTextToClipboard = async function (text) {
+	try {
+		await navigator.clipboard.writeText(text);
+		return true;
+	} catch (e) {
+		return false;
 	}
 }

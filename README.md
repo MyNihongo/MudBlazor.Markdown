@@ -41,6 +41,9 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddMudServices();
     services.AddMudMarkdownServices();
+    // Optionally if default clipboard functionality fails it is possible to add a custom service
+    // NB! MauiClipboardService is just an example
+    builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
 }
 ```
 For the Blazor WebAssembly in the `Program.cs` add this method.
@@ -48,6 +51,9 @@ For the Blazor WebAssembly in the `Program.cs` add this method.
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddMudServices();
 builder.Services.AddMudMarkdownServices();
+// Optionally if default clipboard functionality fails it is possible to add a custom service
+// NB! MauiClipboardService is just an example
+builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
 ```
 ## Using the component
 ```razor
@@ -76,7 +82,7 @@ Useful links for configuring the palette:
 
 The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). These are the colors which are used in the `<MudMarkdown>`:
 - DrawerBackground - background-color of the quoted text;
-- OverlayDark - background-color of the code block;
+- ChipDefault - background-color of the code block;
 - TextDisabled - border-color of the quoted text and border-color of the h1 and h2 bottom divider;
 - TextPrimary - regular text in the markdown;
 - TextSecondary - color of the quoted text;

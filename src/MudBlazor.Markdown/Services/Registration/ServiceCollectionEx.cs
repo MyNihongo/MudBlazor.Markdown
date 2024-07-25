@@ -4,8 +4,12 @@ public static class ServiceCollectionEx
 {
 	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this)
 	{
-		@this.AddScoped<IMudMarkdownThemeService, MudMarkdownThemeService>();
+		return @this.AddScoped<IMudMarkdownThemeService, MudMarkdownThemeService>();
+	}
 
-		return @this;
+	public static IServiceCollection AddMudMarkdownClipboardService<T>(this IServiceCollection @this)
+		where T : class, IMudMarkdownClipboardService
+	{
+		return @this.AddScoped<IMudMarkdownClipboardService, T>();
 	}
 }

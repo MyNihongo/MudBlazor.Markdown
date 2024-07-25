@@ -1,4 +1,4 @@
-﻿using Markdig.Extensions.Mathematics;
+using Markdig.Extensions.Mathematics;
 using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
@@ -188,14 +188,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case FencedCodeBlock code:
 				{
-					var text = code.CreateCodeBlockText();
-
-					builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
-					builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
-					builder.CloseComponent();
-
+					RenderFencedCodeBlock(builder, code);
 					break;
 				}
 				case HtmlBlock html:
@@ -308,6 +301,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder.OpenComponent<MudLink>(ElementIndex++);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.Typo), ParagraphTypo ?? Typo.body1);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.Href), url);
+						builder.AddAttribute(ElementIndex++, nameof(MudLink.Underline), Styling.Link.Underline);
 						builder.AddAttribute(ElementIndex++, nameof(MudLink.ChildContent), (RenderFragment)(linkBuilder => RenderInlines(x, linkBuilder)));
 
 						if (url.IsExternalUri(NavigationManager?.BaseUri))
@@ -385,7 +379,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.AddAttribute(ElementIndex++, nameof(MudSimpleTable.Elevation), Styling.Table.Elevation);
 		builder.AddAttribute(ElementIndex++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(contentBuilder =>
 		{
-			// thread
+			// thead
 			contentBuilder.OpenElement(ElementIndex++, "thead");
 			RenderTableRow((TableRow)table[0], "th", contentBuilder, TableCellMinWidth);
 			contentBuilder.CloseElement();
@@ -441,6 +435,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		for (var i = 0; i < list.Count; i++)
 		{
 			var block = (ListItemBlock)list[i];
+			builder.OpenElement(ElementIndex++, "li");
 
 			for (var j = 0; j < block.Count; j++)
 			{
@@ -453,14 +448,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 					case ParagraphBlock x:
 					{
-						builder.OpenElement(ElementIndex++, "li");
 						if (TextColor != null)
 						{
 							string color = TextColor.Value.ToString().ToLower();
                             builder.AddAttribute(ElementIndex++, "class", $"mud-{color}-text");
 						}
 						RenderParagraphBlock(x, builder, ParagraphTypo ?? Typo.body1, addBottomMargin: false);
-						builder.CloseElement();
+						break;
+					}
+					case FencedCodeBlock x:
+					{
+						RenderFencedCodeBlock(builder, x);
 						break;
 					}
 					default:
@@ -470,6 +468,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 				}
 			}
+
+			// Close </li> 
+			builder.CloseElement();
 		}
 
 		builder.CloseElement();
@@ -502,6 +503,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 	{
 		var markupString = new MarkupString(lines.ToString());
 		builder.AddContent(ElementIndex, markupString);
+	}
+
+	protected virtual void RenderFencedCodeBlock(in RenderTreeBuilder builder, in FencedCodeBlock code)
+	{
+		var text = code.CreateCodeBlockText();
+
+		builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+		builder.CloseComponent();
 	}
 
 	private async void NavigationManagerOnLocationChanged(object? sender, LocationChangedEventArgs e)

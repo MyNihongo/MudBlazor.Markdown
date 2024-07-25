@@ -9,11 +9,27 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	private IMudMarkdownThemeService? _themeService;
 	private bool _isFirstThemeSet;
 
+	private string _text = string.Empty;
+	private bool _isTextUpdated;
+
 	/// <summary>
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-	public string Text { get; set; } = string.Empty;
+#if NET7_0 || NET8_0
+#pragma warning disable BL0007
+#endif
+	public string Text
+	{
+		get => _text;
+		set
+		{
+			if (_text != value)
+				_isTextUpdated = true;
+
+			_text = value;
+		}
+	}
 
 	/// <summary>
 	/// Language of the <see cref="Text"/>
@@ -26,7 +42,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
-#if NET7_0
+#if NET7_0 || NET8_0
 #pragma warning disable BL0007
 #endif
 	[Parameter]
@@ -51,6 +67,11 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
+
+	private string CodeClasses => new CssBuilder()
+		.AddClass("hljs")
+		.AddClass(() => $"language-{Language}", () => !string.IsNullOrEmpty(Language))
+		.Build();
 
 	public void Dispose()
 	{
@@ -83,12 +104,8 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		// Code block
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
-
-		if (!string.IsNullOrEmpty(Language))
-			builder.AddAttribute(i++, "class", $"language-{Language}");
-
+		builder.AddAttribute(i++, "class", CodeClasses);
 		builder.AddElementReferenceCapture(i++, x => _ref = x);
-		builder.AddContent(i++, Text);
 
 		builder.CloseElement();
 		builder.CloseElement();
@@ -107,11 +124,16 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
+		if (_isTextUpdated)
+		{
+			await Js.InvokeVoidAsync("highlightCodeElement", _ref, Text, Language)
+				.ConfigureAwait(false);
+
+			_isTextUpdated = false;
+		}
+
 		if (!firstRender)
 			return;
-
-		await Js.InvokeVoidAsync("highlightCodeElement", _ref)
-			.ConfigureAwait(false);
 
 		if (!_isFirstThemeSet)
 		{
@@ -135,7 +157,18 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
 	{
-		await Js.InvokeVoidAsync("navigator.clipboard.writeText", Text)
+		var ok = await Js.InvokeAsync<bool>("copyTextToClipboard", Text)
 			.ConfigureAwait(false);
+
+		if (ok)
+			return;
+
+		var clipboardService = ServiceProvider?.GetService<IMudMarkdownClipboardService>();
+
+		if (clipboardService != null)
+		{
+			await clipboardService.CopyToClipboardAsync(Text)
+				.ConfigureAwait(false);
+		}
 	}
 }
