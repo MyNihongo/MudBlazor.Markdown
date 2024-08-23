@@ -185,8 +185,8 @@ text after";
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
-		<a href='#installing-microsoft-visual-c-redistributable-package' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
-			Installing Microsoft Visual C&#x2B;&#x2B; Redistributable Package
+		<a href='#installing-microsoft-visual-c-redistributable-package' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+			Installing Microsoft Visual C++ Redistributable Package
 		</a>
 	</p>
 </article>";
@@ -235,15 +235,15 @@ public int GetTheAnswer()
 	<h1 id='heading-1' class='mud-typography mud-typography-h1'>Heading 1</h1>
 	<p class='mud-typography mud-typography-body1'>Some text.</p>
 	<div class='snippet-clipboard-content overflow-auto'>
-		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon m-2' blazor:onclick:stopPropagation blazor:elementReference=''>
+		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='4debd876-7ce0-4871-af9c-ba021f368d3c'>
 			<span class='mud-icon-button-label'>
-				<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
+				<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 					<g><rect fill='none' height='24' width='24'/></g>
 					<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
 				</svg>
 			</span>
 		</button>
-		<pre><code blazor:elementReference='8035dc45-0e97-419e-869c-51a5d65602d4' class='hljs language-csharp'></code></pre>
+		<pre><code class='hljs language-csharp' blazor:elementReference='b2623f71-2ea0-4dd1-94e4-8c03cd62b266'></code></pre>
 	</div>
 	<h2 id='another-headline-1' class='mud-typography mud-typography-h2'>Another headline 1</h2>
 	<h2 id='another-headline-2' class='mud-typography mud-typography-h2'>Another headline 2</h2>
@@ -271,15 +271,14 @@ code
 		const string expected =
 @"<article class='mud-markdown-body'>
 	<div class='snippet-clipboard-content overflow-auto'>
-		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon m-2' blazor:onclick:stopPropagation blazor:elementReference=''>
+		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='48bbd0ad-a2cf-498a-8fb8-b81d2f4dbeec'>
 			<span class='mud-icon-button-label'>
-				<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
-					<g><rect fill='none' height='24' width='24'/></g>
-					<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
+				<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
+					<g><rect fill='none' height='24' width='24'/></g><g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
 				</svg>
 			</span>
 		</button>
-		<pre><code blazor:elementReference='9d940986-b033-4d4d-97f0-2c11f46dda30' class='hljs language-text'></code></pre>
+		<pre><code class='hljs language-text' blazor:elementReference='17023705-9228-4430-906d-725610b1d129'></code></pre>
 	</div>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1'>List item 1</p></li>
@@ -473,29 +472,29 @@ Option 1: Update User Authentication Method:
 		<li>
 			<p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p>
 			<div class='snippet-clipboard-content overflow-auto'>
-				<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon m-2' blazor:onclick:stopPropagation blazor:elementReference='04351ea9-1ade-49ae-a456-1569ac5acaac'>
+				<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='c5aa6996-aa56-4202-aa6c-9e40b197d739'>
 					<span class='mud-icon-button-label'>
-						<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
+						<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 							<g><rect fill='none' height='24' width='24'/></g>
 							<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
 						</svg>
 					</span>
 				</button>
-				<pre><code class='hljs language-bash' blazor:elementReference='13378335-2519-498c-9caf-6ac02a5ae6d9'></code></pre>
+				<pre><code class='hljs language-bash' blazor:elementReference='6353988c-c4bb-496e-a193-44044d50f0eb'></code></pre>
 			</div>
 		</li>
 		<li>
 			<p class='mud-typography mud-typography-body1'>Once connected, run the following command to alter the user's authentication method:</p>
 			<div class='snippet-clipboard-content overflow-auto'>
-				<button blazor:onclick='2' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon m-2' blazor:onclick:stopPropagation blazor:elementReference='0909b6fb-9097-41f8-b483-87e80ab4975d'>
+				<button blazor:onclick='2' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='d8bf969c-a5c1-4b9a-bd13-c141af7968c5'>
 					<span class='mud-icon-button-label'>
-						<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true'>
+						<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 							<g><rect fill='none' height='24' width='24'/></g>
 							<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
 						</svg>
 					</span>
 				</button>
-				<pre><code class='hljs language-sql' blazor:elementReference='a285cc1a-bc9c-4264-aac3-7d110a7c0809'></code></pre>
+				<pre><code class='hljs language-sql' blazor:elementReference='2d167d24-ade4-4ee1-9f4d-28711d608c9b'></code></pre>
 			</div>
 			<p class='mud-typography mud-typography-body1'>Replace <code>'username'</code> with the actual username and <code>'hostname'</code> with the appropriate hostname or IP address. If you want to update for all users, replace <code>'username'@'hostname'</code> with <code>'*'@'%'</code>.</p>
 		</li>
