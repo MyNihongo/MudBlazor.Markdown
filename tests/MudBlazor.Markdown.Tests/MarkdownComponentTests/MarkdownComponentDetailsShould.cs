@@ -6,14 +6,17 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 	public void RenderDetailsMultiline()
 	{
 		const string value =
-@"<details>
+"""
+<details>
 	<summary>Header</summary>
 	Some hidden text
 	Another text
-</details>";
+</details>
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 		<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 			<div class='mud-expand-panel-text'>
@@ -34,7 +37,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			</div>
 		</div>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -44,16 +48,19 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 	public void RenderDetailsSummaryMultiLine()
 	{
 		const string value =
-@"<details>
+"""
+<details>
 	<summary>
 		Header
 	</summary>
 	Some hidden text
 	Another text
-</details>";
+</details>
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 		<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 			<div class='mud-expand-panel-text'>
@@ -74,7 +81,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			</div>
 		</div>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -87,7 +95,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 "<details><summary>Header</summary>Some hidden text</details>";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 		<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 			<div class='mud-expand-panel-text'>
@@ -108,7 +117,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			</div>
 		</div>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -118,16 +128,19 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 	public void RenderDetailsAsHtml()
 	{
 		const string value =
-@"<div>
+"""
+<div>
 	<details>
 		<summary>Header</summary>
 		Some hidden text
 		Another text
 	</details>
-</div>";
+</div>
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div>
 		<details>
 			<summary>Header</summary>
@@ -135,7 +148,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			Another text
 		</details>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -145,14 +159,17 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 	public void BeExpandedOnClick()
 	{
 		const string value =
-@"<details>
+"""
+<details>
 	<summary>Header</summary>
 	Some hidden text
 	Another text
-</details>";
+</details>
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 		<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 			<div class='mud-expand-panel-text'>
@@ -173,7 +190,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			</div>
 		</div>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		var header = fixture.Find(".mud-expand-panel-header");
@@ -186,7 +204,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 	public void RenderNestedDetails()
 	{
 		const string value =
-@"<details>
+"""
+<details>
 	<summary>First</summary>
 	<details>
 		<summary>Second</summary>
@@ -195,10 +214,12 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			Some data
 		</details>
 	</details>
-</details>";
+</details>
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 		<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 			<div class='mud-expand-panel-text'>
@@ -255,7 +276,8 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 			</div>
 		</div>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
