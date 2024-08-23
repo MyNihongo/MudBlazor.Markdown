@@ -6,16 +6,19 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 	public void RenderTableWithAdjacentText()
 	{
 		const string value =
-@"text before
+"""
+text before
 
 |col1|col2|
 |-|-|
 |cell1|cell2|
 
-text after";
+text after
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>text before</p>
 	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 		<div class='mud-table-container'>
@@ -36,7 +39,8 @@ text after";
 		</div>
 	</div>
 	<p class='mud-typography mud-typography-body1'>text after</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -46,14 +50,17 @@ text after";
 	public void RenderTableWithEmptyCells()
 	{
 		const string value =
-@"|col1|col2|
+"""
+|col1|col2|
 |-|-|
 |row1-1|row1-2|
 |row2-1||
-|row3-1|";
+|row3-1|
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
          <table>
@@ -94,7 +101,8 @@ text after";
          </table>
       </div>
    </div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -105,7 +113,8 @@ text after";
 	{
 		const string value = "text *italic **bold within***";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		text 
 		<i>
@@ -113,7 +122,8 @@ text after";
 			<b>bold within</b>
 		</i>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -124,7 +134,8 @@ text after";
 	{
 		const string value = "text *italic **bold within** more italic*";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		text 
 		<i>
@@ -133,7 +144,8 @@ text after";
 			more italic
 		</i>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -144,7 +156,8 @@ text after";
 	{
 		const string value = "text **bold *italic within***";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		text 
 		<b>
@@ -152,7 +165,8 @@ text after";
 			<i>italic within</i>
 		</b>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -163,7 +177,8 @@ text after";
 	{
 		const string value = "text **bold *italic within* more bold**";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		text 
 		<b>
@@ -172,7 +187,8 @@ text after";
 			more bold
 		</b>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -183,13 +199,15 @@ text after";
 	{
 		const string value = "[Installing Microsoft Visual C++ Redistributable Package](#installing-microsoft-visual-c-redistributable-package)";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a href='#installing-microsoft-visual-c-redistributable-package' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			Installing Microsoft Visual C++ Redistributable Package
 		</a>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -200,12 +218,14 @@ text after";
 	{
 		const string value = "Text _italics_";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		Text
 		<i>italics</i>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -217,7 +237,8 @@ text after";
 	public void RenderHeaderAfterCode()
 	{
 		const string value =
-@"# Heading 1
+"""
+# Heading 1
 Some text.
 
 ```csharp
@@ -228,10 +249,12 @@ public int GetTheAnswer()
 ```
 
 ## Another headline 1
-## Another headline 2";
+## Another headline 2
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<h1 id='heading-1' class='mud-typography mud-typography-h1'>Heading 1</h1>
 	<p class='mud-typography mud-typography-body1'>Some text.</p>
 	<div class='snippet-clipboard-content overflow-auto'>
@@ -247,7 +270,8 @@ public int GetTheAnswer()
 	</div>
 	<h2 id='another-headline-1' class='mud-typography mud-typography-h2'>Another headline 1</h2>
 	<h2 id='another-headline-2' class='mud-typography mud-typography-h2'>Another headline 2</h2>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -257,7 +281,8 @@ public int GetTheAnswer()
 	public void RenderListAfterCode()
 	{
 		const string value =
-@"```text
+"""
+```text
 some
 code
 ```
@@ -266,10 +291,12 @@ code
 * List item 2
 * List item 3
 
-## Another headline";
+## Another headline
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='snippet-clipboard-content overflow-auto'>
 		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='48bbd0ad-a2cf-498a-8fb8-b81d2f4dbeec'>
 			<span class='mud-icon-button-label'>
@@ -286,7 +313,8 @@ code
 		<li><p class='mud-typography mud-typography-body1'>List item 3</p></li>
 	</ul>
 	<h2 id='another-headline' class='mud-typography mud-typography-h2'>Another headline</h2>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -300,15 +328,18 @@ code
 	public void RenderCodeBlockWithoutLanguage()
 	{
 		const string value =
-@"```
+"""
+```
 public bool IsMudBlazorCool()
 {
 	return true;
 }
-```";
+```
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='snippet-clipboard-content overflow-auto'>
 		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='84d7bc02-c5ee-472d-a737-b72f42b37b83'>
 			<span class='mud-icon-button-label'>
@@ -320,7 +351,8 @@ public bool IsMudBlazorCool()
 		</button>
 		<pre><code class='hljs' blazor:elementReference='1010952a-6e9b-4e11-acd5-64bcf75cadd3'></code></pre>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -334,7 +366,8 @@ public bool IsMudBlazorCool()
 	public void RenderTableInsideList()
 	{
 		const string value = 
-@"## The following requirements must be met outside this Terraform code in advance.
+"""
+## The following requirements must be met outside this Terraform code in advance.
 
 1. Created a new resource group..
 2. Created a new AAD group using naming convention..
@@ -356,10 +389,12 @@ public bool IsMudBlazorCool()
  
 6. Create a new app registration..
 7. Created the key vault..
-8. Created secrets..";
+8. Created secrets..
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<h2 id='the-following-requirements-must-be-met-outside-this-terraform-code-in-advance.' class='mud-typography mud-typography-h2'>
 		The following requirements must be met outside this Terraform code in advance.
 	</h2>
@@ -433,7 +468,8 @@ public bool IsMudBlazorCool()
 		<li><p class='mud-typography mud-typography-body1'>Created the key vault..</p></li>
 		<li><p class='mud-typography mud-typography-body1'>Created secrets..</p></li>
 	</ol>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -447,7 +483,8 @@ public bool IsMudBlazorCool()
 	public void RenderListWithWithCompositeListItems()
 	{
 		const string value =
-@"To prevent the warning message regarding the deprecation of the `mysql_native_password` plugin from being logged, you have a couple of options:
+"""
+To prevent the warning message regarding the deprecation of the `mysql_native_password` plugin from being logged, you have a couple of options:
 
 Option 1: Update User Authentication Method:
 
@@ -462,10 +499,12 @@ Option 1: Update User Authentication Method:
    ```
    Replace `'username'` with the actual username and `'hostname'` with the appropriate hostname or IP address. If you want to update for all users, replace `'username'@'hostname'` with `'*'@'%'`.
 
-3. Repeat this process for each user on your MySQL server.";
+3. Repeat this process for each user on your MySQL server.
+""";
 
 		const string expected = 
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>To prevent the warning message regarding the deprecation of the <code>mysql_native_password</code> plugin from being logged, you have a couple of options:</p>
 	<p class='mud-typography mud-typography-body1'>Option 1: Update User Authentication Method:</p>
 	<ol>
@@ -502,7 +541,8 @@ Option 1: Update User Authentication Method:
 			<p class='mud-typography mud-typography-body1'>Repeat this process for each user on your MySQL server.</p>
 		</li>
 	</ol>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
