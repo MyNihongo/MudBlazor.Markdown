@@ -20,11 +20,13 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "Some text `code` again text - *italics* text and **bold** text.";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -35,13 +37,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = ">Some text `code` again text - *italics* text and **bold** text.";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<blockquote>
 		<p class='mud-typography mud-typography-body1'>
 			Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
 		</p>
 	</blockquote>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -54,11 +58,13 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		var value = "line1" + newLine + "line2";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		line1<br />line2
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -69,13 +75,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link display](https://www.google.co.jp/)";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link display
 		</a>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -86,13 +94,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link display](" + TestNavigationManager.TestUrl + ")";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link display
 		</a>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -103,13 +113,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "text before [link display](123) text after";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		text before 
 		<a href='123' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</a>
 		text after
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -120,13 +132,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "text before [link display](123) text after";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		text before
 		<span class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</span>
 		text after
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value, new TestCommand());
 		fixture.MarkupMatches(expected);
@@ -137,13 +151,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link](#id)";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a href='#id' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link
 		</a>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -154,13 +170,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[link](tokyo/#id)";
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			link
 		</a>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -171,11 +189,13 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "![emw-banner](extra/emw.png)";
 		const string expectedResult =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expectedResult);
@@ -186,13 +206,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	{
 		const string value = "[![emw-banner](extra/emw.png)](https://www.google.co.jp/)";
 		const string expectedResult =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
 		<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 			<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 		</a>
 	</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expectedResult);
@@ -202,18 +224,22 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderUnorderedList()
 	{
 		const string value =
-@"some text before
+"""
+some text before
 - `item1` - text **bold**
-- `item2` - text *italic*";
+- `item2` - text *italic*
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>some text before</p>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1'><code>item1</code>- text <b>bold</b></p></li>
 		<li><p class='mud-typography mud-typography-body1'><code>item2</code> - text <i>italic</i></p></li>
 	</ul>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -223,14 +249,17 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderNestedUnorderedList2()
 	{
 		const string value =
-@"some text before
+"""
+some text before
 - `item1` - text *italic*
   - `item1-1` - text
   - `item1-2` - text
-- `item2` - text **bold**";
+- `item2` - text **bold**
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>some text before</p>
 	<ul>
 		<li><p class='mud-typography mud-typography-body1'><code>item1</code> - text <i>italic</i></p>
@@ -241,7 +270,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		</li>
 		<li><p class='mud-typography mud-typography-body1'><code>item2</code> - text <b>bold</b></p></li>
 	</ul>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -251,15 +281,18 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderNestedUnorderedList3()
 	{
 		const string value =
-@"some text before
+"""
+some text before
 - `item1` - text *italic*
   - `item1-1` - text
   - `item1-2` - text
     - `item1-2-1` - text
-- `item2` - text **bold**";
+- `item2` - text **bold**
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>some text before</p>
 	<ul>
 		<li>
@@ -275,7 +308,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		</li>
 		<li><p class='mud-typography mud-typography-body1'><code>item2</code> - text <b>bold</b></p></li>
 	</ul>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -285,12 +319,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderOrderedList()
 	{
 		const string value =
-@"1. Do thing 1
+"""
+1. Do thing 1
 2. Do next
-3. Go to Sapporo";
+3. Go to Sapporo
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<ol>
 		<li>
 			<p class='mud-typography mud-typography-body1'>Do thing 1</p>
@@ -302,7 +339,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			<p class='mud-typography mud-typography-body1'>Go to Sapporo</p>
 		</li>
 	</ol>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -312,13 +350,16 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderOrderedListWithCodeBlock()
 	{
 		const string value =
-@"1. Connect to your MySQL server using a MySQL client, such as the `mysql` command-line tool:
+"""
+1. Connect to your MySQL server using a MySQL client, such as the `mysql` command-line tool:
   ```bash
   mysql -u username -p
-  ```";
+  ```
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<ol>
 		<li><p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p></li>
 	</ol>
@@ -333,7 +374,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		</button>
 		<pre><code class='hljs language-bash' blazor:elementReference='af1911cc-f5ec-4946-ac11-a83b413aa0da'></code></pre>
 	</div>
-</article>";
+</article>
+""";
 		
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -343,13 +385,16 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderTable()
 	{
 		const string value =
-@"|Column1|Column2|Column3|
+"""
+|Column1|Column2|Column3|
 |-|-|-|
 |cell1-1|cell1-2|cell1-3|
-|cell2-1|cell2-2|cell2-3|";
+|cell2-1|cell2-2|cell2-3|
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 		<div class='mud-table-container'>
 			<table>
@@ -375,7 +420,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			</table>
 		</div>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -391,39 +437,43 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderTableWithNewLines(string newLineChar)
 	{
 		var value =
-			$@"|1|2|
-|-|-|
-|a{newLineChar}b|c";
+$"""
+ |1|2|
+ |-|-|
+ |a{newLineChar}b|c
+ """;
 
 		var expected =
-			$@"<article class='mud-markdown-body'>
-   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
-      <div class='mud-table-container'>
-         <table>
-            <thead>
-               <tr>
-                  <th>
-                     <p class='mud-typography mud-typography-body1'>1</p>
-                  </th>
-                  <th>
-                     <p class='mud-typography mud-typography-body1'>2</p>
-                  </th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p class='mud-typography mud-typography-body1'>a{newLineChar}b</p>
-                  </td>
-                  <td>
-                     <p class='mud-typography mud-typography-body1'>c</p>
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-   </div>
-</article>";
+$"""
+ <article class='mud-markdown-body'>
+    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
+       <div class='mud-table-container'>
+          <table>
+             <thead>
+                <tr>
+                   <th>
+                      <p class='mud-typography mud-typography-body1'>1</p>
+                   </th>
+                   <th>
+                      <p class='mud-typography mud-typography-body1'>2</p>
+                   </th>
+                </tr>
+             </thead>
+             <tbody>
+                <tr>
+                   <td>
+                      <p class='mud-typography mud-typography-body1'>a{newLineChar}b</p>
+                   </td>
+                   <td>
+                      <p class='mud-typography mud-typography-body1'>c</p>
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
+    </div>
+ </article>
+ """;
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -433,12 +483,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderTableMinWidth()
 	{
 		const string value =
-@"|col1|col2|
+"""
+|col1|col2|
 |-|-|
-|cell1|cell2|";
+|cell1|cell2|
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
       <div class='mud-table-container'>
          <table>
@@ -465,7 +518,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
          </table>
       </div>
    </div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value, tableCellMinWidth: 200);
 		fixture.MarkupMatches(expected);
@@ -475,16 +529,20 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	public void RenderLineSeparator()
 	{
 		const string value =
-@"first line
+"""
+first line
 ***
-second line";
+second line
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>first line</p>
 	<hr class='mud-divider mud-divider-fullwidth'/>
 	<p class='mud-typography mud-typography-body1'>second line</p>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
@@ -494,15 +552,18 @@ second line";
 	public void RenderCodeBlock()
 	{
 		const string value =
-@"```cs
+"""
+```cs
 public bool IsMudBlazorCool()
 {
 	return true;
 }
-```";
+```
+""";
 
 		const string expected =
-@"<article class='mud-markdown-body'>
+"""
+<article class='mud-markdown-body'>
 	<div class='snippet-clipboard-content overflow-auto'>
 		<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='af22cf66-3ea5-4899-bd97-91b4fdc35b82'>
 			<span class='mud-icon-button-label'>
@@ -514,7 +575,8 @@ public bool IsMudBlazorCool()
 		</button>
 		<pre><code class='hljs language-cs' blazor:elementReference='3b498767-f59e-4a18-a27d-a828bf3dd0e5'></code></pre>
 	</div>
-</article>";
+</article>
+""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
