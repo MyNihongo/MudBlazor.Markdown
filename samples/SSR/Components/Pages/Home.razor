@@ -1,0 +1,14 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<MudMarkdown Value="@Value1" />
+
+<MudText Typo="Typo.caption">C#</MudText>
+<MudMarkdown @rendermode="InteractiveServer" Value="@Value2" />
+
+@code
+{
+    private const string Value1 = "`MudMarkdown` is a third party component that renders markdown text.";
+    private const string Value2 = "```csharp\n// comment\nvar x = 5;\nvoid Increment() {\n  x++;\n  Console.WriteLine(x);\n}\nIncrement();\n```";
+}

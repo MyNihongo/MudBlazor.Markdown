@@ -1,6 +1,6 @@
 @using MudBlazor.Markdown.Core.Services
 
-<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(MarkdownPage).Assembly }" PreferExactMatches="@true">
+<Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(MarkdownPage).Assembly }">
 	<Found Context="routeData">
 		<RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
 	</Found>
@@ -12,6 +12,7 @@
 </Router>
 
 <MudThemeProvider IsDarkMode="_isDarkTheme" />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 

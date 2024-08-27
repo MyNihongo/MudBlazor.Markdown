@@ -1,7 +1,6 @@
-@using System.Reactive.Linq
 @using MudBlazor.Markdown.Core.Services
 
-<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+<Router AppAssembly="@typeof(Program).Assembly">
 	<Found Context="routeData">
 		<RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
 	</Found>
@@ -12,31 +11,28 @@
 	</NotFound>
 </Router>
 
-<MudThemeProvider Theme="@CurrentTheme" />
+<MudThemeProvider Theme="@_theme" IsDarkMode="IsDarkMode" />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 @code
 {
-	private readonly MudTheme _light = new()
+	private readonly MudTheme _theme = new()
 	{
-		Palette = new PaletteLight
+		PaletteLight = new PaletteLight
 		{
 			Background = "#f2f2f2",
-			BackgroundGrey = "#f2f2f2",
+			BackgroundGray = "#f2f2f2",
 			Surface = "#f2f2f2",
 			DrawerBackground = "#e0e0e0",
-			OverlayDark = "#cfd1d0"
-		}
-	};
-
-	private readonly MudTheme _dark = new()
-	{
-		Palette = new PaletteDark
+			OverlayDark = "#cfd1d0",
+		},
+		PaletteDark = new PaletteDark
 		{
 			Black = "#27272f",
 			Background = "#32333d",
-			BackgroundGrey = "#32333d",
+			BackgroundGray = "#32333d",
 			Surface = "#32333d",
 			DrawerBackground = "#373740",
 			AppbarBackground = "#27272f",
@@ -51,28 +47,23 @@
 			TableLines = "rgba(255,255,255, 0.12)",
 			LinesDefault = "rgba(255,255,255, 0.12)",
 			LinesInputs = "rgba(255,255,255, 0.3)",
-			TextDisabled = "rgba(255,255,255, 0.2)"
-		}
+			TextDisabled = "rgba(255,255,255, 0.2)",
+		},
 	};
-
-	public App()
-	{
-		_currentTheme = _light;
-	}
 
 	[Inject]
 	private IThemeService? ThemeService { get; init; }
 
-	private MudTheme _currentTheme;
-	private MudTheme CurrentTheme
+	private bool _isDarkMode;
+	private bool IsDarkMode
 	{
-		get => _currentTheme;
+		get => _isDarkMode;
 		set
 		{
-			if (_currentTheme == value)
+			if (_isDarkMode == value)
 				return;
 
-			_currentTheme = value;
+			_isDarkMode = value;
 			StateHasChanged();
 		}
 	}
@@ -80,10 +71,6 @@
 	protected override void OnInitialized()
 	{
 		ThemeService?.IsDarkTheme
-			.Select(SelectTheme)
-			.Subscribe(x => CurrentTheme = x);
-
-		MudTheme SelectTheme(bool isDark) =>
-			isDark ? _dark : _light;
+			.Subscribe(x => IsDarkMode = x);
 	}
 }
