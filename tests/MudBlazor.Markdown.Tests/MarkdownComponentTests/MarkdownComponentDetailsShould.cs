@@ -27,7 +27,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 				<path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 			</svg>
 		</div>
-		<div aria-expanded='false' blazor:onanimationend='2' class='mud-collapse-container' style=''>
+		<div blazor:onanimationend='2' class='mud-collapse-container' style=''>
 			<div class='mud-collapse-wrapper' blazor:elementReference='f0339543-23a6-43d6-92b9-b8b55ec88622'>
 				<div class='mud-collapse-wrapper-inner'>
 					<div class='mud-expand-panel-content'>
@@ -71,7 +71,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 				<path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 			</svg>
 		</div>
-		<div aria-expanded='false' blazor:onanimationend='2' class='mud-collapse-container' style=''>
+		<div blazor:onanimationend='2' class='mud-collapse-container' style=''>
 			<div class='mud-collapse-wrapper' blazor:elementReference='99a17eaa-605d-411d-968b-457a412ddd48'>
 				<div class='mud-collapse-wrapper-inner'>
 					<div class='mud-expand-panel-content'>
@@ -107,7 +107,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 				<path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 			</svg>
 		</div>
-		<div aria-expanded='false' blazor:onanimationend='2' class='mud-collapse-container' style=''>
+		<div blazor:onanimationend='2' class='mud-collapse-container' style=''>
 			<div class='mud-collapse-wrapper' blazor:elementReference='68fe8a2c-e680-4a80-8e06-e62217d04ef8'>
 				<div class='mud-collapse-wrapper-inner'>
 					<div class='mud-expand-panel-content'>
@@ -180,7 +180,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 				<path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 			</svg>
 		</div>
-		<div aria-expanded='true' blazor:onanimationend='4' class='mud-collapse-container mud-collapse-entering' style='height:0px;animation-duration:s;'>
+		<div blazor:onanimationend='4' class='mud-collapse-container mud-collapse-entering' style='height:0px;animation-duration:s;'>
 			<div class='mud-collapse-wrapper' blazor:elementReference=''>
 				<div class='mud-collapse-wrapper-inner'>
 					<div class='mud-expand-panel-content'>
@@ -230,7 +230,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 				<path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 			</svg>
 		</div>
-		<div aria-expanded='false' blazor:onanimationend='2' class='mud-collapse-container' style=''>
+		<div blazor:onanimationend='2' class='mud-collapse-container' style=''>
 			<div class='mud-collapse-wrapper' blazor:elementReference='48c895d6-251f-406a-b7f1-62609e7e2256'>
 				<div class='mud-collapse-wrapper-inner'>
 					<div class='mud-expand-panel-content'>
@@ -243,7 +243,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 									<path d='M0 0h24v24H0z' fill='none'/><path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 								</svg>
 							</div>
-							<div aria-expanded='false' blazor:onanimationend='2' class='mud-collapse-container' style=''>
+							<div blazor:onanimationend='2' class='mud-collapse-container' style=''>
 								<div class='mud-collapse-wrapper' blazor:elementReference='97064b7c-1652-472e-89cf-ebe6cc63dee9'>
 									<div class='mud-collapse-wrapper-inner'>
 										<div class='mud-expand-panel-content'>
@@ -256,7 +256,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 														<path d='M0 0h24v24H0z' fill='none'/><path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 													</svg>
 												</div>
-												<div aria-expanded='false' blazor:onanimationend='2' class='mud-collapse-container' style=''>
+												<div blazor:onanimationend='2' class='mud-collapse-container' style=''>
 													<div class='mud-collapse-wrapper' blazor:elementReference='b051f40f-6621-407e-ba8d-c0be30338c31'>
 														<div class='mud-collapse-wrapper-inner'>
 															<div class='mud-expand-panel-content'>
