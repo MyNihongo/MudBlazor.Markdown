@@ -1,4 +1,5 @@
 @using MudBlazor.Markdown.Core.Services
+@inject IThemeService ThemeService
 
 <Router AppAssembly="@typeof(Program).Assembly">
 	<Found Context="routeData">
@@ -51,9 +52,6 @@
 		},
 	};
 
-	[Inject]
-	private IThemeService? ThemeService { get; init; }
-
 	private bool _isDarkMode;
 	private bool IsDarkMode
 	{
@@ -70,7 +68,7 @@
 
 	protected override void OnInitialized()
 	{
-		ThemeService?.IsDarkTheme
+		ThemeService.IsDarkTheme
 			.Subscribe(x => IsDarkMode = x);
 	}
 }
