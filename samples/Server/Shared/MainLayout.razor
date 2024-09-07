@@ -1,5 +1,6 @@
 ﻿@using MudBlazor.Markdown.Core.Services
 @inherits LayoutComponentBase
+@inject IThemeService ThemeService
 
 <MudLayout>
 	<MudAppBar Fixed="true" Elevation="5">
@@ -25,14 +26,8 @@
 {
 	private bool _drawerOpen = true;
 
-	[Inject]
-	private IThemeService? ThemeService { get; init; }
-
 	private async Task ToggleThemeAsync()
 	{
-		if (ThemeService == null)
-			return;
-
 		await ThemeService.ToggleThemeAsync()
 			.ConfigureAwait(false);
 	}
