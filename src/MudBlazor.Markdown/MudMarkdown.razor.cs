@@ -324,6 +324,10 @@ public class MudMarkdown : ComponentBase, IDisposable
 					builder.CloseComponent();
 					break;
 				}
+				case PipeTableDelimiterInline x:
+				{
+					break;
+				}
 				default:
 				{
 					OnRenderInlinesDefault(inline, builder);
