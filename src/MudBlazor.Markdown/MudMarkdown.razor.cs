@@ -329,8 +329,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					// It usually indicates that there are some issues with table markdown
 					// so we will try to display the original markdown
 					var markdownValue = x.Parent?.ParentBlock?.Span.TryGetText(Value);
-					if (!string.IsNullOrEmpty(markdownValue))
-						builder.AddContent(ElementIndex++, markdownValue);
+					TryRenderMarkdownError(markdownValue, builder);
 
 					break;
 				}
@@ -341,6 +340,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 			}
 		}
+	}
+
+	protected virtual void TryRenderMarkdownError(string? text, RenderTreeBuilder builder)
+	{
+		if (string.IsNullOrEmpty(text))
+			return;
+
+		builder.OpenElement(ElementIndex++, "div");
+		builder.AddAttribute(ElementIndex++, "class", "markdown-error");
+		builder.AddContent(ElementIndex++, text);
+		builder.CloseElement();
 	}
 
 	/// <summary>

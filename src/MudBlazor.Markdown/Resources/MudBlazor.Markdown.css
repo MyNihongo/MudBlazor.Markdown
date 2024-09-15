@@ -17,16 +17,16 @@ pre code.hljs {
 	position: relative !important;
 }
 
-	.mud-markdown-body .snippet-clipboard-content:hover > .snippet-clipboard-copy-icon {
-		display: block !important;
-	}
+.mud-markdown-body .snippet-clipboard-content:hover > .snippet-clipboard-copy-icon {
+	display: block !important;
+}
 
-	.mud-markdown-body .snippet-clipboard-content .snippet-clipboard-copy-icon {
-		position: absolute;
-		display: none;
-		top: 0;
-		right: 0;
-	}
+.mud-markdown-body .snippet-clipboard-content .snippet-clipboard-copy-icon {
+	position: absolute;
+	display: none;
+	top: 0;
+	right: 0;
+}
 
 /* Quote */
 .mud-markdown-body blockquote {
@@ -37,9 +37,9 @@ pre code.hljs {
 	margin: 0.5em 0 1.25em;
 }
 
-	.mud-markdown-body blockquote p {
-		margin-bottom: 0 !important;
-	}
+.mud-markdown-body blockquote p {
+	margin-bottom: 0 !important;
+}
 
 /* Table */
 .mud-markdown-body table {
@@ -61,15 +61,15 @@ pre code.hljs {
 	margin-bottom: 1.25em !important;
 }
 
-	.mud-markdown-body ul ul {
-		list-style-type: circle;
-		margin-bottom: 0 !important;
-	}
+.mud-markdown-body ul ul {
+	list-style-type: circle;
+	margin-bottom: 0 !important;
+}
 
-		.mud-markdown-body ul ul ul {
-			list-style-type: square;
-			margin-bottom: 0 !important;
-		}
+.mud-markdown-body ul ul ul {
+	list-style-type: square;
+	margin-bottom: 0 !important;
+}
 
 .mud-markdown-body li {
 	display: list-item !important;
@@ -102,6 +102,10 @@ pre code.hljs {
 
 .mud-markdown-body li p, .mud-markdown-body .mud-expand-panel p {
 	margin-bottom: 0 !important;
+}
+
+.mud-markdown-body p .markdown-error {
+	white-space: pre;
 }
 
 /* Images */
