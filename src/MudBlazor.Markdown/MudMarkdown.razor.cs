@@ -326,6 +326,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case PipeTableDelimiterInline x:
 				{
+					// It usually indicates that there are some issues with table markdown
+					// so we will try to display the original markdown
+					var markdownValue = x.Parent?.ParentBlock?.Span.TryGetText(Value);
+					if (!string.IsNullOrEmpty(markdownValue))
+						builder.AddContent(ElementIndex++, markdownValue);
+
 					break;
 				}
 				default:
