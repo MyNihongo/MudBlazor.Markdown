@@ -1,5 +1,13 @@
 Light and dark themes are supported out-of-the-box. See [this post](https://mudblazor.com/customization/theming/overview) for steps how to toggle light and dark themes.
 Or see WebAssembly or Server samples.
+
+# Debug
+The following steps are required in order to run the samples:
+- Download node.js from [downloads](https://nodejs.org/en/download/package-manager)
+- Navigate to src\MudBlazor.Markdown
+- Open a console and run `npm ci`
+- Run `npm run build`
+
 ## Headers
 ![header-light](images/heading-light.jpg)
 ![header-dark](images/heading-dark.jpg)
