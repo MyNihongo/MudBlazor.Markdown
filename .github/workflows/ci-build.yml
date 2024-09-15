@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          submodules: 'recursive'
 
       - name: Install .NET 6
         uses: actions/setup-dotnet@v1
