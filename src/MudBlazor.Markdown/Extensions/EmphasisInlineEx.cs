@@ -6,10 +6,7 @@ internal static class EmphasisInlineEx
 {
 	public static bool TryGetEmphasisElement(this EmphasisInline emphasis, out string value)
 	{
-		const string
-			italics = "i",
-			bold = "b",
-			strike = "del";
+		const string italics = "i", bold = "b", strikethrough = "del";
 
 		value = emphasis.DelimiterChar switch
 		{
@@ -22,7 +19,7 @@ internal static class EmphasisInlineEx
 			'_' => italics,
 			'~' => emphasis.DelimiterCount switch
 			{
-				2 => strike,
+				2 => strikethrough,
 				_ => string.Empty
 			},
 			_ => string.Empty

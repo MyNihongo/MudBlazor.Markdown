@@ -16,7 +16,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderCodeItalicBoldAndStrike()
+	public void RenderEmphasisElements()
 	{
 		const string value = "Some text `code` again text - *italics* text and also **bold** and ~~strikethrough~~ text.";
 		const string expected =
