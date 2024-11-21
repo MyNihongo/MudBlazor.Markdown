@@ -5,7 +5,7 @@
 ##### Heading 5
 ###### Heading 6
 
-Some regular text. *Text in italics* and **text in bold**.
+Some regular text. *Text in italics*, **text in bold** and ~~text in strikethrough~~.
 **Bold and *italics within***.
 *Italics and **bold within***.
 It is possible to `highlight some code`.

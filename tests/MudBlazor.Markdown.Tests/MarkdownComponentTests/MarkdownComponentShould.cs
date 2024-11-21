@@ -16,14 +16,14 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderCodeItalicAndBold()
+	public void RenderEmphasisElements()
 	{
-		const string value = "Some text `code` again text - *italics* text and **bold** text.";
+		const string value = "Some text `code` again text - *italics* text and also **bold** and ~~strikethrough~~ text.";
 		const string expected =
 """
 <article class='mud-markdown-body'>
 	<p class='mud-typography mud-typography-body1'>
-		Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
+		Some text <code>code</code> again text - <i>italics</i> text and also <b>bold</b> and <del>strikethrough</del> text.
 	</p>
 </article>
 """;
@@ -35,13 +35,13 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	[Fact]
 	public void RenderBlockQuotes()
 	{
-		const string value = ">Some text `code` again text - *italics* text and **bold** text.";
+		const string value = ">Some text `code` again text - *italics* text and also **bold** and ~~strikethrough~~ text.";
 		const string expected =
 """
 <article class='mud-markdown-body'>
 	<blockquote>
 		<p class='mud-typography mud-typography-body1'>
-			Some text <code>code</code> again text - <i>italics</i> text and <b>bold</b> text.
+			Some text <code>code</code> again text - <i>italics</i> text and also <b>bold</b> and <del>strikethrough</del> text.
 		</p>
 	</blockquote>
 </article>
