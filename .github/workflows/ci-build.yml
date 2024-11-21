@@ -21,11 +21,6 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Install .NET 6
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-
       - name: Install .NET 7
         uses: actions/setup-dotnet@v1
         with:
