@@ -27,4 +27,9 @@ internal static class EmphasisInlineEx
 
 		return !string.IsNullOrEmpty(value);
 	}
+
+	public static string GetEmphasisDelimiter(this EmphasisInline emphasis)
+	{
+		return new string(emphasis.DelimiterChar, emphasis.DelimiterCount);
+	}
 }

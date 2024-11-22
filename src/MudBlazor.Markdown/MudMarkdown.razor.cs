@@ -247,12 +247,21 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case EmphasisInline x:
 				{
-					if (!x.TryGetEmphasisElement(out var elementName))
-						continue;
+					if (x.TryGetEmphasisElement(out var elementName))
+                    {
+						builder.OpenElement(ElementIndex++, elementName);
+						RenderInlines(x, builder);
+						builder.CloseElement();
+                    }
+					else
+					{
+						// Can't use x.Span.TryGetText(Value) since it escapes all nested markdown formatting
+						string delimiter = x.GetEmphasisDelimiter();
+						builder.AddContent(ElementIndex++, delimiter); // starting delimiter
+						RenderInlines(x, builder);
+						builder.AddContent(ElementIndex++, delimiter); // ending delimiter
+					}
 
-					builder.OpenElement(ElementIndex++, elementName);
-					RenderInlines(x, builder);
-					builder.CloseElement();
 					break;
 				}
 				case LinkInline x:
