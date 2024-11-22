@@ -256,7 +256,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					else
 					{
 						// Can't use x.Span.TryGetText(Value) since it escapes all nested markdown formatting
-						string delimiter = x.GetEmphasisDelimiter();
+						var delimiter = x.GetEmphasisDelimiter();
 						builder.AddContent(ElementIndex++, delimiter); // starting delimiter
 						RenderInlines(x, builder);
 						builder.AddContent(ElementIndex++, delimiter); // ending delimiter
