@@ -248,11 +248,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 				case EmphasisInline x:
 				{
 					if (x.TryGetEmphasisElement(out var elementName))
-                    {
+					{
 						builder.OpenElement(ElementIndex++, elementName);
 						RenderInlines(x, builder);
 						builder.CloseElement();
-                    }
+					}
 					else
 					{
 						// Can't use x.Span.TryGetText(Value) since it escapes all nested markdown formatting
