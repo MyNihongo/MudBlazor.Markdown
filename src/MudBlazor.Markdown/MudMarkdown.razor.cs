@@ -247,21 +247,16 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case EmphasisInline x:
 				{
-					if (x.TryGetEmphasisElement(out var elementName))
+					if (!x.TryGetEmphasisElement(out var elementName))
 					{
-						builder.OpenElement(ElementIndex++, elementName);
-						RenderInlines(x, builder);
-						builder.CloseElement();
+						var markdownValue = x.Span.TryGetText(Value);
+						TryRenderMarkdownError(markdownValue, builder, htmlElement: "span");
+						continue;
 					}
-					else
-					{
-						// Can't use x.Span.TryGetText(Value) since it escapes all nested markdown formatting
-						var delimiter = x.GetEmphasisDelimiter();
-						builder.AddContent(ElementIndex++, delimiter); // starting delimiter
-						RenderInlines(x, builder);
-						builder.AddContent(ElementIndex++, delimiter); // ending delimiter
-					}
-
+					
+					builder.OpenElement(ElementIndex++, elementName);
+					RenderInlines(x, builder);
+					builder.CloseElement();
 					break;
 				}
 				case LinkInline x:
@@ -350,12 +345,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 		}
 	}
 
-	protected virtual void TryRenderMarkdownError(string? text, RenderTreeBuilder builder)
+	protected virtual void TryRenderMarkdownError(string? text, RenderTreeBuilder builder, string htmlElement = "div")
 	{
 		if (string.IsNullOrEmpty(text))
 			return;
 
-		builder.OpenElement(ElementIndex++, "div");
+		builder.OpenElement(ElementIndex++, htmlElement);
 		builder.AddAttribute(ElementIndex++, "class", "markdown-error");
 		builder.AddContent(ElementIndex++, text);
 		builder.CloseElement();
