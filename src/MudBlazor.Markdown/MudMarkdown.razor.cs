@@ -250,7 +250,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					if (!x.TryGetEmphasisElement(out var elementName))
 					{
 						var markdownValue = x.Span.TryGetText(Value);
-						TryRenderMarkdownError(markdownValue, builder, htmlElement: "span");
+						TryRenderMarkdownError(markdownValue, builder, ElementNames.Span);
 						continue;
 					}
 					
