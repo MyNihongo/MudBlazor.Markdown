@@ -9,6 +9,7 @@ Some regular text. *Text in italics*, **text in bold** and ~~text in strikethrou
 **Bold and *italics within***.
 *Italics and **bold within***.
 It is possible to `highlight some code`.
+*~Invalid **or** unknown~ markdown is shown as it is*
 Please visit the [MudBlazor project site](https://mudblazor.com/).
 ***
 > Quote someone.
