@@ -46,6 +46,8 @@ internal sealed class MudMathJax : ComponentBase
 
 	private readonly ref struct MathDelimiter
 	{
+		public readonly string Start, End;
+
 		public MathDelimiter(string delimiter)
 		{
 			Start = End = delimiter;
@@ -56,9 +58,5 @@ internal sealed class MudMathJax : ComponentBase
 			Start = start;
 			End = end;
 		}
-
-		public string Start { get; }
-		
-		public string End { get; }
 	}
 }
