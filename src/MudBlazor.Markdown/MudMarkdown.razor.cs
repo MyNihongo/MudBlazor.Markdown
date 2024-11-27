@@ -100,7 +100,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			return;
 
 		builder.OpenElement(ElementIndex++, "article");
-		builder.AddAttribute(ElementIndex++, "class", "mud-markdown-body");
+		builder.AddAttribute(ElementIndex++, AttributeNames.Class, "mud-markdown-body");
 		RenderMarkdown(parsedText, builder);
 		builder.CloseElement();
 	}
@@ -209,7 +209,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.OpenComponent<MudText>(ElementIndex++);
 
 		if (!string.IsNullOrEmpty(id))
-			builder.AddAttribute(ElementIndex++, "id", id);
+			builder.AddAttribute(ElementIndex++, AttributeNames.Id, id);
 
 		builder.AddAttribute(ElementIndex++, nameof(MudText.Typo), typo);
 		builder.AddAttribute(ElementIndex++, nameof(MudText.ChildContent), (RenderFragment)(contentBuilder => RenderInlines(paragraph.Inline, contentBuilder)));
@@ -286,14 +286,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 						if (url.IsExternalUri(NavigationManager?.BaseUri))
 						{
 							builder.AddAttribute(ElementIndex++, nameof(MudLink.Target), "_blank");
-							builder.AddAttribute(ElementIndex++, "rel", "noopener noreferrer");
+							builder.AddAttribute(ElementIndex++, AttributeNames.LinkRelation, "noopener noreferrer");
 						}
 						// (prevent scrolling to the top of the page)
 						// custom implementation only for links on the same page
 						else if (url?.StartsWith('#') ?? false)
 						{
-							builder.AddEventPreventDefaultAttribute(ElementIndex++, "onclick", true);
-							builder.AddAttribute(ElementIndex++, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () =>
+							builder.AddEventPreventDefaultAttribute(ElementIndex++, AttributeNames.OnClick, true);
+							builder.AddAttribute(ElementIndex++, AttributeNames.OnClick, EventCallback.Factory.Create<MouseEventArgs>(this, () =>
 							{
 								if (NavigationManager == null)
 									return;
@@ -351,7 +351,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			return;
 
 		builder.OpenElement(ElementIndex++, htmlElement);
-		builder.AddAttribute(ElementIndex++, "class", "markdown-error");
+		builder.AddAttribute(ElementIndex++, AttributeNames.Class, "markdown-error");
 		builder.AddContent(ElementIndex++, text);
 		builder.CloseElement();
 	}
@@ -403,7 +403,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			builder.OpenElement(ElementIndex++, cellElementName);
 
 			if (minWidth is > 0)
-				builder.AddAttribute(ElementIndex++, "style", $"min-width:{minWidth}px");
+				builder.AddAttribute(ElementIndex++, AttributeNames.Style, $"min-width:{minWidth}px");
 
 			if (cell.Count != 0 && cell[0] is ParagraphBlock paragraphBlock)
 				RenderParagraphBlock(paragraphBlock, builder);
@@ -426,7 +426,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		if (orderStart > 1)
 		{
-			builder.AddAttribute(ElementIndex++, "start", orderStart);
+			builder.AddAttribute(ElementIndex++, AttributeNames.Start, orderStart);
 		}
 
 		for (var i = 0; i < list.Count; i++)

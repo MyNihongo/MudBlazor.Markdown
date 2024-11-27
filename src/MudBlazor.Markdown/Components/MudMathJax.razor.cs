@@ -41,7 +41,7 @@ internal sealed class MudMathJax : ComponentBase
 		{
 			"$" => new MathDelimiter("\\(", "\\)"),
 			"$$" => new MathDelimiter(delimiter),
-			_ => new MathDelimiter(delimiter)
+			_ => new MathDelimiter(delimiter),
 		};
 
 	private readonly ref struct MathDelimiter

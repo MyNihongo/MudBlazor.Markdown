@@ -26,7 +26,7 @@ internal static class HeadingBlockEx
 		var slice = @this switch
 		{
 			LiteralInline x => x.Content,
-			_ => StringSlice.Empty
+			_ => StringSlice.Empty,
 		};
 
 		return PrepareStringContent(slice.ToString());

@@ -58,9 +58,9 @@ internal sealed class MudLinkButton : MudComponentBase
 		var i = 0;
 
 		builder.OpenElement(i++, "span");
-		builder.AddAttribute(i++, "class", Classname);
-		builder.AddAttribute(i++, "style", Style);
-		builder.AddAttribute(i++, "onclick", EventCallback.Factory.Create(this, OnClick));
+		builder.AddAttribute(i++, AttributeNames.Class, Classname);
+		builder.AddAttribute(i++, AttributeNames.Style, Style);
+		builder.AddAttribute(i++, AttributeNames.OnClick, EventCallback.Factory.Create(this, OnClick));
 		builder.AddContent(i++, ChildContent);
 		builder.CloseElement();
 	}
