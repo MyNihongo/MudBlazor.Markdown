@@ -248,8 +248,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 				case EmphasisInline x:
 				{
 					if (!x.TryGetEmphasisElement(out var elementName))
+					{
+						var markdownValue = x.Span.TryGetText(Value);
+						TryRenderMarkdownError(markdownValue, builder, htmlElement: "span");
 						continue;
-
+					}
+					
 					builder.OpenElement(ElementIndex++, elementName);
 					RenderInlines(x, builder);
 					builder.CloseElement();
@@ -341,12 +345,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 		}
 	}
 
-	protected virtual void TryRenderMarkdownError(string? text, RenderTreeBuilder builder)
+	protected virtual void TryRenderMarkdownError(string? text, RenderTreeBuilder builder, string htmlElement = "div")
 	{
 		if (string.IsNullOrEmpty(text))
 			return;
 
-		builder.OpenElement(ElementIndex++, "div");
+		builder.OpenElement(ElementIndex++, htmlElement);
 		builder.AddAttribute(ElementIndex++, "class", "markdown-error");
 		builder.AddContent(ElementIndex++, text);
 		builder.CloseElement();

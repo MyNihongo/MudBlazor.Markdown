@@ -51,6 +51,28 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		fixture.MarkupMatches(expected);
 	}
 
+	// Some values might need to be removed once they are implemented
+	[Theory]
+	[InlineData("^")] // superscript
+	[InlineData("~")] // subscript
+	[InlineData("++")] // inserted
+	[InlineData("==")] // marked
+	public void RenderInvalidEmphasis(string emphasisDelimiter)
+	{
+		string value = $"I expect that {emphasisDelimiter}emphasis{emphasisDelimiter} will be rendered as escaped. {emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}.";
+		string expected =
+$"""
+<article class='mud-markdown-body'>
+	<p class="mud-typography mud-typography-body1">
+		I expect that <span class="markdown-error">{emphasisDelimiter}emphasis{emphasisDelimiter}</span> will be rendered as escaped. <span class="markdown-error">{emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}</span>.
+	</p>
+</article>
+""";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
 	[Theory]
 	[InlineData("\r\n")]
 	[InlineData("\n")]
