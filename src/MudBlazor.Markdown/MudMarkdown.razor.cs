@@ -351,7 +351,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			return;
 
 		builder.OpenElement(ElementIndex++, htmlElement);
-		builder.AddAttribute(ElementIndex++, AttributeNames.Class, "markdown-error");
+		builder.AddAttribute(ElementIndex++, AttributeNames.Class, "mud-markdown-error");
 		builder.AddContent(ElementIndex++, text);
 		builder.CloseElement();
 	}

@@ -104,7 +104,7 @@ pre code.hljs {
 	margin-bottom: 0 !important;
 }
 
-.mud-markdown-body p .markdown-error {
+.mud-markdown-body p .mud-markdown-error {
 	white-space: pre;
 }
 

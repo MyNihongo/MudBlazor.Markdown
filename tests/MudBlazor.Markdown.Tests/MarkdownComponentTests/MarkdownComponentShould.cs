@@ -59,12 +59,12 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	[InlineData("==")] // marked
 	public void RenderInvalidEmphasis(string emphasisDelimiter)
 	{
-		string value = $"I expect that {emphasisDelimiter}emphasis{emphasisDelimiter} will be rendered as escaped. {emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}.";
-		string expected =
+		var value = $"I expect that {emphasisDelimiter}emphasis{emphasisDelimiter} will be rendered as escaped. {emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}.";
+		var expected =
 $"""
 <article class='mud-markdown-body'>
 	<p class="mud-typography mud-typography-body1">
-		I expect that <span class="markdown-error">{emphasisDelimiter}emphasis{emphasisDelimiter}</span> will be rendered as escaped. <span class="markdown-error">{emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}</span>.
+		I expect that <span class="mud-markdown-error">{emphasisDelimiter}emphasis{emphasisDelimiter}</span> will be rendered as escaped. <span class="mud-markdown-error">{emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}</span>.
 	</p>
 </article>
 """;
