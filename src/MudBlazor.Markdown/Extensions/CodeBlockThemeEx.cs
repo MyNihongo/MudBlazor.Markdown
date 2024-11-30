@@ -247,6 +247,6 @@ internal static class CodeBlockThemeEx
 			CodeBlockTheme.WoodlandBase16 => "base16/woodland.min.css",
 			CodeBlockTheme.XcodeDuskBase16 => "base16/xcode-dusk.min.css",
 			CodeBlockTheme.ZenburnBase16 => "base16/zenburn.min.css",
-			_ => string.Empty
+			_ => string.Empty,
 		};
 }

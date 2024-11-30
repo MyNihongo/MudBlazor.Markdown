@@ -14,15 +14,15 @@ internal static class EmphasisInlineEx
 			{
 				1 => italics,
 				2 => bold,
-				_ => string.Empty
+				_ => string.Empty,
 			},
 			'_' => italics,
 			'~' => emphasis.DelimiterCount switch
 			{
 				2 => strikethrough,
-				_ => string.Empty
+				_ => string.Empty,
 			},
-			_ => string.Empty
+			_ => string.Empty,
 		};
 
 		return !string.IsNullOrEmpty(value);

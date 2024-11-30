@@ -243,5 +243,5 @@ public enum CodeBlockTheme : ushort
 	WindowsNtBase16,
 	WoodlandBase16,
 	XcodeDuskBase16,
-	ZenburnBase16
+	ZenburnBase16,
 }

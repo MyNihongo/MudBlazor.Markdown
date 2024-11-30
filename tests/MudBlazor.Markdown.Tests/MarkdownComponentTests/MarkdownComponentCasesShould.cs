@@ -571,7 +571,7 @@ Option 1: Update User Authentication Method:
 <article class='mud-markdown-body'>
 	<h3 id='my-table' class='mud-typography mud-typography-h3'>My Table:</h3>
 	<p class='mud-typography mud-typography-body1'>
-		<div class='markdown-error'>
+		<div class='mud-markdown-error'>
 			| **Column 1** | **Column 2**   | **Column 3**                |
 			|--------------|----------------|-----------------------------|
 			| Row 1, Col 1 | Row 1, Col 2   |                             |
