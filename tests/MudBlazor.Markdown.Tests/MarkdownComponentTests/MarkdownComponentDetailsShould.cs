@@ -180,7 +180,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 				<path d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/>
 			</svg>
 		</div>
-		<div blazor:onanimationend='4' class='mud-collapse-container mud-collapse-entering' style='height:0px;animation-duration:s;'>
+		<div blazor:onanimationend='4' class='mud-collapse-container mud-collapse-entering' style=''>
 			<div class='mud-collapse-wrapper' blazor:elementReference=''>
 				<div class='mud-collapse-wrapper-inner'>
 					<div class='mud-expand-panel-content'>
