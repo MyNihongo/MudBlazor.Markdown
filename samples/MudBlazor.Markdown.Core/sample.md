@@ -28,6 +28,11 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
   - Visit Sapporo
   - Visit Kyoto
 - Do some pullups
+
+#### Ordered list
+1. Go to Kochi
+2. Eat more ramen
+3. Learn jpop sonds
 ***
 #### Largest cities in Japan
 |Rank|Municipality|Prefecture|Population|
