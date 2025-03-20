@@ -64,8 +64,19 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Parameter]
 	public MudMarkdownStyling Styling { get; set; } = new();
 
+	/// <summary>
+	/// Custom Markdown pipeline to use for rendering.<br/>
+	/// If not provided, a default pipeline with advanced extensions will be used.
+	/// </summary>
 	[Parameter]
 	public MarkdownPipeline? MarkdownPipeline { get; set; }
+
+	/// <summary>
+	/// The type of source for the markdown content.<br/>
+	/// Default value: <see cref="MarkdownSourceType.RawValue"/>
+	/// </summary>
+	[Parameter]
+	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
 
 	[Inject]
 	protected NavigationManager? NavigationManager { get; init; }
@@ -253,7 +264,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						TryRenderMarkdownError(markdownValue, builder, ElementNames.Span);
 						continue;
 					}
-					
+
 					builder.OpenElement(ElementIndex++, elementName);
 					RenderInlines(x, builder);
 					builder.CloseElement();
