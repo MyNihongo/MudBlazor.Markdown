@@ -8,7 +8,7 @@ This README covers configuration steps for Blazor Server and Blazor WebAssembly.
 For guidance with update errors please visit the [wiki page](https://github.com/MyNihongo/MudBlazor.Markdown/wiki/Update-guide).
 
 ## Getting started
-> NB! MudBLazor does not work well with the static SSR format because some code is executed in `OnAfterRender` or `OnAfterRenderAsync` that is not invoked by default.  
+> NB! MudBlazor does not work well with the static SSR format because some code is executed in `OnAfterRender` or `OnAfterRenderAsync` that is not invoked by default.  
 > Specify `@rendermode="InteractiveServer"` on the markdown component to make it work (e.g. `<MudMarkdown @rendermode="InteractiveServer" Value="some markdown here" />`)
 
 Install the NuGet package.
