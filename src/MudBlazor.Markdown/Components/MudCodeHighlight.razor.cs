@@ -5,31 +5,14 @@ namespace MudBlazor;
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
 	private ElementReference _ref;
-	private CodeBlockTheme _theme;
 	private IMudMarkdownThemeService? _themeService;
-	private bool _isFirstThemeSet;
-
-	private string _text = string.Empty;
-	private bool _isTextUpdated;
+	private bool _isFirstThemeSet, _isTextUpdated;
 
 	/// <summary>
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-#if NET7_0 || NET8_0
-#pragma warning disable BL0007
-#endif
-	public string Text
-	{
-		get => _text;
-		set
-		{
-			if (_text != value)
-				_isTextUpdated = true;
-
-			_text = value;
-		}
-	}
+	public string Text { get; set; } = string.Empty;
 
 	/// <summary>
 	/// Language of the <see cref="Text"/>
@@ -42,25 +25,8 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
-#if NET7_0 || NET8_0
-#pragma warning disable BL0007
-#endif
 	[Parameter]
-	public CodeBlockTheme Theme
-	{
-		get => _theme;
-		set
-		{
-			if (_theme == value)
-				return;
-
-			_theme = value;
-			Task.Run(SetThemeAsync);
-		}
-	}
-#if NET7_0
-#pragma warning restore BL0007
-#endif
+	public CodeBlockTheme Theme { get; set; }
 
 	[Inject]
 	private IJSRuntime Js { get; init; } = default!;
@@ -79,6 +45,21 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			_themeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
 
 		GC.SuppressFinalize(this);
+	}
+
+	public override async Task SetParametersAsync(ParameterView parameters)
+	{
+		if (parameters.TryGetValue<string>(nameof(Text), out var text) && !ReferenceEquals(text, Text))
+			_isTextUpdated = true;
+
+		if (parameters.TryGetValue<CodeBlockTheme>(nameof(Theme), out var theme) && theme != Theme)
+		{
+			await SetThemeAsync()
+				.ConfigureAwait(false);
+		}
+
+		await base.SetParametersAsync(parameters)
+			.ConfigureAwait(false);
 	}
 
 	protected override bool ShouldRender() =>

@@ -87,6 +87,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Inject]
 	protected IServiceProvider? ServiceProvider { get; init; }
 
+	[Inject]
+	private IMudMarkdownValueProvider MudMarkdownValueProvider { get; init; } = default!;
+
 	public virtual void Dispose()
 	{
 		if (NavigationManager != null)
@@ -96,6 +99,20 @@ public class MudMarkdown : ComponentBase, IDisposable
 			ThemeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
 
 		GC.SuppressFinalize(this);
+	}
+
+	public override async Task SetParametersAsync(ParameterView parameters)
+	{
+		if (parameters.TryGetValue<string>(nameof(Value), out var value) && !ReferenceEquals(Value, value))
+		{
+			var sourceType = parameters.GetValueOrDefault<MarkdownSourceType>(nameof(SourceType));
+
+			Value = await MudMarkdownValueProvider.GetValueAsync(value, sourceType)
+				.ConfigureAwait(false);
+		}
+
+		await base.SetParametersAsync(parameters)
+			.ConfigureAwait(false);
 	}
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
