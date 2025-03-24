@@ -10,7 +10,8 @@ public abstract class ComponentTestsBase : IDisposable
 	{
 		Ctx.Services
 			.AddSingleton(MockJsRuntime.Object)
-			.AddSingleton<NavigationManager>(MockNavigationManager);
+			.AddSingleton<NavigationManager>(MockNavigationManager)
+			.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
 	}
 
 	protected Mock<IJSRuntime> MockJsRuntime { get; } = new();

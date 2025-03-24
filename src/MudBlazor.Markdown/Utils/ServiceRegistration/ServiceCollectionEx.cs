@@ -2,7 +2,7 @@
 
 public static class ServiceCollectionEx
 {
-	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this, Action<MudMarkdownMemoryCacheEntryOptions>? configureMemoryCache)
+	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this, Action<MudMarkdownMemoryCacheEntryOptions>? configureMemoryCache = null)
 	{
 		return @this
 			.AddMudMarkdownCache(configureMemoryCache)
