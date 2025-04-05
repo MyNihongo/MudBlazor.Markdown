@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using MudBlazor.Markdown.Core.Utils.ServiceRegistration;
 using MudBlazor.Services;
 
@@ -18,7 +19,11 @@ public class Startup
 		services.AddServerSideBlazor();
 		services.AddCoreServices();
 		services.AddMudServices();
-		services.AddMudMarkdownServices();
+		services.AddMudMarkdownServices(static cache =>
+		{
+			cache.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+			cache.SlidingExpiration = TimeSpan.FromHours(2);
+		});
 	}
 
 	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
