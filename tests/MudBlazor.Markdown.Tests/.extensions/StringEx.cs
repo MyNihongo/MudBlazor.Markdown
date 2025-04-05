@@ -21,7 +21,7 @@ public static class StringEx
 		{
 			stringBuilder
 				.Append(span[startIndex..endIndex])
-				.Append("{path}");
+				.Append("path");
 
 			const string extension = ".md";
 			startIndex = @this.IndexOf(extension, endIndex, stringComparison);

@@ -28,10 +28,10 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 		var value = Path.Combine("Resources", "i dont exist.md");
 		const MarkdownSourceType sourceType = MarkdownSourceType.File;
 
-		const string expected =
-			"""
+		var expected =
+			$"""
 			<article class="mud-markdown-body">
-				<p class="mud-typography mud-typography-body1">Error while reading from file, path=<code>Resources\i dont exist.md</code>, error=<code>Could not find file '{path}'.</code></p>
+				<p class="mud-typography mud-typography-body1">Error while reading from file, path=<code>Resources{Path.DirectorySeparatorChar}i dont exist.md</code>, error=<code>Could not find file 'path'.</code></p>
 				<div class="snippet-clipboard-content overflow-auto">
 					<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >
 						<span class="mud-icon-button-label">
