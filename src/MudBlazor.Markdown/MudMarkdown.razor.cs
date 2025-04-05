@@ -106,10 +106,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (parameters.TryGetValue<string>(nameof(Value), out var value) && !ReferenceEquals(Value, value))
 		{
 			var sourceType = parameters.GetValueOrDefault<MarkdownSourceType>(nameof(SourceType));
-			var dictionary = parameters.ToMutableDictionary();
-
 			Value = await MudMarkdownValueProvider.GetValueAsync(value, sourceType);
 
+			var dictionary = parameters.ToMutableDictionary();
 			dictionary[nameof(Value)] = Value;
 			parameters = ParameterView.FromDictionary(dictionary);
 		}
