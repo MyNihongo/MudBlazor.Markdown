@@ -57,7 +57,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 	[Fact]
 	public void RenderValueFromUrl()
 	{
-		const string value = "https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/refs/heads/feature/288-markdown-source/tests/MudBlazor.Markdown.Tests/.resources/test.md";
+		const string value = "https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/refs/heads/main/tests/MudBlazor.Markdown.Tests/.resources/test.md";
 		const MarkdownSourceType sourceType = MarkdownSourceType.Url;
 
 		const string expected =
