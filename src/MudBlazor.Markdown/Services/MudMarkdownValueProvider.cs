@@ -75,11 +75,11 @@ file static class StringBuilderEx
 {
 	public static string BuildErrorMessage(this StringBuilder @this, in Exception e)
 	{
-		@this.AppendLine($", error=`{e.Message}`");
-
-		if (!string.IsNullOrEmpty(e.StackTrace))
-			@this.AppendLine($"> {e.StackTrace}");
-
-		return @this.ToString();
+		return @this
+			.AppendLine($", error=`{e.Message}`")
+			.AppendLine("```txt")
+			.AppendLine(e.ToString())
+			.Append("```")
+			.ToString();
 	}
 }

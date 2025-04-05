@@ -5,14 +5,34 @@ namespace MudBlazor;
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
 	private ElementReference _ref;
+	private CodeBlockTheme _theme;
 	private IMudMarkdownThemeService? _themeService;
-	private bool _isFirstThemeSet, _isTextUpdated;
+	private bool _isFirstThemeSet;
+
+	private string _text = string.Empty;
+	private bool _isTextUpdated;
 
 	/// <summary>
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-	public string Text { get; set; } = string.Empty;
+#if NET8_0 || NET9_0
+#pragma warning disable BL0007
+#endif
+	public string Text
+	{
+		get => _text;
+		set
+		{
+			if (_text != value)
+				_isTextUpdated = true;
+
+			_text = value;
+		}
+	}
+#if NET8_0 || NET9_0
+#pragma warning restore BL0007
+#endif
 
 	/// <summary>
 	/// Language of the <see cref="Text"/>
@@ -25,11 +45,28 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
+#if NET8_0 || NET9_0
+#pragma warning disable BL0007
+#endif
 	[Parameter]
-	public CodeBlockTheme Theme { get; set; }
+	public CodeBlockTheme Theme
+	{
+		get => _theme;
+		set
+		{
+			if (_theme == value)
+				return;
+
+			_theme = value;
+			Task.Run(SetThemeAsync);
+		}
+	}
+#if NET8_0 || NET9_0
+#pragma warning restore BL0007
+#endif
 
 	[Inject]
-	private IJSRuntime Js { get; init; } = null!;
+	private IJSRuntime Js { get; init; } = default!;
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
@@ -45,25 +82,6 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			_themeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
 
 		GC.SuppressFinalize(this);
-	}
-
-	public override async Task SetParametersAsync(ParameterView parameters)
-	{
-		if (parameters.TryGetValue<string>(nameof(Text), out var text) && !ReferenceEquals(text, Text))
-			_isTextUpdated = true;
-
-		if (parameters.TryGetValue<CodeBlockTheme>(nameof(Theme), out var theme) && theme != Theme)
-		{
-			parameters.SetParameterProperties(this);
-
-			await SetThemeAsync()
-				.ConfigureAwait(false);
-
-			parameters = ParameterView.Empty;
-		}
-
-		await base.SetParametersAsync(parameters)
-			.ConfigureAwait(false);
 	}
 
 	protected override bool ShouldRender() =>
@@ -90,7 +108,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
 		builder.AddAttribute(i++, "class", CodeClasses);
-		builder.AddElementReferenceCapture(i, x => _ref = x);
+		builder.AddElementReferenceCapture(i++, x => _ref = x);
 
 		builder.CloseElement();
 		builder.CloseElement();
