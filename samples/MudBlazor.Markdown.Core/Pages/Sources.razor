@@ -1,0 +1,56 @@
+﻿@page "/sources"
+
+@* File - exists *@
+<MudCard Class="mt-6">
+	<MudCardContent>
+		<MudText Typo="Typo.h3">File exists</MudText>
+		<MudMarkdown
+			Value="@Path.Combine(BaseDirectory, "Resources", "test.md")"
+			SourceType="MarkdownSourceType.File"
+			CodeBlockTheme="Theme"
+		/>
+	</MudCardContent>
+</MudCard>
+
+@* File - does not exist *@
+<MudCard Class="mt-6">
+	<MudCardContent>
+		<MudText Typo="Typo.h3">File does not exist</MudText>
+		<MudMarkdown
+			Value="i dont exist.md"
+			SourceType="MarkdownSourceType.File"
+			CodeBlockTheme="Theme"
+		/>
+	</MudCardContent>
+</MudCard>
+
+@* URL - valid markdown *@
+<MudCard Class="mt-6">
+	<MudCardContent>
+		<MudText Typo="Typo.h3">Valid URL markdown</MudText>
+		<MudMarkdown
+			Value="https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/refs/heads/main/README.md"
+			SourceType="MarkdownSourceType.Url"
+			CodeBlockTheme="Theme"
+		/>
+	</MudCardContent>
+</MudCard>
+
+@* URL - invalid URL *@
+<MudCard Class="mt-6">
+	<MudCardContent>
+		<MudText Typo="Typo.h3">Invalid URL</MudText>
+		<MudMarkdown
+			Value="bad url"
+			SourceType="MarkdownSourceType.Url"
+			CodeBlockTheme="Theme"
+		/>
+	</MudCardContent>
+</MudCard>
+
+@code
+{
+	private const CodeBlockTheme Theme = CodeBlockTheme.DraculaBase16;
+
+	private static string BaseDirectory => AppDomain.CurrentDomain.BaseDirectory;
+}

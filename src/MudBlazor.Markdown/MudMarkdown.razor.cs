@@ -64,8 +64,19 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Parameter]
 	public MudMarkdownStyling Styling { get; set; } = new();
 
+	/// <summary>
+	/// Custom Markdown pipeline to use for rendering.<br/>
+	/// If not provided, a default pipeline with advanced extensions will be used.
+	/// </summary>
 	[Parameter]
 	public MarkdownPipeline? MarkdownPipeline { get; set; }
+
+	/// <summary>
+	/// The type of source for the markdown content.<br/>
+	/// Default value: <see cref="MarkdownSourceType.RawValue"/>
+	/// </summary>
+	[Parameter]
+	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
 
 	[Inject]
 	protected NavigationManager? NavigationManager { get; init; }
@@ -76,6 +87,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Inject]
 	protected IServiceProvider? ServiceProvider { get; init; }
 
+	[Inject]
+	private IMudMarkdownValueProvider MudMarkdownValueProvider { get; init; } = default!;
+
 	public virtual void Dispose()
 	{
 		if (NavigationManager != null)
@@ -85,6 +99,23 @@ public class MudMarkdown : ComponentBase, IDisposable
 			ThemeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
 
 		GC.SuppressFinalize(this);
+	}
+
+	public override async Task SetParametersAsync(ParameterView parameters)
+	{
+		if (parameters.TryGetValue<string>(nameof(Value), out var value) && !ReferenceEquals(Value, value))
+		{
+			var sourceType = parameters.GetValueOrDefault<MarkdownSourceType>(nameof(SourceType));
+			var dictionary = parameters.ToMutableDictionary(); // must be before the `await` call
+
+			Value = await MudMarkdownValueProvider.GetValueAsync(value, sourceType);
+
+			dictionary[nameof(Value)] = Value;
+			parameters = ParameterView.FromDictionary(dictionary);
+		}
+
+		await base.SetParametersAsync(parameters)
+			.ConfigureAwait(false);
 	}
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -253,7 +284,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						TryRenderMarkdownError(markdownValue, builder, ElementNames.Span);
 						continue;
 					}
-					
+
 					builder.OpenElement(ElementIndex++, elementName);
 					RenderInlines(x, builder);
 					builder.CloseElement();
