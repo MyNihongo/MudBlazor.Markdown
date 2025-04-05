@@ -29,7 +29,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	public CodeBlockTheme Theme { get; set; }
 
 	[Inject]
-	private IJSRuntime Js { get; init; } = default!;
+	private IJSRuntime Js { get; init; } = null!;
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
@@ -54,8 +54,12 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 		if (parameters.TryGetValue<CodeBlockTheme>(nameof(Theme), out var theme) && theme != Theme)
 		{
+			parameters.SetParameterProperties(this);
+
 			await SetThemeAsync()
 				.ConfigureAwait(false);
+
+			parameters = ParameterView.Empty;
 		}
 
 		await base.SetParametersAsync(parameters)
@@ -86,7 +90,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(i++, "pre");
 		builder.OpenElement(i++, "code");
 		builder.AddAttribute(i++, "class", CodeClasses);
-		builder.AddElementReferenceCapture(i++, x => _ref = x);
+		builder.AddElementReferenceCapture(i, x => _ref = x);
 
 		builder.CloseElement();
 		builder.CloseElement();
