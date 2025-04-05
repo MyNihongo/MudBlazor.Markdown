@@ -20,6 +20,10 @@
 		<None Remove="*.md" />
 		<EmbeddedResource Include="*.md" />
 		<None Remove="*.csproj.DotSettings" />
+
+		<None Update="Resources\*.md">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
