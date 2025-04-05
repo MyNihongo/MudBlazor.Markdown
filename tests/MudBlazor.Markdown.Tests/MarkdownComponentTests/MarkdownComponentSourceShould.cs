@@ -49,7 +49,9 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value, sourceType: sourceType)
 			.AwaitElement("article");
 
-		fixture.MarkupMatches(expected);
+		fixture.Markup
+			.EscapePath()
+			.MarkupMatches(expected);
 	}
 
 	[Fact]

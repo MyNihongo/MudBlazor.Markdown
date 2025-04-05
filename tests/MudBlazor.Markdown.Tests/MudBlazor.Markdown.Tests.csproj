@@ -29,10 +29,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="*.csproj.DotSettings" />
 		<Content Include=".resources\*.md">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<TargetPath>Resources\%(Filename)%(Extension)</TargetPath>
 		</Content>
+		<Compile Include=".extensions\*.cs" />
 	</ItemGroup>
 
 </Project>

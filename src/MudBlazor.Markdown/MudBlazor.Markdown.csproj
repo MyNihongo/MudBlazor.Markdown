@@ -39,10 +39,7 @@
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 		<Content Remove="**\package*.json" />
 		<None Remove="*.csproj.DotSettings" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+		<Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>
