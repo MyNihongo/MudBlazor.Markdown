@@ -6,7 +6,7 @@ public static class StringEx
 {
 	public static string EscapePath(this string @this)
 	{
-		var root = Path.GetPathRoot(Environment.CurrentDirectory) ?? throw new Exception("Cannot get the root path");
+		var root = Path.GetPathRoot(Environment.CurrentDirectory) ?? throw new Exception($"Cannot get the root path, string=`{@this}`");
 		
 		const StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 		var stringBuilder = new StringBuilder(@this.Length);
@@ -22,7 +22,7 @@ public static class StringEx
 			const string extension = ".md";
 			startIndex = @this.IndexOf(extension, endIndex, stringComparison);
 			if (startIndex == -1)
-				throw new Exception("Cannot find the end of the path");
+				throw new Exception($"Cannot find the end of the path, string=`{@this}`, index=`{endIndex}`");
 			
 			startIndex += extension.Length;
 		}
