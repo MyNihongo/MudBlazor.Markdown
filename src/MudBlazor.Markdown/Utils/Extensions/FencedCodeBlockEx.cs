@@ -5,7 +5,7 @@ namespace MudBlazor;
 
 internal static class FencedCodeBlockEx
 {
-	public static string CreateCodeBlockText(this FencedCodeBlock @this)
+	public static string CreateCodeBlockText(this CodeBlock @this)
 	{
 		if (@this.Lines.Count == 0)
 			return string.Empty;

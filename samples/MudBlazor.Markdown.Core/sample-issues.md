@@ -1,4 +1,10 @@
-﻿# [Unknown language - Razor](https://github.com/MyNihongo/MudBlazor.Markdown/issues/260)
+﻿# [Indented code block](https://github.com/MyNihongo/MudBlazor.Markdown/issues/294)
+    if
+    {
+        return;
+    }
+
+# [Unknown language - Razor](https://github.com/MyNihongo/MudBlazor.Markdown/issues/260)
 ```razor
 @page
 @model IndexModel

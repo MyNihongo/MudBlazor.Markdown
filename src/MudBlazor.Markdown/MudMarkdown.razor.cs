@@ -204,7 +204,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case FencedCodeBlock code:
 				{
-					RenderFencedCodeBlock(builder, code);
+					RenderCodeBlock(builder, code, code.Info);
+					break;
+				}
+				case CodeBlock code:
+				{
+					RenderCodeBlock(builder, code, info: null);
 					break;
 				}
 				case HtmlBlock html:
@@ -481,7 +486,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 					case FencedCodeBlock x:
 					{
-						RenderFencedCodeBlock(builder, x);
+						RenderCodeBlock(builder, x, x.Info);
+						break;
+					}
+					case CodeBlock x:
+					{
+						RenderCodeBlock(builder, x, info: null);
 						break;
 					}
 					default:
@@ -523,13 +533,13 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.AddContent(ElementIndex, markupString);
 	}
 
-	protected virtual void RenderFencedCodeBlock(in RenderTreeBuilder builder, in FencedCodeBlock code)
+	protected virtual void RenderCodeBlock(in RenderTreeBuilder builder, in CodeBlock code, in string? info)
 	{
 		var text = code.CreateCodeBlockText();
 
 		builder.OpenComponent<MudCodeHighlight>(ElementIndex++);
 		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Text), text);
-		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), code.Info ?? string.Empty);
+		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Language), info ?? string.Empty);
 		builder.AddAttribute(ElementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
 		builder.CloseComponent();
 	}
