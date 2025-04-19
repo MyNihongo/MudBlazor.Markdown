@@ -32,9 +32,9 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Install Node.js
-        uses: actions/setup-node@v2.4.0
+        uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 22.x
           cache: 'npm'
           cache-dependency-path: src/MudBlazor.Markdown/package-lock.json
 
