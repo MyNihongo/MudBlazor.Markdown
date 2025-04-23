@@ -14,6 +14,12 @@ internal static class FencedCodeBlockEx
 
 		foreach (var line in @this.Lines)
 		{
+			if (line is StringLine)
+			{
+				sb.AppendLine();
+				continue;
+			}
+			
 			var str = line.ToString();
 
 			if (string.IsNullOrEmpty(str))
