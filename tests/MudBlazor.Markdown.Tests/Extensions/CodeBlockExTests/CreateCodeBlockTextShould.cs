@@ -18,7 +18,7 @@ public sealed class CreateCodeBlockTextShould : CodeBlockExTestsBase
 	[Fact]
 	public void ReturnTextForMultiLines()
 	{
-		const string input = "first line\r\nnext line";
+		var input = $"first line{Environment.NewLine}next line";
 		
 		var result = CreateFixture(input)
 			.CreateCodeBlockText();
@@ -31,7 +31,7 @@ public sealed class CreateCodeBlockTextShould : CodeBlockExTestsBase
 	[Fact]
 	public void ReturnTextWithEmptyLine()
 	{
-		const string input = "first line\r\n\r\nnext line";
+		var input = $"first line{Environment.NewLine}{Environment.NewLine}next line";
 		
 		var result = CreateFixture(input)
 			.CreateCodeBlockText();
