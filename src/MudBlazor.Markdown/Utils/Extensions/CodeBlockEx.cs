@@ -3,7 +3,7 @@ using Markdig.Syntax;
 
 namespace MudBlazor;
 
-internal static class FencedCodeBlockEx
+internal static class CodeBlockEx
 {
 	public static string CreateCodeBlockText(this CodeBlock @this)
 	{
