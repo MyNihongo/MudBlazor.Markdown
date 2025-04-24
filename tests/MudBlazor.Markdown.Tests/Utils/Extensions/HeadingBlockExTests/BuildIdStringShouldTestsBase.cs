@@ -1,4 +1,4 @@
-﻿namespace MudBlazor.Markdown.Tests.Extensions.HeadingBlockExTests;
+﻿namespace MudBlazor.Markdown.Tests.Utils.Extensions.HeadingBlockExTests;
 
 public abstract class BuildIdStringShouldTestsBase
 {

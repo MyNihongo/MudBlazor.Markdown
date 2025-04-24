@@ -1,7 +1,7 @@
 ﻿using Markdig;
 using MudBlazor.Markdown.Tests.Services;
 
-namespace MudBlazor.Markdown.Tests.MarkdownComponentTests;
+namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 {
@@ -51,7 +51,6 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		fixture.MarkupMatches(expected);
 	}
 
-	// Some values might need to be removed once they are implemented
 	[Theory]
 	[InlineData("^")] // superscript
 	[InlineData("~")] // subscript

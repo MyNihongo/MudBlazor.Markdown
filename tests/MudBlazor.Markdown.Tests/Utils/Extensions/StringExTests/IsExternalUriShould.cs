@@ -1,4 +1,4 @@
-﻿namespace MudBlazor.Markdown.Tests.Extensions.StringExTests;
+﻿namespace MudBlazor.Markdown.Tests.Utils.Extensions.StringExTests;
 
 public sealed class IsExternalUriShould
 {
