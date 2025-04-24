@@ -3,7 +3,7 @@ using Markdig.Syntax;
 
 namespace MudBlazor;
 
-internal static class FencedCodeBlockEx
+internal static class CodeBlockEx
 {
 	public static string CreateCodeBlockText(this CodeBlock @this)
 	{
@@ -17,7 +17,11 @@ internal static class FencedCodeBlockEx
 			var str = line.ToString();
 
 			if (string.IsNullOrEmpty(str))
+			{
+				var emptyLineString = (line as StringLine?)?.NewLine.AsString();
+				sb.Append(emptyLineString);
 				continue;
+			}
 
 			if (sb.Length != 0)
 				sb.AppendLine();
