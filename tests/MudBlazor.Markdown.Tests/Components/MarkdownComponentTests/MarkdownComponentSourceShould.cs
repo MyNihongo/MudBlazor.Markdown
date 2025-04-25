@@ -1,4 +1,4 @@
-namespace MudBlazor.Markdown.Tests.MarkdownComponentTests;
+namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 {

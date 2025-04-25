@@ -1,4 +1,4 @@
-namespace MudBlazor.Markdown.Tests.Extensions.SourceSpanEx;
+namespace MudBlazor.Markdown.Tests.Utils.SourceSpanExTests;
 
 public sealed class TryGetTextShould
 {

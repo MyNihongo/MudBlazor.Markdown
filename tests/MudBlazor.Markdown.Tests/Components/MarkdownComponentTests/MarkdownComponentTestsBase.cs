@@ -3,7 +3,7 @@ using Markdig;
 using Markdig.Syntax.Inlines;
 using MyNihongo.Option;
 
-namespace MudBlazor.Markdown.Tests.MarkdownComponentTests;
+namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 {

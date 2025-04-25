@@ -13,7 +13,8 @@ public static class ServiceCollectionEx
 	private static IServiceCollection AddMudMarkdownCache(this IServiceCollection @this, Action<MudMarkdownMemoryCacheEntryOptions>? configureMemoryCache)
 	{
 		return @this
-			.AddMemoryCache()
+			.AddOptions()
+			.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>()
 			.Configure<MudMarkdownMemoryCacheEntryOptions>(options =>
 			{
 				if (configureMemoryCache != null)
