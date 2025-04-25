@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace MudBlazor.Markdown.Tests.Utils.Extensions.CodeBlockExTests;
+namespace MudBlazor.Markdown.Tests.Utils.CodeBlockExTests;
 
 public abstract class CodeBlockExTestsBase
 {

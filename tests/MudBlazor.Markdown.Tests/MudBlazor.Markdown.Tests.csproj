@@ -37,9 +37,4 @@
 		<Compile Include=".extensions\*.cs" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Components\" />
-	  <Folder Include="Utils\" />
-	</ItemGroup>
-
 </Project>
