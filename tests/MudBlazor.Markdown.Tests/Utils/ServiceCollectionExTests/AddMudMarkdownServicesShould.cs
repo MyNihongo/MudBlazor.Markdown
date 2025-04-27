@@ -41,4 +41,22 @@ public sealed class AddMudMarkdownServicesShould : ServiceCollectionExTestsBase
 			.Should()
 			.Be(scopedInstance);
 	}
+
+	[Fact]
+	public void RegisterScopedMemoryCache()
+	{
+		using var fixture = CreateFixture()
+			.AddScoped<IMemoryCache, MemoryCache>()
+			.AddMudMarkdownServices()
+			.BuildServiceProvider();
+
+		var instance = fixture.GetRequiredService<IMudMarkdownMemoryCache>();
+
+		using var scope = fixture.CreateScope();
+		var scopedInstance = scope.ServiceProvider.GetRequiredService<IMemoryCache>();
+
+		instance
+			.Should()
+			.NotBe(scopedInstance);
+	}
 }
