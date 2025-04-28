@@ -46,20 +46,20 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	/// <summary>
 	/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
-	/// If a function is not provided <see cref="LinkInline.Url"/> is used
+	/// If a function is not provided <see cref="LinkInline.Url"/> is used.
 	/// </summary>
 	[Parameter]
 	public Func<LinkInline, string?>? OverrideLinkUrl { get; set; }
 
 	/// <summary>
 	/// Typography variant to use for Heading Level 1-6.<br/>
-	/// If a function is not provided a default typo for each level is set (e.g. for &lt;h1&gt; it will be <see cref="Typo.h1"/>, etc.)
+	/// If a function is not provided a default typo for each level is set (e.g. for &lt;h1&gt; it will be <see cref="Typo.h1"/>, etc.).
 	/// </summary>
 	[Parameter]
 	public Func<Typo, Typo>? OverrideHeaderTypo { get; set; }
 
 	/// <summary>
-	/// Override default styling of the markdown component
+	/// Override default styling of the markdown component.
 	/// </summary>
 	[Parameter]
 	public MudMarkdownStyling Styling { get; set; } = new();
@@ -73,10 +73,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	/// <summary>
 	/// The type of source for the markdown content.<br/>
-	/// Default value: <see cref="MarkdownSourceType.RawValue"/>
+	/// Default value: <see cref="MarkdownSourceType.RawValue"/>.
 	/// </summary>
 	[Parameter]
 	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
+
+	/// <summary>
+	/// Indicates whether a table of contents should be displayed.<br/>
+	/// Default value: <see langword="false" />.
+	/// </summary>
+	[Parameter]
+	public bool HasTableOfContents { get; set; }
 
 	[Inject]
 	protected NavigationManager? NavigationManager { get; init; }
