@@ -66,7 +66,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 #endif
 
 	[Inject]
-	private IJSRuntime Js { get; init; } = default!;
+	private IJSRuntime Js { get; init; } = null!;
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
