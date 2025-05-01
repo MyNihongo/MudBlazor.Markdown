@@ -17,9 +17,12 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 			""";
 
 		using var fixture = CreateFixture(value, sourceType: sourceType)
-			.AwaitElement("article");
+			.AwaitArticle();
+
+		using var fixtureFromCache = CreateFixture(value, sourceType: sourceType);
 
 		fixture.MarkupMatches(expected);
+		fixtureFromCache.MarkupMatches(expected);
 	}
 
 	[Fact]
@@ -30,21 +33,21 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			<article class="mud-markdown-body">
-				<p class="mud-typography mud-typography-body1">Error while reading from file, path=<code>Resources{Path.DirectorySeparatorChar}i dont exist.md</code>, error=<code>Could not find file 'path'.</code></p>
-				<div class="snippet-clipboard-content overflow-auto">
-					<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >
-						<span class="mud-icon-button-label">
-							<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
-								<g><rect fill="none" height="24" width="24"></rect></g>
-								<g><path d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"></path></g>
-							</svg>
-						</span>
-					</button>
-					<pre><code class="hljs language-txt" ></code></pre>
-				</div>
-			</article>
-			""";
+			 <article class="mud-markdown-body">
+			 	<p class="mud-typography mud-typography-body1">Error while reading from file, path=<code>Resources{Path.DirectorySeparatorChar}i dont exist.md</code>, error=<code>Could not find file 'path'.</code></p>
+			 	<div class="snippet-clipboard-content overflow-auto">
+			 		<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >
+			 			<span class="mud-icon-button-label">
+			 				<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
+			 					<g><rect fill="none" height="24" width="24"></rect></g>
+			 					<g><path d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"></path></g>
+			 				</svg>
+			 			</span>
+			 		</button>
+			 		<pre><code class="hljs language-txt" ></code></pre>
+			 	</div>
+			 </article>
+			 """;
 
 		using var fixture = CreateFixture(value, sourceType: sourceType)
 			.AwaitElement("article");
@@ -71,7 +74,10 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value, sourceType: sourceType)
 			.AwaitElement("article", TimeSpan.FromSeconds(2d));
 
+		using var fixtureFromCache = CreateFixture(value, sourceType: sourceType);
+
 		fixture.MarkupMatches(expected);
+		fixtureFromCache.MarkupMatches(expected);
 	}
 
 	[Fact]

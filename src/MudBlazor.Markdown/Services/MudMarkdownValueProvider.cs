@@ -52,7 +52,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 	private async ValueTask<string> ReadFromUrlAsync(string url, CancellationToken ct = default)
 	{
 		if (_memoryCache.TryGetValue<string>(url, out var value) && value is not null)
-			return url;
+			return value;
 
 		try
 		{
