@@ -108,7 +108,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(elementIndex1++, "pre");
 		builder.OpenElement(elementIndex1++, "code");
 		builder.AddAttribute(elementIndex1++, "class", CodeClasses);
-		builder.AddElementReferenceCapture(elementIndex1++, x => _ref = x);
+		builder.AddElementReferenceCapture(elementIndex1, x => _ref = x);
 		builder.CloseElement(); // "pre"
 		builder.CloseElement(); // "code"
 
