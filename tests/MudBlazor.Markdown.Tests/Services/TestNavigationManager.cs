@@ -8,13 +8,11 @@ public sealed class TestNavigationManager : NavigationManager
 
 	public void Initialize(string uri)
 	{
-#if DEBUG
 		var isInitialised = (bool)typeof(NavigationManager)
 			.GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic)
 			!.GetValue(this)!;
 
 		if (!isInitialised)
-#endif
 			Initialize(TestUrl, TestUrl + uri);
 	}
 

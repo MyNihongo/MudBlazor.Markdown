@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>MudBlazor</RootNamespace>
-		<Version>8.5.1.1</Version>
+		<Version>8.6.0</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
 		<Copyright>Copyright © 2025 MyNihongo</Copyright>
@@ -21,9 +21,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.41.0" />
+		<PackageReference Include="Markdig" Version="0.41.1" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.4" />
-		<PackageReference Include="MudBlazor" Version="8.5.1" />
+		<PackageReference Include="MudBlazor" Version="8.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>
