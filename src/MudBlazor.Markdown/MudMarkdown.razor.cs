@@ -124,24 +124,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 			.ConfigureAwait(false);
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
-	{
-		if (string.IsNullOrEmpty(Value))
-			return;
-
-		var pipeline = GetMarkdownPipeLine();
-		var parsedText = Markdown.Parse(Value, pipeline);
-		if (parsedText.Count == 0)
-			return;
-
-		var elementIndex = 0;
-
-		builder.OpenElement(elementIndex++, "article");
-		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-markdown-body");
-		RenderMarkdown(builder, ref elementIndex, parsedText);
-		builder.CloseElement();
-	}
-
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
@@ -160,6 +142,42 @@ public class MudMarkdown : ComponentBase, IDisposable
 		var args = new LocationChangedEventArgs(NavigationManager.Uri, true);
 		NavigationManagerOnLocationChanged(NavigationManager, args);
 		NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
+	}
+
+	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	{
+		if (string.IsNullOrEmpty(Value))
+			return;
+
+		var pipeline = GetMarkdownPipeLine();
+		var parsedText = Markdown.Parse(Value, pipeline);
+		if (parsedText.Count == 0)
+			return;
+
+		var elementIndex = 0;
+
+		if (HasTableOfContents)
+		{
+			builder.OpenComponent<MudTableOfContents>(elementIndex++);
+			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment)(builder2 =>
+			{
+				var elementIndex2 = 0;
+				RenderMarkdownRoot(builder2, ref elementIndex2, parsedText);
+			}));
+			builder.CloseComponent();
+		}
+		else
+		{
+			RenderMarkdownRoot(builder, ref elementIndex, parsedText);
+		}
+	}
+
+	protected virtual void RenderMarkdownRoot(RenderTreeBuilder builder, ref int elementIndex, ContainerBlock container)
+	{
+		builder.OpenElement(elementIndex++, "article");
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-markdown-body");
+		RenderMarkdown(builder, ref elementIndex, container);
+		builder.CloseElement();
 	}
 
 	protected virtual void RenderMarkdown(RenderTreeBuilder builder, ref int elementIndex, ContainerBlock container)
