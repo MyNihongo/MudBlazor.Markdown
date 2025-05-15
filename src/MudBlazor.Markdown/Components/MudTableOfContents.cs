@@ -1,4 +1,7 @@
-﻿namespace MudBlazor;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Components.Web;
+
+namespace MudBlazor;
 
 internal sealed class MudTableOfContents : ComponentBase
 {
@@ -52,8 +55,9 @@ internal sealed class MudTableOfContents : ComponentBase
 				builder3.AddAttribute(elementIndex3, nameof(MudNavMenu.ChildContent), (RenderFragment)(builder4 =>
 				{
 					var elementIndex4 = 0;
-					builder4.OpenComponent<MudText>(elementIndex4++);
-					builder4.AddAttribute(elementIndex4, nameof(MudText.ChildContent), (RenderFragment)delegate(RenderTreeBuilder builder5) { builder5.AddContent(0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ullamcorper orci at mi pellentesque scelerisque. Nullam pulvinar felis elit, varius ultrices urna convallis aliquet. Aliquam magna nibh, blandit a sapien non, pretium rutrum turpis. Vestibulum rhoncus nibh et consequat hendrerit. Duis pretium nulla libero, euismod venenatis nunc mattis ac. Ut luctus sapien quis consequat facilisis. Aliquam at nibh elit. Nunc et cursus arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit."); });
+					builder4.OpenComponent<MudNavLink>(elementIndex4++);
+					builder4.AddComponentParameter(elementIndex4++, nameof(MudNavLink.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, args => Debug.WriteLine("click")));
+					builder4.AddComponentParameter(elementIndex4, nameof(MudNavLink.ChildContent), (RenderFragment)delegate(RenderTreeBuilder builder5) { builder5.AddContent(0, "Dashboard"); });
 					builder4.CloseComponent();
 				}));
 				builder3.CloseComponent();
