@@ -112,3 +112,9 @@ pre code.hljs {
 .mud-markdown-body img {
 	max-width: 100%;
 }
+
+/* Table of contents */
+.mud-markdown-toc {
+	overflow: hidden;
+	position: relative;
+}

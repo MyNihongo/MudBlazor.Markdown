@@ -84,7 +84,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Parameter]
 	public bool HasTableOfContents { get; set; }
 
-	[Inject]
+    /// <summary>
+    /// The optional header text to display above the table of contents.<br/>
+    /// Ignored if <see cref="HasTableOfContents" /> is <see langword="false" />.
+    /// </summary>
+    [Parameter]
+	public string? TableOfContentsHeader { get; set; }
+
+    [Inject]
 	protected NavigationManager? NavigationManager { get; init; }
 
 	[Inject]
@@ -159,6 +166,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (HasTableOfContents)
 		{
 			builder.OpenComponent<MudTableOfContents>(elementIndex++);
+			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.Header), TableOfContentsHeader);
 			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment)(builder2 =>
 			{
 				var elementIndex2 = 0;
