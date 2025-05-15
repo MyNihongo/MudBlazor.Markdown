@@ -16,7 +16,6 @@ internal sealed class MudTableOfContents : ComponentBase
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{
 		var elementIndex1 = 0;
-
 		builder1.OpenElement(elementIndex1++, ElementNames.Div);
 		builder1.AddAttribute(elementIndex1++, AttributeNames.Class, "mud-markdown-toc");
 		builder1.OpenComponent<MudDrawerContainer>(elementIndex1++);
@@ -35,7 +34,6 @@ internal sealed class MudTableOfContents : ComponentBase
 			{
 				var elementIndex3 = 0;
 
-				// Header
 				if (!string.IsNullOrEmpty(Header))
 				{
 					builder3.OpenComponent<MudDrawerHeader>(elementIndex3++);
@@ -50,7 +48,6 @@ internal sealed class MudTableOfContents : ComponentBase
 					builder3.CloseComponent();
 				}
 
-				// Content
 				builder3.OpenComponent<MudNavMenu>(elementIndex3++);
 				builder3.AddAttribute(elementIndex3, nameof(MudNavMenu.ChildContent), (RenderFragment)(builder4 =>
 				{

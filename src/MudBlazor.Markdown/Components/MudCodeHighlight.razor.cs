@@ -89,26 +89,25 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		var elementIndex1 = 0;
-
-		builder.OpenElement(elementIndex1++, "div");
-		builder.AddAttribute(elementIndex1++, "class", "snippet-clipboard-content overflow-auto");
+		var elementIndex = 0;
+		builder.OpenElement(elementIndex++, "div");
+		builder.AddAttribute(elementIndex++, "class", "snippet-clipboard-content overflow-auto");
 
 		// Copy button
-		builder.OpenComponent<MudIconButton>(elementIndex1++);
-		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Variant), Variant.Filled);
-		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Color), Color.Primary);
-		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon ma-2");
-		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
+		builder.OpenComponent<MudIconButton>(elementIndex++);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon ma-2");
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
 		builder.CloseComponent();
 
 		// Code block
-		builder.OpenElement(elementIndex1++, "pre");
-		builder.OpenElement(elementIndex1++, "code");
-		builder.AddAttribute(elementIndex1++, "class", CodeClasses);
-		builder.AddElementReferenceCapture(elementIndex1, x => _ref = x);
+		builder.OpenElement(elementIndex++, "pre");
+		builder.OpenElement(elementIndex++, "code");
+		builder.AddAttribute(elementIndex++, "class", CodeClasses);
+		builder.AddElementReferenceCapture(elementIndex, x => _ref = x);
 		builder.CloseElement(); // "pre"
 		builder.CloseElement(); // "code"
 

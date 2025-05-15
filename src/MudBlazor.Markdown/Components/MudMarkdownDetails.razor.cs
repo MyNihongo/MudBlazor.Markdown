@@ -20,13 +20,12 @@ internal sealed class MudMarkdownDetails : ComponentBase
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		var elementIndex1 = 0;
+		var elementIndex = 0;
+		builder.OpenElement(elementIndex++, "div");
+		builder.AddAttribute(elementIndex++, "class", "mud-expand-panel mud-elevation-1 mud-expand-panel-border");
 
-		builder.OpenElement(elementIndex1++, "div");
-		builder.AddAttribute(elementIndex1++, "class", "mud-expand-panel mud-elevation-1 mud-expand-panel-border");
-
-		BuildTitle(builder, ref elementIndex1);
-		BuildContent(builder, ref elementIndex1);
+		BuildTitle(builder, ref elementIndex);
+		BuildContent(builder, ref elementIndex);
 
 		builder.CloseElement();
 	}
