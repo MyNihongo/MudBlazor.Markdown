@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 internal sealed class MudTableOfContents : ComponentBase
 {
@@ -48,15 +45,7 @@ internal sealed class MudTableOfContents : ComponentBase
 					builder3.CloseComponent();
 				}
 
-				builder3.OpenComponent<MudNavMenu>(elementIndex3++);
-				builder3.AddAttribute(elementIndex3, nameof(MudNavMenu.ChildContent), (RenderFragment)(builder4 =>
-				{
-					var elementIndex4 = 0;
-					builder4.OpenComponent<MudNavLink>(elementIndex4++);
-					builder4.AddComponentParameter(elementIndex4++, nameof(MudNavLink.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, args => Debug.WriteLine("click")));
-					builder4.AddComponentParameter(elementIndex4, nameof(MudNavLink.ChildContent), (RenderFragment)delegate(RenderTreeBuilder builder5) { builder5.AddContent(0, "Dashboard"); });
-					builder4.CloseComponent();
-				}));
+				builder3.OpenComponent<MudTableOfContentsNavMenu>(elementIndex3);
 				builder3.CloseComponent();
 			}));
 			builder2.CloseComponent();
