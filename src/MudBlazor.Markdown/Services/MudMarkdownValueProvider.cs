@@ -4,11 +4,11 @@ namespace MudBlazor;
 
 internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 {
-	private readonly IMemoryCache _memoryCache;
+	private readonly IMudMarkdownMemoryCache _memoryCache;
 	private readonly MemoryCacheEntryOptions _memoryCacheEntryOptions;
 	private static readonly HttpClient HttpClient = new();
 
-	public MudMarkdownValueProvider(IMemoryCache memoryCache, IOptions<MudMarkdownMemoryCacheEntryOptions> options)
+	public MudMarkdownValueProvider(IMudMarkdownMemoryCache memoryCache, IOptions<MudMarkdownMemoryCacheEntryOptions> options)
 	{
 		_memoryCache = memoryCache;
 		_memoryCacheEntryOptions = options.Value;
