@@ -1,6 +1,6 @@
 ﻿namespace MudBlazor.Markdown.Tests.Utils.HeadingBlockExTests;
 
-public sealed class BuildIdStringShould : BuildIdStringShouldTestsBase
+public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 {
 	[Theory]
 	[InlineData(" ")]
@@ -8,10 +8,10 @@ public sealed class BuildIdStringShould : BuildIdStringShouldTestsBase
 	public void EscapeWhitespace(string whitespace)
 	{
 		const string expected = "some-text";
-		var value = $"# some{whitespace}text";
+		string expectedText = $"some{whitespace}text",  value = $"# {expectedText}";
 
 		var result = CreateFixture(value)
-			.BuildIdString();
+			.BuildHeadingContent();
 
 		result
 			.Should()
@@ -25,7 +25,7 @@ public sealed class BuildIdStringShould : BuildIdStringShouldTestsBase
 			expected = "some-text";
 
 		var result = CreateFixture(value)
-			.BuildIdString();
+			.BuildHeadingContent();
 
 		result
 			.Should()
@@ -39,10 +39,10 @@ public sealed class BuildIdStringShould : BuildIdStringShouldTestsBase
 	public void EscapeCharacters(char inputChar)
 	{
 		const string expected = "some--text";
-		var value = $"# some {inputChar} text";
+		string expectedText = $"some {inputChar} text", value = $"# {expectedText}";
 
 		var result = CreateFixture(value)
-			.BuildIdString();
+			.BuildHeadingContent();
 
 		result
 			.Should()

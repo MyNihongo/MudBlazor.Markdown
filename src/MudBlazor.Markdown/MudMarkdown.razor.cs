@@ -15,6 +15,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	protected MarkdownPipeline? Pipeline;
 	protected bool EnableLinkNavigation;
+	private MudMarkdownHeadingTree? _markdownHeadingTree;
 
 	/// <summary>
 	/// Markdown text to be rendered in the component.
@@ -84,14 +85,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 	[Parameter]
 	public bool HasTableOfContents { get; set; }
 
-    /// <summary>
-    /// The optional header text to display above the table of contents.<br/>
-    /// Ignored if <see cref="HasTableOfContents" /> is <see langword="false" />.
-    /// </summary>
-    [Parameter]
+	/// <summary>
+	/// The optional header text to display above the table of contents.<br/>
+	/// Ignored if <see cref="HasTableOfContents" /> is <see langword="false" />.
+	/// </summary>
+	[Parameter]
 	public string? TableOfContentsHeader { get; set; }
 
-    [Inject]
+	[Inject]
 	protected NavigationManager? NavigationManager { get; init; }
 
 	[Inject]
@@ -153,6 +154,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
+		_markdownHeadingTree = null;
+
 		if (string.IsNullOrEmpty(Value))
 			return;
 
@@ -165,6 +168,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		if (HasTableOfContents)
 		{
+			_markdownHeadingTree = new MudMarkdownHeadingTree();
 			builder.OpenComponent<MudTableOfContents>(elementIndex++);
 			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.Header), TableOfContentsHeader);
 			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment)(builder2 =>
@@ -201,13 +205,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case HeadingBlock heading:
 				{
-					var typo = (Typo)heading.Level;
-					typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
-
 					EnableLinkNavigation = true;
 
-					var id = heading.BuildIdString();
-					RenderParagraphBlock(builder, ref elementIndex, heading, typo, id);
+					var typo = (Typo)heading.Level;
+					var headingContent = heading.BuildHeadingContent();
+					_markdownHeadingTree?.Append(typo, headingContent);
+
+					typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
+					RenderParagraphBlock(builder, ref elementIndex, heading, typo, headingContent?.Id);
 
 					break;
 				}
@@ -355,7 +360,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.Underline), Styling.Link.Underline);
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.ChildContent), (RenderFragment)(builder2 =>
 						{
-							var  elementIndex2 = 0;
+							var elementIndex2 = 0;
 							RenderInlines(builder2, ref elementIndex2, x);
 						}));
 
@@ -457,7 +462,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(builder2 =>
 		{
 			var elementIndex2 = 0;
-			
+
 			// thead
 			builder2.OpenElement(elementIndex2++, "thead");
 			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", TableCellMinWidth);
