@@ -168,13 +168,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		if (HasTableOfContents)
 		{
-			_markdownHeadingTree = new MudMarkdownHeadingTree();
 			builder.OpenComponent<MudTableOfContents>(elementIndex++);
 			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.Header), TableOfContentsHeader);
-			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment)(builder2 =>
+			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment<MudMarkdownHeadingTree>)(markdownHeadingTree =>
 			{
-				var elementIndex2 = 0;
-				RenderMarkdownRoot(builder2, ref elementIndex2, parsedText);
+				_markdownHeadingTree = markdownHeadingTree;
+
+				return builder2 =>
+				{
+					var elementIndex2 = 0;
+					RenderMarkdownRoot(builder2, ref elementIndex2, parsedText);
+				};
 			}));
 			builder.CloseComponent();
 		}

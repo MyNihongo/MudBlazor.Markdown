@@ -9,4 +9,7 @@ internal readonly struct HeadingContent
 		Id = id;
 		Text = text;
 	}
+
+	public override string ToString() =>
+		$"`Id`:{Id},`Text`:`{Text}`";
 }

@@ -8,7 +8,7 @@ internal sealed class MudTableOfContents : ComponentBase
 	public string? Header { get; set; }
 
 	[Parameter]
-	public RenderFragment? ChildContent { get; set; }
+	public RenderFragment<MudMarkdownHeadingTree>? ChildContent { get; set; }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{
@@ -19,6 +19,8 @@ internal sealed class MudTableOfContents : ComponentBase
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudDrawerContainer.Class), "mud-height-full");
 		builder1.AddAttribute(elementIndex1, nameof(MudDrawerContainer.ChildContent), (RenderFragment)(builder2 =>
 		{
+			var markdownHeadingTree = new MudMarkdownHeadingTree();
+
 			var elementIndex2 = 0;
 			builder2.OpenComponent<MudDrawer>(elementIndex2++);
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Fixed), false);
@@ -45,14 +47,15 @@ internal sealed class MudTableOfContents : ComponentBase
 					builder3.CloseComponent();
 				}
 
-				builder3.OpenComponent<MudTableOfContentsNavMenu>(elementIndex3);
+				builder3.OpenComponent<MudTableOfContentsNavMenu>(elementIndex3++);
+				builder3.AddComponentParameter(elementIndex3, nameof(MudTableOfContentsNavMenu.MarkdownHeadingTree), markdownHeadingTree);
 				builder3.CloseComponent();
 			}));
 			builder2.CloseComponent();
 
 			builder2.OpenElement(elementIndex2++, ElementNames.Div);
 			builder2.AddAttribute(elementIndex2++, AttributeNames.Class, "d-flex mud-height-full");
-			builder2.AddContent(elementIndex2, ChildContent);
+			builder2.AddContent(elementIndex2, ChildContent?.Invoke(markdownHeadingTree));
 			builder2.CloseElement();
 		}));
 		builder1.CloseComponent();
