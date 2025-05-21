@@ -615,7 +615,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		idFragment = idFragment[1..];
 
-		await JsRuntime.InvokeVoidAsync("scrollToElementId", idFragment)
+		await JsRuntime.ScrollToAsync(idFragment)
 			.ConfigureAwait(false);
 	}
 

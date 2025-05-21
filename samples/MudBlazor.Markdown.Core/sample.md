@@ -16,7 +16,7 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 > Use **bold** and *italics*.
 > Or visit the [MudBlazor project site](https://mudblazor.com/).
 ***
-#### To-Do list
+## To-Do list
 - Study Japanese
   - Remmeber all kana
     - Study hiragana
@@ -34,7 +34,7 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 2. Eat more ramen
 3. Learn jpop sonds
 ***
-#### Largest cities in Japan
+## Largest cities in Japan
 |Rank|Municipality|Prefecture|Population|
 |-|-|-|-|
 |1|Tokyo|Tokyo|8,945,695|
@@ -55,7 +55,7 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 |**本 (ほん)**<br>long thin objects|**いっぽん**|にほん|**さんぼん**|よんほん|ごほん|
 |**つ**<br>general purpose|**ひとつ**|**ふたつ**|**みっつ**|**よっつ**|**いつつ**|
 
-#### Code block
+## Code block
 ```go
 func main() {
     fmt.Println("Hello, 世界")
@@ -68,12 +68,12 @@ fun main(args : Array<String>) {
 }
 ```
 
-#### Details
+## Details
 <details>
   <summary markdown="span">Release 1.0.1</summary>
 **New**
 -  Error fixes.
 </details>
 
-#### Large image
+## Large image
 ![Sample](https://wallpapers.com/images/featured/qbc6mlnwowjbszld.jpg "Sample")

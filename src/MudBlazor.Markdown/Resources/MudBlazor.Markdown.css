@@ -118,3 +118,15 @@ pre code.hljs {
 	overflow: hidden;
 	position: relative;
 }
+
+.mud-markdown-toc-nav-menu .mud-nav-link {
+	padding: 4px 16px !important;
+}
+
+.mud-markdown-toc-nav-menu .mud-nav-link-h2 .mud-nav-link-text {
+	margin-left: 20px !important;
+}
+
+.mud-markdown-toc-nav-menu .mud-nav-link-h3 .mud-nav-link-text {
+	margin-left: 28px !important;
+}
