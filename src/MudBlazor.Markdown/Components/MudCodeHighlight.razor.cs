@@ -159,7 +159,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
 	{
-		var ok = await Js.InvokeAsync<bool>("copyTextToClipboard", Text)
+		var ok = await Js.CopyTextToClipboardAsync(Text)
 			.ConfigureAwait(false);
 
 		if (ok)

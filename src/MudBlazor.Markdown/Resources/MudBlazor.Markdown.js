@@ -8,6 +8,7 @@ hljs.registerLanguage("razor-cshtml", hljsRazor);
 const codeStylesDir = "code-styles";
 const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 
+// HighlightJS
 window.highlightCodeElement = function (element, text, language) {
 	let result;
 	
@@ -54,22 +55,7 @@ window.setHighlightStylesheet = function (stylesheetPath) {
 	}
 }
 
-window.scrollToElementId = function (elementId) {
-	const element = document.getElementById(elementId);
-	if (element) {
-		const elementIdHref = `#${elementId}`;
-		if (!window.location.pathname.endsWith(elementIdHref)) {
-			history.replaceState(null, "", window.location.pathname + elementIdHref);
-		}
-
-		element.scrollIntoView({
-			behavior: "smooth",
-			block: "start",
-			inline: "nearest"
-		});
-	}
-}
-
+// mathJAX
 window.appendMathJaxScript = function (scriptId) {
 	if (document.getElementById(scriptId)) {
 		return;
@@ -91,11 +77,29 @@ window.refreshMathJaxScript = function () {
 	}
 }
 
-window.copyTextToClipboard = async function (text) {
-	try {
-		await navigator.clipboard.writeText(text);
-		return true;
-	} catch (e) {
-		return false;
-	}
-}
+// MudBlazor.Markdown
+window.MudBlazorMarkdown = {
+	scrollToElementId: function (elementId) {
+		const element = document.getElementById(elementId);
+		if (element) {
+			const elementIdHref = `#${elementId}`;
+			if (!window.location.pathname.endsWith(elementIdHref)) {
+				history.replaceState(null, "", window.location.pathname + elementIdHref);
+			}
+
+			element.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+				inline: "nearest"
+			});
+		}
+	},
+	copyTextToClipboard: async function (text) {
+		try {
+			await navigator.clipboard.writeText(text);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	},
+};

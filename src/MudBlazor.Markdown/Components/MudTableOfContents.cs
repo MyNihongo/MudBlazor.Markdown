@@ -2,7 +2,7 @@
 
 internal sealed class MudTableOfContents : ComponentBase
 {
-	private bool _openRight = true;
+	private bool _isOpen = true;
 
 	[Parameter]
 	public string? Header { get; set; }
@@ -27,8 +27,8 @@ internal sealed class MudTableOfContents : ComponentBase
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Anchor), Anchor.Right);
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Elevation), 0);
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Variant), DrawerVariant.Persistent);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Open), _openRight);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.OpenChanged), EventCallback.Factory.Create(this, RuntimeHelpers.CreateInferredEventCallback(this, isOpen => { _openRight = isOpen; }, _openRight)));
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Open), _isOpen);
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.OpenChanged), EventCallback.Factory.Create(this, RuntimeHelpers.CreateInferredEventCallback(this, isOpen => { _isOpen = isOpen; }, _isOpen)));
 			builder2.AddAttribute(elementIndex2++, nameof(MudDrawer.ChildContent), (RenderFragment)(builder3 =>
 			{
 				var elementIndex3 = 0;
