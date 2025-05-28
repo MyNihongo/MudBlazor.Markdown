@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.41.1" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
 		<PackageReference Include="MudBlazor" Version="8.6.0" />
 	</ItemGroup>
 
