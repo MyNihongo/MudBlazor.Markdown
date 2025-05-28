@@ -16,9 +16,9 @@ internal static class JsRuntimeEx
 			.ConfigureAwait(false);
 	}
 
-	public static async ValueTask StartScrollSpyAsync(this IJSRuntime @this, string identifier)
+	public static async ValueTask StartScrollSpyAsync(this IJSRuntime @this, string elementId)
 	{
-		await @this.InvokeVoidAsync($"{TableOfContentsNamespace}.startScrollSpy", identifier)
+		await @this.InvokeVoidAsync($"{TableOfContentsNamespace}.startScrollSpy", elementId)
 			.ConfigureAwait(false);
 	}
 

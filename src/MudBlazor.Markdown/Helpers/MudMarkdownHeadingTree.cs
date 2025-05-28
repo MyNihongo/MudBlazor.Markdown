@@ -5,15 +5,16 @@ internal sealed class MudMarkdownHeadingTree
 	private readonly List<Item> _items = [];
 	private MudTableOfContentsNavMenu? _mudTableOfContentsNavMenu;
 
-	public void Append(in Typo typo, in HeadingContent? content)
+	public bool Append(in Typo typo, in HeadingContent? content)
 	{
 		if (typo < Typo.h1 || typo > Typo.h3 || content is null)
-			return;
+			return false;
 
 		var newItem = new Item(typo, content.Value);
 		_items.Add(newItem);
 
 		_mudTableOfContentsNavMenu?.InvokeRenderNavMenu(_items);
+		return true;
 	}
 
 	public void SetNavMenuReference(in MudTableOfContentsNavMenu mudTableOfContentsNavMenu)

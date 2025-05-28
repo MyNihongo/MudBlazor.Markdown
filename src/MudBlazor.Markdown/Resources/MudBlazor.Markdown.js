@@ -11,14 +11,14 @@ const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 // HighlightJS
 window.highlightCodeElement = function (element, text, language) {
 	let result;
-	
+
 	try {
-		result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+		result = language ? hljs.highlight(text, {language}) : hljs.highlightAuto(text);
 	} catch (e) {
 		console.error(e);
 		result = hljs.highlightAuto(text);
 	}
-	
+
 	element.innerHTML = result.value;
 }
 
@@ -104,16 +104,30 @@ window.MudBlazorMarkdown = {
 	},
 	tableOfContents: {
 		handleRefs: {},
-		startScrollSpy: function (identifier) {
-			if (!identifier) {
+		startScrollSpy: function (elementId) {
+			if (!elementId) {
 				return;
 			}
-			
+
+			const element = document.getElementById(elementId);
+			if (!element) {
+				return;
+			}
+
+			const headings = element.querySelectorAll('.mud-markdown-toc-heading');
+			if (!headings.length) {
+				return;
+			}
+
+			const styles = getComputedStyle(element);
+			const appBarHeight = styles.getPropertyValue('--mud-appbar-height')?.trim();
+			console.log(appBarHeight, headings);
+
 			const handler = () => {
 				console.log("test");
 			};
-			
-			this.handleRefs[identifier] = handler;
+
+			this.handleRefs[elementId] = handler;
 			document.addEventListener('scroll', handler, true);
 			document.addEventListener('resize', handler, true);
 		},

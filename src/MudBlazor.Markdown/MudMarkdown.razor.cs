@@ -193,6 +193,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	protected virtual void RenderMarkdownRoot(RenderTreeBuilder builder, ref int elementIndex, ContainerBlock container)
 	{
 		builder.OpenElement(elementIndex++, "article");
+		builder.AddAttribute(elementIndex++, AttributeNames.Id, _componentId);
 		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-markdown-body");
 		RenderMarkdown(builder, ref elementIndex, container);
 		builder.CloseElement();
@@ -215,10 +216,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 					var typo = (Typo)heading.Level;
 					var headingContent = heading.BuildHeadingContent();
-					_markdownHeadingTree?.Append(typo, headingContent);
+					var isAppended = _markdownHeadingTree?.Append(typo, headingContent);
 
 					typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
-					RenderParagraphBlock(builder, ref elementIndex, heading, typo, headingContent?.Id);
+					var @class = isAppended == true ? "mud-markdown-toc-heading" : null;
+					RenderParagraphBlock(builder, ref elementIndex, heading, typo, headingContent?.Id, @class);
 
 					break;
 				}
@@ -280,7 +282,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	{
 	}
 
-	protected virtual void RenderParagraphBlock(RenderTreeBuilder builder1, ref int elementIndex1, LeafBlock paragraph, Typo typo = Typo.body1, string? id = null)
+	protected virtual void RenderParagraphBlock(RenderTreeBuilder builder1, ref int elementIndex1, LeafBlock paragraph, Typo typo = Typo.body1, string? id = null, string? @class = null)
 	{
 		if (paragraph.Inline == null)
 			return;
@@ -291,6 +293,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			builder1.AddAttribute(elementIndex1++, AttributeNames.Id, id);
 
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudText.Typo), typo);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudText.Class), @class);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudText.ChildContent), (RenderFragment)(builder2 =>
 		{
 			var elementIndex2 = 0;
