@@ -1,13 +1,16 @@
 [![Version](https://img.shields.io/nuget/v/MudBlazor.Markdown?style=plastic)](https://www.nuget.org/packages/MudBlazor.Markdown/)
 [![Nuget downloads](https://img.shields.io/nuget/dt/MudBlazor.Markdown?label=nuget%20downloads&logo=nuget&style=plastic)](https://www.nuget.org/packages/MudBlazor.Markdown/)  
-# Markdown component for [MudBlazor](https://github.com/Garderoben/MudBlazor)
+# Markdown component for [MudBlazor](https://github.com/MudBlazor/MudBlazor)
 
-This README covers configuration steps for Blazor Server and Blazor WebAssembly. For images how the markup component looks like in the browser go to the [README of samples](/samples).
+This README covers configuration steps for Blazor Server and Blazor WebAssembly. For images of how the markup component looks like in the browser go to the [README of samples](/samples).
 
 ## Update guide
 For guidance with update errors please visit the [wiki page](https://github.com/MyNihongo/MudBlazor.Markdown/wiki/Update-guide).
 
 ## Getting started
+> NB! MudBlazor does not work well with the static SSR format because some code is executed in `OnAfterRender` or `OnAfterRenderAsync` that is not invoked by default.  
+> Specify `@rendermode="InteractiveServer"` on the markdown component to make it work (e.g. `<MudMarkdown @rendermode="InteractiveServer" Value="some markdown here" />`)
+
 Install the NuGet package.
 ```
 dotnet add package MudBlazor.Markdown
@@ -19,6 +22,7 @@ Add the following using statement in `_Imports.razor`.
 Add the following nodes in either `App.razor` or `MainLayout.razor`.
 ```razor
 <MudThemeProvider />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 ```
@@ -41,9 +45,9 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddMudServices();
     services.AddMudMarkdownServices();
-    // Optionally if default clipboard functionality fails it is possible to add a custom service
+    // Optionally if the default clipboard functionality fails it is possible to add a custom service
     // NB! MauiClipboardService is just an example
-    builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
+    services.AddMudMarkdownClipboardService<MauiClipboardService>();
 }
 ```
 For the Blazor WebAssembly in the `Program.cs` add this method.
@@ -51,7 +55,7 @@ For the Blazor WebAssembly in the `Program.cs` add this method.
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddMudServices();
 builder.Services.AddMudMarkdownServices();
-// Optionally if default clipboard functionality fails it is possible to add a custom service
+// Optionally if the default clipboard functionality fails it is possible to add a custom service
 // NB! MauiClipboardService is just an example
 builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
 ```
@@ -85,4 +89,4 @@ The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling e
 - ChipDefault - background-color of the code block;
 - TextDisabled - border-color of the quoted text and border-color of the h1 and h2 bottom divider;
 - TextPrimary - regular text in the markdown;
-- TextSecondary - color of the quoted text;
+- TextSecondary - the colour of the quoted text;

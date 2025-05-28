@@ -1,14 +1,13 @@
-﻿@using System.Reactive
-@using MudBlazor.Markdown.Core.Services
-@using ReactiveUI
+﻿@using MudBlazor.Markdown.Core.Services
 @inherits LayoutComponentBase
+@inject IThemeService ThemeService
 
 <MudLayout>
 	<MudAppBar Fixed="true" Elevation="5">
 		<MudText Typo="Typo.h4">Server sample</MudText>
 		<MudSpacer />
 		<MudTooltip Text="Toggle theme">
-			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit" Command="@ToggleTheme" />
+			<MudIconButton Icon="@Icons.Material.Rounded.Brightness4" Color="Color.Inherit" OnClick="@ToggleThemeAsync" />
 		</MudTooltip>
 	</MudAppBar>
 	
@@ -27,29 +26,9 @@
 {
 	private bool _drawerOpen = true;
 
-	public MainLayout()
+	private async Task ToggleThemeAsync()
 	{
-		ToggleTheme = CreateToggleThemeCommand();
-	}
-
-	[Inject]
-	private IThemeService? ThemeService { get; init; }
-
-	private ReactiveCommand<Unit, Unit> ToggleTheme { get; }
-
-	private ReactiveCommand<Unit, Unit> CreateToggleThemeCommand() =>
-		ReactiveCommand
-			.CreateFromTask(async () =>
-			{
-				if (ThemeService == null)
-					return;
-
-				await ThemeService.ToggleThemeAsync()
-					.ConfigureAwait(false);
-			});
-
-	void DrawerToggle()
-	{
-		_drawerOpen = !_drawerOpen;
+		await ThemeService.ToggleThemeAsync()
+			.ConfigureAwait(false);
 	}
 }

@@ -3,6 +3,7 @@ global using Bunit;
 global using FluentAssertions;
 global using Markdig.Syntax;
 global using Microsoft.AspNetCore.Components;
+global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.JSInterop;
 global using Moq;

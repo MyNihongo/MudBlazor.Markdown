@@ -9,6 +9,7 @@ public abstract class ComponentTestsBase : IDisposable
 	protected ComponentTestsBase()
 	{
 		Ctx.Services
+			.AddMudMarkdownServices()
 			.AddSingleton(MockJsRuntime.Object)
 			.AddSingleton<NavigationManager>(MockNavigationManager);
 	}

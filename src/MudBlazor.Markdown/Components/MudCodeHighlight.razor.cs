@@ -16,7 +16,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-#if NET7_0 || NET8_0
+#if NET8_0 || NET9_0
 #pragma warning disable BL0007
 #endif
 	public string Text
@@ -30,6 +30,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			_text = value;
 		}
 	}
+#if NET8_0 || NET9_0
+#pragma warning restore BL0007
+#endif
 
 	/// <summary>
 	/// Language of the <see cref="Text"/>
@@ -42,7 +45,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
-#if NET7_0 || NET8_0
+#if NET8_0 || NET9_0
 #pragma warning disable BL0007
 #endif
 	[Parameter]
@@ -58,12 +61,12 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			Task.Run(SetThemeAsync);
 		}
 	}
-#if NET7_0
+#if NET8_0 || NET9_0
 #pragma warning restore BL0007
 #endif
 
 	[Inject]
-	private IJSRuntime Js { get; init; } = default!;
+	private IJSRuntime Js { get; init; } = null!;
 
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
@@ -86,30 +89,30 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		var i = 0;
+		var elementIndex1 = 0;
 
-		builder.OpenElement(i++, "div");
-		builder.AddAttribute(i++, "class", "snippet-clipboard-content overflow-auto");
+		builder.OpenElement(elementIndex1++, "div");
+		builder.AddAttribute(elementIndex1++, "class", "snippet-clipboard-content overflow-auto");
 
 		// Copy button
-		builder.OpenComponent<MudIconButton>(i++);
-		builder.AddAttribute(i++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-		builder.AddAttribute(i++, nameof(MudIconButton.Variant), Variant.Filled);
-		builder.AddAttribute(i++, nameof(MudIconButton.Color), Color.Primary);
-		builder.AddAttribute(i++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddAttribute(i++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon m-2");
-		builder.AddAttribute(i++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
+		builder.OpenComponent<MudIconButton>(elementIndex1++);
+		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
+		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Variant), Variant.Filled);
+		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Color), Color.Primary);
+		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Size), Size.Medium);
+		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon ma-2");
+		builder.AddComponentParameter(elementIndex1++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
 		builder.CloseComponent();
 
 		// Code block
-		builder.OpenElement(i++, "pre");
-		builder.OpenElement(i++, "code");
-		builder.AddAttribute(i++, "class", CodeClasses);
-		builder.AddElementReferenceCapture(i++, x => _ref = x);
+		builder.OpenElement(elementIndex1++, "pre");
+		builder.OpenElement(elementIndex1++, "code");
+		builder.AddAttribute(elementIndex1++, "class", CodeClasses);
+		builder.AddElementReferenceCapture(elementIndex1, x => _ref = x);
+		builder.CloseElement(); // "pre"
+		builder.CloseElement(); // "code"
 
-		builder.CloseElement();
-		builder.CloseElement();
-		builder.CloseElement();
+		builder.CloseElement(); // "div"
 	}
 
 	protected override void OnInitialized()

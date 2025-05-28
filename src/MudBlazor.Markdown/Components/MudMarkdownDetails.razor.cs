@@ -1,13 +1,11 @@
 ﻿namespace MudBlazor;
 
 /// <summary>
-/// For some reason MudExpansionPanels eternally tried to dispose all panels, therefore, RenderFragment was called infinitely<br/>
-/// Created this component in order to bypass that weird behaviour
+/// For some reason MudExpansionPanels eternally tried to dispose all panels, therefore, RenderFragment was called infinitely.<br/>
+/// Created this component in order to bypass that weird behaviour.
 /// </summary>
 internal sealed class MudMarkdownDetails : ComponentBase
 {
-	private int _elementIndex;
-
 	[Parameter]
 	public RenderFragment? TitleContent { get; set; }
 
@@ -22,52 +20,53 @@ internal sealed class MudMarkdownDetails : ComponentBase
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		_elementIndex = 0;
+		var elementIndex1 = 0;
 
-		builder.OpenElement(_elementIndex++, "div");
-		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel mud-elevation-1 mud-expand-panel-border");
+		builder.OpenElement(elementIndex1++, "div");
+		builder.AddAttribute(elementIndex1++, "class", "mud-expand-panel mud-elevation-1 mud-expand-panel-border");
 
-		BuildTitle(builder);
-		BuildContent(builder);
+		BuildTitle(builder, ref elementIndex1);
+		BuildContent(builder, ref elementIndex1);
 
 		builder.CloseElement();
 	}
 
-	private void BuildTitle(RenderTreeBuilder builder)
+	private void BuildTitle(in RenderTreeBuilder builder, ref int elementIndex)
 	{
-		builder.OpenElement(_elementIndex++, "div");
-		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-header mud-ripple");
-		builder.AddAttribute(_elementIndex++, "onclick", EventCallback.Factory.Create(this, OnHeaderClick));
+		builder.OpenElement(elementIndex++, ElementNames.Div);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-expand-panel-header mud-ripple");
+		builder.AddAttribute(elementIndex++, AttributeNames.OnClick, EventCallback.Factory.Create(this, OnHeaderClick));
 
 		// Text
-		builder.OpenElement(_elementIndex++, "div");
-		builder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-text");
-		builder.AddContent(_elementIndex++, TitleContent);
+		builder.OpenElement(elementIndex++, ElementNames.Div);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-expand-panel-text");
+		builder.AddContent(elementIndex++, TitleContent);
 		builder.CloseElement();
 
 		// Collapse icon
-		builder.OpenComponent<MudIcon>(_elementIndex++);
-		builder.AddAttribute(_elementIndex++, nameof(MudIcon.Icon), Icons.Material.Filled.ExpandMore);
-		builder.AddAttribute(_elementIndex++, "class", IconClasses);
+		builder.OpenComponent<MudIcon>(elementIndex++);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIcon.Icon), Icons.Material.Filled.ExpandMore);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, IconClasses);
 		builder.CloseComponent();
 
-		builder.CloseElement();
+		builder.CloseElement(); // "div"
 	}
 
-	private void BuildContent(RenderTreeBuilder builder)
+	private void BuildContent(RenderTreeBuilder builder1, ref int elementIndex1)
 	{
-		builder.OpenComponent<MudCollapse>(_elementIndex++);
-		builder.AddAttribute(_elementIndex++, nameof(MudCollapse.Expanded), IsExpanded);
+		builder1.OpenComponent<MudCollapse>(elementIndex1++);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudCollapse.Expanded), IsExpanded);
 
-		builder.AddAttribute(_elementIndex++, nameof(MudCollapse.ChildContent), (RenderFragment)(contentBuilder =>
+		builder1.AddAttribute(elementIndex1++, nameof(MudCollapse.ChildContent), (RenderFragment)(builder2 =>
 		{
-			contentBuilder.OpenElement(_elementIndex++, "div");
-			contentBuilder.AddAttribute(_elementIndex++, "class", "mud-expand-panel-content");
-			contentBuilder.AddContent(_elementIndex++, ChildContent);
-			contentBuilder.CloseElement();
+			var elementIndex2 = 0;
+			builder2.OpenElement(elementIndex2++, ElementNames.Div);
+			builder2.AddAttribute(elementIndex2++, AttributeNames.Class, "mud-expand-panel-content");
+			builder2.AddContent(elementIndex2, ChildContent);
+			builder2.CloseElement();
 		}));
 
-		builder.CloseComponent();
+		builder1.CloseComponent();
 	}
 
 	private void OnHeaderClick()

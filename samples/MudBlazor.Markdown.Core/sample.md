@@ -5,10 +5,11 @@
 ##### Heading 5
 ###### Heading 6
 
-Some regular text. *Text in italics* and **text in bold**.
+Some regular text. *Text in italics*, **text in bold** and ~~text in strikethrough~~.
 **Bold and *italics within***.
 *Italics and **bold within***.
 It is possible to `highlight some code`.
+*~Invalid **or** unknown~ markdown is shown as it is*.
 Please visit the [MudBlazor project site](https://mudblazor.com/).
 ***
 > Quote someone.
@@ -27,6 +28,11 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
   - Visit Sapporo
   - Visit Kyoto
 - Do some pullups
+
+#### Ordered list
+1. Go to Kochi
+2. Eat more ramen
+3. Learn jpop sonds
 ***
 #### Largest cities in Japan
 |Rank|Municipality|Prefecture|Population|

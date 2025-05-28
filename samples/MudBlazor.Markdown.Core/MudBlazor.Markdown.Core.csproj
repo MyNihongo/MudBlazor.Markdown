@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
 		<PackageReference Include="System.Reactive" Version="6.0.1" />
 	</ItemGroup>
 
@@ -20,6 +20,10 @@
 		<None Remove="*.md" />
 		<EmbeddedResource Include="*.md" />
 		<None Remove="*.csproj.DotSettings" />
+
+		<None Update="Resources\*.md">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
