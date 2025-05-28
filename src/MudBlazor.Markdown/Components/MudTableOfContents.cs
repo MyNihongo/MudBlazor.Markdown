@@ -1,14 +1,42 @@
 ﻿namespace MudBlazor;
 
-internal sealed class MudTableOfContents : ComponentBase
+internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
 {
 	private bool _isOpen = true;
+	private bool _hasScrollSpyStarted;
 
 	[Parameter]
 	public string? Header { get; set; }
 
 	[Parameter]
+	public string? MarkdownComponentId { get; set; }
+
+	[Parameter]
 	public RenderFragment<MudMarkdownHeadingTree>? ChildContent { get; set; }
+
+	[Inject]
+	private IJSRuntime JsRuntime { get; set; } = null!;
+
+	public async ValueTask DisposeAsync()
+	{
+		if (!_hasScrollSpyStarted || string.IsNullOrEmpty(MarkdownComponentId))
+			return;
+
+		await JsRuntime.StopScrollSpyAsync(MarkdownComponentId)
+			.ConfigureAwait(false);
+
+		_hasScrollSpyStarted = false;
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender || string.IsNullOrEmpty(MarkdownComponentId))
+			return;
+
+		_hasScrollSpyStarted = true;
+		await JsRuntime.StartScrollSpyAsync(MarkdownComponentId)
+			.ConfigureAwait(false);
+	}
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{

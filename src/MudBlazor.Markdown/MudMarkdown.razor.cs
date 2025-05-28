@@ -16,6 +16,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	protected MarkdownPipeline? Pipeline;
 	protected bool EnableLinkNavigation;
 	private MudMarkdownHeadingTree? _markdownHeadingTree;
+	private readonly string _componentId = Guid.NewGuid().ToString("N");
 
 	/// <summary>
 	/// Markdown text to be rendered in the component.
@@ -170,6 +171,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		{
 			builder.OpenComponent<MudTableOfContents>(elementIndex++);
 			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.Header), TableOfContentsHeader);
+			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.MarkdownComponentId), _componentId);
 			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment<MudMarkdownHeadingTree>)(markdownHeadingTree =>
 			{
 				_markdownHeadingTree = markdownHeadingTree;

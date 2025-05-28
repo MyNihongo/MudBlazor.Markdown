@@ -102,4 +102,34 @@ window.MudBlazorMarkdown = {
 			return false;
 		}
 	},
+	tableOfContents: {
+		handleRefs: {},
+		startScrollSpy: function (identifier) {
+			if (!identifier) {
+				return;
+			}
+			
+			const handler = () => {
+				console.log("test");
+			};
+			
+			this.handleRefs[identifier] = handler;
+			document.addEventListener('scroll', handler, true);
+			document.addEventListener('resize', handler, true);
+		},
+		stopScrollSpy: function (identifier) {
+			if (!identifier) {
+				return;
+			}
+
+			const handler = this.handleRefs[identifier];
+			if (!handler) {
+				return;
+			}
+
+			document.removeEventListener('scroll', handler, true);
+			window.removeEventListener('resize', handler, true);
+			delete this.handleRefs[identifier];
+		},
+	},
 };

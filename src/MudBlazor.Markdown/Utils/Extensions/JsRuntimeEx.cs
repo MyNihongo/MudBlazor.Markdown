@@ -2,7 +2,7 @@
 
 internal static class JsRuntimeEx
 {
-	private const string JsNamespace = "MudBlazorMarkdown";
+	private const string JsNamespace = "MudBlazorMarkdown", TableOfContentsNamespace = $"{JsNamespace}.tableOfContents";
 
 	public static async ValueTask ScrollToAsync(this IJSRuntime @this, string elementId)
 	{
@@ -13,6 +13,18 @@ internal static class JsRuntimeEx
 	public static async ValueTask<bool> CopyTextToClipboardAsync(this IJSRuntime @this, string text)
 	{
 		return await @this.InvokeAsync<bool>($"{JsNamespace}.copyTextToClipboard", text)
+			.ConfigureAwait(false);
+	}
+
+	public static async ValueTask StartScrollSpyAsync(this IJSRuntime @this, string identifier)
+	{
+		await @this.InvokeVoidAsync($"{TableOfContentsNamespace}.startScrollSpy", identifier)
+			.ConfigureAwait(false);
+	}
+
+	public static async ValueTask StopScrollSpyAsync(this IJSRuntime @this, string identifier)
+	{
+		await @this.InvokeVoidAsync($"{TableOfContentsNamespace}.stopScrollSpy", identifier)
 			.ConfigureAwait(false);
 	}
 }
