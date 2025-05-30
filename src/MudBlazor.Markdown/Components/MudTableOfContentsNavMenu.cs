@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace MudBlazor;
 
 internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposable
 {
 	private bool _hasScrollSpyStarted;
+	private string? _activeElementId;
 
 	private List<MudMarkdownHeadingTree.Item>? _headingItems;
 	private DotNetObjectReference<MudTableOfContentsNavMenu>? _dotNetObjectReference;
@@ -22,7 +22,8 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 	[JSInvokable]
 	public async Task OnActiveElementChangedAsync(string? newElementId)
 	{
-		Debug.WriteLine($"new: `{newElementId}`");
+		_activeElementId = newElementId;
+		await InvokeAsync(StateHasChanged);
 	}
 
 	public void InvokeRenderNavMenu(in List<MudMarkdownHeadingTree.Item> headingItems)
@@ -75,15 +76,16 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavMenu.Class), "mud-markdown-toc-nav-menu");
 		builder1.AddComponentParameter(elementIndex1, nameof(MudNavMenu.ChildContent), (RenderFragment)(builder2 =>
 		{
-			var span = CollectionsMarshal.AsSpan(_headingItems);
+			var spanOfItems = CollectionsMarshal.AsSpan(_headingItems);
 
 			var elementIndex2 = 0;
-			foreach (var iem in span)
+			foreach (var item in spanOfItems)
 			{
 				builder2.OpenComponent<MudTableOfContentsNavLink>(elementIndex2++);
-				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Id), iem.Id);
-				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Title), iem.Text);
-				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Typo), iem.Typo);
+				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Id), item.Id);
+				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Title), item.Text);
+				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Typo), item.Typo);
+				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.IsActive), item.Id == _activeElementId);
 				builder2.CloseComponent();
 			}
 		}));

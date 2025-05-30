@@ -13,6 +13,9 @@ internal sealed class MudTableOfContentsNavLink : MudComponentBase
 	[Parameter]
 	public Typo Typo { get; set; }
 
+	[Parameter]
+	public bool IsActive { get; set; }
+
 	[Inject]
 	private IJSRuntime JsRuntime { get; init; } = null!;
 
@@ -22,8 +25,12 @@ internal sealed class MudTableOfContentsNavLink : MudComponentBase
 		builder1.OpenElement(elementIndex1++, ElementNames.Nav);
 		builder1.AddAttribute(elementIndex1++, AttributeNames.Class, "mud-nav-group");
 
+		var @class = new CssBuilder($"mud-nav-link-{Typo}")
+			.AddClass("active", IsActive)
+			.Build();
+
 		builder1.OpenComponent<MudNavLink>(elementIndex1++);
-		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavLink.Class), $"mud-nav-link-{Typo}");
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavLink.Class), @class);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavLink.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
 		builder1.AddComponentParameter(elementIndex1, nameof(MudNavLink.ChildContent), (RenderFragment)(builder2 => builder2.AddContent(0, Title)));
 		builder1.CloseComponent();
