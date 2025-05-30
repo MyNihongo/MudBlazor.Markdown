@@ -104,6 +104,7 @@ window.MudBlazorMarkdown = {
 	},
 	tableOfContents: {
 		handleRefs: {},
+		activeElementIds: {},
 		startScrollSpy: function (elementId) {
 			if (!elementId) {
 				return;
@@ -114,22 +115,43 @@ window.MudBlazorMarkdown = {
 				return;
 			}
 
-			const headings = element.querySelectorAll('.mud-markdown-toc-heading');
-			if (!headings.length) {
+			const headingElements = element.querySelectorAll('.mud-markdown-toc-heading');
+			if (!headingElements.length) {
 				return;
 			}
 
-			const styles = getComputedStyle(element);
-			const appBarHeight = styles.getPropertyValue('--mud-appbar-height')?.trim();
-			console.log(appBarHeight, headings);
+			const appBar = document.querySelector(".mud-appbar");
+			const pageTop = appBar?.getBoundingClientRect().height ?? 0;
 
 			const handler = () => {
-				console.log("test");
+				let maxVisibility = -Number.MAX_VALUE, maxVisibilityElementId = undefined;
+				for (const headingElement of headingElements) {
+					const rect = headingElement.getBoundingClientRect();
+					const relativeVisibility = rect.top - pageTop;
+
+					if (relativeVisibility > 0 || relativeVisibility < maxVisibility) {
+						continue;
+					}
+
+					maxVisibility = relativeVisibility;
+					maxVisibilityElementId = headingElement.id;
+				}
+
+				if (!maxVisibilityElementId) {
+					maxVisibilityElementId = headingElements[0]?.id;
+				}
+
+				const currentActiveElementId = this.activeElementIds[elementId];
+				if (maxVisibilityElementId !== currentActiveElementId) {
+					this.activeElementIds[elementId] = maxVisibilityElementId;
+					console.log(maxVisibilityElementId);
+				}
 			};
 
 			this.handleRefs[elementId] = handler;
 			document.addEventListener('scroll', handler, true);
 			document.addEventListener('resize', handler, true);
+			handler();
 		},
 		stopScrollSpy: function (identifier) {
 			if (!identifier) {
@@ -144,6 +166,7 @@ window.MudBlazorMarkdown = {
 			document.removeEventListener('scroll', handler, true);
 			window.removeEventListener('resize', handler, true);
 			delete this.handleRefs[identifier];
+			delete this.activeElementIds[identifier];
 		},
 	},
 };
