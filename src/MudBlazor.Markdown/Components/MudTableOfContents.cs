@@ -1,4 +1,6 @@
-﻿namespace MudBlazor;
+﻿using Microsoft.AspNetCore.Components.Web;
+
+namespace MudBlazor;
 
 internal sealed class MudTableOfContents : ComponentBase
 {
@@ -25,6 +27,15 @@ internal sealed class MudTableOfContents : ComponentBase
 			var markdownHeadingTree = new MudMarkdownHeadingTree();
 
 			var elementIndex2 = 0;
+			builder2.OpenComponent<MudIconButton>(elementIndex2++);
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Class), "mud-markdown-toc-btn-toggle");
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Icon), Icons.Material.Filled.Menu);
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Variant), Variant.Filled);
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Color), Color.Primary);
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Size), Size.Large);
+			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleDrawer));
+			builder2.CloseComponent();
+
 			builder2.OpenComponent<MudDrawer>(elementIndex2++);
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Fixed), false);
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Anchor), Anchor.Right);
@@ -64,5 +75,10 @@ internal sealed class MudTableOfContents : ComponentBase
 		}));
 		builder1.CloseComponent();
 		builder1.CloseElement();
+	}
+
+	private void ToggleDrawer()
+	{
+		_isOpen = !_isOpen;
 	}
 }

@@ -119,6 +119,12 @@ pre code.hljs {
     position: relative;
 }
 
+.mud-markdown-toc-btn-toggle {
+    position: absolute;
+    right: 0;
+    z-index: 1200;
+}
+
 .mud-markdown-toc-nav-menu .mud-nav-link {
     padding: 4px 16px !important;
 }
