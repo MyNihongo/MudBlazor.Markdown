@@ -105,7 +105,7 @@ window.MudBlazorMarkdown = {
 	tableOfContents: {
 		handleRefs: {},
 		activeElementIds: {},
-		startScrollSpy: function (elementId) {
+		startScrollSpy: function (dotNetReference, elementId) {
 			if (!elementId) {
 				return;
 			}
@@ -144,7 +144,7 @@ window.MudBlazorMarkdown = {
 				const currentActiveElementId = this.activeElementIds[elementId];
 				if (maxVisibilityElementId !== currentActiveElementId) {
 					this.activeElementIds[elementId] = maxVisibilityElementId;
-					console.log(maxVisibilityElementId);
+					dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", maxVisibilityElementId);
 				}
 			};
 

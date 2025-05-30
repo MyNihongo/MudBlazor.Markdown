@@ -1,9 +1,12 @@
-﻿namespace MudBlazor;
+﻿using System.Diagnostics;
+
+namespace MudBlazor;
 
 internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
 {
 	private bool _isOpen = true;
 	private bool _hasScrollSpyStarted;
+	private DotNetObjectReference<MudTableOfContents>? _dotNetObjectReference;
 
 	[Parameter]
 	public string? Header { get; set; }
@@ -17,8 +20,16 @@ internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
 	[Inject]
 	private IJSRuntime JsRuntime { get; set; } = null!;
 
+	[JSInvokable]
+	public async Task OnActiveElementChangedAsync(string? newElementId)
+	{
+		Debug.WriteLine($"new: `{newElementId}`");
+	}
+
 	public async ValueTask DisposeAsync()
 	{
+		_dotNetObjectReference?.Dispose();
+
 		if (!_hasScrollSpyStarted || string.IsNullOrEmpty(MarkdownComponentId))
 			return;
 
@@ -28,13 +39,18 @@ internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
 		_hasScrollSpyStarted = false;
 	}
 
+	protected override void OnInitialized()
+	{
+		_dotNetObjectReference = DotNetObjectReference.Create(this);
+	}
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (!firstRender || string.IsNullOrEmpty(MarkdownComponentId))
 			return;
 
 		_hasScrollSpyStarted = true;
-		await JsRuntime.StartScrollSpyAsync(MarkdownComponentId)
+		await JsRuntime.StartScrollSpyAsync(_dotNetObjectReference, MarkdownComponentId)
 			.ConfigureAwait(false);
 	}
 
