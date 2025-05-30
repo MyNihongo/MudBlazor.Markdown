@@ -1,12 +1,8 @@
-﻿using System.Diagnostics;
+﻿namespace MudBlazor;
 
-namespace MudBlazor;
-
-internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
+internal sealed class MudTableOfContents : ComponentBase
 {
 	private bool _isOpen = true;
-	private bool _hasScrollSpyStarted;
-	private DotNetObjectReference<MudTableOfContents>? _dotNetObjectReference;
 
 	[Parameter]
 	public string? Header { get; set; }
@@ -16,43 +12,6 @@ internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
 
 	[Parameter]
 	public RenderFragment<MudMarkdownHeadingTree>? ChildContent { get; set; }
-
-	[Inject]
-	private IJSRuntime JsRuntime { get; set; } = null!;
-
-	[JSInvokable]
-	public async Task OnActiveElementChangedAsync(string? newElementId)
-	{
-		Debug.WriteLine($"new: `{newElementId}`");
-	}
-
-	public async ValueTask DisposeAsync()
-	{
-		_dotNetObjectReference?.Dispose();
-
-		if (!_hasScrollSpyStarted || string.IsNullOrEmpty(MarkdownComponentId))
-			return;
-
-		await JsRuntime.StopScrollSpyAsync(MarkdownComponentId)
-			.ConfigureAwait(false);
-
-		_hasScrollSpyStarted = false;
-	}
-
-	protected override void OnInitialized()
-	{
-		_dotNetObjectReference = DotNetObjectReference.Create(this);
-	}
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (!firstRender || string.IsNullOrEmpty(MarkdownComponentId))
-			return;
-
-		_hasScrollSpyStarted = true;
-		await JsRuntime.StartScrollSpyAsync(_dotNetObjectReference, MarkdownComponentId)
-			.ConfigureAwait(false);
-	}
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{
@@ -92,7 +51,8 @@ internal sealed class MudTableOfContents : ComponentBase, IAsyncDisposable
 				}
 
 				builder3.OpenComponent<MudTableOfContentsNavMenu>(elementIndex3++);
-				builder3.AddComponentParameter(elementIndex3, nameof(MudTableOfContentsNavMenu.MarkdownHeadingTree), markdownHeadingTree);
+				builder3.AddComponentParameter(elementIndex3++, nameof(MudTableOfContentsNavMenu.MarkdownHeadingTree), markdownHeadingTree);
+				builder3.AddComponentParameter(elementIndex3, nameof(MudTableOfContentsNavMenu.MarkdownComponentId), MarkdownComponentId);
 				builder3.CloseComponent();
 			}));
 			builder2.CloseComponent();

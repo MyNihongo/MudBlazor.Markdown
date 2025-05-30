@@ -1,23 +1,68 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace MudBlazor;
 
-internal sealed class MudTableOfContentsNavMenu : ComponentBase
+internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposable
 {
+	private bool _hasScrollSpyStarted;
+
 	private List<MudMarkdownHeadingTree.Item>? _headingItems;
+	private DotNetObjectReference<MudTableOfContentsNavMenu>? _dotNetObjectReference;
 
 	[Parameter]
 	public MudMarkdownHeadingTree? MarkdownHeadingTree { get; set; }
+
+	[Parameter]
+	public string? MarkdownComponentId { get; set; }
+
+	[Inject]
+	private IJSRuntime JsRuntime { get; set; } = null!;
+
+	[JSInvokable]
+	public async Task OnActiveElementChangedAsync(string? newElementId)
+	{
+		Debug.WriteLine($"new: `{newElementId}`");
+	}
 
 	public void InvokeRenderNavMenu(in List<MudMarkdownHeadingTree.Item> headingItems)
 	{
 		_headingItems = headingItems;
 		StateHasChanged();
 	}
+	
+	public async ValueTask DisposeAsync()
+	{
+		_dotNetObjectReference?.Dispose();
+		_dotNetObjectReference = null;
+		
+		if (!_hasScrollSpyStarted || string.IsNullOrEmpty(MarkdownComponentId))
+			return;
+
+		await JsRuntime.StopScrollSpyAsync(MarkdownComponentId)
+			.ConfigureAwait(false);
+
+		_hasScrollSpyStarted = false;
+	}
+
+	protected override void OnInitialized()
+	{
+		_dotNetObjectReference = DotNetObjectReference.Create(this);
+	}
 
 	protected override void OnParametersSet()
 	{
 		MarkdownHeadingTree?.SetNavMenuReference(this);
+	}
+	
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender || string.IsNullOrEmpty(MarkdownComponentId))
+			return;
+
+		_hasScrollSpyStarted = true;
+		await JsRuntime.StartScrollSpyAsync(_dotNetObjectReference, MarkdownComponentId)
+			.ConfigureAwait(false);
 	}
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
