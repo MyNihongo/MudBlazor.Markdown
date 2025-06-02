@@ -59,4 +59,28 @@ public sealed class AddMudMarkdownServicesShould : ServiceCollectionExTestsBase
 			.Should()
 			.NotBe(scopedInstance);
 	}
+	
+	[Fact]
+	public void RegisterServices()
+	{
+		using var serviceProvider = new ServiceCollection()
+			.AddMudMarkdownServices()
+			.BuildServiceProvider();
+
+		serviceProvider.GetRequiredService<IMudMarkdownMemoryCache>()
+			.Should()
+			.BeOfType<MudMarkdownMemoryCache>();
+
+		serviceProvider.GetService<IMemoryCache>()
+			.Should()
+			.BeNull();
+
+		serviceProvider.GetRequiredService<IMudMarkdownThemeService>()
+			.Should()
+			.BeOfType<MudMarkdownThemeService>();
+
+		serviceProvider.GetRequiredService<IMudMarkdownValueProvider>()
+			.Should()
+			.BeOfType<MudMarkdownValueProvider>();
+	}
 }
