@@ -120,8 +120,12 @@ pre code.hljs {
 
 .mud-markdown-toc-drawer {
 	position: sticky;
-	top: 64px; /* TODO- appbar value */
+	overflow: hidden;
+	top: calc(64px + 16px); /* TODO- appbar value + 10px */
 	float: right; /* TODO- drawer value */
+}
+
+.mud-markdown-toc-drawer-content {
 	width: 250px;
 	opacity: 0;
 	visibility: collapse;
@@ -129,7 +133,7 @@ pre code.hljs {
 	z-index: 1000;
 }
 
-.mud-markdown-toc-drawer.open {
+.mud-markdown-toc-drawer-content.open {
 	opacity: 1;
 	visibility: visible;
 }
@@ -144,9 +148,8 @@ pre code.hljs {
 }
 
 .mud-markdown-toc-btn-toggle {
-	position: sticky;
-	top: 64px; /* TODO- appbar value */
-	float: right; /* TODO- drawer value */
+	position: absolute;
+	right: 0;
 	z-index: 1200;
 }
 
