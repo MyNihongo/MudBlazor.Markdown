@@ -17,63 +17,36 @@ internal sealed class MudTableOfContents : ComponentBase
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{
+		var markdownHeadingTree = new MudMarkdownHeadingTree();
+
 		var elementIndex1 = 0;
 		builder1.OpenElement(elementIndex1++, ElementNames.Div);
 		builder1.AddAttribute(elementIndex1++, AttributeNames.Class, "mud-markdown-toc");
-		builder1.OpenComponent<MudDrawerContainer>(elementIndex1++);
-		builder1.AddComponentParameter(elementIndex1++, nameof(MudDrawerContainer.Class), "mud-height-full");
-		builder1.AddAttribute(elementIndex1, nameof(MudDrawerContainer.ChildContent), (RenderFragment)(builder2 =>
-		{
-			var markdownHeadingTree = new MudMarkdownHeadingTree();
 
-			var elementIndex2 = 0;
-			builder2.OpenComponent<MudIconButton>(elementIndex2++);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Class), "mud-markdown-toc-btn-toggle");
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Icon), Icons.Material.Filled.Menu);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Variant), Variant.Filled);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Color), Color.Primary);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.Size), Size.Large);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleDrawer));
-			builder2.CloseComponent();
-
-			builder2.OpenComponent<MudDrawer>(elementIndex2++);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Fixed), false);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Anchor), Anchor.Right);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Elevation), 0);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Variant), DrawerVariant.Persistent);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.Open), _isOpen);
-			builder2.AddComponentParameter(elementIndex2++, nameof(MudDrawer.OpenChanged), EventCallback.Factory.Create(this, RuntimeHelpers.CreateInferredEventCallback(this, isOpen => { _isOpen = isOpen; }, _isOpen)));
-			builder2.AddAttribute(elementIndex2++, nameof(MudDrawer.ChildContent), (RenderFragment)(builder3 =>
-			{
-				var elementIndex3 = 0;
-
-				if (!string.IsNullOrEmpty(Header))
-				{
-					builder3.OpenComponent<MudDrawerHeader>(elementIndex3++);
-					builder3.AddAttribute(elementIndex3++, nameof(MudDrawerHeader.ChildContent), (RenderFragment)(builder4 =>
-					{
-						var elementIndex4 = 0;
-						builder4.OpenComponent<MudText>(elementIndex4++);
-						builder4.AddComponentParameter(elementIndex4++, nameof(MudText.Typo), Typo.h6);
-						builder4.AddAttribute(elementIndex4, nameof(MudText.ChildContent), (RenderFragment)(builder5 => builder5.AddContent(0, Header)));
-						builder4.CloseComponent();
-					}));
-					builder3.CloseComponent();
-				}
-
-				builder3.OpenComponent<MudTableOfContentsNavMenu>(elementIndex3++);
-				builder3.AddComponentParameter(elementIndex3++, nameof(MudTableOfContentsNavMenu.MarkdownHeadingTree), markdownHeadingTree);
-				builder3.AddComponentParameter(elementIndex3, nameof(MudTableOfContentsNavMenu.MarkdownComponentId), MarkdownComponentId);
-				builder3.CloseComponent();
-			}));
-			builder2.CloseComponent();
-
-			builder2.OpenElement(elementIndex2++, ElementNames.Div);
-			builder2.AddAttribute(elementIndex2++, AttributeNames.Class, "d-flex mud-height-full");
-			builder2.AddContent(elementIndex2, ChildContent?.Invoke(markdownHeadingTree));
-			builder2.CloseElement();
-		}));
+		// Toggle button
+		builder1.OpenComponent<MudIconButton>(elementIndex1++);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Class), "mud-markdown-toc-btn-toggle");
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Icon), Icons.Material.Filled.Menu);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Variant), Variant.Filled);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Color), Color.Primary);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Size), Size.Large);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleDrawer));
 		builder1.CloseComponent();
+
+		// Drawer
+		var aa = new CssBuilder("mud-markdown-toc-drawer").AddClass("open", _isOpen).Build();
+		builder1.OpenElement(elementIndex1++, ElementNames.Div);
+		builder1.AddAttribute(elementIndex1++, AttributeNames.Class, aa);
+		builder1.AddContent(elementIndex1++, "aaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaa");
+		builder1.CloseElement();
+
+		// Content
+		aa = new CssBuilder("mud-markdown-toc-content").AddClass("open", _isOpen).Build();
+		builder1.OpenElement(elementIndex1++, ElementNames.Div);
+		builder1.AddAttribute(elementIndex1++, AttributeNames.Class, aa);
+		builder1.AddContent(elementIndex1++, ChildContent?.Invoke(markdownHeadingTree));
+		builder1.CloseElement();
+
 		builder1.CloseElement();
 	}
 
