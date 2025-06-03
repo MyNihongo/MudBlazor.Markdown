@@ -171,4 +171,5 @@ pre code.hljs {
 
 .mud-markdown-toc-nav-menu .mud-nav-item.active {
 	border-left-color: var(--mud-palette-primary) !important;
+	color: var(--mud-palette-primary) !important;
 }
