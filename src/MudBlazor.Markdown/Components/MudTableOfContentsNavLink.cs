@@ -16,8 +16,8 @@ internal sealed class MudTableOfContentsNavLink : MudComponentBase
 	[Parameter]
 	public bool IsActive { get; set; }
 
-	[Inject]
-	private IJSRuntime JsRuntime { get; init; } = null!;
+	[Parameter]
+	public Func<string, Task>? OnClick { get; set; }
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{
@@ -31,19 +31,19 @@ internal sealed class MudTableOfContentsNavLink : MudComponentBase
 
 		builder1.OpenComponent<MudNavLink>(elementIndex1++);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavLink.Class), @class);
-		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavLink.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, OnClick));
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudNavLink.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, OnClickAsync));
 		builder1.AddComponentParameter(elementIndex1, nameof(MudNavLink.ChildContent), (RenderFragment)(builder2 => builder2.AddContent(0, Title)));
 		builder1.CloseComponent();
 
 		builder1.CloseElement();
 	}
 
-	private async Task OnClick()
+	private async Task OnClickAsync()
 	{
-		if (string.IsNullOrEmpty(Id))
+		if (string.IsNullOrEmpty(Id) || OnClick is null)
 			return;
 
-		await JsRuntime.ScrollToAsync(Id)
+		await OnClick(Id)
 			.ConfigureAwait(false);
 	}
 }

@@ -31,12 +31,12 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 		_headingItems = headingItems;
 		StateHasChanged();
 	}
-	
+
 	public async ValueTask DisposeAsync()
 	{
 		_dotNetObjectReference?.Dispose();
 		_dotNetObjectReference = null;
-		
+
 		if (!_hasScrollSpyStarted || string.IsNullOrEmpty(MarkdownComponentId))
 			return;
 
@@ -55,14 +55,14 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 	{
 		MarkdownHeadingTree?.SetNavMenuReference(this);
 	}
-	
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (!firstRender || string.IsNullOrEmpty(MarkdownComponentId))
 			return;
 
 		_hasScrollSpyStarted = true;
-		await JsRuntime.StartScrollSpyAsync(_dotNetObjectReference, MarkdownComponentId)
+		await JsRuntime.StartScrollSpyAsync(MarkdownComponentId, _dotNetObjectReference)
 			.ConfigureAwait(false);
 	}
 
@@ -86,9 +86,16 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Title), item.Text);
 				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.Typo), item.Typo);
 				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.IsActive), item.Id == _activeElementId);
+				builder2.AddComponentParameter(elementIndex2++, nameof(MudTableOfContentsNavLink.OnClick), (Func<string, Task>)OnNavLinkClickedAsync);
 				builder2.CloseComponent();
 			}
 		}));
 		builder1.CloseComponent();
+	}
+
+	private async Task OnNavLinkClickedAsync(string elementId)
+	{
+		await JsRuntime.ScrollToAsync(elementId)
+			.ConfigureAwait(false);
 	}
 }

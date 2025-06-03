@@ -82,10 +82,7 @@ window.MudBlazorMarkdown = {
 	scrollToElementId: function (elementId) {
 		const element = document.getElementById(elementId);
 		if (element) {
-			const elementIdHref = `#${elementId}`;
-			if (!window.location.pathname.endsWith(elementIdHref)) {
-				history.replaceState(null, "", window.location.pathname + elementIdHref);
-			}
+			trySetActiveElementId(elementId);
 
 			element.scrollIntoView({
 				behavior: "smooth",
@@ -105,7 +102,7 @@ window.MudBlazorMarkdown = {
 	tableOfContents: {
 		handleRefs: {},
 		activeElementIds: {},
-		startScrollSpy: function (dotNetReference, elementId) {
+		startScrollSpy: function (elementId, dotNetReference) {
 			if (!elementId) {
 				return;
 			}
@@ -144,6 +141,7 @@ window.MudBlazorMarkdown = {
 				const currentActiveElementId = this.activeElementIds[elementId];
 				if (maxVisibilityElementId !== currentActiveElementId) {
 					this.activeElementIds[elementId] = maxVisibilityElementId;
+					trySetActiveElementId(maxVisibilityElementId);
 					dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", maxVisibilityElementId);
 				}
 			};
@@ -170,3 +168,10 @@ window.MudBlazorMarkdown = {
 		},
 	},
 };
+
+function trySetActiveElementId(elementId) {
+	const activeElementIdHref = `#${elementId}`;
+	if (!window.location.pathname.endsWith(activeElementIdHref)) {
+		history.replaceState(null, "", window.location.pathname + activeElementIdHref);
+	}
+}
