@@ -121,6 +121,7 @@ pre code.hljs {
 .mud-markdown-toc-drawer {
 	position: sticky;
 	overflow: hidden;
+	z-index: var(--mud-zindex-appbar);
 	top: calc(64px + 16px); /* TODO- appbar value + 10px */
 	float: right; /* TODO- drawer value */
 }
@@ -144,13 +145,12 @@ pre code.hljs {
 }
 
 .mud-markdown-toc-content.open {
-	margin-right: 250px; /* TODO- drawer value */
+	margin-right: calc(250px + 16px); /* TODO- drawer value */
 }
 
 .mud-markdown-toc-btn-toggle {
 	position: absolute;
 	right: 0;
-	z-index: 1200;
 }
 
 .mud-markdown-toc-nav-menu .mud-nav-link {
