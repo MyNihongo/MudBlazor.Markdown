@@ -90,7 +90,7 @@ window.MudBlazorMarkdown = {
 			dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", elementId);
 		}
 
-		MudBlazorMarkdown.tableOfContents.scrollLock = true;
+		MudBlazorMarkdown.tableOfContents.scrollLock++;
 
 		element.scrollIntoView({
 			behavior: "smooth",
@@ -100,7 +100,10 @@ window.MudBlazorMarkdown = {
 
 		// Not the best approach, but will do for now
 		setTimeout(() => {
-			MudBlazorMarkdown.tableOfContents.scrollLock = false;
+			MudBlazorMarkdown.tableOfContents.scrollLock--;
+			if (MudBlazorMarkdown.tableOfContents.scrollLock < 0) {
+				MudBlazorMarkdown.tableOfContents.scrollLock = 0;
+			}
 		}, 1000);
 	},
 	copyTextToClipboard: async function (text) {
@@ -112,7 +115,7 @@ window.MudBlazorMarkdown = {
 		}
 	},
 	tableOfContents: {
-		scrollLock: false,
+		scrollLock: 0,
 		handleRefs: {},
 		activeElementIds: {},
 		startScrollSpy: function (elementId, dotNetReference) {
@@ -134,7 +137,7 @@ window.MudBlazorMarkdown = {
 			const pageTop = appBar?.getBoundingClientRect().height ?? 0;
 
 			const handler = () => {
-				if (MudBlazorMarkdown.tableOfContents.scrollLock) {
+				if (MudBlazorMarkdown.tableOfContents.scrollLock > 0) {
 					return;
 				}
 
