@@ -5,7 +5,7 @@ namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 {
-	private const string MethodIdentifier = "scrollToElementId";
+	private const string MethodIdentifier = "MudBlazorMarkdown.scrollToElementId";
 
 	[Fact]
 	public void InvokeNavigationIfHasId()
@@ -13,10 +13,12 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		Uri = "#tokyo";
 		const string value = "## some text";
 
-		using (CreateFixture(value)) { }
+		using (CreateFixture(value))
+		{
+		}
 
 		MockJsRuntime
-			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "tokyo" }), Times.Once);
+			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "tokyo", null }), Times.Once);
 	}
 
 	[Fact]
@@ -25,7 +27,9 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		Uri = "/tokyo";
 		const string value = "## some text";
 
-		using (CreateFixture(value)) { }
+		using (CreateFixture(value))
+		{
+		}
 
 		MockJsRuntime
 			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, It.IsAny<object[]>()), Times.Never);
@@ -52,14 +56,14 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		MockNavigationManager.NavigateTo("#tokyo");
 
 		MockJsRuntime
-			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "tokyo" }), Times.Once);
+			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "tokyo", null }), Times.Once);
 
 		// Navigate to Sapporo
 		fixture.Find("a[href$='#sapporo']").Click();
 		MockNavigationManager.NavigateTo("#sapporo");
 
 		MockJsRuntime
-			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "sapporo" }), Times.Once);
+			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "sapporo", null }), Times.Once);
 	}
 
 	[Fact]

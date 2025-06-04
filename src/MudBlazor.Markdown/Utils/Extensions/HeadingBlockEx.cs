@@ -7,6 +7,7 @@ namespace MudBlazor;
 internal static class HeadingBlockEx
 {
 	private const char JoinChar = '-';
+	private static readonly string[] EscapeChars = ["+", ":", "&"];
 
 	public static HeadingContent? BuildHeadingContent(this HeadingBlock @this)
 	{
@@ -37,6 +38,9 @@ internal static class HeadingBlockEx
 	{
 		var words = @this.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 		var str = string.Join(JoinChar, words);
+
+		for (var i = 0; i < EscapeChars.Length; i++)
+			str = str.Replace(EscapeChars[i], string.Empty);
 
 		return HttpUtility.UrlEncode(str);
 	}

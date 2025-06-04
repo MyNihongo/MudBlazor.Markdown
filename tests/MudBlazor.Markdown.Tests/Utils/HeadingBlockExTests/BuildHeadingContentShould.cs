@@ -7,11 +7,13 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 	[InlineData("  ")]
 	public void EscapeWhitespace(string whitespace)
 	{
-		const string expected = "some-text";
-		string expectedText = $"some{whitespace}text",  value = $"# {expectedText}";
+		const string expectedId = "some-text";
+		string expectedText = $"some{whitespace}text", value = $"# {expectedText}";
 
 		var result = CreateFixture(value)
 			.BuildHeadingContent();
+
+		var expected = new HeadingContent(expectedId, expectedText);
 
 		result
 			.Should()
@@ -22,10 +24,13 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 	public void ConvertToLower()
 	{
 		const string value = "# Some Text",
-			expected = "some-text";
+			expectedId = "some-text",
+			expectedText = "Some Text";
 
 		var result = CreateFixture(value)
 			.BuildHeadingContent();
+
+		var expected = new HeadingContent(expectedId, expectedText);
 
 		result
 			.Should()
@@ -38,11 +43,13 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 	[InlineData('&')]
 	public void EscapeCharacters(char inputChar)
 	{
-		const string expected = "some--text";
+		const string expectedId = "some--text";
 		string expectedText = $"some {inputChar} text", value = $"# {expectedText}";
 
 		var result = CreateFixture(value)
 			.BuildHeadingContent();
+
+		var expected = new HeadingContent(expectedId, expectedText);
 
 		result
 			.Should()
