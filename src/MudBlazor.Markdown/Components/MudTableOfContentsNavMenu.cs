@@ -26,6 +26,11 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 		await InvokeAsync(StateHasChanged);
 	}
 
+	public DotNetObjectReference<MudTableOfContentsNavMenu>? GetDotNetObjectReference()
+	{
+		return _dotNetObjectReference;
+	}
+
 	public void InvokeRenderNavMenu(in List<MudMarkdownHeadingTree.Item> headingItems)
 	{
 		_headingItems = headingItems;
@@ -95,7 +100,7 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 
 	private async Task OnNavLinkClickedAsync(string elementId)
 	{
-		await JsRuntime.ScrollToAsync(elementId)
+		await JsRuntime.ScrollToAsync(elementId, _dotNetObjectReference)
 			.ConfigureAwait(false);
 	}
 }

@@ -4,9 +4,9 @@ internal static class JsRuntimeEx
 {
 	private const string JsNamespace = "MudBlazorMarkdown", TableOfContentsNamespace = $"{JsNamespace}.tableOfContents";
 
-	public static async ValueTask ScrollToAsync(this IJSRuntime @this, string elementId)
+	public static async ValueTask ScrollToAsync(this IJSRuntime @this, string elementId, DotNetObjectReference<MudTableOfContentsNavMenu>? dotNetObjectReference)
 	{
-		await @this.InvokeVoidAsync($"{JsNamespace}.scrollToElementId", elementId)
+		await @this.InvokeVoidAsync($"{JsNamespace}.scrollToElementId", elementId, dotNetObjectReference)
 			.ConfigureAwait(false);
 	}
 

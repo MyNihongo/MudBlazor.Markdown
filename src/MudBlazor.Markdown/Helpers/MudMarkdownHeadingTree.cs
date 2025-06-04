@@ -26,6 +26,11 @@ internal sealed class MudMarkdownHeadingTree
 		_mudTableOfContentsNavMenu.InvokeRenderNavMenu(_items);
 	}
 
+	public DotNetObjectReference<MudTableOfContentsNavMenu>? GetNavMenuDotnetObjectReference()
+	{
+		return _mudTableOfContentsNavMenu?.GetDotNetObjectReference();
+	}
+
 	public sealed class Item
 	{
 		public readonly Typo Typo;

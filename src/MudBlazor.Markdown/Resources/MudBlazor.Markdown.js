@@ -79,17 +79,28 @@ window.refreshMathJaxScript = function () {
 
 // MudBlazor.Markdown
 window.MudBlazorMarkdown = {
-	scrollToElementId: function (elementId) {
+	scrollToElementId: function (elementId, dotNetReference) {
 		const element = document.getElementById(elementId);
-		if (element) {
-			trySetActiveElementId(elementId);
-
-			element.scrollIntoView({
-				behavior: "smooth",
-				block: "start",
-				inline: "nearest"
-			});
+		if (!element) {
+			return;
 		}
+
+		trySetActiveElementId(elementId);
+		if (dotNetReference) {
+			dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", elementId);
+		}
+		
+		MudBlazorMarkdown.tableOfContents.scrollLock = true;
+
+		element.scrollIntoView({
+			behavior: "smooth",
+			block: "start",
+			inline: "nearest"
+		});
+		
+		setTimeout(() => {
+			MudBlazorMarkdown.tableOfContents.scrollLock = false;
+		}, 1000);
 	},
 	copyTextToClipboard: async function (text) {
 		try {
@@ -100,6 +111,7 @@ window.MudBlazorMarkdown = {
 		}
 	},
 	tableOfContents: {
+		scrollLock: false,
 		handleRefs: {},
 		activeElementIds: {},
 		startScrollSpy: function (elementId, dotNetReference) {
@@ -121,6 +133,10 @@ window.MudBlazorMarkdown = {
 			const pageTop = appBar?.getBoundingClientRect().height ?? 0;
 
 			const handler = () => {
+				if (MudBlazorMarkdown.tableOfContents.scrollLock) {
+					return;
+				}
+				
 				let maxVisibility = -Number.MAX_VALUE, maxVisibilityElementId = undefined;
 				for (const headingElement of headingElements) {
 					const rect = headingElement.getBoundingClientRect();
