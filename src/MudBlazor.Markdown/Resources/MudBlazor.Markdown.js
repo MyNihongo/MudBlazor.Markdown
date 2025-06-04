@@ -89,7 +89,7 @@ window.MudBlazorMarkdown = {
 		if (dotNetReference) {
 			dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", elementId);
 		}
-		
+
 		MudBlazorMarkdown.tableOfContents.scrollLock = true;
 
 		element.scrollIntoView({
@@ -97,7 +97,8 @@ window.MudBlazorMarkdown = {
 			block: "start",
 			inline: "nearest"
 		});
-		
+
+		// Not the best approach, but will do for now
 		setTimeout(() => {
 			MudBlazorMarkdown.tableOfContents.scrollLock = false;
 		}, 1000);
@@ -136,7 +137,7 @@ window.MudBlazorMarkdown = {
 				if (MudBlazorMarkdown.tableOfContents.scrollLock) {
 					return;
 				}
-				
+
 				let maxVisibility = -Number.MAX_VALUE, maxVisibilityElementId = undefined;
 				for (const headingElement of headingElements) {
 					const rect = headingElement.getBoundingClientRect();
