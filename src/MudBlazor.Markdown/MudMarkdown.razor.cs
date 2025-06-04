@@ -25,6 +25,13 @@ public class MudMarkdown : ComponentBase, IDisposable
 	public string Value { get; set; } = string.Empty;
 
 	/// <summary>
+	/// The type of source for the markdown content.<br/>
+	/// Default value: <see cref="MarkdownSourceType.RawValue"/>.
+	/// </summary>
+	[Parameter]
+	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
+
+	/// <summary>
 	/// Minimum width (in pixels) for a table cell.<br/>
 	/// If <see langword="null" /> or negative the minimum width is not applied.
 	/// </summary>
@@ -71,13 +78,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 	/// </summary>
 	[Parameter]
 	public MarkdownPipeline? MarkdownPipeline { get; set; }
-
-	/// <summary>
-	/// The type of source for the markdown content.<br/>
-	/// Default value: <see cref="MarkdownSourceType.RawValue"/>.
-	/// </summary>
-	[Parameter]
-	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
 
 	/// <summary>
 	/// Indicates whether a table of contents should be displayed.<br/>

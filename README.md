@@ -69,22 +69,3 @@ builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
     private string Value { get; } = "text *italics* and **bold**";
 }
 ```
-### Available properties
-- `Value` - string value of the markdown text;
-- `LinkCommand` - `<MudLink>` components will not navigate to the provided URL, but instead invoke the command. If the property is `null` then `<MudLink>` will navigate to the link automatically (behaviour of `<a>`);
-- `TableCellMinWidth` - minimum width (in pixels) for a table cell. If the property is `null` or negative the min width is not applied;
-- `OverrideHeaderTypo` - override a Typo parameter for tags `<h1>`, `<h2>`, etc.;
-- `OverrideLinkUrl` - override a URL address for links;
-- `CodeBlockTheme` - default theme for code blocks;
-- `Styling` - override default styling.
-### Palette (colour) configurations
-Useful links for configuring the palette:
-- [Default theme](https://mudblazor.com/customization/default-theme#mudtheme) - all CSS variables and their default values
-- [Overview](https://mudblazor.com/customization/overview#theme-provider) - how the theme can be configured
-
-The `<MudMarkdown>` supports the palette of the `MudTheme` which makes styling easy (we hope). These are the colors which are used in the `<MudMarkdown>`:
-- DrawerBackground - background-color of the quoted text;
-- ChipDefault - background-color of the code block;
-- TextDisabled - border-color of the quoted text and border-color of the h1 and h2 bottom divider;
-- TextPrimary - regular text in the markdown;
-- TextSecondary - the colour of the quoted text;
