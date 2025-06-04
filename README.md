@@ -4,9 +4,6 @@
 
 This README covers configuration steps for Blazor Server and Blazor WebAssembly. For images of how the markup component looks like in the browser go to the [README of samples](/samples).
 
-## Update guide
-For guidance with update errors please visit the [wiki page](https://github.com/MyNihongo/MudBlazor.Markdown/wiki/Update-guide).
-
 ## Getting started
 > NB! MudBlazor does not work well with the static SSR format because some code is executed in `OnAfterRender` or `OnAfterRenderAsync` that is not invoked by default.  
 > Specify `@rendermode="InteractiveServer"` on the markdown component to make it work (e.g. `<MudMarkdown @rendermode="InteractiveServer" Value="some markdown here" />`)
