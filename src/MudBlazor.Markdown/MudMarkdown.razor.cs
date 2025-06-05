@@ -193,6 +193,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	protected virtual void RenderMarkdownRoot(RenderTreeBuilder builder, ref int elementIndex, ContainerBlock container)
 	{
 		builder.OpenElement(elementIndex++, "article");
+		builder.AddAttribute(elementIndex++, AttributeNames.Id, _componentId);
 		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-markdown-body");
 		RenderMarkdown(builder, ref elementIndex, container);
 		builder.CloseElement();
