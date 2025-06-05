@@ -15,7 +15,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-table mud-simple-table mud-table-bordered mud-elevation-1' style='overflow-x: auto;'>
 					<div class='mud-table-container'>
 						<table>
@@ -69,7 +69,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-table mud-simple-table mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 					<div class='mud-table-container'>
 						<table>
@@ -123,7 +123,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-0' style='overflow-x: auto;'>
 					<div class='mud-table-container'>
 						<table>
@@ -171,7 +171,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 		
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-always mud-typography-body1'>my link</a>
 				</p>
@@ -197,7 +197,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 		
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-none mud-typography-body1'>my link</a>
 				</p>

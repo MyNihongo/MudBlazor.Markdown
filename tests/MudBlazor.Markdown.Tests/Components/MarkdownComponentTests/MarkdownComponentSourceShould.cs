@@ -10,7 +10,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class="mud-markdown-body">
+			<article id:ignore class="mud-markdown-body">
 				<h1 id="main-events" class="mud-typography mud-typography-h1">Main events</h1>
 				<p class="mud-typography mud-typography-body1">Sakura season in Kawaguchi</p>
 			</article>
@@ -33,7 +33,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class="mud-markdown-body">
+			 <article id:ignore class="mud-markdown-body">
 			 	<p class="mud-typography mud-typography-body1">Error while reading from file, path=<code>Resources{Path.DirectorySeparatorChar}i dont exist.md</code>, error=<code>Could not find file 'path'.</code></p>
 			 	<div class="snippet-clipboard-content overflow-auto">
 			 		<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >
@@ -65,7 +65,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class="mud-markdown-body">
+			<article id:ignore class="mud-markdown-body">
 				<h1 id="main-events" class="mud-typography mud-typography-h1">Main events</h1>
 				<p class="mud-typography mud-typography-body1">Sakura season in Kawaguchi</p>
 			</article>
@@ -88,7 +88,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class="mud-markdown-body">
+			<article id:ignore class="mud-markdown-body">
 				<p class="mud-typography mud-typography-body1">Error while reading from URL, URL=<code>invalid url</code>, error=<code>An invalid request URI was provided. Either the request URI must be an absolute URI or BaseAddress must be set.</code>
 				<div class="snippet-clipboard-content overflow-auto">
 					<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >

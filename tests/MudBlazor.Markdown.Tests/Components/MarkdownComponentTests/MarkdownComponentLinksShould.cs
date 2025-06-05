@@ -78,7 +78,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						absolute
@@ -111,7 +111,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		const string value = @"![img](/tokyo/sky-tree.png)";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<img src='overridden/tokyo/sky-tree.png' alt='img' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 				</p>

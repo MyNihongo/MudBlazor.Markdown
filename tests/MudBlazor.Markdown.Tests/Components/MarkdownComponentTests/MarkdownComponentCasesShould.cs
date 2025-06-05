@@ -18,7 +18,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>text before</p>
 				<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 					<div class='mud-table-container'>
@@ -60,7 +60,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 			   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 			      <div class='mud-table-container'>
 			         <table>
@@ -114,7 +114,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string value = "text *italic **bold within***";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text 
 					<i>
@@ -135,7 +135,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string value = "text *italic **bold within** more italic*";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text 
 					<i>
@@ -157,7 +157,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string value = "text **bold *italic within***";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text 
 					<b>
@@ -178,7 +178,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string value = "text **bold *italic within* more bold**";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text 
 					<b>
@@ -200,7 +200,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string value = "[Installing Microsoft Visual C++ Redistributable Package](#installing-microsoft-visual-c-redistributable-package)";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a href='#installing-microsoft-visual-c-redistributable-package' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						Installing Microsoft Visual C++ Redistributable Package
@@ -219,7 +219,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string value = "Text _italics_";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					Text
 					<i>italics</i>
@@ -254,7 +254,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<h1 id='heading-1' class='mud-typography mud-typography-h1'>Heading 1</h1>
 				<p class='mud-typography mud-typography-body1'>Some text.</p>
 				<div class='snippet-clipboard-content overflow-auto'>
@@ -296,7 +296,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='snippet-clipboard-content overflow-auto'>
 					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='48bbd0ad-a2cf-498a-8fb8-b81d2f4dbeec'>
 						<span class='mud-icon-button-label'>
@@ -339,7 +339,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='snippet-clipboard-content overflow-auto'>
 					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='84d7bc02-c5ee-472d-a737-b72f42b37b83'>
 						<span class='mud-icon-button-label'>
@@ -394,7 +394,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<h2 id='the-following-requirements-must-be-met-outside-this-terraform-code-in-advance.' class='mud-typography mud-typography-h2'>
 					The following requirements must be met outside this Terraform code in advance.
 				</h2>
@@ -504,7 +504,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>To prevent the warning message regarding the deprecation of the <code>mysql_native_password</code> plugin from being logged, you have a couple of options:</p>
 				<p class='mud-typography mud-typography-body1'>Option 1: Update User Authentication Method:</p>
 				<ol>
@@ -568,7 +568,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<h3 id='my-table' class='mud-typography mud-typography-h3'>My Table:</h3>
 				<p class='mud-typography mud-typography-body1'>
 					<div class='mud-markdown-error'>
