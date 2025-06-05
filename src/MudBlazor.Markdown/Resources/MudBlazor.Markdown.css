@@ -121,7 +121,7 @@ pre code.hljs {
 .mud-markdown-toc-drawer {
 	position: sticky;
 	overflow: hidden;
-	z-index: var(--mud-zindex-appbar);
+	z-index: calc(var(--mud-zindex-appbar) - 1);
 	top: calc(64px + 16px); /* TODO- appbar value + 10px */
 	float: right; /* TODO- drawer value */
 }
