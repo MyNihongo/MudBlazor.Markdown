@@ -15,7 +15,7 @@ internal sealed class MudTableOfContents : ComponentBase
 	[Parameter]
 	public RenderFragment<MudMarkdownHeadingTree>? ChildContent { get; set; }
 
-	private string DrawerClass => new CssBuilder("mud-markdown-toc-drawer-content")
+	private string DrawerContentClass => new CssBuilder("mud-markdown-toc-drawer-content")
 		.AddClass("open", _isOpen)
 		.Build();
 
@@ -48,9 +48,9 @@ internal sealed class MudTableOfContents : ComponentBase
 			builder2.AddComponentParameter(elementIndex2++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, ToggleDrawer));
 			builder2.CloseComponent();
 
-			// Drawer
+			// Drawer content
 			builder2.OpenElement(elementIndex2++, ElementNames.Div);
-			builder2.AddAttribute(elementIndex2++, AttributeNames.Class, DrawerClass);
+			builder2.AddAttribute(elementIndex2++, AttributeNames.Class, DrawerContentClass);
 			builder2.AddContent(elementIndex2, (RenderFragment)(builder3 =>
 			{
 				var elementIndex3 = 0;
