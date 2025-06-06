@@ -121,13 +121,13 @@ pre code.hljs {
 .mud-markdown-toc-drawer {
 	position: sticky;
 	overflow: hidden;
-	z-index: calc(var(--mud-zindex-appbar) - 1);
-	top: calc(64px + 16px); /* TODO- appbar value + 10px */
-	float: right; /* TODO- drawer value */
+	z-index: calc(var(--mud-zindex-appbar) - 2);
+	top: calc(var(--mud-appbar-height) + 16px);
+	float: right;
 }
 
 .mud-markdown-toc-drawer-content {
-	width: 250px;
+	width: var(--mud-drawer-width-right);
 	opacity: 0;
 	visibility: collapse;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -145,12 +145,13 @@ pre code.hljs {
 }
 
 .mud-markdown-toc-content.open {
-	margin-right: calc(250px + 16px); /* TODO- drawer value */
+	margin-right: calc(var(--mud-drawer-width-right) + 16px);
 }
 
 .mud-markdown-toc-btn-toggle {
 	position: absolute;
 	right: 0;
+	z-index: calc(var(--mud-zindex-appbar) - 1);
 }
 
 .mud-markdown-toc-nav-menu .mud-nav-link {
