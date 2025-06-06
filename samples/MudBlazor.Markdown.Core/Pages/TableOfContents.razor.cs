@@ -57,4 +57,16 @@ public partial class TableOfContents : ComponentBase
         # header2 4
         Curabitur nunc urna, pharetra et sollicitudin a, semper eu risus. Vivamus quam nisi, venenatis sed lectus eu, gravida aliquet odio. Aenean eros nisi, ornare vitae lobortis quis, fermentum sed quam. Aliquam erat volutpat. Phasellus at mauris eu nibh rhoncus volutpat vitae vitae lorem. Praesent eget scelerisque ex, in tincidunt metus. Vestibulum commodo sollicitudin fermentum. Suspendisse ultricies vestibulum pulvinar. Duis et molestie odio. Donec ipsum elit, tincidunt a libero et, venenatis blandit nibh. Nulla sit amet lorem enim. Suspendisse imperdiet neque sed massa tempor, eget sodales mauris volutpat.
         """;
+
+    private const string Markdown3 =
+        """
+        # New header 1
+        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam id leo eros. Phasellus lectus erat, pellentesque et gravida et, gravida aliquam ex. Integer at ex efficitur, eleifend lectus dignissim, iaculis orci. Pellentesque tortor justo, placerat eu rutrum at, iaculis nec libero. Nunc laoreet augue eu ligula varius, ac eleifend sapien consectetur. Vivamus ut felis at eros lobortis pulvinar vitae non est. Nulla a tellus erat. Integer sed elit tristique, dignissim nisl sit amet, dictum risus. Mauris id ultricies risus, ac consequat lorem. Aenean eu fringilla ex.
+
+        # New header 2
+        Nam eu nunc nec velit molestie tincidunt. Vivamus viverra lectus tortor, id vehicula tellus placerat a. Morbi pretium orci risus, a consectetur est malesuada a. Duis ut egestas orci, commodo aliquam urna. Morbi posuere, dui sit amet egestas ultricies, ante nisi condimentum velit, ac ullamcorper lectus enim cursus metus. Donec dignissim laoreet turpis at egestas. Morbi vestibulum nunc mi, eget iaculis diam sollicitudin pretium. Quisque et rutrum libero. Curabitur ut efficitur nunc.
+
+        # New header 3
+        Maecenas ac fermentum velit. Mauris et tempus sapien. Nam tellus enim, mollis at nibh ut, vestibulum dignissim metus. Mauris malesuada bibendum purus, eu pharetra nulla laoreet at. Integer lacinia semper nulla. Fusce egestas lacus diam, at laoreet mauris efficitur sit amet. Praesent malesuada nunc interdum urna lacinia ultricies. Phasellus erat elit, ultrices ac varius in, finibus non diam. Phasellus condimentum metus vel tortor efficitur tincidunt. Aliquam id nisi fringilla quam auctor faucibus. Aliquam interdum sem leo, et semper quam condimentum sit amet. Maecenas ligula libero, consectetur id egestas a, iaculis in nisi.
+        """;
 }
