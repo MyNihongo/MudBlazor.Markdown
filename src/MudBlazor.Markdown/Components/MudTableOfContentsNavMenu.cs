@@ -19,16 +19,13 @@ internal sealed class MudTableOfContentsNavMenu : ComponentBase, IAsyncDisposabl
 	[Inject]
 	private IJSRuntime JsRuntime { get; set; } = null!;
 
+	public DotNetObjectReference<MudTableOfContentsNavMenu>? ObjectReference => _dotNetObjectReference;
+
 	[JSInvokable]
 	public async Task OnActiveElementChangedAsync(string? newElementId)
 	{
 		_activeElementId = newElementId;
 		await InvokeAsync(StateHasChanged);
-	}
-
-	public DotNetObjectReference<MudTableOfContentsNavMenu>? GetDotNetObjectReference()
-	{
-		return _dotNetObjectReference;
 	}
 
 	public void InvokeRenderNavMenu(in List<MudMarkdownHeadingTree.Item> headingItems)

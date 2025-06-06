@@ -620,7 +620,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		idFragment = idFragment[1..];
 
-		await JsRuntime.ScrollToAsync(idFragment, _markdownHeadingTree?.GetNavMenuDotnetObjectReference())
+		await JsRuntime.ScrollToAsync(idFragment, _markdownHeadingTree?.NavMenuDotnetObjectReference)
 			.ConfigureAwait(false);
 	}
 
@@ -629,7 +629,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private MarkdownPipeline GetMarkdownPipeLine()
 	{
-		if (MarkdownPipeline != null)
+		if (MarkdownPipeline is not null)
 			return MarkdownPipeline;
 
 		return Pipeline ??= new MarkdownPipelineBuilder()
