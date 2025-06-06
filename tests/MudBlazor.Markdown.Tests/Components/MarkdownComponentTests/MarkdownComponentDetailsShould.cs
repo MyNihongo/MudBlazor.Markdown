@@ -16,7 +16,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 					<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 						<div class='mud-expand-panel-text'>
@@ -60,7 +60,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 					<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 						<div class='mud-expand-panel-text'>
@@ -96,7 +96,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 					<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 						<div class='mud-expand-panel-text'>
@@ -140,7 +140,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div>
 					<details>
 						<summary>Header</summary>
@@ -169,7 +169,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 					<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 						<div class='mud-expand-panel-text'>
@@ -219,7 +219,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-expand-panel mud-elevation-1 mud-expand-panel-border'>
 					<div class='mud-expand-panel-header mud-ripple' blazor:onclick='1'>
 						<div class='mud-expand-panel-text'>

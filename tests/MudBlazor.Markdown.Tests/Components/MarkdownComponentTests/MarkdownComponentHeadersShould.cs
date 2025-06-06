@@ -17,7 +17,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>
@@ -41,7 +41,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>
@@ -70,7 +70,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>
@@ -100,7 +100,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>
@@ -130,7 +130,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>
@@ -160,7 +160,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>
@@ -190,7 +190,7 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
 			 		some text
 			 	</{expectedTag}>

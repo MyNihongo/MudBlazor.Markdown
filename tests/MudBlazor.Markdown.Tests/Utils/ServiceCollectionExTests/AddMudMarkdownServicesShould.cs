@@ -59,7 +59,7 @@ public sealed class AddMudMarkdownServicesShould : ServiceCollectionExTestsBase
 			.Should()
 			.NotBe(scopedInstance);
 	}
-	
+
 	[Fact]
 	public void RegisterServices()
 	{

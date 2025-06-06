@@ -21,7 +21,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "Some text `code` again text - *italics* text and also **bold** and ~~strikethrough~~ text.";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					Some text <code>code</code> again text - <i>italics</i> text and also <b>bold</b> and <del>strikethrough</del> text.
 				</p>
@@ -38,7 +38,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = ">Some text `code` again text - *italics* text and also **bold** and ~~strikethrough~~ text.";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<blockquote>
 					<p class='mud-typography mud-typography-body1'>
 						Some text <code>code</code> again text - <i>italics</i> text and also <b>bold</b> and <del>strikethrough</del> text.
@@ -61,7 +61,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		var value = $"I expect that {emphasisDelimiter}emphasis{emphasisDelimiter} will be rendered as escaped. {emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}.";
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			 	<p class="mud-typography mud-typography-body1">
 			 		I expect that <span class="mud-markdown-error">{emphasisDelimiter}emphasis{emphasisDelimiter}</span> will be rendered as escaped. <span class="mud-markdown-error">{emphasisDelimiter}**Nested markdown is also escaped**{emphasisDelimiter}</span>.
 			 	</p>
@@ -80,7 +80,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		var value = "line1" + newLine + "line2";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					line1<br />line2
 				</p>
@@ -97,7 +97,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "[link display](https://www.google.co.jp/)";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						link display
@@ -116,7 +116,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "[link display](" + TestNavigationManager.TestUrl + ")";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						link display
@@ -135,7 +135,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "text before [link display](123) text after";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text before 
 					<a href='123' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</a>
@@ -154,7 +154,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "text before [link display](123) text after";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text before
 					<span class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</span>
@@ -173,7 +173,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "[link](#id)";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a href='#id' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						link
@@ -192,7 +192,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "[link](tokyo/#id)";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						link
@@ -211,7 +211,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "![emw-banner](extra/emw.png)";
 		const string expectedResult =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 				</p>
@@ -228,7 +228,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string value = "[![emw-banner](extra/emw.png)](https://www.google.co.jp/)";
 		const string expectedResult =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
@@ -253,7 +253,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>some text before</p>
 				<ul>
 					<li><p class='mud-typography mud-typography-body1'><code>item1</code>- text <b>bold</b></p></li>
@@ -280,7 +280,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>some text before</p>
 				<ul>
 					<li><p class='mud-typography mud-typography-body1'><code>item1</code> - text <i>italic</i></p>
@@ -313,7 +313,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>some text before</p>
 				<ul>
 					<li>
@@ -348,7 +348,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<ol>
 					<li>
 						<p class='mud-typography mud-typography-body1'>Do thing 1</p>
@@ -380,7 +380,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<ol>
 					<li><p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p></li>
 				</ol>
@@ -415,7 +415,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 					<div class='mud-table-container'>
 						<table>
@@ -466,7 +466,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		var expected =
 			$"""
-			 <article class='mud-markdown-body'>
+			 <article id:ignore class='mud-markdown-body'>
 			    <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 			       <div class='mud-table-container'>
 			          <table>
@@ -512,7 +512,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 			   <div class='mud-table mud-simple-table mud-table-bordered mud-table-striped mud-elevation-1' style='overflow-x: auto;'>
 			      <div class='mud-table-container'>
 			         <table>
@@ -558,7 +558,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>first line</p>
 				<hr class='mud-divider mud-divider-fullwidth'/>
 				<p class='mud-typography mud-typography-body1'>second line</p>
@@ -584,7 +584,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<div class='snippet-clipboard-content overflow-auto'>
 					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='af22cf66-3ea5-4899-bd97-91b4fdc35b82'>
 						<span class='mud-icon-button-label'>
@@ -646,7 +646,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class="mud-markdown-body">
+			<article id:ignore class="mud-markdown-body">
 				<div class="snippet-clipboard-content overflow-auto">
 					<button blazor:onclick="2" type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2" blazor:onclick:stopPropagation blazor:elementReference="">
 						<span class="mud-icon-button-label">

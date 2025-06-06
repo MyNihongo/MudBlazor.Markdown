@@ -7,12 +7,17 @@
 	TableCellMinWidth="100"
 	OverrideLinkUrl="OverrideLink"
 	OverrideHeaderTypo="OverrideHeaderTypo" 
-	CodeBlockTheme="CodeBlockTheme.DraculaBase16" />
+	CodeBlockTheme="CodeBlockTheme.DraculaBase16"
+	HasTableOfContents="HasTableOfContents"
+	TableOfContentsHeader="Table of contents" />
 
 @code
 {
 	[Parameter]
 	public MarkdownResourceType MarkdownResource { get; set; }
+
+	[Parameter]
+	public bool HasTableOfContents { get; set; }
 
 	[Inject]
 	private IMarkdownService MarkdownService { get; init; } = default!;

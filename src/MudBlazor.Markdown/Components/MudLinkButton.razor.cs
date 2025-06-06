@@ -55,13 +55,12 @@ internal sealed class MudLinkButton : MudComponentBase
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		var elementIndex1 = 0;
-
-		builder.OpenElement(elementIndex1++, ElementNames.Span);
-		builder.AddAttribute(elementIndex1++, AttributeNames.Class, Classname);
-		builder.AddAttribute(elementIndex1++, AttributeNames.Style, Style);
-		builder.AddAttribute(elementIndex1++, AttributeNames.OnClick, EventCallback.Factory.Create(this, OnClick));
-		builder.AddContent(elementIndex1, ChildContent);
+		var elementIndex = 0;
+		builder.OpenElement(elementIndex++, ElementNames.Span);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, Classname);
+		builder.AddAttribute(elementIndex++, AttributeNames.Style, Style);
+		builder.AddAttribute(elementIndex++, AttributeNames.OnClick, EventCallback.Factory.Create(this, OnClick));
+		builder.AddContent(elementIndex, ChildContent);
 		builder.CloseElement();
 	}
 

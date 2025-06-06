@@ -15,12 +15,21 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	protected MarkdownPipeline? Pipeline;
 	protected bool EnableLinkNavigation;
+	private MudMarkdownHeadingTree? _markdownHeadingTree;
+	private readonly string _componentId = Guid.NewGuid().ToString("N");
 
 	/// <summary>
 	/// Markdown text to be rendered in the component.
 	/// </summary>
 	[Parameter]
 	public string Value { get; set; } = string.Empty;
+
+	/// <summary>
+	/// The type of source for the markdown content.<br/>
+	/// Default value: <see cref="MarkdownSourceType.RawValue"/>.
+	/// </summary>
+	[Parameter]
+	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
 
 	/// <summary>
 	/// Minimum width (in pixels) for a table cell.<br/>
@@ -45,20 +54,20 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	/// <summary>
 	/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
-	/// If a function is not provided <see cref="LinkInline.Url"/> is used
+	/// If a function is not provided <see cref="LinkInline.Url"/> is used.
 	/// </summary>
 	[Parameter]
 	public Func<LinkInline, string?>? OverrideLinkUrl { get; set; }
 
 	/// <summary>
 	/// Typography variant to use for Heading Level 1-6.<br/>
-	/// If a function is not provided a default typo for each level is set (e.g. for &lt;h1&gt; it will be <see cref="Typo.h1"/>, etc.)
+	/// If a function is not provided a default typo for each level is set (e.g. for &lt;h1&gt; it will be <see cref="Typo.h1"/>, etc.).
 	/// </summary>
 	[Parameter]
 	public Func<Typo, Typo>? OverrideHeaderTypo { get; set; }
 
 	/// <summary>
-	/// Override default styling of the markdown component
+	/// Override default styling of the markdown component.
 	/// </summary>
 	[Parameter]
 	public MudMarkdownStyling Styling { get; set; } = new();
@@ -71,11 +80,18 @@ public class MudMarkdown : ComponentBase, IDisposable
 	public MarkdownPipeline? MarkdownPipeline { get; set; }
 
 	/// <summary>
-	/// The type of source for the markdown content.<br/>
-	/// Default value: <see cref="MarkdownSourceType.RawValue"/>
+	/// Indicates whether a table of contents should be displayed.<br/>
+	/// Default value: <see langword="false" />.
 	/// </summary>
 	[Parameter]
-	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
+	public bool HasTableOfContents { get; set; }
+
+	/// <summary>
+	/// The optional header text to display above the table of contents.<br/>
+	/// Ignored if <see cref="HasTableOfContents" /> is <see langword="false" />.
+	/// </summary>
+	[Parameter]
+	public string? TableOfContentsHeader { get; set; }
 
 	[Inject]
 	protected NavigationManager? NavigationManager { get; init; }
@@ -117,24 +133,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 			.ConfigureAwait(false);
 	}
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
-	{
-		if (string.IsNullOrEmpty(Value))
-			return;
-
-		var pipeline = GetMarkdownPipeLine();
-		var parsedText = Markdown.Parse(Value, pipeline);
-		if (parsedText.Count == 0)
-			return;
-
-		var elementIndex = 0;
-
-		builder.OpenElement(elementIndex++, "article");
-		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-markdown-body");
-		RenderMarkdown(builder, ref elementIndex, parsedText);
-		builder.CloseElement();
-	}
-
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
@@ -155,6 +153,52 @@ public class MudMarkdown : ComponentBase, IDisposable
 		NavigationManager.LocationChanged += NavigationManagerOnLocationChanged;
 	}
 
+	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	{
+		_markdownHeadingTree = null;
+
+		if (string.IsNullOrEmpty(Value))
+			return;
+
+		var pipeline = GetMarkdownPipeLine();
+		var parsedText = Markdown.Parse(Value, pipeline);
+		if (parsedText.Count == 0)
+			return;
+
+		var elementIndex = 0;
+
+		if (HasTableOfContents)
+		{
+			builder.OpenComponent<MudTableOfContents>(elementIndex++);
+			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.Header), TableOfContentsHeader);
+			builder.AddComponentParameter(elementIndex++, nameof(MudTableOfContents.MarkdownComponentId), _componentId);
+			builder.AddComponentParameter(elementIndex, nameof(MudTableOfContents.ChildContent), (RenderFragment<MudMarkdownHeadingTree>)(markdownHeadingTree =>
+			{
+				_markdownHeadingTree = markdownHeadingTree;
+
+				return builder2 =>
+				{
+					var elementIndex2 = 0;
+					RenderMarkdownRoot(builder2, ref elementIndex2, parsedText);
+				};
+			}));
+			builder.CloseComponent();
+		}
+		else
+		{
+			RenderMarkdownRoot(builder, ref elementIndex, parsedText);
+		}
+	}
+
+	protected virtual void RenderMarkdownRoot(RenderTreeBuilder builder, ref int elementIndex, ContainerBlock container)
+	{
+		builder.OpenElement(elementIndex++, "article");
+		builder.AddAttribute(elementIndex++, AttributeNames.Id, _componentId);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, "mud-markdown-body");
+		RenderMarkdown(builder, ref elementIndex, container);
+		builder.CloseElement();
+	}
+
 	protected virtual void RenderMarkdown(RenderTreeBuilder builder, ref int elementIndex, ContainerBlock container)
 	{
 		for (var i = 0; i < container.Count; i++)
@@ -168,13 +212,15 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case HeadingBlock heading:
 				{
-					var typo = (Typo)heading.Level;
-					typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
-
 					EnableLinkNavigation = true;
 
-					var id = heading.BuildIdString();
-					RenderParagraphBlock(builder, ref elementIndex, heading, typo, id);
+					var typo = (Typo)heading.Level;
+					var headingContent = heading.BuildHeadingContent();
+					var isAppended = _markdownHeadingTree?.Append(typo, headingContent);
+
+					typo = OverrideHeaderTypo?.Invoke(typo) ?? typo;
+					var @class = isAppended == true ? "mud-markdown-toc-heading" : null;
+					RenderParagraphBlock(builder, ref elementIndex, heading, typo, headingContent?.Id, @class);
 
 					break;
 				}
@@ -236,7 +282,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	{
 	}
 
-	protected virtual void RenderParagraphBlock(RenderTreeBuilder builder1, ref int elementIndex1, LeafBlock paragraph, Typo typo = Typo.body1, string? id = null)
+	protected virtual void RenderParagraphBlock(RenderTreeBuilder builder1, ref int elementIndex1, LeafBlock paragraph, Typo typo = Typo.body1, string? id = null, string? @class = null)
 	{
 		if (paragraph.Inline == null)
 			return;
@@ -247,6 +293,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 			builder1.AddAttribute(elementIndex1++, AttributeNames.Id, id);
 
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudText.Typo), typo);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudText.Class), @class);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudText.ChildContent), (RenderFragment)(builder2 =>
 		{
 			var elementIndex2 = 0;
@@ -322,7 +369,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.Underline), Styling.Link.Underline);
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.ChildContent), (RenderFragment)(builder2 =>
 						{
-							var  elementIndex2 = 0;
+							var elementIndex2 = 0;
 							RenderInlines(builder2, ref elementIndex2, x);
 						}));
 
@@ -424,7 +471,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(builder2 =>
 		{
 			var elementIndex2 = 0;
-			
+
 			// thead
 			builder2.OpenElement(elementIndex2++, "thead");
 			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", TableCellMinWidth);
@@ -573,7 +620,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		idFragment = idFragment[1..];
 
-		await JsRuntime.InvokeVoidAsync("scrollToElementId", idFragment)
+		await JsRuntime.ScrollToAsync(idFragment, _markdownHeadingTree?.NavMenuDotnetObjectReference)
 			.ConfigureAwait(false);
 	}
 
@@ -582,7 +629,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 	private MarkdownPipeline GetMarkdownPipeLine()
 	{
-		if (MarkdownPipeline != null)
+		if (MarkdownPipeline is not null)
 			return MarkdownPipeline;
 
 		return Pipeline ??= new MarkdownPipelineBuilder()

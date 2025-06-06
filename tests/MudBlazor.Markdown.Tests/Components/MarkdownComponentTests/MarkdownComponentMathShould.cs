@@ -9,7 +9,7 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>\(\sqrt {2}\)</p>
 			</article>
 			""";
@@ -25,7 +25,7 @@ public sealed class MarkdownComponentMathShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>$$\sqrt {2}$$</p>
 			</article>
 			""";

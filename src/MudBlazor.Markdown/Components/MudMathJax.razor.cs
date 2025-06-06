@@ -15,13 +15,12 @@ internal sealed class MudMathJax : ComponentBase
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		var elementIndex1 = 0;
-
 		var delimiter = GetDelimiter(Delimiter);
 
-		builder.AddContent(elementIndex1++, delimiter.Start);
-		builder.AddContent(elementIndex1++, Value);
-		builder.AddContent(elementIndex1, delimiter.End);
+		var elementIndex = 0;
+		builder.AddContent(elementIndex++, delimiter.Start);
+		builder.AddContent(elementIndex++, Value);
+		builder.AddContent(elementIndex, delimiter.End);
 	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)

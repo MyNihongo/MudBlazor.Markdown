@@ -8,16 +8,17 @@ hljs.registerLanguage("razor-cshtml", hljsRazor);
 const codeStylesDir = "code-styles";
 const codeStylesSegment = `/MudBlazor.Markdown/${codeStylesDir}/`;
 
+// HighlightJS
 window.highlightCodeElement = function (element, text, language) {
 	let result;
-	
+
 	try {
-		result = language ? hljs.highlight(text, { language }) : hljs.highlightAuto(text);
+		result = language ? hljs.highlight(text, {language}) : hljs.highlightAuto(text);
 	} catch (e) {
 		console.error(e);
 		result = hljs.highlightAuto(text);
 	}
-	
+
 	element.innerHTML = result.value;
 }
 
@@ -54,22 +55,7 @@ window.setHighlightStylesheet = function (stylesheetPath) {
 	}
 }
 
-window.scrollToElementId = function (elementId) {
-	const element = document.getElementById(elementId);
-	if (element) {
-		const elementIdHref = `#${elementId}`;
-		if (!window.location.pathname.endsWith(elementIdHref)) {
-			history.replaceState(null, "", window.location.pathname + elementIdHref);
-		}
-
-		element.scrollIntoView({
-			behavior: "smooth",
-			block: "start",
-			inline: "nearest"
-		});
-	}
-}
-
+// mathJAX
 window.appendMathJaxScript = function (scriptId) {
 	if (document.getElementById(scriptId)) {
 		return;
@@ -91,11 +77,121 @@ window.refreshMathJaxScript = function () {
 	}
 }
 
-window.copyTextToClipboard = async function (text) {
-	try {
-		await navigator.clipboard.writeText(text);
-		return true;
-	} catch (e) {
-		return false;
+// MudBlazor.Markdown
+window.MudBlazorMarkdown = {
+	scrollToElementId: function (elementId, dotNetReference) {
+		const element = document.getElementById(elementId);
+		if (!element) {
+			return;
+		}
+
+		trySetActiveElementId(elementId);
+		if (dotNetReference) {
+			dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", elementId);
+		}
+
+		MudBlazorMarkdown.tableOfContents.scrollLock++;
+
+		element.scrollIntoView({
+			behavior: "smooth",
+			block: "start",
+			inline: "nearest"
+		});
+
+		// Not the best approach, but will do for now
+		setTimeout(() => {
+			MudBlazorMarkdown.tableOfContents.scrollLock--;
+			if (MudBlazorMarkdown.tableOfContents.scrollLock < 0) {
+				MudBlazorMarkdown.tableOfContents.scrollLock = 0;
+			}
+		}, 1000);
+	},
+	copyTextToClipboard: async function (text) {
+		try {
+			await navigator.clipboard.writeText(text);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	},
+	tableOfContents: {
+		scrollLock: 0,
+		handleRefs: {},
+		activeElementIds: {},
+		startScrollSpy: function (elementId, dotNetReference) {
+			if (!elementId) {
+				return;
+			}
+
+			const element = document.getElementById(elementId);
+			if (!element) {
+				return;
+			}
+
+			const headingElements = element.querySelectorAll('.mud-markdown-toc-heading');
+			if (!headingElements.length) {
+				return;
+			}
+
+			const appBar = document.querySelector(".mud-appbar");
+			const pageTop = appBar?.getBoundingClientRect().height ?? 0;
+
+			const handler = () => {
+				if (MudBlazorMarkdown.tableOfContents.scrollLock > 0) {
+					return;
+				}
+
+				let maxVisibility = -Number.MAX_VALUE, maxVisibilityElementId = undefined;
+				for (const headingElement of headingElements) {
+					const rect = headingElement.getBoundingClientRect();
+					const relativeVisibility = rect.top - pageTop;
+
+					if (relativeVisibility > 0 || relativeVisibility < maxVisibility) {
+						continue;
+					}
+
+					maxVisibility = relativeVisibility;
+					maxVisibilityElementId = headingElement.id;
+				}
+
+				if (!maxVisibilityElementId) {
+					maxVisibilityElementId = headingElements[0]?.id;
+				}
+
+				const currentActiveElementId = this.activeElementIds[elementId];
+				if (maxVisibilityElementId !== currentActiveElementId) {
+					this.activeElementIds[elementId] = maxVisibilityElementId;
+					trySetActiveElementId(maxVisibilityElementId);
+					dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", maxVisibilityElementId);
+				}
+			};
+
+			this.handleRefs[elementId] = handler;
+			document.addEventListener('scroll', handler, true);
+			document.addEventListener('resize', handler, true);
+			handler();
+		},
+		stopScrollSpy: function (identifier) {
+			if (!identifier) {
+				return;
+			}
+
+			const handler = this.handleRefs[identifier];
+			if (!handler) {
+				return;
+			}
+
+			document.removeEventListener('scroll', handler, true);
+			window.removeEventListener('resize', handler, true);
+			delete this.handleRefs[identifier];
+			delete this.activeElementIds[identifier];
+		},
+	},
+};
+
+function trySetActiveElementId(elementId) {
+	const activeElementIdHref = `#${elementId}`;
+	if (!window.location.pathname.endsWith(activeElementIdHref)) {
+		history.replaceState(null, "", window.location.pathname + activeElementIdHref);
 	}
 }

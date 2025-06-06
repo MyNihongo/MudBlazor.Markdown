@@ -21,9 +21,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Markdig" Version="0.41.1" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.4" />
-		<PackageReference Include="MudBlazor" Version="8.6.0" />
+		<PackageReference Include="Markdig" Version="0.41.2" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.5" />
+		<PackageReference Include="MudBlazor" Version="8.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>

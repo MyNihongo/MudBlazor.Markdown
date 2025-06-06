@@ -5,7 +5,7 @@ namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 {
-	private const string MethodIdentifier = "scrollToElementId";
+	private const string MethodIdentifier = "MudBlazorMarkdown.scrollToElementId";
 
 	[Fact]
 	public void InvokeNavigationIfHasId()
@@ -13,10 +13,12 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		Uri = "#tokyo";
 		const string value = "## some text";
 
-		using (CreateFixture(value)) { }
+		using (CreateFixture(value))
+		{
+		}
 
 		MockJsRuntime
-			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "tokyo" }), Times.Once);
+			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "tokyo", null }), Times.Once);
 	}
 
 	[Fact]
@@ -25,7 +27,9 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		Uri = "/tokyo";
 		const string value = "## some text";
 
-		using (CreateFixture(value)) { }
+		using (CreateFixture(value))
+		{
+		}
 
 		MockJsRuntime
 			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, It.IsAny<object[]>()), Times.Never);
@@ -52,14 +56,14 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		MockNavigationManager.NavigateTo("#tokyo");
 
 		MockJsRuntime
-			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "tokyo" }), Times.Once);
+			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "tokyo", null }), Times.Once);
 
 		// Navigate to Sapporo
 		fixture.Find("a[href$='#sapporo']").Click();
 		MockNavigationManager.NavigateTo("#sapporo");
 
 		MockJsRuntime
-			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object[] { "sapporo" }), Times.Once);
+			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "sapporo", null }), Times.Once);
 	}
 
 	[Fact]
@@ -74,7 +78,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						absolute
@@ -107,7 +111,7 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		const string value = @"![img](/tokyo/sky-tree.png)";
 		const string expected =
 			"""
-			<article class='mud-markdown-body'>
+			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					<img src='overridden/tokyo/sky-tree.png' alt='img' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 				</p>

@@ -2,6 +2,7 @@
 global using Markdig;
 global using Markdig.Helpers;
 global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Components.CompilerServices;
 global using Microsoft.AspNetCore.Components.Rendering;
 global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.DependencyInjection;
