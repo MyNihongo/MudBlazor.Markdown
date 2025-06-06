@@ -170,7 +170,7 @@ public sealed class MarkdownComponentTableOfContentsShould : MarkdownComponentTe
 					</div>
 				</div>
 				<div class="mud-markdown-toc-content open">
-					<article id="f7fd9b389ae8422582f3f89a9e4d7628" class="mud-markdown-body">
+					<article id:ignore class="mud-markdown-body">
 						<h1 id="heading-1" class="mud-typography mud-typography-h1 mud-markdown-toc-heading">heading 1</h1>
 						<h2 id="heading-2" class="mud-typography mud-typography-h2 mud-markdown-toc-heading">heading 2</h2>
 						<h3 id="heading-3" class="mud-typography mud-typography-h3 mud-markdown-toc-heading">heading 3</h3>
