@@ -131,7 +131,6 @@ pre code.hljs {
 	opacity: 0;
 	visibility: collapse;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
-	z-index: 1000;
 }
 
 .mud-markdown-toc-drawer-content.open {
