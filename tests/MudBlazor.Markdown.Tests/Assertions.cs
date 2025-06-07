@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using FluentAssertions.Primitives;
 
@@ -14,20 +16,48 @@ internal static class MudMarkdownMemoryCacheEx
 	}
 }
 
-internal sealed class MudMarkdownMemoryCacheAssertions : ObjectAssertions<IMudMarkdownMemoryCache?, MudMarkdownMemoryCacheAssertions>
+internal sealed class MudMarkdownMemoryCacheAssertions(IMudMarkdownMemoryCache? value) : ObjectAssertions<IMudMarkdownMemoryCache?, MudMarkdownMemoryCacheAssertions>(value)
 {
-	public MudMarkdownMemoryCacheAssertions(IMudMarkdownMemoryCache? value)
-		: base(value)
-	{
-	}
+	private FieldInfo? _cacheField;
 
 	public void HaveEmptyCache()
 	{
-		throw new Exception();
+		var memoryCache = GetMemoryCache();
+
+		memoryCache.Count
+			.Should()
+			.Be(0);
 	}
 
 	public void HaveSingleCacheEntry(string key)
 	{
-		throw new Exception();
+		var memoryCache = GetMemoryCache();
+
+		memoryCache.Keys.Count
+			.Should()
+			.Be(1);
+
+		memoryCache.Keys
+			.Cast<string>()
+			.Single()
+			.Should()
+			.Be(key);
+	}
+
+	private IDictionary GetMemoryCache()
+	{
+		var field = GetMemoryCacheField();
+		return (IDictionary?)field.GetValue(Subject) ?? throw new InvalidOperationException("Memory cache is null.");
+	}
+
+	private FieldInfo GetMemoryCacheField()
+	{
+		if (_cacheField is not null)
+			return _cacheField;
+
+		var cacheField = Subject?.GetType()
+			.GetField("_memoryCache", BindingFlags.Instance | BindingFlags.NonPublic);
+
+		return _cacheField = cacheField ?? throw new InvalidOperationException("Cache field not found.");
 	}
 }
