@@ -41,7 +41,7 @@ public sealed class MudMarkdownStyling
 		/// Minimum width (in pixels) for a table cell.<br/>
 		/// If <see langword="null" /> or negative the minimum width is not applied.
 		/// </summary>
-		public int? TableCellMinWidth { get; set; }
+		public int? CellMinWidth { get; set; }
 	}
 
 	/// <summary>

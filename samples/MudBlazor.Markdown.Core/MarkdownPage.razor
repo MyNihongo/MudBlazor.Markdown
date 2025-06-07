@@ -4,10 +4,8 @@
 <MudMarkdown
 	Value="@Value"
 	Styling="Styling"
-	TableCellMinWidth="100"
 	OverrideLinkUrl="OverrideLink"
 	OverrideHeaderTypo="OverrideHeaderTypo" 
-	CodeBlockTheme="CodeBlockTheme.DraculaBase16"
 	HasTableOfContents="HasTableOfContents"
 	TableOfContentsHeader="Table of contents" />
 
@@ -20,11 +18,21 @@
 	public bool HasTableOfContents { get; set; }
 
 	[Inject]
-	private IMarkdownService MarkdownService { get; init; } = default!;
+	private IMarkdownService MarkdownService { get; init; } = null!;
 
 	private string Value { get; set; } = string.Empty;
 
-	private MudMarkdownStyling Styling { get; } = new();
+	private MudMarkdownStyling Styling { get; } = new()
+	{
+		Table =
+		{
+			CellMinWidth = 100,
+		},
+		CodeBlock =
+		{
+			Theme = CodeBlockTheme.DraculaBase16,
+		},
+	};
 
 	protected override async Task OnInitializedAsync()
 	{

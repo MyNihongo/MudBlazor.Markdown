@@ -546,7 +546,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		{
 			Table =
 			{
-				TableCellMinWidth = 200,
+				CellMinWidth = 200,
 			},
 		};
 

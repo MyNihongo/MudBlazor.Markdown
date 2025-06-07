@@ -460,7 +460,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 			// thead
 			builder2.OpenElement(elementIndex2++, "thead");
-			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", Styling.Table.TableCellMinWidth);
+			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", Styling.Table.CellMinWidth);
 			builder2.CloseElement();
 
 			// tbody
