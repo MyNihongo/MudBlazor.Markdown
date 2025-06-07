@@ -2,7 +2,7 @@
 
 public static class ServiceCollectionEx
 {
-	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this, Action<MudMarkdownMemoryCacheEntryOptions>? configureMemoryCache = null)
+	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this, Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache = null)
 	{
 		return @this
 			.AddMudMarkdownCache(configureMemoryCache)
@@ -10,22 +10,18 @@ public static class ServiceCollectionEx
 			.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
 	}
 
-	private static IServiceCollection AddMudMarkdownCache(this IServiceCollection @this, Action<MudMarkdownMemoryCacheEntryOptions>? configureMemoryCache)
+	private static IServiceCollection AddMudMarkdownCache(this IServiceCollection @this, Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache)
 	{
 		return @this
 			.AddOptions()
-			.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>()
-			.Configure<MudMarkdownMemoryCacheEntryOptions>(options =>
+			.Configure<MudMarkdownMemoryCacheOptions>(options =>
 			{
-				if (configureMemoryCache != null)
-				{
+				if (configureMemoryCache is not null)
 					configureMemoryCache(options);
-				}
 				else
-				{
-					options.SlidingExpiration = TimeSpan.FromHours(1);
-				}
-			});
+					options.TimeToLive = TimeSpan.FromHours(1);
+			})
+			.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>();
 	}
 
 	public static IServiceCollection AddMudMarkdownClipboardService<T>(this IServiceCollection @this)
