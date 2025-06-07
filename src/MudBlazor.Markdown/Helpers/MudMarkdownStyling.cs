@@ -36,6 +36,12 @@ public sealed class MudMarkdownStyling
 		/// Child content of component.
 		/// </summary>
 		public int Elevation { set; get; } = 1;
+
+		/// <summary>
+		/// Minimum width (in pixels) for a table cell.<br/>
+		/// If <see langword="null" /> or negative the minimum width is not applied.
+		/// </summary>
+		public int? TableCellMinWidth { get; set; }
 	}
 
 	/// <summary>
@@ -58,7 +64,6 @@ public sealed class MudMarkdownStyling
 		/// Theme of the code block.<br/>
 		/// Browse available themes here: https://highlightjs.org/static/demo/
 		/// </summary>
-		[Parameter]
 		public CodeBlockTheme CodeBlockTheme { get; set; }
 	}
 }

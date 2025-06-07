@@ -32,13 +32,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
 
 	/// <summary>
-	/// Minimum width (in pixels) for a table cell.<br/>
-	/// If <see langword="null" /> or negative the minimum width is not applied.
-	/// </summary>
-	[Parameter]
-	public int? TableCellMinWidth { get; set; }
-
-	/// <summary>
 	/// Command which is invoked when a link is clicked.<br/>
 	/// If <see langword="null" /> a link is opened in the browser.
 	/// </summary>
@@ -467,7 +460,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 			// thead
 			builder2.OpenElement(elementIndex2++, "thead");
-			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", TableCellMinWidth);
+			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", Styling.Table.TableCellMinWidth);
 			builder2.CloseElement();
 
 			// tbody
