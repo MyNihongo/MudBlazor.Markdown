@@ -83,7 +83,7 @@ public sealed class TryGetValueShould : MudMarkdownMemoryCacheTestsBase
 		await Task.Delay(TimeSpan.FromSeconds(1));
 
 		fixture.Set(key, value);
-		await Task.Delay(TimeSpan.FromSeconds(1.5d));
+		await Task.Delay(TimeSpan.FromSeconds(1.01d));
 
 		var actual = fixture.TryGetValue(key, out var actualValue);
 
