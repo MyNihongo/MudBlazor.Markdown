@@ -594,7 +594,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.OpenComponent<MudCodeHighlight>(elementIndex++);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Text), text);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Language), info ?? string.Empty);
-		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Theme), Styling.CodeBlock.CodeBlockTheme);
+		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Theme), Styling.CodeBlock.Theme);
 		builder.CloseComponent();
 	}
 
@@ -611,7 +611,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	}
 
 	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
-		Styling.CodeBlock.CodeBlockTheme = e;
+		Styling.CodeBlock.Theme = e;
 
 	private MarkdownPipeline GetMarkdownPipeLine()
 	{

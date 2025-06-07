@@ -64,6 +64,6 @@ public sealed class MudMarkdownStyling
 		/// Theme of the code block.<br/>
 		/// Browse available themes here: https://highlightjs.org/static/demo/
 		/// </summary>
-		public CodeBlockTheme CodeBlockTheme { get; set; }
+		public CodeBlockTheme Theme { get; set; }
 	}
 }
