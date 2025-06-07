@@ -15,7 +15,11 @@ internal sealed class MudMarkdownMemoryCache : IMudMarkdownMemoryCache
 
 	public MudMarkdownMemoryCache(IOptions<MudMarkdownMemoryCacheOptions> options)
 	{
-		_ttl = Convert.ToInt64(options.Value.TimeToLive.TotalSeconds);
+		var timespan = options.Value.TimeToLive;
+		if (timespan <= TimeSpan.Zero)
+			timespan = TimeSpan.FromHours(1);
+
+		_ttl = Convert.ToInt64(timespan.TotalSeconds);
 	}
 
 	public bool TryGetValue(in string key, out string value)
@@ -28,7 +32,7 @@ internal sealed class MudMarkdownMemoryCache : IMudMarkdownMemoryCache
 		}
 
 		var currentTime = CurrentUnixTimeSeconds();
-		if (entry.ExpiresAt >= currentTime)
+		if (entry.ExpiresAt > currentTime)
 		{
 			value = entry.Value;
 			return true;
