@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using MudBlazor.Markdown.Core.Utils.ServiceRegistration;
 using MudBlazor.Services;
 
@@ -21,8 +20,7 @@ public class Startup
 		services.AddMudServices();
 		services.AddMudMarkdownServices(static cache =>
 		{
-			cache.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-			cache.SlidingExpiration = TimeSpan.FromHours(2);
+			cache.TimeToLive = TimeSpan.FromHours(2);
 		});
 	}
 
