@@ -44,6 +44,15 @@ internal sealed class MudMarkdownMemoryCacheAssertions(IMudMarkdownMemoryCache? 
 			.Be(key);
 	}
 
+	public void HaveKeys(IReadOnlyList<string> keys)
+	{
+		var memoryCache = GetMemoryCache();
+
+		memoryCache.Keys
+			.Should()
+			.BeEquivalentTo(keys);
+	}
+
 	private IDictionary GetMemoryCache()
 	{
 		var field = GetMemoryCacheField();

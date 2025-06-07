@@ -71,4 +71,28 @@ public sealed class TryGetValueShould : MudMarkdownMemoryCacheTestsBase
 			.Should()
 			.HaveEmptyCache();
 	}
+
+	[Fact]
+	public async Task ReturnTrueAfterExtendedExpiresAt()
+	{
+		TimeToLive = TimeSpan.FromSeconds(2);
+		const string key = nameof(key), value = nameof(value);
+
+		var fixture = CreateFixture();
+		fixture.Set(key, value);
+		await Task.Delay(TimeSpan.FromSeconds(1));
+
+		fixture.Set(key, value);
+		await Task.Delay(TimeSpan.FromSeconds(1.5d));
+
+		var actual = fixture.TryGetValue(key, out var actualValue);
+
+		actual
+			.Should()
+			.BeTrue();
+
+		actualValue
+			.Should()
+			.Be(value);
+	}
 }
