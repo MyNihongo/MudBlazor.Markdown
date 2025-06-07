@@ -32,25 +32,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 	public MarkdownSourceType SourceType { get; set; } = MarkdownSourceType.RawValue;
 
 	/// <summary>
-	/// Minimum width (in pixels) for a table cell.<br/>
-	/// If <see langword="null" /> or negative the minimum width is not applied.
-	/// </summary>
-	[Parameter]
-	public int? TableCellMinWidth { get; set; }
-
-	/// <summary>
 	/// Command which is invoked when a link is clicked.<br/>
 	/// If <see langword="null" /> a link is opened in the browser.
 	/// </summary>
 	[Parameter]
 	public ICommand? LinkCommand { get; set; }
-
-	/// <summary>
-	/// Theme of the code block.<br/>
-	/// Browse available themes here: https://highlightjs.org/static/demo/
-	/// </summary>
-	[Parameter]
-	public CodeBlockTheme CodeBlockTheme { get; set; }
 
 	/// <summary>
 	/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
@@ -474,7 +460,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 			// thead
 			builder2.OpenElement(elementIndex2++, "thead");
-			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", TableCellMinWidth);
+			RenderTableRow(builder2, ref elementIndex2, (TableRow)table[0], "th", Styling.Table.CellMinWidth);
 			builder2.CloseElement();
 
 			// tbody
@@ -608,7 +594,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.OpenComponent<MudCodeHighlight>(elementIndex++);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Text), text);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Language), info ?? string.Empty);
-		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Theme), CodeBlockTheme);
+		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Theme), Styling.CodeBlock.Theme);
 		builder.CloseComponent();
 	}
 
@@ -625,7 +611,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	}
 
 	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
-		CodeBlockTheme = e;
+		Styling.CodeBlock.Theme = e;
 
 	private MarkdownPipeline GetMarkdownPipeLine()
 	{

@@ -11,18 +11,16 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 
 	protected IRenderedComponent<MudMarkdown> CreateFixture(
 		string? value,
-		Optional<ICommand?> command = default, Optional<int?> tableCellMinWidth = default,
-		Optional<Func<LinkInline, string?>?> overrideLinkUrl = default, Optional<Func<Typo, Typo>?> overrideHeaderTypo = default,
-		Optional<MudMarkdownStyling> styling = default, Optional<MarkdownPipeline?> markdownPipeline = default,
-		Optional<MarkdownSourceType> sourceType = default, Optional<bool> hasTableOfContents = default,
-		Optional<string?> tableOfContentsHeader = default)
+		Optional<ICommand?> command = default, Optional<Func<LinkInline, string?>?> overrideLinkUrl = default,
+		Optional<Func<Typo, Typo>?> overrideHeaderTypo = default, Optional<MudMarkdownStyling> styling = default,
+		Optional<MarkdownPipeline?> markdownPipeline = default, Optional<MarkdownSourceType> sourceType = default,
+		Optional<bool> hasTableOfContents = default, Optional<string?> tableOfContentsHeader = default)
 	{
 		MockNavigationManager.Initialize(Uri);
 
 		return Ctx.RenderComponent<MudMarkdown>(@params =>
 			@params.Add(static x => x.Value, value!)
 				.TryAdd(static x => x.LinkCommand, command)
-				.TryAdd(static x => x.TableCellMinWidth, tableCellMinWidth)
 				.TryAdd(static x => x.OverrideLinkUrl, overrideLinkUrl)
 				.TryAdd(static x => x.OverrideHeaderTypo, overrideHeaderTypo)
 				.TryAdd(static x => x.Styling, styling)

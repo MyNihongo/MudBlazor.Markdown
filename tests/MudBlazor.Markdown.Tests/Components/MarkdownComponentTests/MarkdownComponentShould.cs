@@ -542,7 +542,15 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			</article>
 			""";
 
-		using var fixture = CreateFixture(value, tableCellMinWidth: 200);
+		var styling = new MudMarkdownStyling
+		{
+			Table =
+			{
+				CellMinWidth = 200,
+			},
+		};
+
+		using var fixture = CreateFixture(value, styling: styling);
 		fixture.MarkupMatches(expected);
 	}
 
