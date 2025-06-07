@@ -16,7 +16,7 @@ public static class ServiceCollectionEx
 			.AddOptions()
 			.Configure<MudMarkdownMemoryCacheOptions>(options =>
 			{
-				if (configureMemoryCache != null)
+				if (configureMemoryCache is not null)
 					configureMemoryCache(options);
 				else
 					options.TimeToLive = TimeSpan.FromHours(1);
