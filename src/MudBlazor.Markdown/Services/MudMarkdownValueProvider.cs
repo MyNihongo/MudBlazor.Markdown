@@ -5,13 +5,11 @@ namespace MudBlazor;
 internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 {
 	private readonly IMudMarkdownMemoryCache _memoryCache;
-	private readonly MemoryCacheEntryOptions _memoryCacheEntryOptions;
 	private static readonly HttpClient HttpClient = new();
 
-	public MudMarkdownValueProvider(IMudMarkdownMemoryCache memoryCache, IOptions<MudMarkdownMemoryCacheEntryOptions> options)
+	public MudMarkdownValueProvider(IMudMarkdownMemoryCache memoryCache)
 	{
 		_memoryCache = memoryCache;
-		_memoryCacheEntryOptions = options.Value;
 	}
 
 	public async ValueTask<string> GetValueAsync(string value, MarkdownSourceType sourceType, CancellationToken ct = default)
@@ -27,7 +25,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 
 	private async ValueTask<string> ReadFromFileAsync(string path, CancellationToken ct = default)
 	{
-		if (_memoryCache.TryGetValue<string>(path, out var value) && value is not null)
+		if (_memoryCache.TryGetValue(path, out var value))
 			return value;
 
 		try
@@ -38,7 +36,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 			value = await reader.ReadToEndAsync(ct)
 				.ConfigureAwait(false);
 
-			_memoryCache.Set(path, value, _memoryCacheEntryOptions);
+			_memoryCache.Set(path, value);
 			return value;
 		}
 		catch (Exception e)
@@ -51,7 +49,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 
 	private async ValueTask<string> ReadFromUrlAsync(string url, CancellationToken ct = default)
 	{
-		if (_memoryCache.TryGetValue<string>(url, out var value) && value is not null)
+		if (_memoryCache.TryGetValue(url, out var value))
 			return value;
 
 		try
@@ -59,7 +57,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 			value = await HttpClient.GetStringAsync(url, ct)
 				.ConfigureAwait(false);
 
-			_memoryCache.Set(url, value, _memoryCacheEntryOptions);
+			_memoryCache.Set(url, value);
 			return value;
 		}
 		catch (Exception e)
