@@ -12,6 +12,14 @@ public sealed class MudMarkdownStyling
 	/// </summary>
 	public LinkStyling Link { get; } = new();
 
+	/// <summary>
+	/// Styling properties for the code block.
+	/// </summary>
+	public CodeBlockStyling CodeBlock { get; } = new();
+
+	/// <summary>
+	/// Styling properties for the table.
+	/// </summary>
 	public sealed class TableStyling
 	{
 		/// <summary>
@@ -30,8 +38,27 @@ public sealed class MudMarkdownStyling
 		public int Elevation { set; get; } = 1;
 	}
 
+	/// <summary>
+	/// Styling properties for the link.
+	/// </summary>
 	public sealed class LinkStyling
 	{
+		/// <summary>
+		/// Underline style.
+		/// </summary>
 		public Underline Underline { get; set; } = Underline.Hover;
+	}
+
+	/// <summary>
+	/// Styling properties for the code block.
+	/// </summary>
+	public sealed class CodeBlockStyling
+	{
+		/// <summary>
+		/// Theme of the code block.<br/>
+		/// Browse available themes here: https://highlightjs.org/static/demo/
+		/// </summary>
+		[Parameter]
+		public CodeBlockTheme CodeBlockTheme { get; set; }
 	}
 }
