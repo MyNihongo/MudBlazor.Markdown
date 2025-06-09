@@ -10,3 +10,4 @@ global using MudBlazor.Utilities;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MudBlazor.Markdown.Tests")]
+[assembly: InternalsVisibleTo("MudBlazor.Markdown.Benchmarks")]
