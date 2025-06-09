@@ -19,9 +19,9 @@ internal static class HeadingBlockEx
 		return new HeadingContent(headingId, headingText);
 	}
 
-	private static string BuildHeadingId(in ContainerInline inline)
+	private static string BuildHeadingId(in ContainerInline containerInline)
 	{
-		var slices = inline
+		var slices = containerInline
 			.Select(static x => x.GetHeadingIdContent())
 			.Where(static x => x.Length > 0);
 
@@ -45,9 +45,9 @@ internal static class HeadingBlockEx
 		return HttpUtility.UrlEncode(str);
 	}
 
-	private static string BuildHeadingText(in ContainerInline inline)
+	private static string BuildHeadingText(in ContainerInline containerInline)
 	{
-		var slices = inline
+		var slices = containerInline
 			.Select(static x => x.GetInlineContent())
 			.Where(static x => x.Length > 0);
 
