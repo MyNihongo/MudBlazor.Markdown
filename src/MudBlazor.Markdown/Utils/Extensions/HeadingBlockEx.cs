@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System.Buffers;
+using System.Text;
+using System.Web;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
@@ -9,23 +11,47 @@ internal static class HeadingBlockEx
 	private const char JoinChar = '-';
 	private static readonly string[] EscapeChars = ["+", ":", "&"];
 
+	private static readonly SearchValues<char> SplitChars = SearchValues.Create(" ");
+
 	public static HeadingContent? BuildHeadingContent(this HeadingBlock @this)
 	{
 		if (@this.Inline == null)
 			return null;
 
-		var headingId = BuildHeadingId(@this.Inline);
-		var headingText = BuildHeadingText(@this.Inline);
+		var stringBuilder = new StringBuilder();
+		var headingId = BuildHeadingId(@this.Inline, stringBuilder);
+		var headingText = BuildHeadingText(@this.Inline, stringBuilder);
 		return new HeadingContent(headingId, headingText);
 	}
 
-	private static string BuildHeadingId(in ContainerInline containerInline)
+	private static string BuildHeadingId(in ContainerInline containerInline, in StringBuilder stringBuilder)
 	{
-		var slices = containerInline
-			.Select(static x => x.GetHeadingIdContent())
-			.Where(static x => x.Length > 0);
+		stringBuilder.Clear();
 
-		return string.Join(JoinChar, slices);
+		foreach (var inline in containerInline)
+		{
+			if (inline is not LiteralInline literalInline || literalInline.Content.IsEmpty)
+				continue;
+
+			var span = literalInline.Content.AsSpan();
+
+			while (!span.IsEmpty)
+			{
+				var endIndex = span.IndexOfAny(SplitChars);
+				if (endIndex < 0)
+					break;
+
+				stringBuilder
+					.AppendLowerCase(span, endIndex)
+					.Append(JoinChar);
+
+				span = span[(endIndex + 1)..];
+			}
+
+			stringBuilder.AppendLowerCase(span);
+		}
+
+		return stringBuilder.ToString();
 	}
 
 	private static string GetHeadingIdContent(this Inline @this)
@@ -45,8 +71,10 @@ internal static class HeadingBlockEx
 		return HttpUtility.UrlEncode(str);
 	}
 
-	private static string BuildHeadingText(in ContainerInline containerInline)
+	private static string BuildHeadingText(in ContainerInline containerInline, in StringBuilder stringBuilder)
 	{
+		stringBuilder.Clear();
+
 		var slices = containerInline
 			.Select(static x => x.GetInlineContent())
 			.Where(static x => x.Length > 0);

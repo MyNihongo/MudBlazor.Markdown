@@ -2,6 +2,7 @@
 
 internal static class StringSliceEx
 {
+	[Obsolete]
 	public static string ToLowerCaseString(this StringSlice @this)
 	{
 		var text = @this.Text;
