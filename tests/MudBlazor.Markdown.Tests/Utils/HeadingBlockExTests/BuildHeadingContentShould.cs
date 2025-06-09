@@ -55,4 +55,20 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 			.Should()
 			.Be(expected);
 	}
+
+	[Fact]
+	public void EncodeHtmlCharacters()
+	{
+		const string value = "# Some text (日本語)";
+		const string expectedId = "some-text-(%e6%97%a5%e6%9c%ac%e8%aa%9e)", expectedText = "Some text (日本語)";
+
+		var result = CreateFixture(value)
+			.BuildHeadingContent();
+
+		var expected = new HeadingContent(expectedId, expectedText);
+
+		result
+			.Should()
+			.Be(expected);
+	}
 }
