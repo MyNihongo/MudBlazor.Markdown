@@ -16,22 +16,15 @@ internal static class HeadingBlockEx
 		if (@this.Inline == null)
 			return null;
 
-		var stringBuilder = new StringBuilder();
-		var headingId = BuildHeadingId(@this.Inline, stringBuilder);
-		var headingText = BuildHeadingText(@this.Inline, stringBuilder);
-		return new HeadingContent(headingId, headingText);
-	}
+		StringBuilder headingId = new(), headingText = new();
 
-	private static string BuildHeadingId(in ContainerInline containerInline, in StringBuilder stringBuilder)
-	{
-		stringBuilder.Clear();
-
-		foreach (var inline in containerInline)
+		foreach (var inline in @this.Inline)
 		{
 			if (inline is not LiteralInline literalInline || literalInline.Content.IsEmpty)
 				continue;
 
 			var span = literalInline.Content.AsSpan();
+			headingText.Append(span);
 
 			while (!span.IsEmpty)
 			{
@@ -41,7 +34,7 @@ internal static class HeadingBlockEx
 
 				if (endIndex > 0)
 				{
-					stringBuilder
+					headingId
 						.AppendLowerCase(span, endIndex)
 						.Append(JoinChar);
 				}
@@ -49,25 +42,12 @@ internal static class HeadingBlockEx
 				span = span[(endIndex + 1)..];
 			}
 
-			stringBuilder.AppendLowerCase(span);
+			headingId.AppendLowerCase(span);
 		}
 
-		return WebUtility.UrlEncode(stringBuilder.ToString());
-	}
-
-	private static string BuildHeadingText(in ContainerInline containerInline, in StringBuilder stringBuilder)
-	{
-		stringBuilder.Clear();
-
-		foreach (var inline in containerInline)
-		{
-			if (inline is not LiteralInline literalInline || literalInline.Content.IsEmpty)
-				continue;
-
-			var span = literalInline.Content.AsSpan();
-			stringBuilder.Append(span);
-		}
-
-		return stringBuilder.ToString();
+		return new HeadingContent(
+			id: WebUtility.UrlEncode(headingId.ToString()),
+			text: headingText.ToString()
+		);
 	}
 }
