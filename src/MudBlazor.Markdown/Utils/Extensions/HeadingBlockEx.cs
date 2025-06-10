@@ -1,6 +1,6 @@
 ﻿using System.Buffers;
+using System.Net;
 using System.Text;
-using System.Web;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
@@ -9,9 +9,8 @@ namespace MudBlazor;
 internal static class HeadingBlockEx
 {
 	private const char JoinChar = '-';
-	private static readonly string[] EscapeChars = ["+", ":", "&"];
 
-	private static readonly SearchValues<char> SplitChars = SearchValues.Create(" ");
+	private static readonly SearchValues<char> SplitChars = SearchValues.Create([' ']);
 
 	public static HeadingContent? BuildHeadingContent(this HeadingBlock @this)
 	{
@@ -54,25 +53,7 @@ internal static class HeadingBlockEx
 			stringBuilder.AppendLowerCase(span);
 		}
 
-		var result = stringBuilder.ToString();
-		return HttpUtility.UrlEncode(result);
-	}
-
-	private static string GetHeadingIdContent(this Inline @this)
-	{
-		var sliceString = @this.GetInlineContent(toLowerCase: true);
-		return PrepareHeadingIdContent(sliceString);
-	}
-
-	private static string PrepareHeadingIdContent(this string @this)
-	{
-		var words = @this.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-		var str = string.Join(JoinChar, words);
-
-		for (var i = 0; i < EscapeChars.Length; i++)
-			str = str.Replace(EscapeChars[i], string.Empty);
-
-		return HttpUtility.UrlEncode(str);
+		return WebUtility.UrlEncode(stringBuilder.ToString());
 	}
 
 	private static string BuildHeadingText(in ContainerInline containerInline, in StringBuilder stringBuilder)

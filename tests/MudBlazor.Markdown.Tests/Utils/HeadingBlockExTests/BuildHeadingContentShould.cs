@@ -38,8 +38,8 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 	}
 
 	[Theory]
-	[InlineData('+', "%2b")]
-	[InlineData(':', "%3a")]
+	[InlineData('+', "%2B")]
+	[InlineData(':', "%3A")]
 	[InlineData('&', "%26")]
 	public void EncodeSpecialCharacters(char inputChar, string expectedChar)
 	{
@@ -60,7 +60,7 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 	public void EncodeHtmlCharacters()
 	{
 		const string value = "# Some text (日本語)";
-		const string expectedId = "some-text-(%e6%97%a5%e6%9c%ac%e8%aa%9e)", expectedText = "Some text (日本語)";
+		const string expectedId = "some-text-(%E6%97%A5%E6%9C%AC%E8%AA%9E)", expectedText = "Some text (日本語)";
 
 		var result = CreateFixture(value)
 			.BuildHeadingContent();
