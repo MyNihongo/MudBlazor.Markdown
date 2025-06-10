@@ -569,7 +569,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class='mud-markdown-body'>
-				<h3 id='my-table' class='mud-typography mud-typography-h3'>My Table:</h3>
+				<h3 id='my-table%3a' class='mud-typography mud-typography-h3'>My Table:</h3>
 				<p class='mud-typography mud-typography-body1'>
 					<div class='mud-markdown-error'>
 						| **Column 1** | **Column 2**   | **Column 3**                |

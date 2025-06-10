@@ -38,13 +38,13 @@ public sealed class BuildHeadingContentShould : BuildIdStringShouldTestsBase
 	}
 
 	[Theory]
-	[InlineData('+')]
-	[InlineData(':')]
-	[InlineData('&')]
-	public void EscapeCharacters(char inputChar)
+	[InlineData('+', "%2b")]
+	[InlineData(':', "%3a")]
+	[InlineData('&', "%26")]
+	public void EncodeSpecialCharacters(char inputChar, string expectedChar)
 	{
-		const string expectedId = "some--text";
-		string expectedText = $"some {inputChar} text", value = $"# {expectedText}";
+		var value = $"# some {inputChar} text";
+		string expectedId = $"some-{expectedChar}-text", expectedText = $"some {inputChar} text";
 
 		var result = CreateFixture(value)
 			.BuildHeadingContent();

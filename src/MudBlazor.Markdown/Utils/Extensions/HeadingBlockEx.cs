@@ -41,9 +41,12 @@ internal static class HeadingBlockEx
 				if (endIndex < 0)
 					break;
 
-				stringBuilder
-					.AppendLowerCase(span, endIndex)
-					.Append(JoinChar);
+				if (endIndex > 0)
+				{
+					stringBuilder
+						.AppendLowerCase(span, endIndex)
+						.Append(JoinChar);
+				}
 
 				span = span[(endIndex + 1)..];
 			}
@@ -51,7 +54,8 @@ internal static class HeadingBlockEx
 			stringBuilder.AppendLowerCase(span);
 		}
 
-		return stringBuilder.ToString();
+		var result = stringBuilder.ToString();
+		return HttpUtility.UrlEncode(result);
 	}
 
 	private static string GetHeadingIdContent(this Inline @this)
