@@ -8,9 +8,8 @@ namespace MudBlazor;
 
 internal static class HeadingBlockEx
 {
-	private const char JoinChar = '-';
-
-	private static readonly SearchValues<char> SplitChars = SearchValues.Create([' ']);
+	private const char JoinChar = '-', SpaceChar = ' ';
+	private static readonly SearchValues<char> SplitChars = SearchValues.Create([SpaceChar]);
 
 	public static HeadingContent? BuildHeadingContent(this HeadingBlock @this)
 	{
@@ -60,23 +59,15 @@ internal static class HeadingBlockEx
 	{
 		stringBuilder.Clear();
 
-		var slices = containerInline
-			.Select(static x => x.GetInlineContent())
-			.Where(static x => x.Length > 0);
-
-		return string.Join(' ', slices);
-	}
-
-	private static string GetInlineContent(this Inline @this, bool toLowerCase = false)
-	{
-		var slice = @this switch
+		foreach (var inline in containerInline)
 		{
-			LiteralInline x => x.Content,
-			_ => StringSlice.Empty,
-		};
+			if (inline is not LiteralInline literalInline || literalInline.Content.IsEmpty)
+				continue;
 
-		return toLowerCase
-			? slice.ToLowerCaseString()
-			: slice.ToString();
+			var span = literalInline.Content.AsSpan();
+			stringBuilder.Append(span);
+		}
+
+		return stringBuilder.ToString();
 	}
 }
