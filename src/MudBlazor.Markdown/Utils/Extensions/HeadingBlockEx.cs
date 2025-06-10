@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System.Buffers;
+using System.Net;
+using System.Text;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 
@@ -6,64 +8,46 @@ namespace MudBlazor;
 
 internal static class HeadingBlockEx
 {
-	private const char JoinChar = '-';
-	private static readonly string[] EscapeChars = ["+", ":", "&"];
+	private const char JoinChar = '-', SpaceChar = ' ';
+	private static readonly SearchValues<char> SplitChars = SearchValues.Create([SpaceChar]);
 
 	public static HeadingContent? BuildHeadingContent(this HeadingBlock @this)
 	{
 		if (@this.Inline == null)
 			return null;
 
-		var headingId = BuildHeadingId(@this.Inline);
-		var headingText = BuildHeadingText(@this.Inline);
-		return new HeadingContent(headingId, headingText);
-	}
+		StringBuilder headingId = new(), headingText = new();
 
-	private static string BuildHeadingId(in ContainerInline inline)
-	{
-		var slices = inline
-			.Select(static x => x.GetHeadingIdContent())
-			.Where(static x => x.Length > 0);
-
-		return string.Join(JoinChar, slices);
-	}
-
-	private static string GetHeadingIdContent(this Inline @this)
-	{
-		var sliceString = @this.GetInlineContent(toLowerCase: true);
-		return PrepareHeadingIdContent(sliceString);
-	}
-
-	private static string PrepareHeadingIdContent(this string @this)
-	{
-		var words = @this.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-		var str = string.Join(JoinChar, words);
-
-		for (var i = 0; i < EscapeChars.Length; i++)
-			str = str.Replace(EscapeChars[i], string.Empty);
-
-		return HttpUtility.UrlEncode(str);
-	}
-
-	private static string BuildHeadingText(in ContainerInline inline)
-	{
-		var slices = inline
-			.Select(static x => x.GetInlineContent())
-			.Where(static x => x.Length > 0);
-
-		return string.Join(' ', slices);
-	}
-
-	private static string GetInlineContent(this Inline @this, bool toLowerCase = false)
-	{
-		var slice = @this switch
+		foreach (var inline in @this.Inline)
 		{
-			LiteralInline x => x.Content,
-			_ => StringSlice.Empty,
-		};
+			if (inline is not LiteralInline literalInline || literalInline.Content.IsEmpty)
+				continue;
 
-		return toLowerCase
-			? slice.ToLowerCaseString()
-			: slice.ToString();
+			var span = literalInline.Content.AsSpan();
+			headingText.Append(span);
+
+			while (!span.IsEmpty)
+			{
+				var endIndex = span.IndexOfAny(SplitChars);
+				if (endIndex < 0)
+					break;
+
+				if (endIndex > 0)
+				{
+					headingId
+						.AppendLowerCase(span, endIndex)
+						.Append(JoinChar);
+				}
+
+				span = span[(endIndex + 1)..];
+			}
+
+			headingId.AppendLowerCase(span);
+		}
+
+		return new HeadingContent(
+			id: WebUtility.UrlEncode(headingId.ToString()),
+			text: headingText.ToString()
+		);
 	}
 }
