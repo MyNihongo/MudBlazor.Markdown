@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>MudBlazor</RootNamespace>
-		<Version>8.6.0</Version>
+		<Version>8.7.0</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
 		<Copyright>Copyright © 2025 MyNihongo</Copyright>
