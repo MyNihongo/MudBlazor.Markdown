@@ -7,7 +7,7 @@
 		<MudMarkdown
 			Value="@Path.Combine(BaseDirectory, "Resources", "test.md")"
 			SourceType="MarkdownSourceType.File"
-			CodeBlockTheme="Theme"
+			Styling="Styling"
 		/>
 	</MudCardContent>
 </MudCard>
@@ -19,7 +19,7 @@
 		<MudMarkdown
 			Value="i dont exist.md"
 			SourceType="MarkdownSourceType.File"
-			CodeBlockTheme="Theme"
+			Styling="Styling"
 		/>
 	</MudCardContent>
 </MudCard>
@@ -31,7 +31,7 @@
 		<MudMarkdown
 			Value="https://raw.githubusercontent.com/MyNihongo/MudBlazor.Markdown/refs/heads/main/README.md"
 			SourceType="MarkdownSourceType.Url"
-			CodeBlockTheme="Theme"
+			Styling="Styling"
 		/>
 	</MudCardContent>
 </MudCard>
@@ -43,7 +43,7 @@
 		<MudMarkdown
 			Value="bad url"
 			SourceType="MarkdownSourceType.Url"
-			CodeBlockTheme="Theme"
+			Styling="Styling"
 		/>
 	</MudCardContent>
 </MudCard>
@@ -51,6 +51,14 @@
 @code
 {
 	private const CodeBlockTheme Theme = CodeBlockTheme.DraculaBase16;
+
+	private static readonly MudMarkdownStyling Styling = new()
+	{
+		CodeBlock =
+		{
+			Theme = Theme,
+		},
+	};
 
 	private static string BaseDirectory => AppDomain.CurrentDomain.BaseDirectory;
 }

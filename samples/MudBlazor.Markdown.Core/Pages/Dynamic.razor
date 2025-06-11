@@ -3,11 +3,19 @@
 @* Code block *@
 <MudText Typo="Typo.h2">Dynamic code block</MudText>
 <MudButton OnClick="UpdateCodeBlock" Variant="Variant.Filled">Update code block</MudButton>
-<MudMarkdown Value="@CodeBlockMarkdown" CodeBlockTheme="CodeBlockTheme.DraculaBase16"/>
+<MudMarkdown Value="@CodeBlockMarkdown" Styling="Styling" />
 
 @code {
 	private string _codeBlock = "myVar := 123";
 	private string CodeBlockMarkdown => "```go" + Environment.NewLine + _codeBlock + Environment.NewLine + "```";
+	
+	private MudMarkdownStyling Styling { get; } = new()
+	{
+		CodeBlock =
+		{
+			Theme = CodeBlockTheme.DraculaBase16,
+		},
+	};
 
 	private async Task UpdateCodeBlock()
 	{
