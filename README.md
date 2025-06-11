@@ -4,7 +4,11 @@
 
 This README covers configuration steps for Blazor Server and Blazor WebAssembly. For images of how the markup component looks like in the browser go to the [README of samples](/samples).
 
-## Getting started
+## 📘 Documentation
+- 🌐 [MudBlazor.Markdown](https://github.com/MyNihongo/MudBlazor.Markdown/wiki/) - Wiki page
+- ⚡ [Try.MudBlazor.com](https://try.mudblazor.com/) - Interactive playground
+
+## 🚀 Getting started
 > NB! MudBlazor does not work well with the static SSR format because some code is executed in `OnAfterRender` or `OnAfterRenderAsync` that is not invoked by default.  
 > Specify `@rendermode="InteractiveServer"` on the markdown component to make it work (e.g. `<MudMarkdown @rendermode="InteractiveServer" Value="some markdown here" />`)
 
@@ -56,7 +60,7 @@ builder.Services.AddMudMarkdownServices();
 // NB! MauiClipboardService is just an example
 builder.Services.AddMudMarkdownClipboardService<MauiClipboardService>();
 ```
-## Using the component
+## 💻 Example Usage
 ```razor
 <MudText Typo="Typo.h3">My markdown</MudText>
 <MudMarkdown Value="@Value" />
