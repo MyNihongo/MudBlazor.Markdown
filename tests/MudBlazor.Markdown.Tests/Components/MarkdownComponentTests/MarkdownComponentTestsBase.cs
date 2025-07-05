@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 using Markdig;
-using Markdig.Syntax.Inlines;
-using MyNihongo.Option;
 
 namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
@@ -11,8 +9,7 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 
 	protected IRenderedComponent<MudMarkdown> CreateFixture(
 		string? value,
-		Optional<ICommand?> command = default, Optional<Func<LinkInline, string?>?> overrideLinkUrl = default,
-		Optional<Func<Typo, Typo>?> overrideHeaderTypo = default, Optional<MudMarkdownStyling> styling = default,
+		Optional<MudMarkdownProps> props = default, Optional<MudMarkdownStyling> styling = default,
 		Optional<MarkdownPipeline?> markdownPipeline = default, Optional<MarkdownSourceType> sourceType = default,
 		Optional<bool> hasTableOfContents = default, Optional<string?> tableOfContentsHeader = default)
 	{
@@ -20,15 +17,13 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 
 		return Ctx.RenderComponent<MudMarkdown>(@params =>
 			@params.Add(static x => x.Value, value!)
-				.TryAdd(static x => x.LinkCommand, command)
-				.TryAdd(static x => x.OverrideLinkUrl, overrideLinkUrl)
-				.TryAdd(static x => x.OverrideHeaderTypo, overrideHeaderTypo)
+				.TryAdd(static x => x.Props, props)
 				.TryAdd(static x => x.Styling, styling)
 				.TryAdd(static x => x.MarkdownPipeline, markdownPipeline)
 				.TryAdd(static x => x.SourceType, sourceType)
 				.TryAdd(static x => x.HasTableOfContents, hasTableOfContents)
 				.TryAdd(static x => x.TableOfContentsHeader, tableOfContentsHeader)
-			);
+		);
 	}
 
 	protected static MarkdownPipeline? GetMarkdownPipeline(MudMarkdown fixture)

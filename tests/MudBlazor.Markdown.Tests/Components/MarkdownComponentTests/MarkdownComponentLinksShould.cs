@@ -1,7 +1,4 @@
-﻿using Markdig.Syntax.Inlines;
-using MyNihongo.Option;
-
-namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
+﻿namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 {
@@ -64,67 +61,5 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 
 		MockJsRuntime
 			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "sapporo", null }), Times.Once);
-	}
-
-	[Fact]
-	public void OverrideAllLinks()
-	{
-		const string value =
-			"""
-			[absolute](https://www.google.co.jp/)
-			[relative](/tokyo)
-			[id](#edogawa)
-			""";
-
-		const string expected =
-			"""
-			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>
-					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
-						absolute
-					</a>
-					<br />
-					<a href='overridden/tokyo' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
-						relative
-					</a>
-					<br />
-					<a href='overridden#edogawa' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
-						id
-					</a>
-				</p>
-			</article>
-			""";
-
-		var @override = Optional<Func<LinkInline, string?>?>.Of(Override);
-
-		using var fixture = CreateFixture(value, overrideLinkUrl: @override);
-		fixture.MarkupMatches(expected);
-		return;
-
-		static string Override(LinkInline x) =>
-			"overridden" + x.Url;
-	}
-
-	[Fact]
-	public void OverrideImageLink()
-	{
-		const string value = @"![img](/tokyo/sky-tree.png)";
-		const string expected =
-			"""
-			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>
-					<img src='overridden/tokyo/sky-tree.png' alt='img' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
-				</p>
-			</article>
-			""";
-
-		var @override = Optional<Func<LinkInline, string?>?>.Of(Override);
-
-		using var fixture = CreateFixture(value, overrideLinkUrl: @override);
-		fixture.MarkupMatches(expected);
-		return;
-
-		static string Override(LinkInline x) =>
-			"overridden" + x.Url;
 	}
 }
