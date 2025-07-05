@@ -46,6 +46,10 @@ pre code.hljs {
 	margin: 1.25em 0;
 }
 
+.mud-markdown-body table p {
+	margin-bottom: 0 !important;
+}
+
 /* Link */
 .mud-markdown-body .mud-link:hover {
 	cursor: pointer !important;
