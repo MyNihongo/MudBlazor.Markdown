@@ -346,7 +346,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 						if (url.IsExternalUri(NavigationManager?.BaseUri))
 						{
-							builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.Target), "_blank");
+							if (!Props.Link.DisableTargetBlank)
+								builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.Target), "_blank");
+
 							builder1.AddAttribute(elementIndex1++, AttributeNames.LinkRelation, "noopener noreferrer");
 						}
 						// (prevent scrolling to the top of the page)

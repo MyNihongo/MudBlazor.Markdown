@@ -320,4 +320,31 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value, props: props);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void RenderExternalLinkWithoutTarget()
+	{
+		const string value = "[link display](https://mudblazor.com/)";
+		const string expected =
+			"""
+			<article id:ignore class="mud-markdown-body">
+				<p class="mud-typography mud-typography-body1">
+					<a rel="noopener noreferrer" href="https://mudblazor.com/" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1">
+						link display
+					</a>
+				</p>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Link =
+			{
+				DisableTargetBlank = true,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+	}
 }
