@@ -42,6 +42,14 @@ public sealed class MudMarkdownStyling
 		/// If <see langword="null" /> or negative the minimum width is not applied.
 		/// </summary>
 		public int? CellMinWidth { get; set; }
+
+		/// <summary>
+		/// Uses compact padding for all rows.
+		/// </summary>
+		/// <remarks>
+		/// Defaults to <c>false</c>.
+		/// </remarks>
+		public bool Dense { get; set; }
 	}
 
 	/// <summary>

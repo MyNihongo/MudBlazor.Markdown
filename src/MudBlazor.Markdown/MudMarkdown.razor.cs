@@ -454,6 +454,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.Striped), Styling.Table.IsStriped);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.Bordered), Styling.Table.IsBordered);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.Elevation), Styling.Table.Elevation);
+		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.Dense), Styling.Table.Dense);
 		builder1.AddComponentParameter(elementIndex1++, nameof(MudSimpleTable.ChildContent), (RenderFragment)(builder2 =>
 		{
 			var elementIndex2 = 0;
