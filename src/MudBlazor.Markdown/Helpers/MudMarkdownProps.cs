@@ -26,13 +26,13 @@ public sealed class MudMarkdownProps
 		/// Command which is invoked when a link is clicked.<br/>
 		/// If <c>null</c> a link is opened in the browser.
 		/// </summary>
-		public ICommand? LinkCommand { get; set; }
+		public ICommand? Command { get; set; }
 
 		/// <summary>
 		/// Override the original URL address of the <see cref="LinkInline"/>.<br/>
 		/// If a function is not provided <see cref="LinkInline.Url"/> is used.
 		/// </summary>
-		public Func<LinkInline, string?>? OverrideLinkUrl { get; set; }
+		public Func<LinkInline, string?>? OverrideUrl { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether the <c>target="_blank"</c> attribute is disabled for <b>external</b> links.

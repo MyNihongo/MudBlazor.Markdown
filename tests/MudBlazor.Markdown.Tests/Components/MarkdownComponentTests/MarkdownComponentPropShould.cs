@@ -253,7 +253,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Link =
 			{
-				OverrideLinkUrl = Override,
+				OverrideUrl = Override,
 			},
 		};
 
@@ -282,7 +282,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Link =
 			{
-				OverrideLinkUrl = Override,
+				OverrideUrl = Override,
 			},
 		};
 
@@ -313,7 +313,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Link =
 			{
-				LinkCommand = new TestCommand(),
+				Command = new TestCommand(),
 			},
 		};
 
