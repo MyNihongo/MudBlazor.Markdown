@@ -7,4 +7,5 @@ global using Microsoft.Extensions.Caching.Memory;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.JSInterop;
 global using Moq;
+global using MyNihongo.Option;
 global using Xunit;

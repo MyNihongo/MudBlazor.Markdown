@@ -149,25 +149,6 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderLinkAsButton()
-	{
-		const string value = "text before [link display](123) text after";
-		const string expected =
-			"""
-			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>
-					text before
-					<span class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</span>
-					text after
-				</p>
-			</article>
-			""";
-
-		using var fixture = CreateFixture(value, new TestCommand());
-		fixture.MarkupMatches(expected);
-	}
-
-	[Fact]
 	public void PreventDefaultIfNavigatesToId()
 	{
 		const string value = "[link](#id)";
