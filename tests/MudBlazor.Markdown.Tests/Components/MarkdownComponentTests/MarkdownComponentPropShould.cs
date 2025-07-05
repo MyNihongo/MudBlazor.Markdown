@@ -28,7 +28,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Heading =
 			{
-				OverrideHeaderTypo = Override,
+				OverrideTypo = Override,
 			},
 		};
 
@@ -64,7 +64,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Heading =
 			{
-				OverrideHeaderTypo = Override,
+				OverrideTypo = Override,
 			},
 		};
 
@@ -100,7 +100,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Heading =
 			{
-				OverrideHeaderTypo = Override,
+				OverrideTypo = Override,
 			},
 		};
 
@@ -136,7 +136,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Heading =
 			{
-				OverrideHeaderTypo = Override,
+				OverrideTypo = Override,
 			},
 		};
 
@@ -172,7 +172,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Heading =
 			{
-				OverrideHeaderTypo = Override,
+				OverrideTypo = Override,
 			},
 		};
 
@@ -208,7 +208,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		{
 			Heading =
 			{
-				OverrideHeaderTypo = Override,
+				OverrideTypo = Override,
 			},
 		};
 

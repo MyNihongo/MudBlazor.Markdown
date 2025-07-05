@@ -49,6 +49,6 @@ public sealed class MudMarkdownProps
 		/// Typography variant to use for Heading Level 1-6.<br/>
 		/// If a function is not provided a default typo for each level is set (e.g. for &lt;h1&gt; it will be <see cref="Typo.h1"/>, etc.).
 		/// </summary>
-		public Func<Typo, Typo>? OverrideHeaderTypo { get; set; }
+		public Func<Typo, Typo>? OverrideTypo { get; set; }
 	}
 }

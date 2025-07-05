@@ -189,7 +189,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					var headingContent = heading.BuildHeadingContent();
 					var isAppended = _markdownHeadingTree?.Append(typo, headingContent);
 
-					typo = Props.Heading.OverrideHeaderTypo?.Invoke(typo) ?? typo;
+					typo = Props.Heading.OverrideTypo?.Invoke(typo) ?? typo;
 					var @class = isAppended == true ? "mud-markdown-toc-heading" : null;
 					RenderParagraphBlock(builder, ref elementIndex, heading, typo, headingContent?.Id, @class);
 
