@@ -1,5 +1,8 @@
 ﻿namespace MudBlazor;
 
+/// <summary>
+/// Provides styling options for Markdown elements.
+/// </summary>
 public sealed class MudMarkdownStyling
 {
 	/// <summary>
