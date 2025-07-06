@@ -189,7 +189,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					var headingContent = heading.BuildHeadingContent();
 					var isAppended = _markdownHeadingTree?.Append(typo, headingContent);
 
-					typo = Props.Heading.OverrideHeaderTypo?.Invoke(typo) ?? typo;
+					typo = Props.Heading.OverrideTypo?.Invoke(typo) ?? typo;
 					var @class = isAppended == true ? "mud-markdown-toc-heading" : null;
 					RenderParagraphBlock(builder, ref elementIndex, heading, typo, headingContent?.Id, @class);
 
@@ -318,7 +318,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case LinkInline x:
 				{
-					var url = Props.Link.OverrideLinkUrl?.Invoke(x) ?? x.Url;
+					var url = Props.Link.OverrideUrl?.Invoke(x) ?? x.Url;
 
 					if (x.IsImage)
 					{
@@ -333,7 +333,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudImage.Elevation), 25);
 						builder1.CloseComponent();
 					}
-					else if (Props.Link.LinkCommand == null)
+					else if (Props.Link.Command == null)
 					{
 						builder1.OpenComponent<MudLink>(elementIndex1++);
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.Href), url);
@@ -375,7 +375,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					else
 					{
 						builder1.OpenComponent<MudLinkButton>(elementIndex1++);
-						builder1.AddComponentParameter(elementIndex1++, nameof(MudLinkButton.Command), Props.Link.LinkCommand);
+						builder1.AddComponentParameter(elementIndex1++, nameof(MudLinkButton.Command), Props.Link.Command);
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLinkButton.CommandParameter), url);
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLinkButton.ChildContent), (RenderFragment)(builder2 =>
 						{

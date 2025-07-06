@@ -4,8 +4,7 @@
 <MudMarkdown
 	Value="@Value"
 	Styling="Styling"
-	OverrideLinkUrl="OverrideLink"
-	OverrideHeaderTypo="OverrideHeaderTypo" 
+	Props="Props"
 	HasTableOfContents="HasTableOfContents"
 	TableOfContentsHeader="Table of contents" />
 
@@ -34,6 +33,18 @@
 		},
 	};
 
+	private MudMarkdownProps Props { get; } = new()
+	{
+		Link =
+		{
+			OverrideUrl = OverrideUrl,
+		},
+		Heading =
+		{
+			OverrideTypo = OverrideTypo,
+		},
+	};
+
 	protected override async Task OnInitializedAsync()
 	{
 		Value = await MarkdownService.GetSampleAsync(MarkdownResource)
@@ -43,12 +54,12 @@
 	/// <remarks>
 	/// replaces all h1 tags with h4
 	/// </remarks>
-	private Typo OverrideHeaderTypo(Typo x)
+	private static Typo OverrideTypo(Typo x)
 	{
 		return x == Typo.h1 ? Typo.h4 : x;
 	}
 
-	private static string? OverrideLink(LinkInline x)
+	private static string? OverrideUrl(LinkInline x)
 	{
 		return x.Url;
 	}
