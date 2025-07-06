@@ -37,7 +37,7 @@
 	{
 		Link =
 		{
-			OverrideUrl = OverrideLink,
+			OverrideUrl = OverrideUrl,
 		},
 		Heading =
 		{
@@ -59,7 +59,7 @@
 		return x == Typo.h1 ? Typo.h4 : x;
 	}
 
-	private static string? OverrideLink(LinkInline x)
+	private static string? OverrideUrl(LinkInline x)
 	{
 		return x.Url;
 	}
