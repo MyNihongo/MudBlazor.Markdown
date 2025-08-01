@@ -237,11 +237,9 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						absolute
 					</a>
-					<br />
 					<a href='overridden/tokyo' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						relative
 					</a>
-					<br />
 					<a href='overridden#edogawa' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
 						id
 					</a>

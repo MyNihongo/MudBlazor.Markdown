@@ -31,7 +31,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 						<div class='mud-collapse-wrapper' blazor:elementReference='f0339543-23a6-43d6-92b9-b8b55ec88622'>
 							<div class='mud-collapse-wrapper-inner'>
 								<div class='mud-expand-panel-content'>
-									<p class='mud-typography mud-typography-body1'>Some hidden text<br />Another text</p>
+									<p class='mud-typography mud-typography-body1'>Some hidden text Another text</p>
 								</div>
 							</div>
 						</div>
@@ -45,7 +45,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 	}
 
 	[Fact]
-	public void RenderDetailsSummaryMultiLine()
+	public void RenderDetailsSummaryMultiline()
 	{
 		const string value =
 			"""
@@ -75,7 +75,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 						<div class='mud-collapse-wrapper' blazor:elementReference='99a17eaa-605d-411d-968b-457a412ddd48'>
 							<div class='mud-collapse-wrapper-inner'>
 								<div class='mud-expand-panel-content'>
-									<p class='mud-typography mud-typography-body1'>Some hidden text<br />Another text</p>
+									<p class='mud-typography mud-typography-body1'>Some hidden text Another text</p>
 								</div>
 							</div>
 						</div>
@@ -184,7 +184,7 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 						<div class='mud-collapse-wrapper' blazor:elementReference=''>
 							<div class='mud-collapse-wrapper-inner'>
 								<div class='mud-expand-panel-content'>
-									<p class='mud-typography mud-typography-body1'>Some hidden text<br />Another text</p>
+									<p class='mud-typography mud-typography-body1'>Some hidden text Another text</p>
 								</div>
 							</div>
 						</div>

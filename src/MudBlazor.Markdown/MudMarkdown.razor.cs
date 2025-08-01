@@ -289,10 +289,17 @@ public class MudMarkdown : ComponentBase, IDisposable
 					builder1.AddMarkupContent(elementIndex1++, x.Tag);
 					break;
 				}
-				case LineBreakInline:
+				case LineBreakInline x:
 				{
-					builder1.OpenElement(elementIndex1++, "br");
-					builder1.CloseElement();
+					if (x.IsHard)
+					{
+						builder1.OpenElement(elementIndex1++, "br");
+						builder1.CloseElement();
+					}
+					else
+					{
+						builder1.AddContent(elementIndex1++, " ");
+					}
 					break;
 				}
 				case CodeInline x:
