@@ -94,10 +94,19 @@ public sealed class MudMarkdownStyling
 
 		/// <summary>
 		/// Gets or sets how the copy button is displayed in the code block.
+		/// </summary>
 		/// <remarks>
 		/// Defaults to <c>OnHover</c>.
 		/// </remarks>
-		/// </summary>
 		public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
+
+		/// <summary>
+		/// Gets or sets the text displayed on the copy button.<br/>
+		/// If <c>null</c> <i>"Copied!"</i> will be displayed.
+		/// </summary>
+		/// <remarks>
+		/// Defaults to <c>null</c>.
+		/// </remarks>
+		public string? CopyButtonText { get; set; }
 	}
 }

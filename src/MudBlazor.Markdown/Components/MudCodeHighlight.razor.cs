@@ -66,6 +66,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	[Parameter]
 	public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
 
+	[Parameter]
+	public string? CopyButtonDisplayTextCopied { get; set; }
+
 	[Inject]
 	private IJSRuntime Js { get; init; } = null!;
 
@@ -108,7 +111,8 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 			builder.OpenComponent<MudCodeHighlightCopyButton>(elementIndex++);
 			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.Class), copyButtonClass);
-			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.Text), Text);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.TextToCopy), Text);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.DisplayTextCopied), CopyButtonDisplayTextCopied);
 			builder.CloseComponent();
 		}
 

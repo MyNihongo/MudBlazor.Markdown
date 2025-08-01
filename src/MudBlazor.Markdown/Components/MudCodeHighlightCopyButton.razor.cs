@@ -11,7 +11,10 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 	public string? Class { get; init; }
 
 	[Parameter]
-	public string? Text { get; init; }
+	public string? TextToCopy { get; init; }
+
+	[Parameter]
+	public string? DisplayTextCopied { get; set; }
 
 	[Inject]
 	private IJSRuntime Js { get; init; } = null!;
@@ -25,13 +28,17 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 
 		if (_isCopied)
 		{
+			var copiedText = !string.IsNullOrEmpty(DisplayTextCopied)
+				? DisplayTextCopied
+				: "Copied!";
+
 			builder1.OpenComponent<MudTooltip>(elementIndex1++);
-			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Text), "Copied!");
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Text), copiedText);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Arrow), true);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Placement), Placement.Left);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Visible), true);
-            builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.RootClass), Class);
-            builder1.AddComponentParameter(elementIndex1, nameof(MudTooltip.ChildContent), (RenderFragment)(builder2 =>
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.RootClass), Class);
+			builder1.AddComponentParameter(elementIndex1, nameof(MudTooltip.ChildContent), (RenderFragment)(builder2 =>
 			{
 				var elementIndex2 = 0;
 				builder2.OpenComponent<MudIconButton>(elementIndex2++);
@@ -44,8 +51,8 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 		{
 			builder1.OpenComponent<MudIconButton>(elementIndex1++);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
-            builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Class), Class);
-            ApplyCopyButtonProperties(builder1, ref elementIndex1, Icons.Material.Rounded.ContentCopy, Color.Primary);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Class), Class);
+			ApplyCopyButtonProperties(builder1, ref elementIndex1, Icons.Material.Rounded.ContentCopy, Color.Primary);
 			builder1.CloseComponent();
 		}
 	}
@@ -60,10 +67,10 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 
 	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
 	{
-		if (string.IsNullOrEmpty(Text) || _isCopied)
+		if (string.IsNullOrEmpty(TextToCopy) || _isCopied)
 			return;
 
-		var ok = await Js.CopyTextToClipboardAsync(Text)
+		var ok = await Js.CopyTextToClipboardAsync(TextToCopy)
 			.ConfigureAwait(false);
 
 		if (!ok)
@@ -72,7 +79,7 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 
 			if (clipboardService != null)
 			{
-				await clipboardService.CopyToClipboardAsync(Text)
+				await clipboardService.CopyToClipboardAsync(TextToCopy)
 					.ConfigureAwait(false);
 			}
 		}
