@@ -94,6 +94,46 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 	[Theory]
 	[InlineData("\r\n")]
 	[InlineData("\n")]
+	public void RenderBreakHard(string newLine)
+	{
+		var value = "line1" + newLine + newLine + "line2";
+		const string expected =
+			"""
+			<article id:ignore class='mud-markdown-body'>
+				<p class='mud-typography mud-typography-body1'>line1</p>
+				<p class='mud-typography mud-typography-body1'>line2</p>
+			</article>
+			""";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderBreakHardWithSpaces()
+	{
+		const string value =
+			"""
+			line1  
+			line2
+			""";
+
+		const string expected =
+			"""
+			<article id:ignore class='mud-markdown-body'>
+				<p class='mud-typography mud-typography-body1'>
+					line1<br />line2
+				</p>
+			</article>
+			""";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Theory]
+	[InlineData("\r\n")]
+	[InlineData("\n")]
 	public void RenderBreakHardWithPipeline(string newLine)
 	{
 		var value = "line1" + newLine + "line2";
@@ -111,24 +151,6 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			.Build();
 
 		using var fixture = CreateFixture(value, markdownPipeline: markdownPipeline);
-		fixture.MarkupMatches(expected);
-	}
-
-	[Theory]
-	[InlineData("\r\n")]
-	[InlineData("\n")]
-	public void RenderBreakHard(string newLine)
-	{
-		var value = "line1" + newLine + newLine + "line2";
-		const string expected =
-			"""
-			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>line1</p>
-				<p class='mud-typography mud-typography-body1'>line2</p>
-			</article>
-			""";
-
-		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
 
