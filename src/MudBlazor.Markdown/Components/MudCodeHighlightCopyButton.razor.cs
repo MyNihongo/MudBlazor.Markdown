@@ -37,6 +37,9 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Arrow), true);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Placement), Placement.Left);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Visible), true);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.ShowOnClick), false);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.ShowOnFocus), false);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.ShowOnHover), false);
 			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.RootClass), Class);
 			builder1.AddComponentParameter(elementIndex1, nameof(MudTooltip.ChildContent), (RenderFragment)(builder2 =>
 			{
