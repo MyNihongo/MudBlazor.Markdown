@@ -19,27 +19,43 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 	[Inject]
 	private IServiceProvider? ServiceProvider { get; init; }
 
-	protected override void BuildRenderTree(RenderTreeBuilder builder)
+	protected override void BuildRenderTree(RenderTreeBuilder builder1)
 	{
-		var elementIndex = 0;
+		var elementIndex1 = 0;
 
-		builder.OpenComponent<MudIconButton>(elementIndex++);
 		if (_isCopied)
 		{
-            builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.DoneAll);
-            builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Success);
+			builder1.OpenComponent<MudTooltip>(elementIndex1++);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Text), "Copied!");
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Arrow), true);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Placement), Placement.Left);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.Visible), true);
+            builder1.AddComponentParameter(elementIndex1++, nameof(MudTooltip.RootClass), Class);
+            builder1.AddComponentParameter(elementIndex1, nameof(MudTooltip.ChildContent), (RenderFragment)(builder2 =>
+			{
+				var elementIndex2 = 0;
+				builder2.OpenComponent<MudIconButton>(elementIndex2++);
+				ApplyCopyButtonProperties(builder2, ref elementIndex2, Icons.Material.Rounded.DoneAll, Color.Success);
+				builder2.CloseComponent();
+			}));
+			builder1.CloseComponent();
 		}
 		else
 		{
-            builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-            builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
-            builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
-        }
+			builder1.OpenComponent<MudIconButton>(elementIndex1++);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
+            builder1.AddComponentParameter(elementIndex1++, nameof(MudIconButton.Class), Class);
+            ApplyCopyButtonProperties(builder1, ref elementIndex1, Icons.Material.Rounded.ContentCopy, Color.Primary);
+			builder1.CloseComponent();
+		}
+	}
 
+	private static void ApplyCopyButtonProperties(in RenderTreeBuilder builder, ref int elementIndex, in string icon, in Color color)
+	{
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), icon);
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), color);
 		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
 		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), Class);
-		builder.CloseComponent();
 	}
 
 	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
