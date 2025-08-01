@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Web;
-
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
@@ -100,23 +98,17 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(elementIndex++, ElementNames.Div);
 		builder.AddAttribute(elementIndex++, AttributeNames.Class, containerClass);
 
+		// Copy button
 		if (CopyButton != CodeBlockCopyButton.None)
 		{
-			var copyButtonClass = CopyButton switch
-			{
-				CodeBlockCopyButton.OnHover => "mud-markdown-code-highlight-copybtn",
-				CodeBlockCopyButton.Sticky => "mud-markdown-code-highlight-copybtn-sticky",
-				_ => string.Empty,
-			};
+			var copyButtonClass = "ma-2 mud-markdown-code-highlight-copybtn";
 
-			// Copy button
-			builder.OpenComponent<MudIconButton>(elementIndex++);
-			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
-			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
-			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
-			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), $"{copyButtonClass} ma-2");
-			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
+			if (CopyButton == CodeBlockCopyButton.Sticky)
+				copyButtonClass += "-sticky";
+
+			builder.OpenComponent<MudCodeHighlightCopyButton>(elementIndex++);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.Class), copyButtonClass);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.Text), Text);
 			builder.CloseComponent();
 		}
 
@@ -172,22 +164,5 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			.ConfigureAwait(false);
 
 		_isFirstThemeSet = true;
-	}
-
-	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
-	{
-		var ok = await Js.CopyTextToClipboardAsync(Text)
-			.ConfigureAwait(false);
-
-		if (ok)
-			return;
-
-		var clipboardService = ServiceProvider?.GetService<IMudMarkdownClipboardService>();
-
-		if (clipboardService != null)
-		{
-			await clipboardService.CopyToClipboardAsync(Text)
-				.ConfigureAwait(false);
-		}
 	}
 }
