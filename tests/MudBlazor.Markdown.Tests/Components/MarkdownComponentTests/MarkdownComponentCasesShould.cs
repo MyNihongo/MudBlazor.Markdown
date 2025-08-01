@@ -257,8 +257,8 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			<article id:ignore class='mud-markdown-body'>
 				<h1 id='heading-1' class='mud-typography mud-typography-h1'>Heading 1</h1>
 				<p class='mud-typography mud-typography-body1'>Some text.</p>
-				<div class='snippet-clipboard-content overflow-auto'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='4debd876-7ce0-4871-af9c-ba021f368d3c'>
+				<div class='mud-markdown-codeblock overflow-auto'>
+					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='4debd876-7ce0-4871-af9c-ba021f368d3c'>
 						<span class='mud-icon-button-label'>
 							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 								<g><rect fill='none' height='24' width='24'/></g>
@@ -297,8 +297,8 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class='mud-markdown-body'>
-				<div class='snippet-clipboard-content overflow-auto'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='48bbd0ad-a2cf-498a-8fb8-b81d2f4dbeec'>
+				<div class='mud-markdown-codeblock overflow-auto'>
+					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='48bbd0ad-a2cf-498a-8fb8-b81d2f4dbeec'>
 						<span class='mud-icon-button-label'>
 							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 								<g><rect fill='none' height='24' width='24'/></g><g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
@@ -340,8 +340,8 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class='mud-markdown-body'>
-				<div class='snippet-clipboard-content overflow-auto'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='84d7bc02-c5ee-472d-a737-b72f42b37b83'>
+				<div class='mud-markdown-codeblock overflow-auto'>
+					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='84d7bc02-c5ee-472d-a737-b72f42b37b83'>
 						<span class='mud-icon-button-label'>
 							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 								<g><rect fill='none' height='24' width='24'/></g>
@@ -510,8 +510,8 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 				<ol>
 					<li>
 						<p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p>
-						<div class='snippet-clipboard-content overflow-auto'>
-							<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='c5aa6996-aa56-4202-aa6c-9e40b197d739'>
+						<div class='mud-markdown-codeblock overflow-auto'>
+							<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='c5aa6996-aa56-4202-aa6c-9e40b197d739'>
 								<span class='mud-icon-button-label'>
 									<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 										<g><rect fill='none' height='24' width='24'/></g>
@@ -524,8 +524,8 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 					</li>
 					<li>
 						<p class='mud-typography mud-typography-body1'>Once connected, run the following command to alter the user's authentication method:</p>
-						<div class='snippet-clipboard-content overflow-auto'>
-							<button blazor:onclick='2' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2' blazor:onclick:stopPropagation blazor:elementReference='d8bf969c-a5c1-4b9a-bd13-c141af7968c5'>
+						<div class='mud-markdown-codeblock overflow-auto'>
+							<button blazor:onclick='2' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='d8bf969c-a5c1-4b9a-bd13-c141af7968c5'>
 								<span class='mud-icon-button-label'>
 									<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 										<g><rect fill='none' height='24' width='24'/></g>

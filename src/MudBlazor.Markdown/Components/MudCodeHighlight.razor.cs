@@ -91,7 +91,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	{
 		var elementIndex = 0;
 		builder.OpenElement(elementIndex++, "div");
-		builder.AddAttribute(elementIndex++, "class", "hljs snippet-clipboard-content");
+		builder.AddAttribute(elementIndex++, "class", "hljs mud-markdown-codeblock");
 
 		// Copy button
 		builder.OpenComponent<MudIconButton>(elementIndex++);
@@ -99,7 +99,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
 		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
 		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon ma-2");
+		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), "mud-markdown-codeblock-copybtn ma-2");
 		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
 		builder.CloseComponent();
 
