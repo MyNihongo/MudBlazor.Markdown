@@ -91,7 +91,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	{
 		var elementIndex = 0;
 		builder.OpenElement(elementIndex++, "div");
-		builder.AddAttribute(elementIndex++, "class", "snippet-clipboard-content overflow-auto");
+		builder.AddAttribute(elementIndex++, "class", "hljs snippet-clipboard-content");
 
 		// Copy button
 		builder.OpenComponent<MudIconButton>(elementIndex++);

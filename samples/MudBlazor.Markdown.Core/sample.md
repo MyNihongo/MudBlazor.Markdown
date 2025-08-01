@@ -16,6 +16,29 @@ Please visit the [MudBlazor project site](https://mudblazor.com/).
 > Use **bold** and *italics*.
 > Or visit the [MudBlazor project site](https://mudblazor.com/).
 ***
+## Code sample
+```cs
+private async ValueTask<string> ReadFromUrlAsync(string url, CancellationToken ct = default)
+{
+	if (_memoryCache.TryGetValue(url, out var value))
+		return value;
+
+	try
+	{
+		value = await HttpClient.GetStringAsync(url, ct)
+			.ConfigureAwait(false);
+
+		_memoryCache.Set(url, value);
+		return value;
+	}
+	catch (Exception e)
+	{
+		return new StringBuilder()
+			.Append($"Error while reading from URL, URL=`{url}`")
+			.BuildErrorMessage(e);
+	}
+}
+```
 ## To-Do list
 - Study Japanese
   - Remmeber all kana
