@@ -14,6 +14,10 @@ pre code.hljs {
 	width: 100%;
 }
 
+.mud-markdown-codeblock-sticky pre code.hljs {
+	padding-top: 0 !important;
+}
+
 .mud-markdown-body .mud-markdown-codeblock {
 	position: relative !important;
 }

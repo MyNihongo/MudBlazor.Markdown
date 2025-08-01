@@ -92,9 +92,13 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
+		var containerClass = "hljs mud-markdown-codeblock";
+		if (CopyButton == CodeBlockCopyButton.Sticky)
+			containerClass += " mud-markdown-codeblock-sticky";
+
 		var elementIndex = 0;
-		builder.OpenElement(elementIndex++, "div");
-		builder.AddAttribute(elementIndex++, "class", "hljs mud-markdown-codeblock");
+		builder.OpenElement(elementIndex++, ElementNames.Div);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, containerClass);
 
 		if (CopyButton != CodeBlockCopyButton.None)
 		{
