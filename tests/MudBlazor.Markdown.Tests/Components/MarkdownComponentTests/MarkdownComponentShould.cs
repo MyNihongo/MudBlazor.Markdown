@@ -123,9 +123,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>
-					line1<br />line2
-				</p>
+				<p class='mud-typography mud-typography-body1'>line1</p>
+				<p class='mud-typography mud-typography-body1'>line2</p>
 			</article>
 			""";
 
