@@ -365,8 +365,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 				<ol>
 					<li><p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p></li>
 				</ol>
-				<div class='mud-markdown-codeblock overflow-auto'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='eb8fdbba-2335-4a91-b2ed-492ac862178c'>
+				<div class='mud-markdown-code-highlight overflow-auto'>
+					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='eb8fdbba-2335-4a91-b2ed-492ac862178c'>
 						<span class='mud-icon-button-label'>
 							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 								<g><rect fill='none' height='24' width='24'/></g>
@@ -574,8 +574,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class='mud-markdown-body'>
-				<div class='mud-markdown-codeblock overflow-auto'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='af22cf66-3ea5-4899-bd97-91b4fdc35b82'>
+				<div class='mud-markdown-code-highlight overflow-auto'>
+					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='af22cf66-3ea5-4899-bd97-91b4fdc35b82'>
 						<span class='mud-icon-button-label'>
 							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
 								<g><rect fill='none' height='24' width='24'/></g>
@@ -636,8 +636,8 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class="mud-markdown-body">
-				<div class="mud-markdown-codeblock overflow-auto">
-					<button blazor:onclick="2" type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-codeblock-copybtn ma-2" blazor:onclick:stopPropagation blazor:elementReference="">
+				<div class="mud-markdown-code-highlight overflow-auto">
+					<button blazor:onclick="2" type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2" blazor:onclick:stopPropagation blazor:elementReference="">
 						<span class="mud-icon-button-label">
 							<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
 								<g><rect fill="none" height="24" width="24"/></g>

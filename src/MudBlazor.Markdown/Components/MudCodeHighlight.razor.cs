@@ -92,9 +92,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
-		var containerClass = "hljs mud-markdown-codeblock";
+		var containerClass = "hljs mud-markdown-code-highlight";
 		if (CopyButton == CodeBlockCopyButton.Sticky)
-			containerClass += " mud-markdown-codeblock-sticky";
+			containerClass += " mud-markdown-code-highlight-sticky";
 
 		var elementIndex = 0;
 		builder.OpenElement(elementIndex++, ElementNames.Div);
@@ -104,8 +104,8 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		{
 			var copyButtonClass = CopyButton switch
 			{
-				CodeBlockCopyButton.OnHover => "mud-markdown-codeblock-copybtn",
-				CodeBlockCopyButton.Sticky => "mud-markdown-codeblock-copybtn-sticky",
+				CodeBlockCopyButton.OnHover => "mud-markdown-code-highlight-copybtn",
+				CodeBlockCopyButton.Sticky => "mud-markdown-code-highlight-copybtn-sticky",
 				_ => string.Empty,
 			};
 

@@ -14,26 +14,26 @@ pre code.hljs {
 	width: 100%;
 }
 
-.mud-markdown-codeblock-sticky pre code.hljs {
+.mud-markdown-code-highlight-sticky pre code.hljs {
 	padding-top: 0 !important;
 }
 
-.mud-markdown-body .mud-markdown-codeblock {
+.mud-markdown-body .mud-markdown-code-highlight {
 	position: relative !important;
 }
 
-.mud-markdown-body .mud-markdown-codeblock:hover > .mud-markdown-codeblock-copybtn {
+.mud-markdown-body .mud-markdown-code-highlight:hover > .mud-markdown-code-highlight-copybtn {
 	display: block !important;
 }
 
-.mud-markdown-codeblock-copybtn {
+.mud-markdown-code-highlight-copybtn {
 	position: absolute;
 	display: none;
 	top: 0;
 	right: 0;
 }
 
-.mud-markdown-body .mud-markdown-codeblock .mud-markdown-codeblock-copybtn-sticky {
+.mud-markdown-body .mud-markdown-code-highlight .mud-markdown-code-highlight-copybtn-sticky {
 	position: sticky;
 	overflow: hidden;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
