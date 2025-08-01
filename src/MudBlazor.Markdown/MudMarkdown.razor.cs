@@ -583,6 +583,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Text), text);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Language), info ?? string.Empty);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Theme), Styling.CodeBlock.Theme);
+		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.CopyButton), Styling.CodeBlock.CopyButton);
 		builder.CloseComponent();
 	}
 

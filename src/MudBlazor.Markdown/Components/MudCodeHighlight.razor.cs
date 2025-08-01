@@ -65,6 +65,9 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 #pragma warning restore BL0007
 #endif
 
+	[Parameter]
+	public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
+
 	[Inject]
 	private IJSRuntime Js { get; init; } = null!;
 
@@ -93,15 +96,25 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(elementIndex++, "div");
 		builder.AddAttribute(elementIndex++, "class", "hljs mud-markdown-codeblock");
 
-		// Copy button
-		builder.OpenComponent<MudIconButton>(elementIndex++);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), "mud-markdown-codeblock-copybtn ma-2");
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
-		builder.CloseComponent();
+		if (CopyButton != CodeBlockCopyButton.None)
+		{
+			var copyButtonClass = CopyButton switch
+			{
+				CodeBlockCopyButton.OnHover => "mud-markdown-codeblock-copybtn",
+				CodeBlockCopyButton.Sticky => "mud-markdown-codeblock-copybtn-sticky",
+				_ => string.Empty,
+			};
+
+			// Copy button
+			builder.OpenComponent<MudIconButton>(elementIndex++);
+			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
+			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
+			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
+			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
+			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), $"{copyButtonClass} ma-2");
+			builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
+			builder.CloseComponent();
+		}
 
 		// Code block
 		builder.OpenElement(elementIndex++, "pre");

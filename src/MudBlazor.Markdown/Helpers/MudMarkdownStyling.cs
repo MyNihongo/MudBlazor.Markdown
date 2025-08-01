@@ -91,5 +91,13 @@ public sealed class MudMarkdownStyling
 		/// Browse available themes here: https://highlightjs.org/static/demo/
 		/// </summary>
 		public CodeBlockTheme Theme { get; set; }
+
+		/// <summary>
+		/// Gets or sets how the copy button is displayed in the code block.
+		/// <remarks>
+		/// Defaults to <c>OnHover</c>.
+		/// </remarks>
+		/// </summary>
+		public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
 	}
 }

@@ -11,7 +11,6 @@ pre code.hljs {
 	display: block !important;
 	overflow-x: auto;
 	padding: 1em;
-	padding-top: 0 !important;
 	width: 100%;
 }
 
@@ -23,7 +22,14 @@ pre code.hljs {
 	display: block !important;
 }
 
-.mud-markdown-body .mud-markdown-codeblock .mud-markdown-codeblock-copybtn {
+.mud-markdown-codeblock-copybtn {
+	position: absolute;
+	display: none;
+	top: 0;
+	right: 0;
+}
+
+.mud-markdown-body .mud-markdown-codeblock .mud-markdown-codeblock-copybtn-sticky {
 	position: sticky;
 	overflow: hidden;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
