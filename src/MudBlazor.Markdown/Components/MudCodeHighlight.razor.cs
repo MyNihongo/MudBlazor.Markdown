@@ -95,7 +95,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	{
 		var containerClass = "hljs mud-markdown-code-highlight";
 		if (CopyButton == CodeBlockCopyButton.Sticky)
-			containerClass += " mud-markdown-code-highlight-sticky";
+			containerClass += "-sticky";
 
 		var elementIndex = 0;
 		builder.OpenElement(elementIndex++, ElementNames.Div);

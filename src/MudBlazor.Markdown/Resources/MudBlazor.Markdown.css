@@ -14,10 +14,6 @@ pre code.hljs {
 	width: 100%;
 }
 
-.mud-markdown-code-highlight-sticky pre code.hljs {
-	padding-top: 0 !important;
-}
-
 .mud-markdown-body .mud-markdown-code-highlight {
 	position: relative !important;
 }
@@ -33,7 +29,11 @@ pre code.hljs {
 	right: 0;
 }
 
-.mud-markdown-body .mud-markdown-code-highlight .mud-markdown-code-highlight-copybtn-sticky {
+.mud-markdown-code-highlight-sticky pre code.hljs {
+	padding-top: 0 !important;
+}
+
+.mud-markdown-body .mud-markdown-code-highlight-sticky .mud-markdown-code-highlight-copybtn-sticky {
 	position: sticky;
 	overflow: hidden;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
