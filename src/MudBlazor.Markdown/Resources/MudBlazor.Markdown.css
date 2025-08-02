@@ -11,21 +11,34 @@ pre code.hljs {
 	display: block !important;
 	overflow-x: auto;
 	padding: 1em;
+	width: 100%;
 }
 
-.mud-markdown-body .snippet-clipboard-content {
+.mud-markdown-body .mud-markdown-code-highlight {
 	position: relative !important;
 }
 
-.mud-markdown-body .snippet-clipboard-content:hover > .snippet-clipboard-copy-icon {
+.mud-markdown-body .mud-markdown-code-highlight:hover > .mud-markdown-code-highlight-copybtn {
 	display: block !important;
 }
 
-.mud-markdown-body .snippet-clipboard-content .snippet-clipboard-copy-icon {
+.mud-markdown-code-highlight-copybtn {
 	position: absolute;
 	display: none;
 	top: 0;
 	right: 0;
+}
+
+.mud-markdown-code-highlight-sticky pre code.hljs {
+	padding-top: 0 !important;
+}
+
+.mud-markdown-body .mud-markdown-code-highlight-sticky .mud-markdown-code-highlight-copybtn-sticky {
+	position: sticky;
+	overflow: hidden;
+	z-index: calc(var(--mud-zindex-appbar) - 2);
+	top: calc(var(--mud-appbar-height) + 16px);
+	float: right;
 }
 
 /* Quote */

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Web;
-
-namespace MudBlazor;
+﻿namespace MudBlazor;
 
 public class MudCodeHighlight : MudComponentBase, IDisposable
 {
@@ -65,6 +63,12 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 #pragma warning restore BL0007
 #endif
 
+	[Parameter]
+	public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
+
+	[Parameter]
+	public string? CopyButtonDisplayTextCopied { get; set; }
+
 	[Inject]
 	private IJSRuntime Js { get; init; } = null!;
 
@@ -89,19 +93,28 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 
 	protected override void BuildRenderTree(RenderTreeBuilder builder)
 	{
+		var containerClass = "hljs mud-markdown-code-highlight";
+		if (CopyButton == CodeBlockCopyButton.Sticky)
+			containerClass += "-sticky";
+
 		var elementIndex = 0;
-		builder.OpenElement(elementIndex++, "div");
-		builder.AddAttribute(elementIndex++, "class", "snippet-clipboard-content overflow-auto");
+		builder.OpenElement(elementIndex++, ElementNames.Div);
+		builder.AddAttribute(elementIndex++, AttributeNames.Class, containerClass);
 
 		// Copy button
-		builder.OpenComponent<MudIconButton>(elementIndex++);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Icon), Icons.Material.Rounded.ContentCopy);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Variant), Variant.Filled);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Color), Color.Primary);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Size), Size.Medium);
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.Class), "snippet-clipboard-copy-icon ma-2");
-		builder.AddComponentParameter(elementIndex++, nameof(MudIconButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, CopyTextToClipboardAsync));
-		builder.CloseComponent();
+		if (CopyButton != CodeBlockCopyButton.None)
+		{
+			var copyButtonClass = "ma-2 mud-markdown-code-highlight-copybtn";
+
+			if (CopyButton == CodeBlockCopyButton.Sticky)
+				copyButtonClass += "-sticky";
+
+			builder.OpenComponent<MudCodeHighlightCopyButton>(elementIndex++);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.Class), copyButtonClass);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.TextToCopy), Text);
+			builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlightCopyButton.DisplayTextCopied), CopyButtonDisplayTextCopied);
+			builder.CloseComponent();
+		}
 
 		// Code block
 		builder.OpenElement(elementIndex++, "pre");
@@ -155,22 +168,5 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			.ConfigureAwait(false);
 
 		_isFirstThemeSet = true;
-	}
-
-	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
-	{
-		var ok = await Js.CopyTextToClipboardAsync(Text)
-			.ConfigureAwait(false);
-
-		if (ok)
-			return;
-
-		var clipboardService = ServiceProvider?.GetService<IMudMarkdownClipboardService>();
-
-		if (clipboardService != null)
-		{
-			await clipboardService.CopyToClipboardAsync(Text)
-				.ConfigureAwait(false);
-		}
 	}
 }

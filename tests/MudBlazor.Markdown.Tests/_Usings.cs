@@ -1,4 +1,5 @@
-﻿global using System.Windows.Input;
+﻿global using System.Reflection;
+global using System.Windows.Input;
 global using Bunit;
 global using FluentAssertions;
 global using Markdig.Syntax;

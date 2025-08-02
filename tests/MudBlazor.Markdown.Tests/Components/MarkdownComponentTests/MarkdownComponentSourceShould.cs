@@ -35,8 +35,8 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 			$"""
 			 <article id:ignore class="mud-markdown-body">
 			 	<p class="mud-typography mud-typography-body1">Error while reading from file, path=<code>Resources{Path.DirectorySeparatorChar}i dont exist.md</code>, error=<code>Could not find file 'path'.</code></p>
-			 	<div class="snippet-clipboard-content overflow-auto">
-			 		<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >
+			 	<div class="hljs mud-markdown-code-highlight">
+			 		<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2"  >
 			 			<span class="mud-icon-button-label">
 			 				<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
 			 					<g><rect fill="none" height="24" width="24"></rect></g>
@@ -90,8 +90,8 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class="mud-markdown-body">
 				<p class="mud-typography mud-typography-body1">Error while reading from URL, URL=<code>invalid url</code>, error=<code>An invalid request URI was provided. Either the request URI must be an absolute URI or BaseAddress must be set.</code>
-				<div class="snippet-clipboard-content overflow-auto">
-					<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple snippet-clipboard-copy-icon ma-2"  >
+				<div class="hljs mud-markdown-code-highlight">
+					<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2"  >
 						<span class="mud-icon-button-label">
 							<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
 								<g><rect fill="none" height="24" width="24"></rect></g>
