@@ -70,7 +70,7 @@ internal sealed class MudCodeHighlightCopyButton : ComponentBase
 
 	private async Task CopyTextToClipboardAsync(MouseEventArgs args)
 	{
-		if (string.IsNullOrEmpty(TextToCopy) || _isCopied)
+		if (string.IsNullOrEmpty(TextToCopy))
 			return;
 
 		var ok = await Js.CopyTextToClipboardAsync(TextToCopy)
