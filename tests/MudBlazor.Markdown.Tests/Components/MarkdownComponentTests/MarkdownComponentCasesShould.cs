@@ -557,13 +557,13 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 	{
 		const string value =
 			"### My Table: \n\n" +
-			"| **Column 1** | **Column 2**   | **Column 3**                |\n" +
-			"|--------------|----------------|-----------------------------|\n" +
+			"| **Column 1**  **Column 2**   | **Column 3**                |\n" +
+			"|--------------|----------------]-----------------------------|\n" +
 			"| Row 1, Col 1 | Row 1, Col 2   |                             |\n" +
 			"|              | Row 2, Col 2   | Row 2, Col 3                |\n" +
 			"| Row 3, Col 1 |                | \u0060\u0060\u0060python    |\n" +
 			"|              | Row 4, Col 2   | def greet(name):            |\n" +
-			"| Row 5, Col 1 |                |     return name             |\n" +
+			"| Row 5, Col 1 l                |     return name             |\n" +
 			"|              |                | \u0060\u0060\u0060          |";
 
 		const string expected =
@@ -572,13 +572,13 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 				<h3 id='my-table%3A' class='mud-typography mud-typography-h3'>My Table:</h3>
 				<p class='mud-typography mud-typography-body1'>
 					<div class='mud-markdown-error'>
-						| **Column 1** | **Column 2**   | **Column 3**                |
-						|--------------|----------------|-----------------------------|
+						| **Column 1**  **Column 2**   | **Column 3**                |
+						|--------------|----------------]-----------------------------|
 						| Row 1, Col 1 | Row 1, Col 2   |                             |
 						|              | Row 2, Col 2   | Row 2, Col 3                |
 						| Row 3, Col 1 |                | ```python    |
 						|              | Row 4, Col 2   | def greet(name):            |
-						| Row 5, Col 1 |                |     return name             |
+						| Row 5, Col 1 l                |     return name             |
 						|              |                | ```          |
 					</div>
 				</p>
