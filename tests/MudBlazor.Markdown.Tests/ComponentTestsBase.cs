@@ -7,7 +7,7 @@ public abstract class ComponentTestsBase : IDisposable
 	private readonly Mock<IPopoverService> _popoverServiceMock = new();
 	protected readonly Mock<IJSRuntime> MockJsRuntime = new();
 	protected readonly TestNavigationManager MockNavigationManager = new();
-	protected readonly TestContext Ctx = new();
+	protected readonly BunitContext Ctx = new();
 
 	protected ComponentTestsBase()
 	{

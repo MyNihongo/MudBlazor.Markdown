@@ -15,7 +15,7 @@ public abstract class MarkdownComponentTestsBase : ComponentTestsBase
 	{
 		MockNavigationManager.Initialize(Uri);
 
-		return Ctx.RenderComponent<MudMarkdown>(@params =>
+		return Ctx.Render<MudMarkdown>(@params =>
 			@params.Add(static x => x.Value, value!)
 				.TryAdd(static x => x.Props, props)
 				.TryAdd(static x => x.Styling, styling)
