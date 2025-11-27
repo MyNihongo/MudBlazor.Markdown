@@ -4,6 +4,6 @@ public abstract class MudCodeHighlightCopyButtonTestsBase : ComponentTestsBase
 {
 	internal IRenderedComponent<MudCodeHighlightCopyButton> CreateFixture()
 	{
-		return Ctx.RenderComponent<MudCodeHighlightCopyButton>();
+		return Ctx.Render<MudCodeHighlightCopyButton>();
 	}
 }
