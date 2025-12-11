@@ -1,0 +1,7 @@
+<Solution>
+    <Project Path="src\MudBlazor.Markdown\MudBlazor.Markdown.csproj" />
+    <Project Path="tests\MudBlazor.Markdown.Tests\MudBlazor.Markdown.Tests.csproj" />
+    <Folder Name="/Benchmarks/">
+        <Project Path="benchmarks\MudBlazor.Markdown.Benchmarks\MudBlazor.Markdown.Benchmarks.csproj" />
+    </Folder>
+</Solution>

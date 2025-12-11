@@ -1,0 +1,7 @@
+<Solution>
+    <Project Path="..\src\MudBlazor.Markdown\MudBlazor.Markdown.csproj" />
+    <Project Path="MudBlazor.Markdown.Core\MudBlazor.Markdown.Core.csproj" />
+    <Project Path="Server\MudBlazor.Markdown.Server.csproj" />
+    <Project Path="WebAssembly\MudBlazor.Markdown.Wasm.csproj" />
+    <Project Path="SSR\MudBlazor.Markdown.SSR.csproj" />
+</Solution>
