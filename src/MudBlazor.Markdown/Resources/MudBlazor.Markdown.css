@@ -55,8 +55,8 @@ pre code.hljs {
 }
 
 /* Table */
-.mud-markdown-body table {
-	margin: 1.25em 0 0 0;
+.mud-markdown-body .mud-table {
+	margin: 0 0 1.25em 0;
 }
 
 .mud-markdown-body table p {
