@@ -227,7 +227,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-always mud-typography-body1'>my link</a>
+					<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-always'>my link</a>
 				</p>
 			</article>
 			""";
@@ -253,7 +253,7 @@ public sealed class MarkdownComponentStylingShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-none mud-typography-body1'>my link</a>
+					<a rel='noopener noreferrer' href='https://www.mynihongo.org/' target='_blank' blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-none'>my link</a>
 				</p>
 			</article>
 			""";
