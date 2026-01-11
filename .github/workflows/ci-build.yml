@@ -21,6 +21,11 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Install .NET 8
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.x
+
       - name: Install .NET 9
         uses: actions/setup-dotnet@v1
         with:
