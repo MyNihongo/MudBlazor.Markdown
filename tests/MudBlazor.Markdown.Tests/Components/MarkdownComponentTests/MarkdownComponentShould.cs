@@ -162,7 +162,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						link display
 					</a>
 				</p>
@@ -181,7 +181,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a href='http://localhost:1234/' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						link display
 					</a>
 				</p>
@@ -201,7 +201,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
 					text before 
-					<a href='123' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</a>
+					<a href='123' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>link display</a>
 					text after
 				</p>
 			</article>
@@ -219,7 +219,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a href='#id' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a href='#id' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						link
 					</a>
 				</p>
@@ -238,7 +238,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a blazor:onclick='2' href='tokyo/#id' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						link
 					</a>
 				</p>
@@ -274,7 +274,7 @@ public sealed class MarkdownComponentShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a rel='noopener noreferrer' href='https://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						<img src='extra/emw.png' alt='emw-banner' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
 					</a>
 				</p>

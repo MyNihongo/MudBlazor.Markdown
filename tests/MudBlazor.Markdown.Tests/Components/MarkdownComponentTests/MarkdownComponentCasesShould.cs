@@ -202,7 +202,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a href='#installing-microsoft-visual-c-redistributable-package' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a href='#installing-microsoft-visual-c-redistributable-package' role='button' blazor:onclick:preventDefault blazor:onclick='1' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						Installing Microsoft Visual C++ Redistributable Package
 					</a>
 				</p>
