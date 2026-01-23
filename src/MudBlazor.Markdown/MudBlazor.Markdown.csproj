@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>MudBlazor</RootNamespace>
-		<Version>9.0.0-preview.1</Version>
+		<Version>9.0.0-preview.2</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
 		<Copyright>Copyright © 2026 MyNihongo</Copyright>
@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.44.0" />
-		<PackageReference Include="MudBlazor" Version="9.0.0-preview.1" />
+		<PackageReference Include="MudBlazor" Version="9.0.0-preview.2" />
 	</ItemGroup>
 
 	<ItemGroup>
