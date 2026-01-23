@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>MudBlazor</RootNamespace>
-		<Version>8.11.0</Version>
+		<Version>9.0.0-preview.1</Version>
 		<Authors>MyNihongo</Authors>
 		<Description>Markdown component for MudBlazor (https://mudblazor.com/)</Description>
-		<Copyright>Copyright © 2025 MyNihongo</Copyright>
+		<Copyright>Copyright © 2026 MyNihongo</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/MyNihongo/MudBlazor.Markdown</RepositoryUrl>
 		<PackageProjectUrl>https://mudblazor.com/</PackageProjectUrl>
@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.44.0" />
-		<PackageReference Include="MudBlazor" Version="8.15.0" />
+		<PackageReference Include="MudBlazor" Version="9.0.0-preview.1" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -234,13 +234,13 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class='mud-markdown-body'>
 				<p class='mud-typography mud-typography-body1'>
-					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						absolute
 					</a>
-					<a href='overridden/tokyo' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a href='overridden/tokyo' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						relative
 					</a>
-					<a href='overridden#edogawa' class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>
+					<a href='overridden#edogawa' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
 						id
 					</a>
 				</p>
@@ -327,7 +327,7 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 			"""
 			<article id:ignore class="mud-markdown-body">
 				<p class="mud-typography mud-typography-body1">
-					<a rel="noopener noreferrer" href="https://mudblazor.com/" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1">
+					<a rel="noopener noreferrer" href="https://mudblazor.com/" class="mud-typography mud-link mud-primary-text mud-link-underline-hover">
 						link display
 					</a>
 				</p>
