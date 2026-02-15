@@ -231,7 +231,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		fixture.MarkupMatches(expected);
 	}
 
-	#region https: //github.com/MyNihongo/MudBlazor.Markdown/issues/64
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/64
 
 	[Fact]
 	public void RenderHeaderAfterCode()
@@ -322,7 +322,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https: //github.com/MyNihongo/MudBlazor.Markdown/issues/102
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/102
 
 	[Fact]
 	public void RenderCodeBlockWithoutLanguage()
@@ -360,7 +360,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https: //github.com/MyNihongo/MudBlazor.Markdown/issues/144
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/144
 
 	[Fact]
 	public void RenderTableInsideList()
@@ -477,7 +477,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https: //github.com/MyNihongo/MudBlazor.Markdown/issues/233
+	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/233
 
 	[Fact]
 	public void RenderListWithWithCompositeListItems()
