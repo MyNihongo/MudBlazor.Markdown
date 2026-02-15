@@ -340,7 +340,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudImage.Elevation), 25);
 						builder1.CloseComponent();
 					}
-					else if (Props.Link.Command == null)
+					else if (Props.Link.Command is null)
 					{
 						builder1.OpenComponent<MudLink>(elementIndex1++);
 						builder1.AddComponentParameter(elementIndex1++, nameof(MudLink.Href), url);
