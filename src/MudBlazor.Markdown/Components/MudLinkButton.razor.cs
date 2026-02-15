@@ -4,9 +4,9 @@ internal sealed class MudLinkButton : MudComponentBase
 {
 	private string Classname =>
 		new CssBuilder("mud-typography mud-link")
-			.AddClass($"mud-{Color.ToDescriptionString()}-text")
-			.AddClass($"mud-link-underline-{Underline.ToDescriptionString()}")
-			.AddClass($"mud-typography-{Typo.ToDescriptionString()}")
+			.AddClass($"mud-{Color.ToStringFast()}-text")
+			.AddClass($"mud-link-underline-{Underline.ToStringFast()}")
+			.AddClass($"mud-typography-{Typo.ToStringFast()}")
 			.AddClass("mud-link-disabled", IsDisabled)
 			.AddClass(Class)
 			.Build();

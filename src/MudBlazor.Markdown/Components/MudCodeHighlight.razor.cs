@@ -14,7 +14,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-#if NET8_0 || NET9_0
+#if NET8_0 || NET9_0 || NET10_0
 #pragma warning disable BL0007
 #endif
 	public string Text
@@ -28,7 +28,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			_text = value;
 		}
 	}
-#if NET8_0 || NET9_0
+#if NET8_0 || NET9_0 || NET10_0
 #pragma warning restore BL0007
 #endif
 
@@ -43,7 +43,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
-#if NET8_0 || NET9_0
+#if NET8_0 || NET9_0 || NET10_0
 #pragma warning disable BL0007
 #endif
 	[Parameter]
@@ -59,7 +59,7 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 			Task.Run(SetThemeAsync);
 		}
 	}
-#if NET8_0 || NET9_0
+#if NET8_0 || NET9_0 || NET10_0
 #pragma warning restore BL0007
 #endif
 

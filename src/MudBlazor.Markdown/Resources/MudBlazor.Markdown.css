@@ -190,3 +190,12 @@ pre code.hljs {
 	border-left-color: var(--mud-palette-primary) !important;
 	color: var(--mud-palette-primary) !important;
 }
+
+/* Details */
+.mud-markdown-body .mud-expand-panel-header {
+	padding: 16px 12px !important;
+}
+
+.mud-markdown-body .mud-expand-panel-content {
+	padding: 0 12px 16px 12px !important;
+}

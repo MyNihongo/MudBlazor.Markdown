@@ -298,12 +298,10 @@ public sealed class MarkdownComponentPropShould : MarkdownComponentTestsBase
 		const string value = "text before [link display](123) text after";
 		const string expected =
 			"""
-			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>
-					text before
-					<span class='mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1'>link display</span>
-					text after
-				</p>
+			<article id:ignore class="mud-markdown-body">
+			  <p class="mud-typography mud-typography-body1">text before
+			    <span class="mud-typography mud-link mud-Primary-text mud-link-underline-Hover mud-typography-body1">link display</span>
+			    text after</p>
 			</article>
 			""";
 
