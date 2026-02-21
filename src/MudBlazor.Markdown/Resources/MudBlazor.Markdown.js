@@ -194,10 +194,10 @@ function trySetUrlHash(elementId) {
 		return;
 	}
 
-	const url = new URL(window.location.href);
 	const activeElementIdHref = `#${elementId}`;
 
-	if (url.hash !== activeElementIdHref) {
+	if (window.location.hash !== activeElementIdHref) {
+		const url = new URL(window.location.href);
 		url.hash = activeElementIdHref;
 		history.replaceState(null, "", url);
 	}
