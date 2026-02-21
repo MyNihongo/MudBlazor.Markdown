@@ -5,5 +5,5 @@
 <MudNavLink Match="NavLinkMatch.All" Href="/math">Math sample</MudNavLink>
 <MudNavLink Match="NavLinkMatch.All" Href="/issues">Issues</MudNavLink>
 <MudNavLink Match="NavLinkMatch.All" Href="/dynamic">Dynamic</MudNavLink>
-<MudNavLink Match="NavLinkMatch.All" Href="/sources">Sources</MudNavLink>
+<MudNavLink Match="NavLinkMatch.All" Href="@($"/sources?filePath={Uri.EscapeDataString(Path.Combine("Resources", "test_large.md"))}")">Sources</MudNavLink>
 <MudNavLink Match="NavLinkMatch.All" Href="/table-of-contents">Table of contents</MudNavLink>

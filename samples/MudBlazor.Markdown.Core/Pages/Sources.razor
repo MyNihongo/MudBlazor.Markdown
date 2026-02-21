@@ -1,5 +1,18 @@
 ﻿@page "/sources"
 
+@* File - from parameter *@
+<MudCard Class="mt-6">
+	<MudCardContent>
+		<MudText Typo="Typo.h3">From FilePath</MudText>
+		<MudMarkdown
+			Value="@(!string.IsNullOrEmpty(FilePath) ? Path.Combine(BaseDirectory, FilePath) : null)"
+			SourceType="MarkdownSourceType.File"
+			HasTableOfContents="true"
+			Styling="Styling"
+		/>
+	</MudCardContent>
+</MudCard>
+
 @* File - exists *@
 <MudCard Class="mt-6">
 	<MudCardContent>
@@ -59,6 +72,9 @@
 			Theme = Theme,
 		},
 	};
+
+	[SupplyParameterFromQuery(Name = "filePath")]
+	public string? FilePath { get; set; }
 
 	private static string BaseDirectory => AppDomain.CurrentDomain.BaseDirectory;
 }
