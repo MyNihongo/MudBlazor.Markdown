@@ -190,8 +190,15 @@ window.MudBlazorMarkdown = {
 };
 
 function trySetActiveElementId(elementId) {
+	if (!elementId) {
+		return;
+	}
+
+	const url = new URL(window.location.href);
 	const activeElementIdHref = `#${elementId}`;
-	if (!window.location.pathname.endsWith(activeElementIdHref)) {
-		history.replaceState(null, "", window.location.pathname + activeElementIdHref);
+
+	if (url.hash !== activeElementIdHref) {
+		url.hash = activeElementIdHref;
+		history.replaceState(null, "", url);
 	}
 }
