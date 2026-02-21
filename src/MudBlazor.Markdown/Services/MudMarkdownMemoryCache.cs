@@ -24,6 +24,12 @@ internal sealed class MudMarkdownMemoryCache : IMudMarkdownMemoryCache
 
 	public bool TryGetValue(in string key, out string value)
 	{
+		if (key is null)
+		{
+			value = string.Empty;
+			return true; // Cache string.Empty for null
+		}
+
 		Entry? entry;
 		lock (_lock)
 		{

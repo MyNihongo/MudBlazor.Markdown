@@ -85,7 +85,7 @@ window.MudBlazorMarkdown = {
 			return;
 		}
 
-		trySetActiveElementId(elementId);
+		trySetUrlHash(elementId);
 		if (dotNetReference) {
 			dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", elementId);
 		}
@@ -161,7 +161,7 @@ window.MudBlazorMarkdown = {
 				const currentActiveElementId = this.activeElementIds[elementId];
 				if (maxVisibilityElementId !== currentActiveElementId) {
 					this.activeElementIds[elementId] = maxVisibilityElementId;
-					trySetActiveElementId(maxVisibilityElementId);
+					trySetUrlHash(maxVisibilityElementId);
 					dotNetReference.invokeMethodAsync("OnActiveElementChangedAsync", maxVisibilityElementId);
 				}
 			};
@@ -189,9 +189,16 @@ window.MudBlazorMarkdown = {
 	},
 };
 
-function trySetActiveElementId(elementId) {
+function trySetUrlHash(elementId) {
+	if (!elementId) {
+		return;
+	}
+
 	const activeElementIdHref = `#${elementId}`;
-	if (!window.location.pathname.endsWith(activeElementIdHref)) {
-		history.replaceState(null, "", window.location.pathname + activeElementIdHref);
+
+	if (window.location.hash !== activeElementIdHref) {
+		const url = new URL(window.location.href);
+		url.hash = activeElementIdHref;
+		history.replaceState(null, "", url);
 	}
 }
