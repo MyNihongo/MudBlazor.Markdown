@@ -1,4 +1,6 @@
-﻿namespace MudBlazor;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+
+namespace MudBlazor;
 
 public static class ServiceCollectionEx
 {
@@ -21,6 +23,7 @@ public static class ServiceCollectionEx
 				else
 					options.TimeToLive = TimeSpan.FromHours(1);
 			})
+			.TryAddSingletonEx(TimeProvider.System)
 			.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>();
 	}
 
@@ -28,5 +31,12 @@ public static class ServiceCollectionEx
 		where T : class, IMudMarkdownClipboardService
 	{
 		return @this.AddScoped<IMudMarkdownClipboardService, T>();
+	}
+
+	private static IServiceCollection TryAddSingletonEx<T>(this IServiceCollection @this, T instance)
+		where T : class
+	{
+		@this.TryAddSingleton(instance);
+		return @this;
 	}
 }
