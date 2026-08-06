@@ -47,7 +47,7 @@ public sealed class TryGetValueShould : MudMarkdownMemoryCacheTestsBase
 	}
 
 	[Fact]
-	public async Task ReturnFalseAfterExpiration()
+	public void ReturnFalseAfterExpiration()
 	{
 		TimeToLive = TimeSpan.FromSeconds(1);
 		const string key = nameof(key), value = nameof(value);
@@ -55,7 +55,7 @@ public sealed class TryGetValueShould : MudMarkdownMemoryCacheTestsBase
 		var fixture = CreateFixture();
 		fixture.Set(key, value);
 
-		await Task.Delay(TimeToLive.Value);
+		TimeProvider.Advance(TimeToLive.Value);
 
 		var actual = fixture.TryGetValue(key, out var actualValue);
 
@@ -73,17 +73,17 @@ public sealed class TryGetValueShould : MudMarkdownMemoryCacheTestsBase
 	}
 
 	[Fact]
-	public async Task ReturnTrueAfterExtendedExpiresAt()
+	public void ReturnTrueAfterExtendedExpiresAt()
 	{
 		TimeToLive = TimeSpan.FromSeconds(2);
 		const string key = nameof(key), value = nameof(value);
 
 		var fixture = CreateFixture();
 		fixture.Set(key, value);
-		await Task.Delay(TimeSpan.FromSeconds(1));
+		TimeProvider.Advance(TimeSpan.FromSeconds(1));
 
 		fixture.Set(key, value);
-		await Task.Delay(TimeSpan.FromSeconds(1.01d));
+		TimeProvider.Advance(TimeSpan.FromSeconds(1.01d));
 
 		var actual = fixture.TryGetValue(key, out var actualValue);
 
