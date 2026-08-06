@@ -11,18 +11,20 @@ internal sealed class MudMarkdownMemoryCache : IMudMarkdownMemoryCache
 	private readonly object _lock = new();
 #endif
 	private readonly Dictionary<string, Entry> _memoryCache = new();
+	private readonly TimeProvider _timeProvider;
 	private readonly long _ttl;
 
-	public MudMarkdownMemoryCache(IOptions<MudMarkdownMemoryCacheOptions> options)
+	public MudMarkdownMemoryCache(IOptions<MudMarkdownMemoryCacheOptions> options, TimeProvider timeProvider)
 	{
 		var timespan = options.Value.TimeToLive;
 		if (timespan <= TimeSpan.Zero)
 			timespan = TimeSpan.FromHours(1);
 
+		_timeProvider = timeProvider;
 		_ttl = Convert.ToInt64(timespan.TotalSeconds);
 	}
 
-	public bool TryGetValue(in string key, out string value)
+	public bool TryGetValue(in string? key, out string value)
 	{
 		if (key is null)
 		{
@@ -78,8 +80,8 @@ internal sealed class MudMarkdownMemoryCache : IMudMarkdownMemoryCache
 		CurrentUnixTimeSeconds() + _ttl;
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static long CurrentUnixTimeSeconds() =>
-		DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+	private long CurrentUnixTimeSeconds() =>
+		_timeProvider.GetUtcNow().ToUnixTimeSeconds();
 
 	private sealed class Entry
 	{
