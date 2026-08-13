@@ -11,13 +11,19 @@
 	</NotFound>
 </Router>
 
-<MudThemeProvider IsDarkMode="_isDarkTheme" />
+<MudMarkdownThemeProvider Theme="_theme" IsDarkMode="_isDarkTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 @code
 {
+	private readonly MudTheme _theme = new()
+	{
+		PaletteLight = new MudMarkdownPaletteLight(),
+		PaletteDark = new MudMarkdownPaletteDark(),
+	}; 
+
 	private bool _isDarkTheme;
 
 	[Inject]
