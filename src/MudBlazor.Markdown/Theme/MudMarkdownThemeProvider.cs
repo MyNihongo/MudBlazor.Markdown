@@ -19,6 +19,17 @@ public class MudMarkdownThemeProvider : MudThemeProvider
 
 		if (palette is not IMudMarkdownPalette mudMarkdownPalette)
 			return;
+
+		// CodeHighlight
+		const string codeHighlight = "mud-markdown-codehightlight";
+		themeStringBuilder.AppendLine($"--{codeHighlight}-background: {mudMarkdownPalette.CodeHighlight.Background};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-text: {mudMarkdownPalette.CodeHighlight.Text};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-keyword: {mudMarkdownPalette.CodeHighlight.Keyword};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-string: {mudMarkdownPalette.CodeHighlight.String};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-comment: {mudMarkdownPalette.CodeHighlight.Comment};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-function: {mudMarkdownPalette.CodeHighlight.Function};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-type: {mudMarkdownPalette.CodeHighlight.Type};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-punctuation: {mudMarkdownPalette.CodeHighlight.Punctuation};");
 	}
 
 #if NET10_0_OR_GREATER
