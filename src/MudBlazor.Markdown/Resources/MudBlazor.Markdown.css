@@ -1,5 +1,5 @@
 ﻿/* Code */
-.mud-markdown-body code:not(.hljs) {
+.mud-markdown-body code:not(.mud-markdown-code-highlight) {
 	background: var(--mud-palette-action-disabled-background);
 	color: var(--mud-palette-text-primary) !important;
 	padding: 2.5px 7.5px;
@@ -7,7 +7,7 @@
 }
 
 /* This component is public, so apply styling in all places, not only within mud-markdown-body */
-pre code.hljs {
+pre code.mud-markdown-code-highlight {
 	display: block !important;
 	overflow-x: auto;
 	padding: 1em;
@@ -29,7 +29,7 @@ pre code.hljs {
 	right: 0;
 }
 
-.mud-markdown-code-highlight-sticky pre code.hljs {
+.mud-markdown-code-highlight-sticky pre code.mud-markdown-code-highlight {
 	padding-top: 0 !important;
 }
 
