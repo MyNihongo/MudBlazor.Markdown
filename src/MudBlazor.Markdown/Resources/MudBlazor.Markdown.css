@@ -1,4 +1,52 @@
 ﻿/* Code */
+.hljs {
+	color: var(--mud-markdown-codehightlight-text);
+	background: var(--mud-markdown-codehightlight-background);
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-variable.language_ {
+	color: var(--mud-markdown-codehightlight-keyword);
+}
+
+.hljs-type{
+	color: var(--mud-markdown-codehightlight-type);
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+	color: var(--mud-markdown-codehightlight-function);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-meta,
+.hljs-number,
+.hljs-operator,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+	color: var(--mud-markdown-codehightlight-number);
+}
+
+.hljs-string {
+	color: var(--mud-markdown-codehightlight-string);
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+	color: var(--mud-markdown-codehightlight-comment);
+}
+
 .mud-markdown-body code:not(.hljs) {
 	background: var(--mud-palette-action-disabled-background);
 	color: var(--mud-palette-text-primary) !important;

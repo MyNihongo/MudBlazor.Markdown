@@ -23,7 +23,7 @@ public static class MudCodeHighlightThemes
 			Comment = "#008000",
 			Function = "#795E26",
 			Type = "#267F99",
-			Punctuation = "#000000",
+			Numbers = "#098658",
 		};
 	}
 
@@ -44,7 +44,7 @@ public static class MudCodeHighlightThemes
 			Comment = "#6A9955",
 			Function = "#DCDCAA",
 			Type = "#4EC9B0",
-			Punctuation = "#D4D4D4",
+			Numbers = "#B5CEA8",
 		};
 	}
 }

@@ -10,7 +10,7 @@ public static class MudMarkdownTheme
 	/// Set of colors that map source-code tokens to the highlighting displayed in a code block.<br/>
 	/// Ready-made palettes are available in <see cref="MudCodeHighlightThemes"/>.
 	/// </summary>
-	public class CodeHighlight
+	public record CodeHighlight
 	{
 		/// <summary>
 		/// Background color of the code block.
@@ -48,8 +48,8 @@ public static class MudMarkdownTheme
 		public required MudColor Type { get; set; }
 
 		/// <summary>
-		/// Color of punctuation such as brackets, braces, semicolons and operators.
+		/// Color of numbers.
 		/// </summary>
-		public required MudColor Punctuation { get; set; }
+		public required MudColor Numbers { get; set; }
 	}
 }

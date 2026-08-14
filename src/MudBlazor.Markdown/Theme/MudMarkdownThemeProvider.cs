@@ -29,7 +29,7 @@ public class MudMarkdownThemeProvider : MudThemeProvider
 		themeStringBuilder.AppendLine($"--{codeHighlight}-comment: {mudMarkdownPalette.CodeHighlight.Comment};");
 		themeStringBuilder.AppendLine($"--{codeHighlight}-function: {mudMarkdownPalette.CodeHighlight.Function};");
 		themeStringBuilder.AppendLine($"--{codeHighlight}-type: {mudMarkdownPalette.CodeHighlight.Type};");
-		themeStringBuilder.AppendLine($"--{codeHighlight}-punctuation: {mudMarkdownPalette.CodeHighlight.Punctuation};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-number: {mudMarkdownPalette.CodeHighlight.Numbers};");
 	}
 
 #if NET10_0_OR_GREATER
