@@ -78,16 +78,18 @@ pre code.hljs {
 	right: 0;
 }
 
-.mud-markdown-code-highlight-sticky pre code.hljs {
-	padding-top: 0 !important;
+.mud-markdown-body .mud-markdown-code-highlight-sticky {
+	position: relative;
+	display: flex;
+	flex-direction: column;
 }
 
 .mud-markdown-body .mud-markdown-code-highlight-sticky .mud-markdown-code-highlight-copybtn-sticky {
 	position: sticky;
-	overflow: hidden;
+	align-self: flex-end;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
 	top: calc(var(--mud-appbar-height) + 16px);
-	float: right;
+	margin-bottom: -3.5rem;
 }
 
 /* Quote */
@@ -186,20 +188,21 @@ pre code.hljs {
 
 .mud-markdown-toc-drawer {
 	position: sticky;
-	overflow: hidden;
+	overflow: visible;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
 	top: calc(var(--mud-appbar-height) + 16px);
 	float: right;
 }
 
 .mud-markdown-toc-drawer-content {
-	width: var(--mud-drawer-width-right);
+	width: 0;
 	opacity: 0;
 	visibility: collapse;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mud-markdown-toc-drawer-content.open {
+	width: var(--mud-drawer-width-right);
 	opacity: 1;
 	visibility: visible;
 }
