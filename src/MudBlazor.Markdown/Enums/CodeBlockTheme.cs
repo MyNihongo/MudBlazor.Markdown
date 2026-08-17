@@ -1,5 +1,6 @@
 namespace MudBlazor;
 
+[Obsolete("TODO add message")]
 public enum CodeBlockTheme : ushort
 {
 	Default = 0,
