@@ -196,6 +196,7 @@ pre code.hljs {
 
 .mud-markdown-toc-drawer-content {
 	width: 0;
+	overflow: hidden;
 	opacity: 0;
 	visibility: collapse;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
