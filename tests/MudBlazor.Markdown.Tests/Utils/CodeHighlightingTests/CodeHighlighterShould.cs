@@ -150,6 +150,42 @@ public sealed class CodeHighlighterShould
 			.Be(expected);
 	}
 
+	[Fact]
+	public void HighlightRust()
+	{
+		var input = Join(
+			"// entry point",
+			"fn main() {",
+			"    let x: i32 = 123;",
+			"    println!(\"Hello, 世界\");",
+			"}");
+
+		var expected = Join(
+			"<span class=\"hljs-comment\">// entry point</span>",
+			"<span class=\"hljs-function\"><span class=\"hljs-keyword\">fn</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">()</span></span> {",
+			"    <span class=\"hljs-keyword\">let</span> x: <span class=\"hljs-type\">i32</span> = <span class=\"hljs-number\">123</span>;",
+			"    println!(<span class=\"hljs-string\">\"Hello, 世界\"</span>);",
+			"}");
+
+		Highlight("rust", input)
+			.Should()
+			.Be(expected);
+	}
+
+	[Fact]
+	public void HighlightRustGenericType()
+	{
+		const string input = "let v: Vec<String> = Vec::new();";
+
+		const string expected =
+			"<span class=\"hljs-keyword\">let</span> v: " +
+			"<span class=\"hljs-type\">Vec</span>&lt;<span class=\"hljs-type\">String</span>&gt; = Vec::new();";
+
+		Highlight("rust", input)
+			.Should()
+			.Be(expected);
+	}
+
 	private static string Highlight(string language, string code)
 	{
 		var highlighter = CodeHighlighterFactory.Create(language);

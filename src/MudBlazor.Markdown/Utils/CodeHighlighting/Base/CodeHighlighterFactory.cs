@@ -13,6 +13,7 @@ internal static class CodeHighlighterFactory
 	private const string GoLanguage = "go";
 	private const string KotlinLanguage = "kotlin";
 	private const string RazorLanguage = "razor";
+	private const string RustLanguage = "rust";
 
 	private static readonly ConcurrentDictionary<string, ICodeHighlighter?> CodeHighlighters = new();
 
@@ -31,6 +32,7 @@ internal static class CodeHighlighterFactory
 				GoLanguage => new GoCodeHighlighter(),
 				KotlinLanguage => new KotlinCodeHighlighter(),
 				RazorLanguage => new RazorCodeHighlighter(),
+				RustLanguage => new RustCodeHighlighter(),
 				_ => null,
 			};
 		});
@@ -44,6 +46,7 @@ internal static class CodeHighlighterFactory
 			GoLanguage or "golang" => GoLanguage,
 			KotlinLanguage or "kt" or "kts" => KotlinLanguage,
 			RazorLanguage or "cshtml" or "razor-cshtml" => RazorLanguage,
+			RustLanguage or "rs" => RustLanguage,
 			_ => string.Empty,
 		};
 	}
