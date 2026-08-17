@@ -4,11 +4,6 @@ using System.Text;
 
 namespace MudBlazor;
 
-/// <summary>
-/// Handles line/block comments, strings, numbers, keywords, types and (for languages that declare
-/// <see cref="FunctionKeywords"/>) function declarations rendered as nested
-/// function / title / params spans.
-/// </summary>
 internal abstract class CodeHighlighterBase : ICodeHighlighter
 {
 	private readonly WordSet _keywords;
@@ -19,6 +14,9 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	private readonly (string Start, string End)[] _blockComments;
 	private readonly SearchValues<char> _stringQuotes;
 	private readonly char? _rawStringQuote;
+	private readonly bool _highlightMethodCalls;
+	private readonly bool _highlightHtmlTags;
+	private readonly bool _highlightPascalCaseTypes;
 
 	protected CodeHighlighterBase(LanguageDefinition definition)
 	{
@@ -30,6 +28,9 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		_blockComments = definition.BlockComments;
 		_stringQuotes = SearchValues.Create(definition.StringQuotes);
 		_rawStringQuote = definition.RawStringQuote;
+		_highlightMethodCalls = definition.HighlightMethodCalls;
+		_highlightHtmlTags = definition.HighlightHtmlTags;
+		_highlightPascalCaseTypes = definition.HighlightPascalCaseTypes;
 	}
 
 	public IReadOnlyList<CodeNode> Highlight(string code)
@@ -37,6 +38,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		var nodes = new List<CodeNode>();
 		var text = new StringBuilder();
 		var i = 0;
+		var inHtmlText = false;
 
 		while (i < code.Length)
 		{
@@ -63,6 +65,25 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				FlushText();
 				nodes.Add(ReadString(code, ref i, c));
 				continue;
+			}
+
+			if (_highlightHtmlTags && c == '<')
+			{
+				if (Matches(code, i, "<!--"))
+				{
+					FlushText();
+					nodes.Add(ReadHtmlComment(code, ref i));
+					inHtmlText = true;
+					continue;
+				}
+
+				if (IsHtmlTagStart(code, i, inHtmlText))
+				{
+					FlushText();
+					nodes.Add(ReadHtmlTag(code, ref i));
+					inHtmlText = true;
+					continue;
+				}
 			}
 
 			if (char.IsAsciiDigit(c))
@@ -100,6 +121,24 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				{
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
+
+					if (_highlightPascalCaseTypes && i < code.Length && code[i] == '<')
+						ReadGenericArguments(code, ref i, nodes);
+				}
+				else if (_highlightMethodCalls && i < code.Length && code[i] == '(')
+				{
+					// Method call/declaration: identifier immediately followed by '('.
+					FlushText();
+					nodes.Add(new CodeSpan("hljs-title", [new CodeText(code[start..i])]));
+				}
+				else if (_highlightPascalCaseTypes && !inHtmlText && char.IsUpper(code[start]) && IsTypePosition(code, start, i))
+				{
+					// PascalCase identifier in a type position (e.g. Guid Id, List<T>), not a member name.
+					FlushText();
+					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
+
+					if (i < code.Length && code[i] == '<')
+						ReadGenericArguments(code, ref i, nodes);
 				}
 				else
 				{
@@ -109,6 +148,9 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 				continue;
 			}
+
+			if (_highlightHtmlTags && c == '@')
+				inHtmlText = false;
 
 			text.Append(c);
 			i++;
@@ -325,6 +367,200 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			i++;
 
 		return new CodeSpan("hljs-number", [new CodeText(code[start..i])]);
+	}
+
+	private static bool IsTypePosition(string code, int start, int i)
+	{
+		// Followed by a generic list, an array, or another identifier: "Type name", "Type<...>", "Type[]".
+		if (i < code.Length)
+		{
+			var c = code[i];
+			if (c is '<' or '[')
+				return true;
+
+			var j = i;
+			while (j < code.Length && code[j] is ' ' or '\t')
+				j++;
+
+			if (j < code.Length && IsIdentifierStart(code[j]))
+				return true;
+		}
+
+		// Preceded by ':' : annotation or inheritance ("name: Type", "class X : Base").
+		var k = start - 1;
+		while (k >= 0 && code[k] is ' ' or '\t')
+			k--;
+
+		return k >= 0 && code[k] == ':' && (k == 0 || code[k - 1] != ':');
+	}
+
+	private void ReadGenericArguments(string code, ref int i, List<CodeNode> nodes)
+	{
+		var raw = new StringBuilder();
+
+		var depth = 0;
+		while (i < code.Length)
+		{
+			var c = code[i];
+
+			if (c == '<')
+			{
+				depth++;
+				raw.Append(c);
+				i++;
+				continue;
+			}
+
+			if (c == '>')
+			{
+				depth--;
+				raw.Append(c);
+				i++;
+				if (depth == 0)
+					break;
+				continue;
+			}
+
+			if (IsIdentifierStart(c))
+			{
+				var start = i;
+				i++;
+				while (i < code.Length && IsIdentifierPart(code[i]))
+					i++;
+
+				var word = code.AsSpan(start, i - start);
+				if (_keywords.Contains(word))
+				{
+					FlushRaw();
+					nodes.Add(new CodeSpan("hljs-keyword", [new CodeText(code[start..i])]));
+				}
+				else if (_types.Contains(word) || char.IsUpper(code[start]))
+				{
+					FlushRaw();
+					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
+				}
+				else
+				{
+					raw.Append(word);
+				}
+
+				continue;
+			}
+
+			raw.Append(c);
+			i++;
+		}
+
+		FlushRaw();
+		return;
+
+		void FlushRaw()
+		{
+			if (raw.Length == 0)
+				return;
+
+			nodes.Add(new CodeText(raw.ToString()));
+			raw.Clear();
+		}
+	}
+
+	private static bool IsHtmlTagStart(string code, int i, bool inHtmlText)
+	{
+		var next = i + 1;
+		if (next >= code.Length)
+			return false;
+
+		var c = code[next];
+		if (c is '/' or '!')
+			return true;
+
+		if (!char.IsLetter(c))
+			return false;
+
+		// In HTML text any '<letter' opens a tag. In a code region a '<' that directly
+		// follows an identifier is a generic argument list (e.g. List<T>), not a tag.
+		if (inHtmlText)
+			return true;
+
+		return i == 0 || !IsIdentifierPart(code[i - 1]);
+	}
+
+	private static CodeSpan ReadHtmlComment(string code, ref int i)
+	{
+		var start = i;
+		i += "<!--".Length;
+
+		while (i < code.Length && !Matches(code, i, "-->"))
+			i++;
+
+		if (i < code.Length)
+			i += "-->".Length;
+
+		return new CodeSpan("hljs-comment", [new CodeText(code[start..i])]);
+	}
+
+	private CodeSpan ReadHtmlTag(string code, ref int i)
+	{
+		var children = new List<CodeNode>();
+		var raw = new StringBuilder();
+
+		void FlushRaw()
+		{
+			if (raw.Length == 0)
+				return;
+
+			children.Add(new CodeText(raw.ToString()));
+			raw.Clear();
+		}
+
+		raw.Append(code[i++]); // '<'
+
+		if (i < code.Length && code[i] == '/')
+			raw.Append(code[i++]); // '/'
+
+		// Tag name
+		if (i < code.Length && (char.IsLetter(code[i]) || code[i] == '_'))
+		{
+			var start = i;
+			while (i < code.Length && (char.IsLetterOrDigit(code[i]) || code[i] is '-' or '.' or '_' or ':'))
+				i++;
+
+			FlushRaw();
+			children.Add(new CodeSpan("hljs-name", [new CodeText(code[start..i])]));
+		}
+
+		// Attributes
+		while (i < code.Length && code[i] != '>')
+		{
+			var c = code[i];
+
+			if (c is '"' or '\'')
+			{
+				FlushRaw();
+				children.Add(ReadString(code, ref i, c));
+				continue;
+			}
+
+			if (char.IsLetter(c) || c is '_' or '@' or ':')
+			{
+				var start = i;
+				while (i < code.Length && (char.IsLetterOrDigit(code[i]) || code[i] is '-' or '_' or ':' or '@' or '.'))
+					i++;
+
+				FlushRaw();
+				children.Add(new CodeSpan("hljs-attr", [new CodeText(code[start..i])]));
+				continue;
+			}
+
+			raw.Append(c);
+			i++;
+		}
+
+		if (i < code.Length && code[i] == '>')
+			raw.Append(code[i++]);
+
+		FlushRaw();
+		return new CodeSpan("hljs-tag", children);
 	}
 
 	private static bool IsIdentifierStart(char c) =>

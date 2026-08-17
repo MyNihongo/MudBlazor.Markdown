@@ -29,4 +29,23 @@ internal sealed record LanguageDefinition
 
 	/// <summary>Character that opens/closes a raw string with no escaping (e.g. Go back-tick strings).</summary>
 	public char? RawStringQuote { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, an identifier immediately followed by <c>(</c> is rendered as a function
+	/// title (method call/declaration). Used by languages without a dedicated function keyword (e.g. C#).
+	/// </summary>
+	public bool HighlightMethodCalls { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, HTML tags (<c>&lt;div&gt;</c>, <c>&lt;/div&gt;</c>) and their attributes are
+	/// tokenized. Used for markup languages (e.g. Razor).
+	/// </summary>
+	public bool HighlightHtmlTags { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, an uppercase-first identifier in a type position (e.g. <c>Guid Id</c>,
+	/// <c>Array&lt;String&gt;</c>, <c>T[]</c>) is rendered as a type token, and generic arguments are highlighted.
+	/// Used by languages with PascalCase types that cannot be fully enumerated (e.g. C#).
+	/// </summary>
+	public bool HighlightPascalCaseTypes { get; init; }
 }

@@ -25,5 +25,7 @@ internal sealed class CSharpCodeHighlighter() : CodeHighlighterBase(Definition)
 			"short", "ushort", "object", "string", "void", "dynamic", "nint", "nuint",
 		],
 		Literals = ["true", "false", "null"],
+		HighlightMethodCalls = true,
+		HighlightPascalCaseTypes = true,
 	};
 }

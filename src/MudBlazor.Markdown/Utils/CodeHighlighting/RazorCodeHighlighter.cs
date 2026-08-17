@@ -10,5 +10,6 @@ internal sealed class RazorCodeHighlighter() : CodeHighlighterBase(Definition)
 	private static readonly LanguageDefinition Definition = CSharpCodeHighlighter.Definition with
 	{
 		BlockComments = [("@*", "*@"), ("/*", "*/")],
+		HighlightHtmlTags = true,
 	};
 }

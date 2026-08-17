@@ -24,5 +24,6 @@ internal sealed class KotlinCodeHighlighter() : CodeHighlighterBase(Definition)
 		],
 		Literals = ["true", "false", "null"],
 		FunctionKeywords = ["fun"],
+		HighlightPascalCaseTypes = true,
 	};
 }
