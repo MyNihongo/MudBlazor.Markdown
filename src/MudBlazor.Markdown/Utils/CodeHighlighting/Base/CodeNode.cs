@@ -3,7 +3,7 @@ namespace MudBlazor;
 /// <summary>
 /// A node produced by an <see cref="ICodeHighlighter"/>.<br/>
 /// Either raw <see cref="CodeText"/> or a <see cref="CodeSpan"/> that wraps children in a
-/// <c>&lt;span class="hljs-*"&gt;</c> element.
+/// <c>&lt;span&gt;</c> element carrying a token CSS class.
 /// </summary>
 internal abstract class CodeNode;
 

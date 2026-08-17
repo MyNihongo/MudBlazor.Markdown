@@ -1,7 +1,7 @@
 namespace MudBlazor;
 
 /// <summary>
-/// Parses source code into a tree of <see cref="CodeNode"/>s that map to <c>hljs-*</c> token spans.
+/// Parses source code into a tree of <see cref="CodeNode"/>s that map to highlighted token spans.
 /// </summary>
 internal interface ICodeHighlighter
 {

@@ -3,25 +3,24 @@ using System.Text;
 namespace MudBlazor;
 
 /// <summary>
-/// A hand-written scanner for C-style languages.<br/>
 /// Handles line/block comments, strings, numbers, keywords, types and (for languages that declare
 /// <see cref="FunctionKeywords"/>) function declarations rendered as nested
-/// <c>hljs-function</c> / <c>hljs-title</c> / <c>hljs-params</c> spans.
+/// function / title / params spans.
 /// </summary>
-internal abstract class CStyleCodeHighlighter : ICodeHighlighter
+internal abstract class CodeHighlighterBase : ICodeHighlighter
 {
 	private static readonly IReadOnlySet<string> EmptySet = new HashSet<string>();
 	private static readonly IReadOnlyList<string> DefaultLineComments = ["//"];
 	private static readonly IReadOnlyList<(string, string)> DefaultBlockComments = [("/*", "*/")];
 	private static readonly IReadOnlyList<char> DefaultStringQuotes = ['"', '\''];
 
-	/// <summary>Reserved words rendered as <c>hljs-keyword</c>.</summary>
+	/// <summary>Reserved words rendered as keyword tokens.</summary>
 	protected abstract IReadOnlySet<string> Keywords { get; }
 
-	/// <summary>Built-in type names rendered as <c>hljs-type</c>.</summary>
+	/// <summary>Built-in type names rendered as type tokens.</summary>
 	protected virtual IReadOnlySet<string> Types => EmptySet;
 
-	/// <summary>Literals (e.g. <c>true</c>, <c>null</c>) rendered as <c>hljs-literal</c>.</summary>
+	/// <summary>Literals (e.g. <c>true</c>, <c>null</c>) rendered as literal tokens.</summary>
 	protected virtual IReadOnlySet<string> Literals => EmptySet;
 
 	/// <summary>Keywords that introduce a function declaration (e.g. <c>func</c>, <c>fun</c>).</summary>
@@ -44,57 +43,6 @@ internal abstract class CStyleCodeHighlighter : ICodeHighlighter
 		var nodes = new List<CodeNode>();
 		var text = new StringBuilder();
 		var i = 0;
-
-		void FlushText()
-		{
-			if (text.Length == 0)
-				return;
-
-			nodes.Add(new CodeText(text.ToString()));
-			text.Clear();
-		}
-
-		bool TryReadLineComment()
-		{
-			foreach (var prefix in LineComments)
-			{
-				if (!Matches(code, i, prefix))
-					continue;
-
-				FlushText();
-				var start = i;
-				while (i < code.Length && code[i] != '\n')
-					i++;
-
-				nodes.Add(new CodeSpan("hljs-comment", [new CodeText(code[start..i])]));
-				return true;
-			}
-
-			return false;
-		}
-
-		bool TryReadBlockComment()
-		{
-			foreach (var (open, close) in BlockComments)
-			{
-				if (!Matches(code, i, open))
-					continue;
-
-				FlushText();
-				var start = i;
-				i += open.Length;
-				while (i < code.Length && !Matches(code, i, close))
-					i++;
-
-				if (i < code.Length)
-					i += close.Length;
-
-				nodes.Add(new CodeSpan("hljs-comment", [new CodeText(code[start..i])]));
-				return true;
-			}
-
-			return false;
-		}
 
 		while (i < code.Length)
 		{
@@ -172,6 +120,57 @@ internal abstract class CStyleCodeHighlighter : ICodeHighlighter
 
 		FlushText();
 		return nodes;
+
+		void FlushText()
+		{
+			if (text.Length == 0)
+				return;
+
+			nodes.Add(new CodeText(text.ToString()));
+			text.Clear();
+		}
+
+		bool TryReadLineComment()
+		{
+			foreach (var prefix in LineComments)
+			{
+				if (!Matches(code, i, prefix))
+					continue;
+
+				FlushText();
+				var start = i;
+				while (i < code.Length && code[i] != '\n')
+					i++;
+
+				nodes.Add(new CodeSpan("hljs-comment", [new CodeText(code[start..i])]));
+				return true;
+			}
+
+			return false;
+		}
+
+		bool TryReadBlockComment()
+		{
+			foreach (var (open, close) in BlockComments)
+			{
+				if (!Matches(code, i, open))
+					continue;
+
+				FlushText();
+				var start = i;
+				i += open.Length;
+				while (i < code.Length && !Matches(code, i, close))
+					i++;
+
+				if (i < code.Length)
+					i += close.Length;
+
+				nodes.Add(new CodeSpan("hljs-comment", [new CodeText(code[start..i])]));
+				return true;
+			}
+
+			return false;
+		}
 	}
 
 	private CodeSpan ReadFunction(string code, string keyword, ref int i)
@@ -258,7 +257,7 @@ internal abstract class CStyleCodeHighlighter : ICodeHighlighter
 			children.Add(new CodeText(code[start..i]));
 	}
 
-	private CodeSpan ReadString(string code, ref int i, char quote)
+	private static CodeSpan ReadString(string code, ref int i, char quote)
 	{
 		var start = i;
 		i++; // opening quote
