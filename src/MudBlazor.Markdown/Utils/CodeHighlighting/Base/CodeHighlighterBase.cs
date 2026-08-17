@@ -1,3 +1,5 @@
+using System.Buffers;
+using System.Collections.Frozen;
 using System.Text;
 
 namespace MudBlazor;
@@ -9,34 +11,26 @@ namespace MudBlazor;
 /// </summary>
 internal abstract class CodeHighlighterBase : ICodeHighlighter
 {
-	private static readonly IReadOnlySet<string> EmptySet = new HashSet<string>();
-	private static readonly IReadOnlyList<string> DefaultLineComments = ["//"];
-	private static readonly IReadOnlyList<(string, string)> DefaultBlockComments = [("/*", "*/")];
-	private static readonly IReadOnlyList<char> DefaultStringQuotes = ['"', '\''];
+	private readonly WordSet _keywords;
+	private readonly WordSet _types;
+	private readonly WordSet _literals;
+	private readonly WordSet _functionKeywords;
+	private readonly string[] _lineComments;
+	private readonly (string Start, string End)[] _blockComments;
+	private readonly SearchValues<char> _stringQuotes;
+	private readonly char? _rawStringQuote;
 
-	/// <summary>Reserved words rendered as keyword tokens.</summary>
-	protected abstract IReadOnlySet<string> Keywords { get; }
-
-	/// <summary>Built-in type names rendered as type tokens.</summary>
-	protected virtual IReadOnlySet<string> Types => EmptySet;
-
-	/// <summary>Literals (e.g. <c>true</c>, <c>null</c>) rendered as literal tokens.</summary>
-	protected virtual IReadOnlySet<string> Literals => EmptySet;
-
-	/// <summary>Keywords that introduce a function declaration (e.g. <c>func</c>, <c>fun</c>).</summary>
-	protected virtual IReadOnlySet<string> FunctionKeywords => EmptySet;
-
-	/// <summary>Prefixes that start a single-line comment.</summary>
-	protected virtual IReadOnlyList<string> LineComments => DefaultLineComments;
-
-	/// <summary>Delimiter pairs that start/end a block comment.</summary>
-	protected virtual IReadOnlyList<(string Start, string End)> BlockComments => DefaultBlockComments;
-
-	/// <summary>Characters that open/close a string or character literal.</summary>
-	protected virtual IReadOnlyList<char> StringQuotes => DefaultStringQuotes;
-
-	/// <summary>Character that opens/closes a raw string with no escaping (e.g. Go back-tick strings).</summary>
-	protected virtual char? RawStringQuote => null;
+	protected CodeHighlighterBase(LanguageDefinition definition)
+	{
+		_keywords = new WordSet(definition.Keywords);
+		_types = new WordSet(definition.Types);
+		_literals = new WordSet(definition.Literals);
+		_functionKeywords = new WordSet(definition.FunctionKeywords);
+		_lineComments = definition.LineComments;
+		_blockComments = definition.BlockComments;
+		_stringQuotes = SearchValues.Create(definition.StringQuotes);
+		_rawStringQuote = definition.RawStringQuote;
+	}
 
 	public IReadOnlyList<CodeNode> Highlight(string code)
 	{
@@ -51,7 +45,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 			var c = code[i];
 
-			if (RawStringQuote is { } rawQuote && c == rawQuote)
+			if (_rawStringQuote is { } rawQuote && c == rawQuote)
 			{
 				FlushText();
 				var start = i++;
@@ -64,14 +58,14 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				continue;
 			}
 
-			if (StringQuotes.Contains(c))
+			if (_stringQuotes.Contains(c))
 			{
 				FlushText();
 				nodes.Add(ReadString(code, ref i, c));
 				continue;
 			}
 
-			if (char.IsDigit(c))
+			if (char.IsAsciiDigit(c))
 			{
 				FlushText();
 				nodes.Add(ReadNumber(code, ref i));
@@ -81,33 +75,35 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			if (IsIdentifierStart(c))
 			{
 				var start = i;
+				i++;
 				while (i < code.Length && IsIdentifierPart(code[i]))
 					i++;
 
-				var word = code[start..i];
+				var word = code.AsSpan(start, i - start);
 
-				if (FunctionKeywords.Contains(word))
+				if (_functionKeywords.Contains(word))
 				{
 					FlushText();
-					nodes.Add(ReadFunction(code, word, ref i));
+					nodes.Add(ReadFunction(code, code[start..i], ref i));
 				}
-				else if (Keywords.Contains(word))
+				else if (_keywords.Contains(word))
 				{
 					FlushText();
-					nodes.Add(new CodeSpan("hljs-keyword", [new CodeText(word)]));
+					nodes.Add(new CodeSpan("hljs-keyword", [new CodeText(code[start..i])]));
 				}
-				else if (Literals.Contains(word))
+				else if (_literals.Contains(word))
 				{
 					FlushText();
-					nodes.Add(new CodeSpan("hljs-literal", [new CodeText(word)]));
+					nodes.Add(new CodeSpan("hljs-literal", [new CodeText(code[start..i])]));
 				}
-				else if (Types.Contains(word))
+				else if (_types.Contains(word))
 				{
 					FlushText();
-					nodes.Add(new CodeSpan("hljs-type", [new CodeText(word)]));
+					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
 				}
 				else
 				{
+					// Plain identifier: appended by span, no substring allocation.
 					text.Append(word);
 				}
 
@@ -132,7 +128,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 		bool TryReadLineComment()
 		{
-			foreach (var prefix in LineComments)
+			foreach (var prefix in _lineComments)
 			{
 				if (!Matches(code, i, prefix))
 					continue;
@@ -151,7 +147,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 		bool TryReadBlockComment()
 		{
-			foreach (var (open, close) in BlockComments)
+			foreach (var (open, close) in _blockComments)
 			{
 				if (!Matches(code, i, open))
 					continue;
@@ -209,7 +205,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		{
 			var ch = code[j];
 
-			if (StringQuotes.Contains(ch))
+			if (_stringQuotes.Contains(ch))
 			{
 				ReadString(code, ref j, ch);
 				continue;
@@ -257,7 +253,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			children.Add(new CodeText(code[start..i]));
 	}
 
-	private static CodeSpan ReadString(string code, ref int i, char quote)
+	private CodeSpan ReadString(string code, ref int i, char quote)
 	{
 		var start = i;
 		i++; // opening quote
@@ -294,18 +290,18 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		if (code[i] == '0' && i + 1 < code.Length && code[i + 1] is 'x' or 'X')
 		{
 			i += 2;
-			while (i < code.Length && Uri.IsHexDigit(code[i]))
+			while (i < code.Length && char.IsAsciiHexDigit(code[i]))
 				i++;
 		}
 		else
 		{
-			while (i < code.Length && char.IsDigit(code[i]))
+			while (i < code.Length && char.IsAsciiDigit(code[i]))
 				i++;
 
-			if (i < code.Length && code[i] == '.' && i + 1 < code.Length && char.IsDigit(code[i + 1]))
+			if (i < code.Length && code[i] == '.' && i + 1 < code.Length && char.IsAsciiDigit(code[i + 1]))
 			{
 				i++;
-				while (i < code.Length && char.IsDigit(code[i]))
+				while (i < code.Length && char.IsAsciiDigit(code[i]))
 					i++;
 			}
 
@@ -316,8 +312,8 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				if (i < code.Length && code[i] is '+' or '-')
 					i++;
 
-				if (i < code.Length && char.IsDigit(code[i]))
-					while (i < code.Length && char.IsDigit(code[i]))
+				if (i < code.Length && char.IsAsciiDigit(code[i]))
+					while (i < code.Length && char.IsAsciiDigit(code[i]))
 						i++;
 				else
 					i = save;
@@ -339,4 +335,39 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 	private static bool Matches(string code, int i, string token) =>
 		i + token.Length <= code.Length && string.CompareOrdinal(code, i, token, 0, token.Length) == 0;
+
+	/// <summary>
+	/// A frozen word set that can be probed by <see cref="ReadOnlySpan{T}"/> without allocating
+	/// (using the alternate span lookup on .NET 9+); falls back to a string probe otherwise.
+	/// </summary>
+	private readonly struct WordSet
+	{
+		private readonly FrozenSet<string> _set;
+#if NET9_0_OR_GREATER
+		private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _lookup;
+		private readonly bool _hasLookup;
+#endif
+
+		public WordSet(string[] words)
+		{
+			_set = words.ToFrozenSet(StringComparer.Ordinal);
+#if NET9_0_OR_GREATER
+			_hasLookup = _set.Count > 0 && _set.Comparer is IAlternateEqualityComparer<ReadOnlySpan<char>, string>;
+			if (_hasLookup)
+				_lookup = _set.GetAlternateLookup<ReadOnlySpan<char>>();
+#endif
+		}
+
+		public bool Contains(ReadOnlySpan<char> word)
+		{
+			if (_set.Count == 0)
+				return false;
+
+#if NET9_0_OR_GREATER
+			if (_hasLookup)
+				return _lookup.Contains(word);
+#endif
+			return _set.Contains(word.ToString());
+		}
+	}
 }
