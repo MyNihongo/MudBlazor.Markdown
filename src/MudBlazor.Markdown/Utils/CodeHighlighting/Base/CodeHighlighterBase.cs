@@ -6,14 +6,21 @@ namespace MudBlazor;
 
 internal abstract class CodeHighlighterBase : ICodeHighlighter
 {
-	private static readonly FrozenSet<string> DefaultLineComments = FrozenSet.Create("//");
-	private static readonly FrozenSet<BlockComment> DefaultBlockComments = FrozenSet.Create(("/*", "*/"));
-	private static readonly SearchValues<char> DefaultStringQuotes = SearchValues.Create('"', '\'');
-
+	private static readonly FrozenSet<string> DefaultLineComments = FrozenSets.Create("//");
+	private static readonly FrozenSet<BlockComment> DefaultBlockComments = FrozenSets.Create(("/*", "*/"));
+	private static readonly SearchValues<char> DefaultStringQuotes = SearchValuess.Create('"', '\'');
+	
+#if NET9_0_OR_GREATER
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _keywords;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _types;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _literals;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _functionKeywords;
+#else
+	private readonly FrozenSet<string> _keywords = FrozenSet<string>.Empty;
+	private readonly FrozenSet<string> _types = FrozenSet<string>.Empty;
+	private readonly FrozenSet<string> _literals = FrozenSet<string>.Empty;
+	private readonly FrozenSet<string> _functionKeywords = FrozenSet<string>.Empty;
+#endif
 
 	/// <summary>
 	/// When <see langword="true"/>, an identifier immediately followed by <c>(</c> is rendered as a
@@ -44,7 +51,11 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	/// </summary>
 	protected FrozenSet<string> Keywords
 	{
+#if NET9_0_OR_GREATER
 		init => _keywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
+#else
+		init => _keywords = value;
+#endif
 	}
 
 	/// <summary>
@@ -52,7 +63,11 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	/// </summary>
 	protected FrozenSet<string> Types
 	{
+#if NET9_0_OR_GREATER
 		init => _types = value.GetAlternateLookup<ReadOnlySpan<char>>();
+#else
+		init => _types = value;
+#endif
 	}
 
 	/// <summary>
@@ -60,7 +75,11 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	/// </summary>
 	protected FrozenSet<string> Literals
 	{
+#if NET9_0_OR_GREATER
 		init => _literals = value.GetAlternateLookup<ReadOnlySpan<char>>();
+#else
+		init => _literals = value;
+#endif
 	}
 
 	/// <summary>
@@ -69,7 +88,11 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	/// </summary>
 	protected FrozenSet<string> FunctionKeywords
 	{
+#if NET9_0_OR_GREATER
 		init => _functionKeywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
+#else
+		init => _functionKeywords = value;
+#endif
 	}
 
 	/// <summary>
@@ -154,7 +177,11 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				while (i < code.Length && IsIdentifierPart(code[i]))
 					i++;
 
+#if NET9_0_OR_GREATER
 				var word = code.AsSpan(start, i - start);
+#else
+				var word = code.Substring(start, i - start);
+#endif
 
 				if (_functionKeywords.Contains(word))
 				{
@@ -482,7 +509,11 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				while (i < code.Length && IsIdentifierPart(code[i]))
 					i++;
 
+#if NET9_0_OR_GREATER
 				var word = code.AsSpan(start, i - start);
+#else
+				var word = code.Substring(start, i - start);
+#endif
 				if (_keywords.Contains(word))
 				{
 					FlushRaw();

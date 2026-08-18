@@ -7,7 +7,7 @@ internal sealed class KotlinCodeHighlighter : CodeHighlighterBase
 {
 	public KotlinCodeHighlighter()
 	{
-		Keywords = FrozenSet.Create(
+		Keywords = FrozenSets.Create(
 			"abstract", "annotation", "as", "break", "by", "catch", "class", "companion", "const", "constructor",
 			"continue", "crossinline", "data", "do", "dynamic", "else", "enum", "external", "final", "finally",
 			"for", "get", "if", "import", "in", "infix", "init", "inline", "inner", "interface", "internal", "is",
@@ -16,14 +16,14 @@ internal sealed class KotlinCodeHighlighter : CodeHighlighterBase
 			"throw", "try", "typealias", "typeof", "val", "var", "vararg", "when", "while"
 		);
 		
-		Types = FrozenSet.Create(
+		Types = FrozenSets.Create(
 			"Array", "String", "Int", "Long", "Short", "Byte", "Boolean", "Char", "Float", "Double", "Unit",
 			"Any", "Nothing", "List", "MutableList", "Map", "MutableMap", "Set", "MutableSet", "Collection",
 			"Iterable", "Sequence", "Pair", "Triple"
 		);
 
-		Literals = FrozenSet.Create("true", "false", "null");
-		FunctionKeywords = FrozenSet.Create("fun");
+		Literals = FrozenSets.Create("true", "false", "null");
+		FunctionKeywords = FrozenSets.Create("fun");
 		HighlightPascalCaseTypes = true;
 	}
 }

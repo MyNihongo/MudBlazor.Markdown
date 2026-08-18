@@ -9,7 +9,7 @@ internal sealed class RazorCodeHighlighter : CSharpCodeHighlighter
 {
 	public RazorCodeHighlighter()
 	{
-		BlockComments = FrozenSet.Create(("@*", "*@"), ("/*", "*/"));
+		BlockComments = FrozenSets.Create(("@*", "*@"), ("/*", "*/"));
 		HighlightHtmlTags = true;
 	}
 }

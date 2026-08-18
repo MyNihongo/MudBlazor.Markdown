@@ -1,5 +1,3 @@
-using System.Buffers;
-
 namespace MudBlazor;
 
 /// <summary>
@@ -9,20 +7,20 @@ internal sealed class RustCodeHighlighter : CodeHighlighterBase
 {
 	public RustCodeHighlighter()
 	{
-		Keywords = FrozenSet.Create(
+		Keywords = FrozenSets.Create(
 			"as", "async", "await", "break", "const", "continue", "crate", "dyn", "else", "enum", "extern",
 			"for", "if", "impl", "in", "let", "loop", "match", "mod", "move", "mut", "pub", "ref", "return",
 			"self", "static", "struct", "super", "trait", "type", "union", "unsafe", "use", "where", "while"
 		);
 
-		Types = FrozenSet.Create(
+		Types = FrozenSets.Create(
 			"i8", "i16", "i32", "i64", "i128", "isize", "u8", "u16", "u32", "u64", "u128", "usize",
 			"f32", "f64", "bool", "char", "str"
 		);
 
-		Literals = FrozenSet.Create("true", "false");
-		FunctionKeywords = FrozenSet.Create("fn");
+		Literals = FrozenSets.Create("true", "false");
+		FunctionKeywords = FrozenSets.Create("fn");
 		HighlightPascalCaseTypes = true;
-		StringQuotes = SearchValues.Create('"');
+		StringQuotes = SearchValuess.Create('"');
 	}
 }

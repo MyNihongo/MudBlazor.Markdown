@@ -7,7 +7,7 @@ internal class CSharpCodeHighlighter : CodeHighlighterBase
 {
 	public CSharpCodeHighlighter()
 	{
-		Keywords = FrozenSet.Create(
+		Keywords = FrozenSets.Create(
 			"abstract", "as", "async", "await", "base", "break", "case", "catch", "checked", "class", "const",
 			"continue", "default", "delegate", "do", "else", "enum", "event", "explicit", "extern", "finally",
 			"fixed", "for", "foreach", "goto", "if", "implicit", "in", "interface", "internal", "is", "lock",
@@ -18,12 +18,12 @@ internal class CSharpCodeHighlighter : CodeHighlighterBase
 			"with", "required", "file", "scoped"
 		);
 
-		Types = FrozenSet.Create(
+		Types = FrozenSets.Create(
 			"bool", "byte", "sbyte", "char", "decimal", "double", "float", "int", "uint", "long", "ulong",
 			"short", "ushort", "object", "string", "void", "dynamic", "nint", "nuint"
 		);
 
-		Literals = FrozenSet.Create("true", "false", "null");
+		Literals = FrozenSets.Create("true", "false", "null");
 		HighlightPascalCaseTypes = true;
 	}
 }

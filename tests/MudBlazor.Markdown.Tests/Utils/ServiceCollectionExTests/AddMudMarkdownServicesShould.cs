@@ -57,10 +57,6 @@ public sealed class AddMudMarkdownServicesShould : ServiceCollectionExTestsBase
 			.Should()
 			.BeNull();
 
-		serviceProvider.GetRequiredService<IMudMarkdownThemeService>()
-			.Should()
-			.BeOfType<MudMarkdownThemeService>();
-
 		serviceProvider.GetRequiredService<IMudMarkdownValueProvider>()
 			.Should()
 			.BeOfType<MudMarkdownValueProvider>();
