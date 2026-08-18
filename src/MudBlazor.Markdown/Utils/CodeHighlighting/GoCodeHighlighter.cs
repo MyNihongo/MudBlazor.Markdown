@@ -3,24 +3,23 @@ namespace MudBlazor;
 /// <summary>
 /// Highlighter for Go.
 /// </summary>
-internal sealed class GoCodeHighlighter() : CodeHighlighterBase(Definition)
+internal sealed class GoCodeHighlighter : CodeHighlighterBase
 {
-	private static readonly LanguageDefinition Definition = new()
+	public GoCodeHighlighter()
 	{
-		Keywords =
-		[
+		Keywords = FrozenSet.Create(
 			"break", "case", "chan", "const", "continue", "default", "defer", "else", "fallthrough", "for",
 			"go", "goto", "if", "import", "interface", "map", "package", "range", "return", "select", "struct",
-			"switch", "type", "var",
-		],
-		Types =
-		[
+			"switch", "type", "var"
+		);
+
+		Types = FrozenSet.Create(
 			"bool", "string", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32",
-			"uint64", "uintptr", "byte", "rune", "float32", "float64", "complex64", "complex128", "error", "any",
-		],
-		Literals = ["true", "false", "nil", "iota"],
-		FunctionKeywords = ["func"],
-		// Go raw string literals: `...`
-		RawStringQuote = '`',
-	};
+			"uint64", "uintptr", "byte", "rune", "float32", "float64", "complex64", "complex128", "error", "any"
+		);
+
+		Literals = FrozenSet.Create("true", "false", "nil", "iota");
+		FunctionKeywords = FrozenSet.Create("func");
+		RawStringQuote = '`';
+	}
 }

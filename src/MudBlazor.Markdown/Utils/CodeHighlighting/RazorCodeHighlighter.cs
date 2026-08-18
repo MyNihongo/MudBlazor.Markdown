@@ -5,11 +5,11 @@ namespace MudBlazor;
 /// Reuses the C# token rules and adds the Razor comment syntax (<c>@* ... *@</c>).<br/>
 /// Note: HTML markup around the C# is not tokenized separately yet.
 /// </summary>
-internal sealed class RazorCodeHighlighter() : CodeHighlighterBase(Definition)
+internal sealed class RazorCodeHighlighter : CSharpCodeHighlighter
 {
-	private static readonly LanguageDefinition Definition = CSharpCodeHighlighter.Definition with
+	public RazorCodeHighlighter()
 	{
-		BlockComments = [("@*", "*@"), ("/*", "*/")],
-		HighlightHtmlTags = true,
-	};
+		BlockComments = FrozenSet.Create(("@*", "*@"), ("/*", "*/"));
+		HighlightHtmlTags = true;
+	}
 }

@@ -1,37 +1,53 @@
 using System.Buffers;
-using System.Collections.Frozen;
 using System.Text;
+using BlockComment = (string Start, string End);
 
 namespace MudBlazor;
 
 internal abstract class CodeHighlighterBase : ICodeHighlighter
 {
-	private readonly WordSet _keywords;
-	private readonly WordSet _types;
-	private readonly WordSet _literals;
-	private readonly WordSet _functionKeywords;
-	private readonly string[] _lineComments;
-	private readonly (string Start, string End)[] _blockComments;
-	private readonly SearchValues<char> _stringQuotes;
-	private readonly char? _rawStringQuote;
-	private readonly bool _highlightMethodCalls;
-	private readonly bool _highlightHtmlTags;
-	private readonly bool _highlightPascalCaseTypes;
+	private static readonly FrozenSet<string> DefaultLineComments = FrozenSet.Create("//");
+	private static readonly FrozenSet<BlockComment> DefaultBlockComments = FrozenSet.Create(("/*", "*/"));
+	private static readonly SearchValues<char> DefaultStringQuotes = SearchValues.Create('"', '\'');
 
-	protected CodeHighlighterBase(LanguageDefinition definition)
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _keywords;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _types;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _literals;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _functionKeywords;
+
+	protected bool HighlightMethodCalls { get; init; } = true;
+
+	protected bool HighlightPascalCaseTypes { get; init; }
+
+	protected char? RawStringQuote { get; init; }
+
+	protected bool HighlightHtmlTags { get; init; }
+
+	protected FrozenSet<string> Keywords
 	{
-		_keywords = new WordSet(definition.Keywords);
-		_types = new WordSet(definition.Types);
-		_literals = new WordSet(definition.Literals);
-		_functionKeywords = new WordSet(definition.FunctionKeywords);
-		_lineComments = definition.LineComments;
-		_blockComments = definition.BlockComments;
-		_stringQuotes = SearchValues.Create(definition.StringQuotes);
-		_rawStringQuote = definition.RawStringQuote;
-		_highlightMethodCalls = definition.HighlightMethodCalls;
-		_highlightHtmlTags = definition.HighlightHtmlTags;
-		_highlightPascalCaseTypes = definition.HighlightPascalCaseTypes;
+		init => _keywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
 	}
+
+	protected FrozenSet<string> Types
+	{
+		init => _types = value.GetAlternateLookup<ReadOnlySpan<char>>();
+	}
+
+	protected FrozenSet<string> Literals
+	{
+		init => _literals = value.GetAlternateLookup<ReadOnlySpan<char>>();
+	}
+
+	protected FrozenSet<string> FunctionKeywords
+	{
+		init => _functionKeywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
+	}
+
+	protected FrozenSet<string> LineComments { get; init; } = DefaultLineComments;
+
+	protected FrozenSet<BlockComment> BlockComments { get; init; } = DefaultBlockComments;
+
+	protected SearchValues<char> StringQuotes { get; init; } = DefaultStringQuotes;
 
 	public IReadOnlyList<CodeNode> Highlight(string code)
 	{
@@ -47,7 +63,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 			var c = code[i];
 
-			if (_rawStringQuote is { } rawQuote && c == rawQuote)
+			if (RawStringQuote is { } rawQuote && c == rawQuote)
 			{
 				FlushText();
 				var start = i++;
@@ -60,14 +76,14 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				continue;
 			}
 
-			if (_stringQuotes.Contains(c))
+			if (StringQuotes.Contains(c))
 			{
 				FlushText();
 				nodes.Add(ReadString(code, ref i, c));
 				continue;
 			}
 
-			if (_highlightHtmlTags && c == '<')
+			if (HighlightHtmlTags && c == '<')
 			{
 				if (Matches(code, i, "<!--"))
 				{
@@ -122,16 +138,16 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
 
-					if (_highlightPascalCaseTypes && i < code.Length && code[i] == '<')
+					if (HighlightPascalCaseTypes && i < code.Length && code[i] == '<')
 						ReadGenericArguments(code, ref i, nodes);
 				}
-				else if (_highlightMethodCalls && i < code.Length && code[i] == '(')
+				else if (HighlightMethodCalls && i < code.Length && code[i] == '(')
 				{
 					// Method call/declaration: identifier immediately followed by '('.
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-title", [new CodeText(code[start..i])]));
 				}
-				else if (_highlightPascalCaseTypes && !inHtmlText && char.IsUpper(code[start]) && IsTypePosition(code, start, i))
+				else if (HighlightPascalCaseTypes && !inHtmlText && char.IsUpper(code[start]) && IsTypePosition(code, start, i))
 				{
 					// PascalCase identifier in a type position (e.g. Guid Id, List<T>), not a member name.
 					FlushText();
@@ -149,7 +165,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				continue;
 			}
 
-			if (_highlightHtmlTags && c == '@')
+			if (HighlightHtmlTags && c == '@')
 				inHtmlText = false;
 
 			text.Append(c);
@@ -170,7 +186,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 		bool TryReadLineComment()
 		{
-			foreach (var prefix in _lineComments)
+			foreach (var prefix in LineComments)
 			{
 				if (!Matches(code, i, prefix))
 					continue;
@@ -189,7 +205,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 		bool TryReadBlockComment()
 		{
-			foreach (var (open, close) in _blockComments)
+			foreach (var (open, close) in BlockComments)
 			{
 				if (!Matches(code, i, open))
 					continue;
@@ -247,7 +263,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		{
 			var ch = code[j];
 
-			if (_stringQuotes.Contains(ch))
+			if (StringQuotes.Contains(ch))
 			{
 				ReadString(code, ref j, ch);
 				continue;
@@ -571,39 +587,4 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 	private static bool Matches(string code, int i, string token) =>
 		i + token.Length <= code.Length && string.CompareOrdinal(code, i, token, 0, token.Length) == 0;
-
-	/// <summary>
-	/// A frozen word set that can be probed by <see cref="ReadOnlySpan{T}"/> without allocating
-	/// (using the alternate span lookup on .NET 9+); falls back to a string probe otherwise.
-	/// </summary>
-	private readonly struct WordSet
-	{
-		private readonly FrozenSet<string> _set;
-#if NET9_0_OR_GREATER
-		private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _lookup;
-		private readonly bool _hasLookup;
-#endif
-
-		public WordSet(string[] words)
-		{
-			_set = words.ToFrozenSet(StringComparer.Ordinal);
-#if NET9_0_OR_GREATER
-			_hasLookup = _set.Count > 0 && _set.Comparer is IAlternateEqualityComparer<ReadOnlySpan<char>, string>;
-			if (_hasLookup)
-				_lookup = _set.GetAlternateLookup<ReadOnlySpan<char>>();
-#endif
-		}
-
-		public bool Contains(ReadOnlySpan<char> word)
-		{
-			if (_set.Count == 0)
-				return false;
-
-#if NET9_0_OR_GREATER
-			if (_hasLookup)
-				return _lookup.Contains(word);
-#endif
-			return _set.Contains(word.ToString());
-		}
-	}
 }
