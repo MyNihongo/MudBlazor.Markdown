@@ -15,38 +15,76 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _literals;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _functionKeywords;
 
+	/// <summary>
+	/// When <see langword="true"/>, an identifier immediately followed by <c>(</c> is rendered as a
+	/// function title (a method call or declaration). Languages without a function keyword rely on this.
+	/// </summary>
 	protected bool HighlightMethodCalls { get; init; } = true;
 
+	/// <summary>
+	/// When <see langword="true"/>, an uppercase-first identifier in a type position (e.g. <c>Guid Id</c>,
+	/// <c>List&lt;T&gt;</c>, <c>name: Type</c>) is rendered as a type, and its generic arguments are highlighted.
+	/// </summary>
 	protected bool HighlightPascalCaseTypes { get; init; }
 
+	/// <summary>
+	/// Character that opens and closes a raw string that performs no escaping (e.g. Go back-tick
+	/// strings), or <see langword="null"/> when the language has none.
+	/// </summary>
 	protected char? RawStringQuote { get; init; }
 
+	/// <summary>
+	/// When <see langword="true"/>, HTML tags and their attributes are tokenized (for markup
+	/// languages such as Razor).
+	/// </summary>
 	protected bool HighlightHtmlTags { get; init; }
 
+	/// <summary>
+	/// Reserved words rendered as keyword tokens.
+	/// </summary>
 	protected FrozenSet<string> Keywords
 	{
 		init => _keywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
 	}
 
+	/// <summary>
+	/// Built-in type names rendered as type tokens.
+	/// </summary>
 	protected FrozenSet<string> Types
 	{
 		init => _types = value.GetAlternateLookup<ReadOnlySpan<char>>();
 	}
 
+	/// <summary>
+	/// Literals (e.g. <c>true</c>, <c>null</c>) rendered as literal tokens.
+	/// </summary>
 	protected FrozenSet<string> Literals
 	{
 		init => _literals = value.GetAlternateLookup<ReadOnlySpan<char>>();
 	}
 
+	/// <summary>
+	/// Keywords that introduce a function declaration (e.g. <c>func</c>, <c>fun</c>); the name that
+	/// follows is rendered as a title and the parameter list as its own span.
+	/// </summary>
 	protected FrozenSet<string> FunctionKeywords
 	{
 		init => _functionKeywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
 	}
 
+	/// <summary>
+	/// Prefixes that start a single-line comment. Defaults to <c>//</c>.
+	/// </summary>
 	protected FrozenSet<string> LineComments { get; init; } = DefaultLineComments;
 
+	/// <summary>
+	/// Start/end delimiter pairs for block comments. Defaults to <c>/* */</c>.
+	/// </summary>
 	protected FrozenSet<BlockComment> BlockComments { get; init; } = DefaultBlockComments;
 
+	/// <summary>
+	/// Characters that open and close a string or character literal. Defaults to <c>"</c> and <c>'</c>.
+	/// </summary>
 	protected SearchValues<char> StringQuotes { get; init; } = DefaultStringQuotes;
 
 	public IReadOnlyList<CodeNode> Highlight(string code)
