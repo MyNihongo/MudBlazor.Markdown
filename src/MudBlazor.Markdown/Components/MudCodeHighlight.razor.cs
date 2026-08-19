@@ -19,7 +19,7 @@ public class MudCodeHighlight : MudComponentBase
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
 	[Parameter]
-	[Obsolete("TODO add message")]
+	[Obsolete("`CodeBlockTheme` is obsolete and has no effect. Use `MudMarkdownThemeProvider` instead. For more details see https://github.com/MyNihongo/MudBlazor.Markdown/wiki/MudMarkdownThemeProvider")]
 	public CodeBlockTheme Theme { get; set; }
 
 	[Parameter]

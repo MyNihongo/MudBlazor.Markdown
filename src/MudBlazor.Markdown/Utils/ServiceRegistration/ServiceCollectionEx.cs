@@ -10,6 +10,7 @@ public static class ServiceCollectionEx
 		{
 			return @this
 				.AddMudMarkdownCache(configureMemoryCache)
+				.AddSingleton<IMudMarkdownThemeService, MudMarkdownThemeService>()
 				.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
 		}
 
