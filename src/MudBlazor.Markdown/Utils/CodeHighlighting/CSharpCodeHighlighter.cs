@@ -15,7 +15,7 @@ internal class CSharpCodeHighlighter : CodeHighlighterBase
 			"readonly", "ref", "return", "sealed", "sizeof", "stackalloc", "static", "struct", "switch", "this",
 			"throw", "try", "typeof", "unchecked", "unsafe", "using", "virtual", "volatile", "while", "var",
 			"record", "init", "nameof", "when", "where", "yield", "get", "set", "value", "partial", "global",
-			"with", "required", "file", "scoped"
+			"with", "required", "file", "scoped", "and", "or", "not"
 		);
 
 		Types = FrozenSets.Create(
@@ -25,5 +25,7 @@ internal class CSharpCodeHighlighter : CodeHighlighterBase
 
 		Literals = FrozenSets.Create("true", "false", "null");
 		HighlightPascalCaseTypes = true;
+		HighlightPreprocessor = true;
+		HighlightStringPrefixes = true;
 	}
 }

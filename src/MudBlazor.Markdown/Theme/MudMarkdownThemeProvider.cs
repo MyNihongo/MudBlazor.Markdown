@@ -30,6 +30,7 @@ public class MudMarkdownThemeProvider : MudThemeProvider
 		themeStringBuilder.AppendLine($"--{codeHighlight}-function: {mudMarkdownPalette.CodeHighlight.Function};");
 		themeStringBuilder.AppendLine($"--{codeHighlight}-type: {mudMarkdownPalette.CodeHighlight.Type};");
 		themeStringBuilder.AppendLine($"--{codeHighlight}-number: {mudMarkdownPalette.CodeHighlight.Numbers};");
+		themeStringBuilder.AppendLine($"--{codeHighlight}-meta: {mudMarkdownPalette.CodeHighlight.Meta};");
 	}
 
 #if NET10_0_OR_GREATER

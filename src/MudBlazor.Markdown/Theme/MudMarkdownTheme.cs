@@ -51,5 +51,10 @@ public static class MudMarkdownTheme
 		/// Color of numbers.
 		/// </summary>
 		public required MudColor Numbers { get; set; }
+
+		/// <summary>
+		/// Color of preprocessor / meta directives (e.g. <c>#region</c>, <c>#nullable</c>).
+		/// </summary>
+		public required MudColor Meta { get; set; }
 	}
 }

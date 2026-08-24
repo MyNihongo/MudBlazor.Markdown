@@ -9,7 +9,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	private static readonly FrozenSet<string> DefaultLineComments = FrozenSets.Create("//");
 	private static readonly FrozenSet<BlockComment> DefaultBlockComments = FrozenSets.Create(("/*", "*/"));
 	private static readonly SearchValues<char> DefaultStringQuotes = SearchValuess.Create('"', '\'');
-	
+
 #if NET9_0_OR_GREATER
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _keywords = FrozenSets.EmptyLookup;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _types = FrozenSets.EmptyLookup;
@@ -30,7 +30,8 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 	/// <summary>
 	/// When <see langword="true"/>, an uppercase-first identifier in a type position (e.g. <c>Guid Id</c>,
-	/// <c>List&lt;T&gt;</c>, <c>name: Type</c>) is rendered as a type, and its generic arguments are highlighted.
+	/// <c>List&lt;T&gt;</c>, <c>name: Type</c>, <c>new Type()</c>) is rendered as a type, and its generic
+	/// arguments are highlighted.
 	/// </summary>
 	protected bool HighlightPascalCaseTypes { get; init; }
 
@@ -45,6 +46,18 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	/// languages such as Razor).
 	/// </summary>
 	protected bool HighlightHtmlTags { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, a line whose first non-whitespace character is <c>#</c> is rendered
+	/// as a preprocessor/meta directive (e.g. <c>#region</c>, <c>#nullable enable</c>).
+	/// </summary>
+	protected bool HighlightPreprocessor { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, a string may be prefixed by <c>$</c> and/or <c>@</c>
+	/// (e.g. <c>$"..."</c>, <c>@"..."</c>, <c>$@"..."</c>); the prefix is included in the string token.
+	/// </summary>
+	protected bool HighlightStringPrefixes { get; init; }
 
 	/// <summary>
 	/// Reserved words rendered as keyword tokens.
@@ -124,6 +137,28 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 			var c = code[i];
 
+			if (HighlightPreprocessor && c == '#' && IsAtLineStart(code, i))
+			{
+				FlushText();
+
+				// Only the "#directive" token is meta (e.g. #region, #endregion, #nullable).
+				var start = i++;
+				while (i < code.Length && IsIdentifierPart(code[i]))
+					i++;
+
+				nodes.Add(new CodeSpan("hljs-meta", [new CodeText(code[start..i])]));
+
+				// The rest of the line (e.g. the "Directive Test" label) stays plain text.
+				var restStart = i;
+				while (i < code.Length && code[i] != '\n')
+					i++;
+
+				if (i > restStart)
+					text.Append(code[restStart..i]);
+
+				continue;
+			}
+
 			if (RawStringQuote is { } rawQuote && c == rawQuote)
 			{
 				FlushText();
@@ -137,10 +172,38 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				continue;
 			}
 
+			if (HighlightStringPrefixes && c is '$' or '@')
+			{
+				var quoteIndex = StringPrefixQuoteIndex(code, i);
+				if (quoteIndex >= 0)
+				{
+					FlushText();
+					var start = i;
+					var interpolated = code[start..quoteIndex].Contains('$');
+					var raw = quoteIndex + 2 < code.Length && code[quoteIndex] == '"' &&
+					          code[quoteIndex + 1] == '"' && code[quoteIndex + 2] == '"';
+
+					i = quoteIndex;
+					if (interpolated && !raw)
+					{
+						nodes.Add(ReadInterpolatedString(code, ref i, start));
+					}
+					else
+					{
+						ReadStringLiteral(code, ref i); // advances i past the string
+						nodes.Add(new CodeSpan("hljs-string", [new CodeText(code[start..i])]));
+					}
+
+					continue;
+				}
+			}
+
 			if (StringQuotes.Contains(c))
 			{
 				FlushText();
-				nodes.Add(ReadString(code, ref i, c));
+				var stringStart = i;
+				ReadStringLiteral(code, ref i);
+				nodes.Add(new CodeSpan("hljs-string", [new CodeText(code[stringStart..i])]));
 				continue;
 			}
 
@@ -206,20 +269,21 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 					if (HighlightPascalCaseTypes && i < code.Length && code[i] == '<')
 						ReadGenericArguments(code, ref i, nodes);
 				}
-				else if (HighlightMethodCalls && i < code.Length && code[i] == '(')
+				else if (HighlightPascalCaseTypes && !inHtmlText && char.IsUpper(code[start]) &&
+				         (IsTypePosition(code, start, i) || IsPrecededByTypeKeyword(code, start)))
 				{
-					// Method call/declaration: identifier immediately followed by '('.
-					FlushText();
-					nodes.Add(new CodeSpan("hljs-title", [new CodeText(code[start..i])]));
-				}
-				else if (HighlightPascalCaseTypes && !inHtmlText && char.IsUpper(code[start]) && IsTypePosition(code, start, i))
-				{
-					// PascalCase identifier in a type position (e.g. Guid Id, List<T>), not a member name.
+					// PascalCase identifier used as a type: "Guid Id", "List<T>", "new Type()".
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
 
 					if (i < code.Length && code[i] == '<')
 						ReadGenericArguments(code, ref i, nodes);
+				}
+				else if (HighlightMethodCalls && i < code.Length && code[i] == '(')
+				{
+					// Method call/declaration: identifier immediately followed by '('.
+					FlushText();
+					nodes.Add(new CodeSpan("hljs-title", [new CodeText(code[start..i])]));
 				}
 				else
 				{
@@ -376,7 +440,138 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			children.Add(new CodeText(code[start..i]));
 	}
 
-	private CodeSpan ReadString(string code, ref int i, char quote)
+	// Reads an interpolated string ($"...{expr}...") starting at the opening quote code[i].
+	// Literal parts become string text; each {expr} hole becomes an hljs-subst span whose
+	// content is recursively highlighted as code. Advances i past the closing quote.
+	private CodeSpan ReadInterpolatedString(string code, ref int i, int start)
+	{
+		var quote = code[i];
+		var children = new List<CodeNode>();
+		var segmentStart = start;
+
+		i++; // opening quote
+
+		while (i < code.Length)
+		{
+			var ch = code[i];
+
+			if (ch == '\\' && i + 1 < code.Length)
+			{
+				i += 2;
+				continue;
+			}
+
+			if (ch == quote)
+			{
+				i++;
+				break;
+			}
+
+			if (ch == '\n')
+				break;
+
+			if (ch == '{')
+			{
+				// "{{" is an escaped brace, not an interpolation hole.
+				if (i + 1 < code.Length && code[i + 1] == '{')
+				{
+					i += 2;
+					continue;
+				}
+
+				if (i > segmentStart)
+					children.Add(new CodeText(code[segmentStart..i]));
+
+				i++; // past '{'
+				var exprStart = i;
+				var depth = 1;
+				while (i < code.Length && depth > 0)
+				{
+					var hc = code[i];
+					if (hc is '"' or '\'')
+					{
+						ReadStringLiteral(code, ref i);
+					}
+					else if (hc == '{')
+					{
+						depth++;
+						i++;
+					}
+					else if (hc == '}')
+					{
+						depth--;
+						if (depth == 0)
+							break;
+						i++;
+					}
+					else
+					{
+						i++;
+					}
+				}
+
+				var substChildren = new List<CodeNode> { new CodeText("{") };
+				substChildren.AddRange(Highlight(code[exprStart..i]));
+				substChildren.Add(new CodeText("}"));
+				children.Add(new CodeSpan("hljs-subst", substChildren));
+
+				if (i < code.Length)
+					i++; // past '}'
+
+				segmentStart = i;
+				continue;
+			}
+
+			i++;
+		}
+
+		if (i > segmentStart)
+			children.Add(new CodeText(code[segmentStart..i]));
+
+		return new CodeSpan("hljs-string", children);
+	}
+
+	// Advances i past a string literal starting at the quote code[i], handling raw strings
+	// ("""..."""), closed by a run of at least as many quotes as opened it.
+	private void ReadStringLiteral(string code, ref int i)
+	{
+		var quote = code[i];
+
+		if (quote == '"' && i + 2 < code.Length && code[i + 1] == '"' && code[i + 2] == '"')
+		{
+			var openCount = 0;
+			while (i < code.Length && code[i] == '"')
+			{
+				openCount++;
+				i++;
+			}
+
+			while (i < code.Length)
+			{
+				if (code[i] != '"')
+				{
+					i++;
+					continue;
+				}
+
+				var run = 0;
+				while (i < code.Length && code[i] == '"')
+				{
+					run++;
+					i++;
+				}
+
+				if (run >= openCount)
+					return;
+			}
+
+			return;
+		}
+
+		ReadString(code, ref i, quote); // advances i; returned span is unused here
+	}
+
+	private static CodeSpan ReadString(string code, ref int i, char quote)
 	{
 		var start = i;
 		i++; // opening quote
@@ -413,18 +608,18 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		if (code[i] == '0' && i + 1 < code.Length && code[i + 1] is 'x' or 'X')
 		{
 			i += 2;
-			while (i < code.Length && char.IsAsciiHexDigit(code[i]))
+			while (i < code.Length && (char.IsAsciiHexDigit(code[i]) || code[i] == '_'))
 				i++;
 		}
 		else
 		{
-			while (i < code.Length && char.IsAsciiDigit(code[i]))
+			while (i < code.Length && (char.IsAsciiDigit(code[i]) || code[i] == '_'))
 				i++;
 
 			if (i < code.Length && code[i] == '.' && i + 1 < code.Length && char.IsAsciiDigit(code[i + 1]))
 			{
 				i++;
-				while (i < code.Length && char.IsAsciiDigit(code[i]))
+				while (i < code.Length && (char.IsAsciiDigit(code[i]) || code[i] == '_'))
 					i++;
 			}
 
@@ -436,7 +631,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 					i++;
 
 				if (i < code.Length && char.IsAsciiDigit(code[i]))
-					while (i < code.Length && char.IsAsciiDigit(code[i]))
+					while (i < code.Length && (char.IsAsciiDigit(code[i]) || code[i] == '_'))
 						i++;
 				else
 					i = save;
@@ -453,13 +648,16 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	private static bool IsTypePosition(string code, int start, int i)
 	{
 		// Followed by a generic list, an array, or another identifier: "Type name", "Type<...>", "Type[]".
+		// A single trailing '?' (nullable) is skipped, so "Type? name" is still recognised.
 		if (i < code.Length)
 		{
-			var c = code[i];
-			if (c is '<' or '[')
+			var j = i;
+			if (code[j] == '?')
+				j++;
+
+			if (j < code.Length && code[j] is '<' or '[')
 				return true;
 
-			var j = i;
 			while (j < code.Length && code[j] is ' ' or '\t')
 				j++;
 
@@ -473,6 +671,48 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			k--;
 
 		return k >= 0 && code[k] == ':' && (k == 0 || code[k - 1] != ':');
+	}
+
+	private static bool IsPrecededByTypeKeyword(string code, int start)
+	{
+		var end = start - 1;
+		while (end >= 0 && code[end] is ' ' or '\t')
+			end--;
+
+		var wordStart = end;
+		while (wordStart >= 0 && IsIdentifierPart(code[wordStart]))
+			wordStart--;
+
+		wordStart++;
+		if (wordStart > end)
+			return false;
+
+		// Keywords directly followed by a type: constructor (new), cast (as), and pattern forms (is/not/and/or).
+		var word = code.AsSpan(wordStart, end - wordStart + 1);
+		return word is "new" or "is" or "as" or "not" or "and" or "or";
+	}
+
+	private static int StringPrefixQuoteIndex(string code, int i)
+	{
+		var j = i;
+		if (j < code.Length && code[j] is '$' or '@')
+			j++;
+		else
+			return -1;
+
+		if (j < code.Length && code[j] is '$' or '@')
+			j++;
+
+		return j < code.Length && code[j] == '"' ? j : -1;
+	}
+
+	private static bool IsAtLineStart(string code, int i)
+	{
+		var k = i - 1;
+		while (k >= 0 && code[k] is ' ' or '\t')
+			k--;
+
+		return k < 0 || code[k] == '\n';
 	}
 
 	private void ReadGenericArguments(string code, ref int i, List<CodeNode> nodes)

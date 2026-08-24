@@ -4,6 +4,10 @@
 	background: var(--mud-markdown-codehightlight-background);
 }
 
+.hljs-subst {
+	color: var(--mud-markdown-codehightlight-text);
+}
+
 .hljs-doctag,
 .hljs-keyword,
 .hljs-name,
@@ -28,7 +32,6 @@
 .hljs-attr,
 .hljs-attribute,
 .hljs-literal,
-.hljs-meta,
 .hljs-number,
 .hljs-operator,
 .hljs-variable,
@@ -48,6 +51,10 @@
 	color: var(--mud-markdown-codehightlight-comment);
 }
 
+.hljs-meta {
+	color: var(--mud-markdown-codehightlight-meta);
+}
+
 .mud-markdown-body code:not(.hljs) {
 	background: var(--mud-palette-action-disabled-background);
 	color: var(--mud-palette-text-primary) !important;
@@ -61,6 +68,11 @@ pre code.hljs {
 	overflow-x: auto;
 	padding: 1em;
 	width: 100%;
+}
+
+.mud-markdown-body .mud-markdown-code-highlight, .mud-markdown-body .mud-markdown-code-highlight-sticky {
+	border: 1px solid var(--mud-palette-lines-default);
+	border-radius: var(--mud-default-borderradius);
 }
 
 .mud-markdown-body .mud-markdown-code-highlight {

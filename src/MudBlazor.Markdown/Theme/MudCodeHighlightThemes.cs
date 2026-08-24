@@ -24,6 +24,7 @@ public static class MudCodeHighlightThemes
 			Function = "#795E26",
 			Type = "#267F99",
 			Numbers = "#098658",
+			Meta = "#808080",
 		};
 
 		/// <summary>
@@ -39,6 +40,7 @@ public static class MudCodeHighlightThemes
 			Function = "#6F42C1",
 			Type = "#E36209",
 			Numbers = "#005CC5",
+			Meta = "#57606A",
 		};
 
 		/// <summary>
@@ -54,6 +56,7 @@ public static class MudCodeHighlightThemes
 			Function = "#268BD2",
 			Type = "#B58900",
 			Numbers = "#D33682",
+			Meta = "#657B83",
 		};
 
 		/// <summary>
@@ -69,6 +72,7 @@ public static class MudCodeHighlightThemes
 			Function = "#4078F2",
 			Type = "#C18401",
 			Numbers = "#986801",
+			Meta = "#7F8C98",
 		};
 
 		/// <summary>
@@ -84,6 +88,7 @@ public static class MudCodeHighlightThemes
 			Function = "#427B58",
 			Type = "#B57614",
 			Numbers = "#8F3F71",
+			Meta = "#7C6F64",
 		};
 
 		/// <summary>
@@ -99,6 +104,7 @@ public static class MudCodeHighlightThemes
 			Function = "#F2AE49",
 			Type = "#55B4D4",
 			Numbers = "#A37ACC",
+			Meta = "#787B80",
 		};
 
 		/// <summary>
@@ -114,6 +120,7 @@ public static class MudCodeHighlightThemes
 			Function = "#AA3731",
 			Type = "#7A3E9D",
 			Numbers = "#9C5D27",
+			Meta = "#7A7A7A",
 		};
 
 		/// <summary>
@@ -129,6 +136,7 @@ public static class MudCodeHighlightThemes
 			Function = "#4271AE",
 			Type = "#EAB700",
 			Numbers = "#F5871F",
+			Meta = "#666666",
 		};
 
 		/// <summary>
@@ -144,6 +152,7 @@ public static class MudCodeHighlightThemes
 			Function = "#1E66F5",
 			Type = "#DF8E1D",
 			Numbers = "#FE640B",
+			Meta = "#6C6F85",
 		};
 
 		/// <summary>
@@ -159,6 +168,7 @@ public static class MudCodeHighlightThemes
 			Function = "#D7827E",
 			Type = "#56949F",
 			Numbers = "#907AA9",
+			Meta = "#797593",
 		};
 
 		/// <summary>
@@ -174,6 +184,7 @@ public static class MudCodeHighlightThemes
 			Function = "#005F87",
 			Type = "#D75F00",
 			Numbers = "#D70000",
+			Meta = "#5F5F5F",
 		};
 
 		/// <summary>
@@ -189,6 +200,7 @@ public static class MudCodeHighlightThemes
 			Function = "#6C36A9",
 			Type = "#5C2699",
 			Numbers = "#1C00CF",
+			Meta = "#78492A",
 		};
 
 		/// <summary>
@@ -204,6 +216,7 @@ public static class MudCodeHighlightThemes
 			Function = "#6182B8",
 			Type = "#E2931D",
 			Numbers = "#F76D47",
+			Meta = "#8796B0",
 		};
 	}
 
@@ -225,6 +238,7 @@ public static class MudCodeHighlightThemes
 			Function = "#DCDCAA",
 			Type = "#4EC9B0",
 			Numbers = "#B5CEA8",
+			Meta = "#808080",
 		};
 
 		/// <summary>
@@ -240,6 +254,7 @@ public static class MudCodeHighlightThemes
 			Function = "#50FA7B",
 			Type = "#8BE9FD",
 			Numbers = "#BD93F9",
+			Meta = "#FFB86C",
 		};
 
 		/// <summary>
@@ -255,6 +270,7 @@ public static class MudCodeHighlightThemes
 			Function = "#A6E22E",
 			Type = "#66D9EF",
 			Numbers = "#AE81FF",
+			Meta = "#FD971F",
 		};
 
 		/// <summary>
@@ -270,6 +286,7 @@ public static class MudCodeHighlightThemes
 			Function = "#61AFEF",
 			Type = "#E5C07B",
 			Numbers = "#D19A66",
+			Meta = "#56B6C2",
 		};
 
 		/// <summary>
@@ -285,6 +302,7 @@ public static class MudCodeHighlightThemes
 			Function = "#88C0D0",
 			Type = "#8FBCBB",
 			Numbers = "#B48EAD",
+			Meta = "#5E81AC",
 		};
 
 		/// <summary>
@@ -300,6 +318,7 @@ public static class MudCodeHighlightThemes
 			Function = "#268BD2",
 			Type = "#B58900",
 			Numbers = "#D33682",
+			Meta = "#6C71C4",
 		};
 
 		/// <summary>
@@ -315,6 +334,7 @@ public static class MudCodeHighlightThemes
 			Function = "#8EC07C",
 			Type = "#FABD2F",
 			Numbers = "#D3869B",
+			Meta = "#83A598",
 		};
 
 		/// <summary>
@@ -330,6 +350,7 @@ public static class MudCodeHighlightThemes
 			Function = "#7AA2F7",
 			Type = "#2AC3DE",
 			Numbers = "#FF9E64",
+			Meta = "#7DCFFF",
 		};
 
 		/// <summary>
@@ -345,6 +366,7 @@ public static class MudCodeHighlightThemes
 			Function = "#82AAFF",
 			Type = "#FFCB8B",
 			Numbers = "#F78C6C",
+			Meta = "#7FDBCA",
 		};
 
 		/// <summary>
@@ -360,6 +382,7 @@ public static class MudCodeHighlightThemes
 			Function = "#82AAFF",
 			Type = "#FFCB6B",
 			Numbers = "#F78C6C",
+			Meta = "#89DDFF",
 		};
 
 		/// <summary>
@@ -375,6 +398,7 @@ public static class MudCodeHighlightThemes
 			Function = "#D2A8FF",
 			Type = "#FFA657",
 			Numbers = "#79C0FF",
+			Meta = "#FFA198",
 		};
 
 		/// <summary>
@@ -390,6 +414,7 @@ public static class MudCodeHighlightThemes
 			Function = "#FFC600",
 			Type = "#80FCFF",
 			Numbers = "#FF628C",
+			Meta = "#8DA1B9",
 		};
 
 		/// <summary>
@@ -405,6 +430,7 @@ public static class MudCodeHighlightThemes
 			Function = "#EFEF8F",
 			Type = "#DFDFBF",
 			Numbers = "#8CD0D3",
+			Meta = "#DFAF8F",
 		};
 
 		/// <summary>
@@ -420,6 +446,7 @@ public static class MudCodeHighlightThemes
 			Function = "#89B4FA",
 			Type = "#F9E2AF",
 			Numbers = "#FAB387",
+			Meta = "#94E2D5",
 		};
 
 		/// <summary>
@@ -435,6 +462,7 @@ public static class MudCodeHighlightThemes
 			Function = "#EBBCBA",
 			Type = "#9CCFD8",
 			Numbers = "#C4A7E7",
+			Meta = "#EB6F92",
 		};
 
 		/// <summary>
@@ -450,6 +478,7 @@ public static class MudCodeHighlightThemes
 			Function = "#FFB454",
 			Type = "#59C2FF",
 			Numbers = "#E6B450",
+			Meta = "#F29668",
 		};
 	}
 }
