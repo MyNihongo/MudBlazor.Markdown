@@ -5,6 +5,9 @@ namespace MudBlazor;
 
 internal static class FrozenSets
 {
+#if NET9_0_OR_GREATER
+	public static readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> EmptyLookup = FrozenSet<string>.Empty.GetAlternateLookup<ReadOnlySpan<char>>();
+#endif
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static FrozenSet<T> Create<T>(params ReadOnlySpan<T> source)
 	{

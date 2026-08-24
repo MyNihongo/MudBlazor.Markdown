@@ -11,10 +11,10 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	private static readonly SearchValues<char> DefaultStringQuotes = SearchValuess.Create('"', '\'');
 	
 #if NET9_0_OR_GREATER
-	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _keywords;
-	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _types;
-	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _literals;
-	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _functionKeywords;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _keywords = FrozenSets.EmptyLookup;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _types = FrozenSets.EmptyLookup;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _literals = FrozenSets.EmptyLookup;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _functionKeywords = FrozenSets.EmptyLookup;
 #else
 	private readonly FrozenSet<string> _keywords = FrozenSet<string>.Empty;
 	private readonly FrozenSet<string> _types = FrozenSet<string>.Empty;
