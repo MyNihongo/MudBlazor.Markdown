@@ -751,9 +751,218 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""";
 
 		const string expected =
-			"""
-
-			""";
+			""""
+			<article id:ignore class="mud-markdown-body">
+			    <div class="hljs mud-markdown-code-highlight">
+			        <button
+			            blazor:onclick="2"
+			            type="button"
+			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			            blazor:onclick:stopPropagation
+			            blazor:elementReference=""
+			        >
+			            <span class="mud-icon-button-label"
+			                ><svg
+			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			                    focusable="false"
+			                    viewBox="0 0 24 24"
+			                    aria-hidden="true"
+			                    role="img"
+			                >
+			                    <g><rect fill="none" height="24" width="24" /></g>
+			                    <g>
+			                        <path
+			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			                        />
+			                    </g></svg
+			            ></span>
+			        </button>
+			        <pre><code class="hljs language-kotlin"><span class="hljs-meta">@file:Suppress</span>(<span class="hljs-string">"UNUSED_VARIABLE"</span>, <span class="hljs-string">"NOTHING_TO_INLINE"</span>)
+			
+			<span class="hljs-keyword">package</span> com.syntax.highlighting.test
+			
+			<span class="hljs-keyword">import</span> java.io.IOException
+			<span class="hljs-keyword">import</span> kotlin.contracts.ExperimentalContracts
+			<span class="hljs-keyword">import</span> kotlin.contracts.contract
+			<span class="hljs-keyword">import</span> kotlin.properties.Delegates
+			
+			<span class="hljs-comment">// Annotations &amp; Typealiases
+			</span>
+			<span class="hljs-meta">@Target</span>(<span class="hljs-type">AnnotationTarget</span>.CLASS, <span class="hljs-type">AnnotationTarget</span>.FUNCTION)
+			<span class="hljs-meta">@Retention</span>(<span class="hljs-type">AnnotationRetention</span>.RUNTIME)
+			<span class="hljs-keyword">annotation</span> <span class="hljs-keyword">class</span> <span class="hljs-type">TestAnnotation</span>(<span class="hljs-keyword">val</span> priority: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span>, <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span>)
+			
+			<span class="hljs-keyword">typealias</span> <span class="hljs-type">StringMap</span>&lt;<span class="hljs-type">T</span>&gt; = <span class="hljs-type">Map</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">T</span>&gt;
+			
+			<span class="hljs-comment">// Interfaces &amp; Sealed Interfaces
+			</span>
+			<span class="hljs-keyword">sealed</span> <span class="hljs-keyword">interface</span> <span class="hljs-type">Identifiable</span> {
+			    <span class="hljs-keyword">val</span> id: <span class="hljs-type">Long</span>
+			}
+			
+			<span class="hljs-keyword">interface</span> <span class="hljs-type">Processable</span>&lt;<span class="hljs-keyword">in</span> <span class="hljs-type">T</span> : <span class="hljs-type">Any</span>, <span class="hljs-keyword">out</span> <span class="hljs-type">R</span>&gt; where R : <span class="hljs-type">Comparable</span>&lt;<span class="hljs-type">R</span>&gt; {
+			    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">process</span><span class="hljs-params">(input: <span class="hljs-type">T</span>)</span></span>: <span class="hljs-type">R</span>
+			}
+			
+			<span class="hljs-comment">// Sealed Class Hierarchy
+			</span>
+			<span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-type">State</span> {
+			    <span class="hljs-keyword">data</span> <span class="hljs-keyword">object</span> <span class="hljs-type">Idle</span> : <span class="hljs-type">State</span>()
+			    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-type">Active</span>(<span class="hljs-keyword">val</span> startTime: <span class="hljs-type">Long</span>) : <span class="hljs-type">State</span>()
+			    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-type">Error</span>(<span class="hljs-keyword">val</span> cause: <span class="hljs-type">Throwable</span>) : <span class="hljs-type">State</span>()
+			}
+			
+			<span class="hljs-comment">// Enum Class
+			</span>
+			<span class="hljs-keyword">enum</span> <span class="hljs-keyword">class</span> <span class="hljs-type">Priority</span>(<span class="hljs-keyword">val</span> value: <span class="hljs-type">Int</span>) {
+			    <span class="hljs-title">LOW</span>(<span class="hljs-number">0</span>),
+			    <span class="hljs-title">MEDIUM</span>(<span class="hljs-number">5</span>),
+			    <span class="hljs-title">HIGH</span>(<span class="hljs-number">10</span>);
+			
+			    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isUrgent</span><span class="hljs-params">()</span></span>: <span class="hljs-type">Boolean</span> = <span class="hljs-keyword">this</span> == HIGH
+			}
+			
+			<span class="hljs-comment">// Data Class &amp; Value Class (Value class inline test)
+			</span>
+			<span class="hljs-meta">@JvmInline</span>
+			value <span class="hljs-keyword">class</span> <span class="hljs-type">UserId</span>(<span class="hljs-keyword">val</span> value: <span class="hljs-type">Long</span>)
+			
+			<span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-type">User</span>(
+			    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> id: <span class="hljs-type">Long</span>,
+			    <span class="hljs-keyword">val</span> username: <span class="hljs-type">String</span>,
+			    <span class="hljs-keyword">val</span> email: <span class="hljs-type">String</span>? = <span class="hljs-literal">null</span>,
+			    <span class="hljs-keyword">val</span> roles: <span class="hljs-type">List</span>&lt;<span class="hljs-type">String</span>&gt; = <span class="hljs-title">emptyList</span>()
+			) : <span class="hljs-type">Identifiable</span>
+			
+			<span class="hljs-comment">// Class, Generics, Secondary Constructor &amp; Inheritance
+			</span>
+			<span class="hljs-meta">@TestAnnotation</span>(priority = <span class="hljs-number">10</span>, name = <span class="hljs-string">"KotlinSyntaxTester"</span>)
+			<span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-type">BaseTester</span> <span class="hljs-keyword">protected</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-keyword">open</span> <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span>) {
+			    <span class="hljs-keyword">constructor</span>() : <span class="hljs-keyword">this</span>(<span class="hljs-string">"DefaultBase"</span>)
+			}
+			
+			<span class="hljs-keyword">class</span> <span class="hljs-type">KotlinSyntaxTester</span>&lt;<span class="hljs-type">T</span> : <span class="hljs-type">Any</span>&gt;(
+			    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span>,
+			    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> delegate: <span class="hljs-type">Processable</span>&lt;<span class="hljs-type">T</span>, <span class="hljs-type">String</span>&gt;
+			) : <span class="hljs-type">BaseTester</span>(name), <span class="hljs-type">Identifiable</span> {
+			
+			    <span class="hljs-comment">// Properties, Modifiers, Lateinit &amp; Delegates
+			</span>
+			    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> id: <span class="hljs-type">Long</span> = <span class="hljs-number">1001L</span>
+			    
+			    <span class="hljs-keyword">lateinit</span> <span class="hljs-keyword">var</span> uninitializedString: <span class="hljs-type">String</span>
+			    
+			    <span class="hljs-keyword">var</span> observedProperty: <span class="hljs-type">String</span> <span class="hljs-keyword">by</span> <span class="hljs-type">Delegates</span>.<span class="hljs-title">observable</span>(<span class="hljs-string">"Initial"</span>) { prop, old, new -&gt;
+			        <span class="hljs-title">println</span>(<span class="hljs-string">"<span class="hljs-subst">${prop.name}</span>: <span class="hljs-subst">$old</span> -&gt; <span class="hljs-subst">$new</span>"</span>)
+			    }
+			
+			    <span class="hljs-keyword">val</span> lazyValue: <span class="hljs-type">String</span> <span class="hljs-keyword">by</span> <span class="hljs-title">lazy</span>(<span class="hljs-type">LazyThreadSafetyMode</span>.SYNCHRONIZED) {
+			        <span class="hljs-string">"Computed Lazily"</span>
+			    }
+			
+			    <span class="hljs-comment">// Companion Object
+			</span>
+			    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span> {
+			        <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> MAX_RETRIES: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span>
+			        <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> BASE_URL: <span class="hljs-type">String</span> = <span class="hljs-string">"https://api.example.com/v1"</span>
+			
+			        <span class="hljs-meta">@JvmStatic</span>
+			        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">createDefault</span><span class="hljs-params">()</span></span>: <span class="hljs-type">KotlinSyntaxTester</span>&lt;<span class="hljs-type">String</span>&gt; {
+			            <span class="hljs-keyword">val</span> dummyProcessor = <span class="hljs-keyword">object</span> : <span class="hljs-type">Processable</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">String</span>&gt; {
+			                <span class="hljs-keyword">override</span> <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">process</span><span class="hljs-params">(input: <span class="hljs-type">String</span>)</span></span>: <span class="hljs-type">String</span> = input.<span class="hljs-title">uppercase</span>()
+			            }
+			            <span class="hljs-keyword">return</span> <span class="hljs-type">KotlinSyntaxTester</span>(<span class="hljs-string">"Default"</span>, dummyProcessor)
+			        }
+			    }
+			
+			    <span class="hljs-comment">// Functions, Vararg, Infix, Extension Functions, and Nullability
+			</span>
+			    <span class="hljs-keyword">infix</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">String</span></span>.<span class="hljs-title">concatWith</span>(other: <span class="hljs-type">String</span>): <span class="hljs-type">String</span> = <span class="hljs-string">"<span class="hljs-subst">$this</span> - <span class="hljs-subst">$other</span>"</span>
+			
+			    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">processItems</span><span class="hljs-params">(<span class="hljs-keyword">vararg</span> items: <span class="hljs-type">T</span>?)</span></span>: <span class="hljs-type">List</span>&lt;<span class="hljs-type">String</span>&gt; {
+			        <span class="hljs-keyword">val</span> results = <span class="hljs-title">mutableListOf</span>&lt;<span class="hljs-type">String</span>&gt;()
+			
+			        <span class="hljs-keyword">for</span> (item <span class="hljs-keyword">in</span> items) {
+			            <span class="hljs-comment">// Safe call, Elvis operator, and smart casting
+			</span>
+			            <span class="hljs-keyword">val</span> label = item?.<span class="hljs-title">toString</span>() ?: <span class="hljs-string">"NULL_VALUE"</span>
+			            results.<span class="hljs-title">add</span>(label)
+			        }
+			
+			        <span class="hljs-keyword">return</span> results
+			    }
+			
+			    <span class="hljs-comment">// Control Flow, Pattern Matching (When), Destructuring, Collections
+			</span>
+			    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">execute</span><span class="hljs-params">(state: <span class="hljs-type">State</span>, numbers: <span class="hljs-type">List</span>&lt;<span class="hljs-type">Int</span>&gt;)</span></span>: <span class="hljs-type">String</span> {
+			        <span class="hljs-comment">// When expression as a statement/expression
+			</span>
+			        <span class="hljs-keyword">val</span> stateName = <span class="hljs-keyword">when</span> (state) {
+			            <span class="hljs-keyword">is</span> <span class="hljs-type">State</span>.Idle -&gt; <span class="hljs-string">"System is idle"</span>
+			            <span class="hljs-keyword">is</span> <span class="hljs-type">State</span>.Active -&gt; <span class="hljs-string">"Active since <span class="hljs-subst">${state.startTime}</span>"</span>
+			            <span class="hljs-keyword">is</span> <span class="hljs-type">State</span>.Error -&gt; <span class="hljs-keyword">throw</span> state.cause
+			        }
+			
+			        <span class="hljs-comment">// Loops and Ranges
+			</span>
+			        <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>
+			        <span class="hljs-keyword">for</span> (i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span> until <span class="hljs-number">10</span> step <span class="hljs-number">2</span>) {
+			            <span class="hljs-keyword">if</span> (i == <span class="hljs-number">4</span>) <span class="hljs-keyword">continue</span>
+			            sum += i
+			        }
+			
+			        <span class="hljs-keyword">while</span> (sum &gt; <span class="hljs-number">0</span>) {
+			            sum--
+			            <span class="hljs-keyword">if</span> (sum == <span class="hljs-number">2</span>) <span class="hljs-keyword">break</span>
+			        }
+			
+			        <span class="hljs-comment">// Functional Operators &amp; Lambdas
+			</span>
+			        <span class="hljs-keyword">val</span> processedNumbers = numbers
+			            .<span class="hljs-title">filter</span> { it % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> }
+			            .<span class="hljs-title">map</span> { num -&gt;
+			                <span class="hljs-keyword">val</span> doubled = num * <span class="hljs-number">2</span>
+			                doubled
+			            }
+			
+			        <span class="hljs-comment">// Strings: Multi-line / Raw Strings &amp; Interpolation
+			</span>
+			        <span class="hljs-keyword">val</span> rawJson = <span class="hljs-string">"""
+			            {
+			                "status": "<span class="hljs-subst">$stateName</span>",
+			                "count": <span class="hljs-subst">${processedNumbers.size}</span>,
+			                "escaped": "Hello \"World\""
+			            }
+			        """</span>.<span class="hljs-title">trimIndent</span>()
+			
+			        <span class="hljs-comment">// Try-Catch as Expression
+			</span>
+			        <span class="hljs-keyword">val</span> parsedValue: <span class="hljs-type">Int</span>? = <span class="hljs-keyword">try</span> {
+			            <span class="hljs-string">"123"</span>.<span class="hljs-title">toInt</span>()
+			        } <span class="hljs-keyword">catch</span> (e: <span class="hljs-type">NumberFormatException</span>) {
+			            <span class="hljs-literal">null</span>
+			        } <span class="hljs-keyword">finally</span> {
+			            <span class="hljs-comment">// Cleanup block
+			</span>
+			        }
+			
+			        <span class="hljs-keyword">return</span> rawJson
+			    }
+			
+			    <span class="hljs-comment">// Inline Function &amp; Contracts
+			</span>
+			    <span class="hljs-meta">@OptIn</span>(<span class="hljs-type">ExperimentalContracts</span>::<span class="hljs-keyword">class</span>)
+			    <span class="hljs-keyword">inline</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">performAction</span><span class="hljs-params">(block: () -&gt; <span class="hljs-type">Unit</span>)</span></span> {
+			        <span class="hljs-title">contract</span> {
+			            <span class="hljs-title">callsInPlace</span>(block, kotlin.contracts.InvocationKind.EXACTLY_ONCE)
+			        }
+			        <span class="hljs-title">block</span>()
+			    }
+			}</code></pre>
+			    </div>
+			</article>
+			
+			"""";
 
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);

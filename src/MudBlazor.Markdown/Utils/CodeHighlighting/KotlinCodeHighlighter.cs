@@ -25,5 +25,9 @@ internal sealed class KotlinCodeHighlighter : CodeHighlighterBase
 		Literals = FrozenSets.Create("true", "false", "null");
 		FunctionKeywords = FrozenSets.Create("fun");
 		HighlightPascalCaseTypes = true;
+		HighlightPascalCaseTypesEverywhere = true;
+		InterpolateStrings = true;
+		HighlightAnnotations = true;
+		HighlightTrailingLambdaCalls = true;
 	}
 }

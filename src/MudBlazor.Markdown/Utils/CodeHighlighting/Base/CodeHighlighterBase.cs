@@ -36,6 +36,37 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	protected bool HighlightPascalCaseTypes { get; init; }
 
 	/// <summary>
+	/// When <see langword="true"/>, any PascalCase identifier (an upper-first name that also contains a
+	/// lowercase letter) is rendered as a type regardless of its position. Suits languages such as Kotlin
+	/// whose convention reserves PascalCase for types/classes and camelCase for members, so
+	/// <c>Delegates.observable</c> or <c>LazyThreadSafetyMode</c> are recognised even outside a type
+	/// position. Fully uppercase names (e.g. <c>MAX_RETRIES</c>, enum entries) are left untouched.
+	/// </summary>
+	protected bool HighlightPascalCaseTypesEverywhere { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, double-quoted strings are scanned for Kotlin-style interpolation with
+	/// no string prefix: <c>$name</c> and <c>${expr}</c> holes are rendered as <c>hljs-subst</c> spans,
+	/// the expression inside <c>${…}</c> being highlighted recursively. Applies to both regular
+	/// <c>"…"</c> and raw <c>"""…"""</c> strings.
+	/// </summary>
+	protected bool InterpolateStrings { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, an <c>@</c> that starts a token and is followed by an identifier is
+	/// rendered as an annotation (<c>hljs-meta</c>), including an optional use-site target
+	/// (e.g. <c>@JvmInline</c>, <c>@Target</c>, <c>@file:Suppress</c>).
+	/// </summary>
+	protected bool HighlightAnnotations { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, an identifier immediately followed by a trailing lambda (an optional
+	/// run of spaces/tabs then <c>{</c>) is rendered as a function title, matching Kotlin calls that omit
+	/// the parentheses (e.g. <c>list.filter { … }</c>, <c>run { … }</c>).
+	/// </summary>
+	protected bool HighlightTrailingLambdaCalls { get; init; }
+
+	/// <summary>
 	/// Character that opens and closes a raw string that performs no escaping (e.g. Go back-tick
 	/// strings), or <see langword="null"/> when the language has none.
 	/// </summary>
@@ -201,9 +232,24 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			if (StringQuotes.Contains(c))
 			{
 				FlushText();
+
+				if (InterpolateStrings && c == '"')
+				{
+					nodes.Add(ReadDollarInterpolatedString(code, ref i));
+					continue;
+				}
+
 				var stringStart = i;
 				ReadStringLiteral(code, ref i);
 				nodes.Add(new CodeSpan("hljs-string", [new CodeText(code[stringStart..i])]));
+				continue;
+			}
+
+			if (HighlightAnnotations && c == '@' && i + 1 < code.Length && IsIdentifierStart(code[i + 1]) &&
+			    (i == 0 || !IsIdentifierPart(code[i - 1])))
+			{
+				FlushText();
+				nodes.Add(ReadAnnotation(code, ref i));
 				continue;
 			}
 
@@ -269,21 +315,31 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 					if (HighlightPascalCaseTypes && i < code.Length && code[i] == '<')
 						ReadGenericArguments(code, ref i, nodes);
 				}
-				else if (HighlightPascalCaseTypes && !inHtmlText && char.IsUpper(code[start]) &&
-				         (IsTypePosition(code, start, i) || IsPrecededByTypeKeyword(code, start)))
+				else if (!inHtmlText && char.IsUpper(code[start]) &&
+				         ((HighlightPascalCaseTypes && (IsTypePosition(code, start, i) || IsPrecededByTypeKeyword(code, start)))
+				          || (HighlightPascalCaseTypesEverywhere && IsPascalCase(code, start, i) && !IsMemberAccess(code, start))))
 				{
-					// PascalCase identifier used as a type: "Guid Id", "List<T>", "new Type()".
+					// PascalCase identifier used as a type: "Guid Id", "List<T>", "new Type()", or -
+					// when HighlightPascalCaseTypesEverywhere is set - any PascalCase name (e.g. "Delegates").
+					// A name reached through '.' is a member access, not a type ("State.Error").
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
 
 					if (i < code.Length && code[i] == '<')
 						ReadGenericArguments(code, ref i, nodes);
 				}
-				else if (HighlightMethodCalls && i < code.Length && code[i] == '(')
+				else if (HighlightMethodCalls && i < code.Length &&
+				         (code[i] == '(' || (code[i] == '<' && IsGenericMethodCall(code, i)) ||
+				          (HighlightTrailingLambdaCalls && IsTrailingLambdaCall(code, i))))
 				{
-					// Method call/declaration: identifier immediately followed by '('.
+					// Method call/declaration: identifier immediately followed by '(', by a generic argument
+					// list that is itself followed by '(' (e.g. "mutableListOf<String>()"), or by a trailing
+					// lambda (e.g. "filter { … }").
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-title", [new CodeText(code[start..i])]));
+
+					if (code[i] == '<')
+						ReadGenericArguments(code, ref i, nodes);
 				}
 				else
 				{
@@ -379,6 +435,27 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			children.Add(ReadParams(code, ref i));
 
 		return new CodeSpan("hljs-function", children);
+	}
+
+	// Reads an annotation starting at code[i] == '@' (the caller has verified an identifier follows),
+	// including an optional use-site target such as "@file:Suppress". Advances i past the annotation.
+	private static CodeSpan ReadAnnotation(string code, ref int i)
+	{
+		var start = i;
+		i++; // '@'
+
+		while (i < code.Length && IsIdentifierPart(code[i]))
+			i++;
+
+		// Use-site target: "@file:Suppress", "@get:JvmName", etc.
+		if (i + 1 < code.Length && code[i] == ':' && IsIdentifierStart(code[i + 1]))
+		{
+			i++; // ':'
+			while (i < code.Length && IsIdentifierPart(code[i]))
+				i++;
+		}
+
+		return new CodeSpan("hljs-meta", [new CodeText(code[start..i])]);
 	}
 
 	private CodeSpan ReadParams(string code, ref int i)
@@ -517,6 +594,115 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 				if (i < code.Length)
 					i++; // past '}'
+
+				segmentStart = i;
+				continue;
+			}
+
+			i++;
+		}
+
+		if (i > segmentStart)
+			children.Add(new CodeText(code[segmentStart..i]));
+
+		return new CodeSpan("hljs-string", children);
+	}
+
+	// Reads a Kotlin-style string starting at the double quote code[i]. Interpolation holes need no string
+	// prefix: "$name" becomes an hljs-subst span of plain text, and "${expr}" an hljs-subst span whose
+	// expression is highlighted recursively. Handles both regular ("...") and raw ("""...""") strings, the
+	// latter treating backslashes literally. Advances i past the closing quote(s).
+	private CodeSpan ReadDollarInterpolatedString(string code, ref int i)
+	{
+		var quote = code[i];
+		var isRaw = Matches(code, i, "\"\"\"");
+		var children = new List<CodeNode>();
+		var segmentStart = i;
+
+		i += isRaw ? 3 : 1; // opening quote(s)
+
+		while (i < code.Length)
+		{
+			var ch = code[i];
+
+			if (isRaw)
+			{
+				if (Matches(code, i, "\"\"\""))
+				{
+					i += 3;
+					break;
+				}
+			}
+			else
+			{
+				if (ch == '\\' && i + 1 < code.Length)
+				{
+					i += 2;
+					continue;
+				}
+
+				if (ch == quote)
+				{
+					i++;
+					break;
+				}
+
+				if (ch == '\n')
+					break;
+			}
+
+			if (ch == '$' && i + 1 < code.Length && (code[i + 1] == '{' || IsIdentifierStart(code[i + 1])))
+			{
+				if (i > segmentStart)
+					children.Add(new CodeText(code[segmentStart..i]));
+
+				if (code[i + 1] == '{')
+				{
+					i += 2; // past "${"
+					var exprStart = i;
+					var depth = 1;
+					while (i < code.Length && depth > 0)
+					{
+						var hc = code[i];
+						if (hc is '"' or '\'')
+						{
+							ReadStringLiteral(code, ref i);
+						}
+						else if (hc == '{')
+						{
+							depth++;
+							i++;
+						}
+						else if (hc == '}')
+						{
+							depth--;
+							if (depth == 0)
+								break;
+							i++;
+						}
+						else
+						{
+							i++;
+						}
+					}
+
+					var substChildren = new List<CodeNode> { new CodeText("${") };
+					substChildren.AddRange(Highlight(code[exprStart..i]));
+					substChildren.Add(new CodeText("}"));
+					children.Add(new CodeSpan("hljs-subst", substChildren));
+
+					if (i < code.Length)
+						i++; // past '}'
+				}
+				else
+				{
+					var varStart = i;
+					i++; // '$'
+					while (i < code.Length && IsIdentifierPart(code[i]))
+						i++;
+
+					children.Add(new CodeSpan("hljs-subst", [new CodeText(code[varStart..i])]));
+				}
 
 				segmentStart = i;
 				continue;
@@ -671,6 +857,73 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			k--;
 
 		return k >= 0 && code[k] == ':' && (k == 0 || code[k - 1] != ':');
+	}
+
+	// PascalCase = upper-first with at least one lowercase letter, so "LazyThreadSafetyMode" qualifies
+	// but a fully uppercase constant/enum entry such as "MAX_RETRIES" does not.
+	private static bool IsPascalCase(string code, int start, int i)
+	{
+		if (!char.IsUpper(code[start]))
+			return false;
+
+		for (var k = start + 1; k < i; k++)
+			if (char.IsLower(code[k]))
+				return true;
+
+		return false;
+	}
+
+	// True when the identifier at code[start] is reached through a member access ('.'), e.g. the "Error"
+	// in "State.Error", which is a member reference rather than a type.
+	private static bool IsMemberAccess(string code, int start) =>
+		start > 0 && code[start - 1] == '.';
+
+	// True when the position code[i] begins a trailing lambda (optional spaces/tabs then '{'), which in
+	// Kotlin marks a call whose parentheses are omitted, e.g. "filter { … }".
+	private static bool IsTrailingLambdaCall(string code, int i)
+	{
+		var j = i;
+		while (j < code.Length && code[j] is ' ' or '\t')
+			j++;
+
+		return j < code.Length && code[j] == '{';
+	}
+
+	// Given code[i] == '<', returns true when the angle brackets form a clean generic argument list that
+	// is immediately followed by '(' (a generic method call, e.g. "mutableListOf<String>()"). Anything
+	// other than identifiers, separators and nested angle brackets rules it out, avoiding false positives
+	// on comparison operators.
+	private static bool IsGenericMethodCall(string code, int i)
+	{
+		var depth = 0;
+		var j = i;
+
+		while (j < code.Length)
+		{
+			var c = code[j];
+
+			if (c == '<')
+			{
+				depth++;
+			}
+			else if (c == '>')
+			{
+				depth--;
+				if (depth == 0)
+				{
+					j++;
+					break;
+				}
+			}
+			else if (!IsIdentifierPart(c) && c is not (',' or ' ' or '\t' or '?' or '.' or ':'))
+			{
+				return false;
+			}
+
+			j++;
+		}
+
+		return depth == 0 && j < code.Length && code[j] == '(';
 	}
 
 	private static bool IsPrecededByTypeKeyword(string code, int start)
