@@ -18,9 +18,15 @@ internal sealed class RustCodeHighlighter : CodeHighlighterBase
 			"f32", "f64", "bool", "char", "str"
 		);
 
-		Literals = FrozenSets.Create("true", "false");
+		Literals = FrozenSets.Create("true", "false", "Some", "None", "Ok", "Err");
 		FunctionKeywords = FrozenSets.Create("fn");
+		TypeDeclarationKeywords = FrozenSets.Create("struct", "enum", "trait", "union");
 		HighlightPascalCaseTypes = true;
+		HighlightAnnotations = true;
+		HighlightStringPrefixes = true;
+		HighlightLifetimes = true;
+		HighlightMacroInvocations = true;
+		HighlightAmpersandOperator = true;
 		StringQuotes = SearchValuess.Create('"');
 	}
 }

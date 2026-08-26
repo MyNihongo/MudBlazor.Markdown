@@ -1547,6 +1547,162 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 		const string expected =
 			"""
+			<article id:ignore class="mud-markdown-body">
+			    <div class="hljs mud-markdown-code-highlight">
+			        <button
+			            blazor:onclick="2"
+			            type="button"
+			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			            blazor:onclick:stopPropagation
+			            blazor:elementReference=""
+			        >
+			            <span class="mud-icon-button-label"
+			                ><svg
+			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			                    focusable="false"
+			                    viewBox="0 0 24 24"
+			                    aria-hidden="true"
+			                    role="img"
+			                >
+			                    <g><rect fill="none" height="24" width="24" /></g>
+			                    <g>
+			                        <path
+			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			                        />
+			                    </g></svg
+			            ></span>
+			        </button>
+			        <pre><code class="hljs language-rust"><span class="hljs-meta">#![allow(dead_code, unused_variables)]</span>
+
+			<span class="hljs-comment">//! Module-level documentation comment testing markdown rendering.</span>
+
+			<span class="hljs-keyword">use</span> std::collections::HashMap;
+			<span class="hljs-keyword">use</span> std::fmt::{Display, Formatter, <span class="hljs-type">Result</span> <span class="hljs-keyword">as</span> <span class="hljs-type">FmtResult</span>};
+			<span class="hljs-keyword">use</span> std::marker::PhantomData;
+			<span class="hljs-keyword">use</span> std::ops::Add;
+			<span class="hljs-keyword">use</span> std::sync::{Arc, Mutex};
+
+			<span class="hljs-comment">// Outer Attributes and Derive Macros</span>
+			<span class="hljs-meta">#[derive(<span class="hljs-type">Debug</span>, <span class="hljs-type">Clone</span>, <span class="hljs-type">Copy</span>, <span class="hljs-type">PartialEq</span>, <span class="hljs-type">Eq</span>, <span class="hljs-type">Hash</span>)]</span>
+			<span class="hljs-meta">#[repr(<span class="hljs-type">u8</span>)]</span>
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">enum</span> <span class="hljs-type">Status</span> {
+			    Idle = <span class="hljs-number">0</span>,
+			    Active = <span class="hljs-number">1</span>,
+			    Failed = <span class="hljs-number">255</span>,
+			}
+
+			<span class="hljs-comment">// Traits with Associated Types and Const Generics</span>
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">trait</span> <span class="hljs-type">Processor</span>&lt;<span class="hljs-type">T</span>, <span class="hljs-keyword">const</span> <span class="hljs-type">N</span>: <span class="hljs-type">usize</span>&gt; {
+			    <span class="hljs-keyword">type</span> Output;
+			    <span class="hljs-keyword">type</span> Error: std::error::Error + <span class="hljs-symbol">'static</span>;
+
+			    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-operator">&amp;</span><span class="hljs-keyword">self</span>, input: [T; N])</span></span> -&gt; <span class="hljs-type">Result</span>&lt;<span class="hljs-type">Self</span>::<span class="hljs-type">Output</span>, <span class="hljs-type">Self</span>::<span class="hljs-type">Error</span>&gt;;
+			}
+
+			<span class="hljs-comment">// Structs: Named, Tuple, and Unit</span>
+			<span class="hljs-meta">#[derive(<span class="hljs-type">Debug</span>)]</span>
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-type">Point</span>&lt;<span class="hljs-type">T</span>&gt; {
+			    <span class="hljs-keyword">pub</span> x: <span class="hljs-type">T</span>,
+			    <span class="hljs-keyword">pub</span> y: <span class="hljs-type">T</span>,
+			}
+
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-type">Wrapper</span>&lt;<span class="hljs-type">T</span>&gt;(<span class="hljs-keyword">pub</span> T);
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-type">Marker</span>;
+
+			<span class="hljs-comment">// Lifetime Annotations and Structs</span>
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-type">Container</span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-type">T</span>: <span class="hljs-symbol">'a</span>&gt; 
+			<span class="hljs-keyword">where</span> 
+			    T: <span class="hljs-type">Display</span> + ?Sized, 
+			{
+			    name: <span class="hljs-operator">&amp;</span><span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>,
+			    item: <span class="hljs-operator">&amp;</span><span class="hljs-symbol">'a</span> T,
+			    _phantom: <span class="hljs-type">PhantomData</span>&lt;<span class="hljs-operator">&amp;</span><span class="hljs-symbol">'a</span> ()&gt;,
+			}
+
+			<span class="hljs-comment">// Impl Block with Lifetimes and Trait Implementation</span>
+			<span class="hljs-keyword">impl</span>&lt;<span class="hljs-symbol">'a</span>, T&gt; <span class="hljs-type">Display</span> <span class="hljs-keyword">for</span> <span class="hljs-type">Container</span>&lt;<span class="hljs-symbol">'a</span>, <span class="hljs-type">T</span>&gt;
+			<span class="hljs-keyword">where</span>
+			    T: <span class="hljs-type">Display</span> + ?Sized,
+			{
+			    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fmt</span><span class="hljs-params">(<span class="hljs-operator">&amp;</span><span class="hljs-keyword">self</span>, f: <span class="hljs-operator">&amp;</span><span class="hljs-keyword">mut</span> <span class="hljs-type">Formatter</span>&lt;<span class="hljs-symbol">'_</span>&gt;)</span></span> -&gt; FmtResult {
+			        <span class="hljs-title">write!</span>(f, <span class="hljs-string">"Container[{}]: {}"</span>, <span class="hljs-keyword">self</span>.name, <span class="hljs-keyword">self</span>.item)
+			    }
+			}
+
+			<span class="hljs-comment">// Macro Definition</span>
+			<span class="hljs-meta">#[macro_export]</span>
+			<span class="hljs-title">macro_rules!</span> create_map {
+			    ( $( $key:expr =&gt; $val:expr ),* $(,)? ) =&gt; {{
+			        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> map = <span class="hljs-type">HashMap</span>::<span class="hljs-title">new</span>();
+			        $( map.<span class="hljs-title">insert</span>($key, $val); )*
+			        map
+			    }};
+			}
+
+			<span class="hljs-comment">// Async Function, Generics, Pattern Matching, Control Flow</span>
+			<span class="hljs-keyword">pub</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">execute_pipeline</span></span>&lt;<span class="hljs-symbol">'a</span>, T&gt;(
+			    status: <span class="hljs-type">Status</span>,
+			    raw_data: <span class="hljs-type">Option</span>&lt;<span class="hljs-operator">&amp;</span><span class="hljs-symbol">'a</span> <span class="hljs-type">str</span>&gt;,
+			) -&gt; <span class="hljs-type">Result</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">Box</span>&lt;<span class="hljs-keyword">dyn</span> std::error::<span class="hljs-type">Error</span> + <span class="hljs-type">Send</span> + <span class="hljs-type">Sync</span>&gt;&gt;
+			<span class="hljs-keyword">where</span>
+			    T: <span class="hljs-type">Add</span>&lt;<span class="hljs-type">Output</span> = <span class="hljs-type">T</span>&gt; + Default + Copy,
+			{
+			    <span class="hljs-comment">// Local Variables, Type Inferences, and Mutability</span>
+			    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> counter: <span class="hljs-type">u64</span> = <span class="hljs-number">100_000</span>;
+			    <span class="hljs-keyword">let</span> ref_counter = <span class="hljs-operator">&amp;</span><span class="hljs-keyword">mut</span> counter;
+			    *ref_counter += <span class="hljs-number">1</span>;
+
+			    <span class="hljs-comment">// Numbers: Hex, Binary, Octal, Floats, Suffixes</span>
+			    <span class="hljs-keyword">let</span> hex_val = <span class="hljs-number">0xFF_u</span><span class="hljs-number">8</span>;
+			    <span class="hljs-keyword">let</span> bin_val = <span class="hljs-number">0b</span><span class="hljs-number">1010_1010</span>;
+			    <span class="hljs-keyword">let</span> oct_val = <span class="hljs-number">0o</span><span class="hljs-number">77</span>;
+			    <span class="hljs-keyword">let</span> float_val = <span class="hljs-number">3.14159_f</span><span class="hljs-number">64</span>;
+
+			    <span class="hljs-comment">// Pattern Matching &amp; If-Let / While-Let</span>
+			    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-literal">Some</span>(text) = raw_data {
+			        <span class="hljs-title">println!</span>(<span class="hljs-string">"Received input: {text}"</span>);
+			    }
+
+			    <span class="hljs-keyword">let</span> description = <span class="hljs-keyword">match</span> status {
+			        <span class="hljs-type">Status</span>::Idle =&gt; <span class="hljs-string">"System is standing by"</span>,
+			        <span class="hljs-type">Status</span>::Active =&gt; <span class="hljs-string">"Processing data"</span>,
+			        <span class="hljs-type">Status</span>::Failed =&gt; <span class="hljs-keyword">return</span> <span class="hljs-literal">Err</span>(<span class="hljs-string">"Critical system failure"</span>.<span class="hljs-title">into</span>()),
+			    };
+
+			    <span class="hljs-comment">// Loops, Labels, and Expressions</span>
+			    <span class="hljs-symbol">'outer</span>: <span class="hljs-keyword">loop</span> {
+			        <span class="hljs-keyword">while</span> counter &gt; <span class="hljs-number">0</span> {
+			            counter -= <span class="hljs-number">1</span>;
+			            <span class="hljs-keyword">if</span> counter == <span class="hljs-number">50</span> {
+			                <span class="hljs-keyword">break</span> <span class="hljs-symbol">'outer</span>;
+			            }
+			        }
+			    }
+
+			    <span class="hljs-comment">// Macro invocation and Closure</span>
+			    <span class="hljs-keyword">let</span> map = <span class="hljs-title">create_map!</span> {
+			        <span class="hljs-string">"key1"</span> =&gt; <span class="hljs-number">10</span>,
+			        <span class="hljs-string">"key2"</span> =&gt; <span class="hljs-number">20</span>,
+			    };
+
+			    <span class="hljs-keyword">let</span> closure = |x: <span class="hljs-type">i32</span>| -&gt; <span class="hljs-type">i32</span> { x * <span class="hljs-number">2</span> };
+			    <span class="hljs-keyword">let</span> _closure_res = <span class="hljs-title">closure</span>(<span class="hljs-number">5</span>);
+
+			    <span class="hljs-comment">// Unsafe Block and Raw Pointers</span>
+			    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x: <span class="hljs-type">i32</span> = <span class="hljs-number">42</span>;
+			    <span class="hljs-keyword">let</span> raw_ptr: *<span class="hljs-keyword">mut</span> <span class="hljs-type">i32</span> = <span class="hljs-operator">&amp;</span><span class="hljs-keyword">mut</span> x;
+			    <span class="hljs-keyword">unsafe</span> {
+			        *raw_ptr = <span class="hljs-number">100</span>;
+			    }
+
+			    <span class="hljs-comment">// Strings: Raw Strings, Verbatim, Byte Strings</span>
+			    <span class="hljs-keyword">let</span> raw_str = <span class="hljs-string">r#"Raw string with "quotes" and \no escape sequences\"#</span>;
+			    <span class="hljs-keyword">let</span> byte_str: <span class="hljs-operator">&amp;</span>[<span class="hljs-type">u8</span>; <span class="hljs-number">4</span>] = <span class="hljs-string">b"RUST"</span>;
+
+			    <span class="hljs-literal">Ok</span>(<span class="hljs-title">format!</span>(<span class="hljs-string">"{description} | Raw: {raw_str}"</span>))
+			}</code></pre>
+			    </div>
+			</article>
 
 			""";
 

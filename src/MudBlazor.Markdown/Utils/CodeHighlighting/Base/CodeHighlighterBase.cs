@@ -15,11 +15,13 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _types = FrozenSets.EmptyLookup;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _literals = FrozenSets.EmptyLookup;
 	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _functionKeywords = FrozenSets.EmptyLookup;
+	private readonly FrozenSet<string>.AlternateLookup<ReadOnlySpan<char>> _typeDeclarationKeywords = FrozenSets.EmptyLookup;
 #else
 	private readonly FrozenSet<string> _keywords = FrozenSet<string>.Empty;
 	private readonly FrozenSet<string> _types = FrozenSet<string>.Empty;
 	private readonly FrozenSet<string> _literals = FrozenSet<string>.Empty;
 	private readonly FrozenSet<string> _functionKeywords = FrozenSet<string>.Empty;
+	private readonly FrozenSet<string> _typeDeclarationKeywords = FrozenSet<string>.Empty;
 #endif
 
 	/// <summary>
@@ -62,9 +64,12 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	protected bool InterpolateStrings { get; init; }
 
 	/// <summary>
-	/// When <see langword="true"/>, an <c>@</c> that starts a token and is followed by an identifier is
-	/// rendered as an annotation (<c>hljs-meta</c>), including an optional use-site target
-	/// (e.g. <c>@JvmInline</c>, <c>@Target</c>, <c>@file:Suppress</c>).
+	/// When <see langword="true"/>, an annotation/attribute is rendered as a meta directive
+	/// (<c>hljs-meta</c>): an <c>@</c> that starts a token and is followed by an identifier, including an
+	/// optional use-site target (e.g. <c>@JvmInline</c>, <c>@Target</c>, <c>@file:Suppress</c>), or a
+	/// Rust attribute - outer <c>#[...]</c> and inner <c>#![...]</c> - whose upper-first identifiers (such
+	/// as the traits in <c>#[derive(Debug, Clone)]</c>) are rendered as types and whose string literals as
+	/// strings, every other token staying meta-coloured.
 	/// </summary>
 	protected bool HighlightAnnotations { get; init; }
 
@@ -94,10 +99,29 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	protected bool HighlightPreprocessor { get; init; }
 
 	/// <summary>
-	/// When <see langword="true"/>, a string may be prefixed by <c>$</c> and/or <c>@</c>
-	/// (e.g. <c>$"..."</c>, <c>@"..."</c>, <c>$@"..."</c>); the prefix is included in the string token.
+	/// When <see langword="true"/>, a string may carry a language prefix that is folded into the string
+	/// token: C#-style <c>$"..."</c>, <c>@"..."</c>, <c>$@"..."</c>, and Rust-style raw/byte strings
+	/// <c>r"..."</c>, <c>r#"..."#</c>, <c>b"..."</c>, <c>br#"..."#</c> and byte characters <c>b'x'</c>.
 	/// </summary>
 	protected bool HighlightStringPrefixes { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, a <c>'</c> introduces either a lifetime/label such as <c>'a</c>,
+	/// <c>'static</c> or <c>'outer</c> (rendered as a symbol), or a character literal such as <c>'x'</c> or
+	/// <c>'\n'</c> (rendered as a string).
+	/// </summary>
+	protected bool HighlightLifetimes { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, an identifier immediately followed by <c>!</c> is rendered as a macro
+	/// invocation title (e.g. <c>println!</c>, <c>create_map!</c>); the <c>!</c> is part of the token.
+	/// </summary>
+	protected bool HighlightMacroInvocations { get; init; }
+
+	/// <summary>
+	/// When <see langword="true"/>, the reference/borrow operator <c>&amp;</c> is rendered as an operator.
+	/// </summary>
+	protected bool HighlightAmpersandOperator { get; init; }
 
 	/// <summary>
 	/// Reserved words rendered as keyword tokens.
@@ -145,6 +169,20 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		init => _functionKeywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
 #else
 		init => _functionKeywords = value;
+#endif
+	}
+
+	/// <summary>
+	/// Keywords that introduce a type declaration (e.g. <c>struct</c>, <c>enum</c>, <c>trait</c>); the
+	/// upper-first name that follows is rendered as a type even when nothing else marks it (so a unit
+	/// struct <c>struct Marker;</c> or a bare <c>enum Status {</c> is still recognised).
+	/// </summary>
+	protected FrozenSet<string> TypeDeclarationKeywords
+	{
+#if NET9_0_OR_GREATER
+		init => _typeDeclarationKeywords = value.GetAlternateLookup<ReadOnlySpan<char>>();
+#else
+		init => _typeDeclarationKeywords = value;
 #endif
 	}
 
@@ -238,6 +276,13 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				}
 			}
 
+			if (HighlightStringPrefixes && c is 'r' or 'b' && TryReadRustString(code, ref i, out var rustString))
+			{
+				FlushText();
+				nodes.Add(rustString);
+				continue;
+			}
+
 			if (StringQuotes.Contains(c))
 			{
 				FlushText();
@@ -254,11 +299,32 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				continue;
 			}
 
+			if (HighlightLifetimes && c == '\'')
+			{
+				FlushText();
+				nodes.Add(ReadLifetimeOrChar(code, ref i));
+				continue;
+			}
+
+			if (HighlightAmpersandOperator && c == '&')
+			{
+				FlushText();
+				nodes.Add(ReadAmpersand(code, ref i));
+				continue;
+			}
+
 			if (HighlightAnnotations && c == '@' && i + 1 < code.Length && IsIdentifierStart(code[i + 1]) &&
 			    (i == 0 || !IsIdentifierPart(code[i - 1])))
 			{
 				FlushText();
 				nodes.Add(ReadAnnotation(code, ref i));
+				continue;
+			}
+
+			if (HighlightAnnotations && c == '#' && (Matches(code, i, "#[") || Matches(code, i, "#![")))
+			{
+				FlushText();
+				nodes.Add(ReadAttribute(code, ref i));
 				continue;
 			}
 
@@ -301,7 +367,15 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				var word = code.Substring(start, i - start);
 #endif
 
-				if (_functionKeywords.Contains(word))
+				if (HighlightMacroInvocations && i < code.Length && code[i] == '!' &&
+				    (i + 1 >= code.Length || code[i + 1] != '='))
+				{
+					// Macro invocation: "println!", "create_map!". The '!' is part of the title.
+					FlushText();
+					i++; // '!'
+					nodes.Add(new CodeSpan("hljs-title", [new CodeText(code[start..i])]));
+				}
+				else if (_functionKeywords.Contains(word))
 				{
 					FlushText();
 					nodes.Add(ReadFunction(code, code[start..i], ref i));
@@ -846,6 +920,10 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 
 	private static bool IsTypePosition(string code, int start, int i)
 	{
+		// Followed by a path separator: the type qualifying a path ("HashMap::new", "Status::Idle").
+		if (i + 1 < code.Length && code[i] == ':' && code[i + 1] == ':')
+			return true;
+
 		// Followed by a generic list, an array, or another identifier: "Type name", "Type<...>", "Type[]".
 		// A single trailing '?' (nullable) is skipped, so "Type? name" is still recognised.
 		if (i < code.Length)
@@ -959,7 +1037,7 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		return depth == 0 && j < code.Length && code[j] == '(';
 	}
 
-	private static bool IsPrecededByTypeKeyword(string code, int start)
+	private bool IsPrecededByTypeKeyword(string code, int start)
 	{
 		var end = start - 1;
 		while (end >= 0 && code[end] is ' ' or '\t')
@@ -973,9 +1051,17 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 		if (wordStart > end)
 			return false;
 
-		// Keywords directly followed by a type: constructor (new), cast (as), and pattern forms (is/not/and/or).
+		// Keywords directly followed by a type: constructor (new), cast (as), and pattern forms (is/not/and/or),
+		// plus any language-specific type-declaration keyword (e.g. struct/enum/trait).
 		var word = code.AsSpan(wordStart, end - wordStart + 1);
-		return word is "new" or "is" or "as" or "not" or "and" or "or";
+		if (word is "new" or "is" or "as" or "not" or "and" or "or")
+			return true;
+
+#if NET9_0_OR_GREATER
+		return _typeDeclarationKeywords.Contains(word);
+#else
+		return _typeDeclarationKeywords.Contains(word.ToString());
+#endif
 	}
 
 	private static int StringPrefixQuoteIndex(string code, int i)
@@ -999,6 +1085,229 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 			k--;
 
 		return k < 0 || code[k] == '\n';
+	}
+
+	// Reads a Rust attribute starting at code[i] == '#' (either "#[" or "#!["), up to and including the
+	// matching ']'. The whole attribute is a meta directive; upper-first identifiers inside are rendered as
+	// types and string literals as strings, everything else staying meta text.
+	private CodeSpan ReadAttribute(string code, ref int i)
+	{
+		var children = new List<CodeNode>();
+		var raw = new StringBuilder();
+
+		raw.Append(code[i++]); // '#'
+		if (i < code.Length && code[i] == '!')
+			raw.Append(code[i++]); // '!'
+		if (i < code.Length && code[i] == '[')
+			raw.Append(code[i++]); // '['
+
+		var depth = 1;
+		while (i < code.Length && depth > 0)
+		{
+			var ch = code[i];
+
+			if (ch == '"')
+			{
+				FlushRaw();
+				children.Add(ReadString(code, ref i, '"'));
+				continue;
+			}
+
+			if (ch == '[')
+			{
+				depth++;
+				raw.Append(ch);
+				i++;
+				continue;
+			}
+
+			if (ch == ']')
+			{
+				depth--;
+				raw.Append(ch);
+				i++;
+				continue;
+			}
+
+			if (IsIdentifierStart(ch))
+			{
+				var start = i;
+				i++;
+				while (i < code.Length && IsIdentifierPart(code[i]))
+					i++;
+
+#if NET9_0_OR_GREATER
+				var word = code.AsSpan(start, i - start);
+#else
+				var word = code.Substring(start, i - start);
+#endif
+
+				// Upper-first identifiers (e.g. the traits in derive) and built-in types (e.g. u8 in repr).
+				if (char.IsUpper(code[start]) || _types.Contains(word))
+				{
+					FlushRaw();
+					children.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
+				}
+				else
+				{
+					raw.Append(code[start..i]);
+				}
+
+				continue;
+			}
+
+			raw.Append(ch);
+			i++;
+		}
+
+		FlushRaw();
+		return new CodeSpan("hljs-meta", children);
+
+		void FlushRaw()
+		{
+			if (raw.Length == 0)
+				return;
+
+			children.Add(new CodeText(raw.ToString()));
+			raw.Clear();
+		}
+	}
+
+	// Reads a run of '&' starting at code[i] as an operator token.
+	private static CodeSpan ReadAmpersand(string code, ref int i)
+	{
+		var start = i;
+		while (i < code.Length && code[i] == '&')
+			i++;
+
+		return new CodeSpan("hljs-operator", [new CodeText(code[start..i])]);
+	}
+
+	// Reads either a Rust character literal ('x', '\n') as a string, or a lifetime/label ('a, 'static,
+	// 'outer, '_) as a symbol, starting at code[i] == '\''.
+	private static CodeNode ReadLifetimeOrChar(string code, ref int i)
+	{
+		var start = i;
+
+		// Character literal: an escape ('\...') or a single character wrapped in quotes ('x').
+		var isEscape = i + 1 < code.Length && code[i + 1] == '\\';
+		var isSingleChar = i + 2 < code.Length && code[i + 1] != '\'' && code[i + 2] == '\'';
+		if (isEscape || isSingleChar)
+		{
+			ReadCharLiteral(code, ref i);
+			return new CodeSpan("hljs-string", [new CodeText(code[start..i])]);
+		}
+
+		// Lifetime / label: a quote followed by an identifier and no closing quote.
+		if (i + 1 < code.Length && IsIdentifierStart(code[i + 1]))
+		{
+			i++; // '
+			while (i < code.Length && IsIdentifierPart(code[i]))
+				i++;
+
+			return new CodeSpan("hljs-symbol", [new CodeText(code[start..i])]);
+		}
+
+		i++; // bare quote
+		return new CodeText(code[start..i]);
+	}
+
+	// Advances i past a character literal starting at the quote code[i].
+	private static void ReadCharLiteral(string code, ref int i)
+	{
+		i++; // opening quote
+
+		if (i < code.Length && code[i] == '\\')
+		{
+			i++;
+			while (i < code.Length && code[i] is not ('\'' or '\n'))
+				i++;
+		}
+		else if (i < code.Length && code[i] != '\'')
+		{
+			i++;
+		}
+
+		if (i < code.Length && code[i] == '\'')
+			i++;
+	}
+
+	// Attempts to read a Rust raw/byte string starting at code[i] (code[i] is 'r' or 'b'): r"...", r#"..."#,
+	// b"...", br#"..."#, or the byte character b'x'. Returns false and leaves i unchanged when the prefix is
+	// just the start of an ordinary identifier (e.g. "raw_data", "bin_val").
+	private bool TryReadRustString(string code, ref int i, out CodeSpan node)
+	{
+		node = null!;
+		var start = i;
+		var j = i;
+
+		if (code[j] == 'b')
+		{
+			j++;
+
+			if (j < code.Length && code[j] == '\'')
+			{
+				ReadCharLiteral(code, ref j);
+				i = j;
+				node = new CodeSpan("hljs-string", [new CodeText(code[start..i])]);
+				return true;
+			}
+
+			if (j < code.Length && code[j] == '"')
+			{
+				ReadString(code, ref j, '"');
+				i = j;
+				node = new CodeSpan("hljs-string", [new CodeText(code[start..i])]);
+				return true;
+			}
+
+			// Anything other than a following 'r' (raw byte string) is an ordinary identifier.
+			if (j >= code.Length || code[j] != 'r')
+				return false;
+		}
+
+		if (j < code.Length && code[j] == 'r')
+		{
+			var k = j + 1;
+			var hashes = 0;
+			while (k < code.Length && code[k] == '#')
+			{
+				hashes++;
+				k++;
+			}
+
+			if (k < code.Length && code[k] == '"')
+			{
+				k++; // opening quote
+				while (k < code.Length)
+				{
+					if (code[k] == '"')
+					{
+						var run = 0;
+						var q = k + 1;
+						while (run < hashes && q < code.Length && code[q] == '#')
+						{
+							run++;
+							q++;
+						}
+
+						if (run == hashes)
+						{
+							k = q;
+							break;
+						}
+					}
+
+					k++;
+				}
+
+				i = k;
+				node = new CodeSpan("hljs-string", [new CodeText(code[start..i])]);
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void ReadGenericArguments(string code, ref int i, List<CodeNode> nodes)
@@ -1055,6 +1364,20 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 					raw.Append(word);
 				}
 
+				continue;
+			}
+
+			if (HighlightLifetimes && c == '\'')
+			{
+				FlushRaw();
+				nodes.Add(ReadLifetimeOrChar(code, ref i));
+				continue;
+			}
+
+			if (HighlightAmpersandOperator && c == '&')
+			{
+				FlushRaw();
+				nodes.Add(ReadAmpersand(code, ref i));
 				continue;
 			}
 
