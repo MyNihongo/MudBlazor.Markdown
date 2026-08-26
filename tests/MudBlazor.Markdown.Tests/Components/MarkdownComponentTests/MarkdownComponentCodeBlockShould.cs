@@ -1709,4 +1709,86 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void RenderJson()
+	{
+		const string value =
+			"""
+			```json
+			{
+			  "name": "mud-blazor",
+			  "version": 2,
+			  "enabled": true,
+			  "tags": ["md", "blazor"],
+			  "nested": { "count": 10, "ratio": 3.14, "empty": null }
+			}
+			```
+			""";
+
+		const string expected =
+			"""
+
+			""";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderXml()
+	{
+		const string value =
+			"""
+			```xml
+			<?xml version="1.0" encoding="UTF-8"?>
+			<!-- Application configuration -->
+			<config env="prod">
+			  <name>MudBlazor</name>
+			  <value count="3">text &amp; more</value>
+			  <self-closing attr="x" />
+			</config>
+			```
+			""";
+
+		const string expected =
+			"""
+
+			""";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderYaml()
+	{
+		const string value =
+			"""
+			```yaml
+			# Application configuration
+			name: mud-blazor
+			version: 2
+			enabled: true
+			ratio: 3.14
+			description: "quoted value"
+			tags:
+			  - md
+			  - blazor
+			nested:
+			  count: 10
+			  empty: null
+			anchor: &a value
+			ref: *a
+			```
+			""";
+
+		const string expected =
+			"""
+
+			""";
+
+		using var fixture = CreateFixture(value);
+		fixture.MarkupMatches(expected);
+	}
 }

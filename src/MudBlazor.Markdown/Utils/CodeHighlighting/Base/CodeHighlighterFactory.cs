@@ -14,6 +14,9 @@ internal static class CodeHighlighterFactory
 	private const string KotlinLanguage = "kotlin";
 	private const string RazorLanguage = "razor";
 	private const string RustLanguage = "rust";
+	private const string JsonLanguage = "json";
+	private const string XmlLanguage = "xml";
+	private const string YamlLanguage = "yaml";
 
 	private static readonly ConcurrentDictionary<string, ICodeHighlighter?> CodeHighlighters = new();
 
@@ -33,6 +36,9 @@ internal static class CodeHighlighterFactory
 				KotlinLanguage => new KotlinCodeHighlighter(),
 				RazorLanguage => new RazorCodeHighlighter(),
 				RustLanguage => new RustCodeHighlighter(),
+				JsonLanguage => new JsonCodeHighlighter(),
+				XmlLanguage => new XmlCodeHighlighter(),
+				YamlLanguage => new YamlCodeHighlighter(),
 				_ => null,
 			};
 		});
@@ -47,6 +53,9 @@ internal static class CodeHighlighterFactory
 			KotlinLanguage or "kt" or "kts" => KotlinLanguage,
 			RazorLanguage or "cshtml" or "razor-cshtml" => RazorLanguage,
 			RustLanguage or "rs" => RustLanguage,
+			JsonLanguage => JsonLanguage,
+			XmlLanguage or "html" or "xhtml" or "svg" or "xsd" or "xsl" or "xslt" => XmlLanguage,
+			YamlLanguage or "yml" => YamlLanguage,
 			_ => string.Empty,
 		};
 	}
