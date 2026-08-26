@@ -45,6 +45,15 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 	protected bool HighlightPascalCaseTypesEverywhere { get; init; }
 
 	/// <summary>
+	/// When <see langword="true"/>, an upper-first identifier that sits in a Go-style trailing type
+	/// position - right after a name (<c>x Type</c>, as in <c>CreatedAt time.Time</c> or a
+	/// <c>[T Constraint]</c> type parameter) or after a pointer <c>*</c> (<c>*User</c>) - is rendered as a
+	/// type. Suits languages such as Go whose declarations put the type after the name. A name reached
+	/// through <c>.</c> is excluded (it is a member access).
+	/// </summary>
+	protected bool HighlightPostfixTypes { get; init; }
+
+	/// <summary>
 	/// When <see langword="true"/>, double-quoted strings are scanned for Kotlin-style interpolation with
 	/// no string prefix: <c>$name</c> and <c>${expr}</c> holes are rendered as <c>hljs-subst</c> spans,
 	/// the expression inside <c>${…}</c> being highlighted recursively. Applies to both regular
@@ -317,11 +326,15 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				}
 				else if (!inHtmlText && char.IsUpper(code[start]) &&
 				         ((HighlightPascalCaseTypes && (IsTypePosition(code, start, i) || IsPrecededByTypeKeyword(code, start)))
-				          || (HighlightPascalCaseTypesEverywhere && IsPascalCase(code, start, i) && !IsMemberAccess(code, start))))
+				          || (HighlightPascalCaseTypesEverywhere && IsPascalCase(code, start, i) && !IsMemberAccess(code, start))
+				          || (HighlightPostfixTypes && !IsMemberAccess(code, start) &&
+				              (IsPrecededByNameOrPointer(code, start) || i - start == 1))))
 				{
 					// PascalCase identifier used as a type: "Guid Id", "List<T>", "new Type()", or -
-					// when HighlightPascalCaseTypesEverywhere is set - any PascalCase name (e.g. "Delegates").
-					// A name reached through '.' is a member access, not a type ("State.Error").
+					// when HighlightPascalCaseTypesEverywhere is set - any PascalCase name (e.g. "Delegates"), or -
+					// when HighlightPostfixTypes is set - an upper-first name in Go's trailing type slot ("*User")
+					// or a single upper-case letter (a Go type parameter such as "T", highlighted in every
+					// position for consistency). A name reached through '.' is a member access, not a type.
 					FlushText();
 					nodes.Add(new CodeSpan("hljs-type", [new CodeText(code[start..i])]));
 
@@ -871,6 +884,26 @@ internal abstract class CodeHighlighterBase : ICodeHighlighter
 				return true;
 
 		return false;
+	}
+
+	// True when the upper-first identifier at code[start] sits in Go's trailing type position: directly
+	// after a pointer '*' ("*User"), or after "<name> " where the name is another identifier
+	// ("input T", "CreatedAt time.Time"). Go declarations write the type after the name, and two adjacent
+	// identifiers only occur in such declarations, so this reliably marks a type.
+	private static bool IsPrecededByNameOrPointer(string code, int start)
+	{
+		var k = start - 1;
+		if (k >= 0 && code[k] == '*')
+			return true;
+
+		var sawSpace = false;
+		while (k >= 0 && code[k] is ' ' or '\t')
+		{
+			sawSpace = true;
+			k--;
+		}
+
+		return sawSpace && k >= 0 && IsIdentifierPart(code[k]);
 	}
 
 	// True when the identifier at code[start] is reached through a member access ('.'), e.g. the "Error"

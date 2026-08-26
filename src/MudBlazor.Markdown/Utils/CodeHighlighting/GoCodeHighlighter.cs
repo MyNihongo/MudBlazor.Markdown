@@ -21,5 +21,6 @@ internal sealed class GoCodeHighlighter : CodeHighlighterBase
 		Literals = FrozenSets.Create("true", "false", "nil", "iota");
 		FunctionKeywords = FrozenSets.Create("func");
 		RawStringQuote = '`';
+		HighlightPostfixTypes = true;
 	}
 }

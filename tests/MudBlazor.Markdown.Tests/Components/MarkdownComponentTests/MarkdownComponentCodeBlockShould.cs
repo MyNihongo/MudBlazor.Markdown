@@ -1164,7 +1164,243 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 		const string expected =
 			"""
-
+			<article id:ignore class="mud-markdown-body">
+			    <div class="hljs mud-markdown-code-highlight">
+			        <button
+			            blazor:onclick="2"
+			            type="button"
+			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			            blazor:onclick:stopPropagation
+			            blazor:elementReference=""
+			        >
+			            <span class="mud-icon-button-label"
+			                ><svg
+			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			                    focusable="false"
+			                    viewBox="0 0 24 24"
+			                    aria-hidden="true"
+			                    role="img"
+			                >
+			                    <g><rect fill="none" height="24" width="24" /></g>
+			                    <g>
+			                        <path
+			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			                        />
+			                    </g></svg
+			            ></span>
+			        </button>
+			        <pre><code class="hljs language-golang"><span class="hljs-comment">// Package declaration and imports
+			</span>
+			<span class="hljs-keyword">package</span> main
+			
+			<span class="hljs-keyword">import</span> (
+				<span class="hljs-string">"context"</span>
+				<span class="hljs-string">"errors"</span>
+				<span class="hljs-string">"fmt"</span>
+				<span class="hljs-string">"math"</span>
+				<span class="hljs-string">"sync"</span>
+				<span class="hljs-string">"time"</span>
+			)
+			
+			<span class="hljs-comment">// Constants and iota enumeration
+			</span>
+			<span class="hljs-keyword">const</span> (
+				MaxThreshold <span class="hljs-type">float64</span> = <span class="hljs-number">3.14159_26535_89793</span>
+				CategoryName         = <span class="hljs-string">"HighlightingTest"</span>
+			)
+			
+			<span class="hljs-keyword">const</span> (
+				StatusNone <span class="hljs-type">byte</span> = <span class="hljs-literal">iota</span>
+				StatusActive
+				StatusPending
+				StatusError
+			)
+			
+			<span class="hljs-comment">// Type Aliases and Defined Types
+			</span>
+			<span class="hljs-keyword">type</span> <span class="hljs-type">Status</span> = <span class="hljs-type">byte</span>
+			<span class="hljs-keyword">type</span> <span class="hljs-type">ID</span> <span class="hljs-type">int64</span>
+			
+			<span class="hljs-comment">// Interfaces and Generics (Type Constraints)
+			</span>
+			<span class="hljs-keyword">type</span> <span class="hljs-type">Stringable</span> <span class="hljs-keyword">interface</span> {
+				fmt.Stringer
+				~<span class="hljs-type">string</span> | ~<span class="hljs-type">int</span>
+			}
+			
+			<span class="hljs-keyword">type</span> <span class="hljs-type">Processor</span>[<span class="hljs-type">T</span> <span class="hljs-type">any</span>] <span class="hljs-keyword">interface</span> {
+				<span class="hljs-title">Process</span>(ctx context.Context, input <span class="hljs-type">T</span>) (<span class="hljs-type">T</span>, <span class="hljs-type">error</span>)
+			}
+			
+			<span class="hljs-comment">// Struct Definition with Tags
+			</span>
+			<span class="hljs-keyword">type</span> <span class="hljs-type">User</span> <span class="hljs-keyword">struct</span> {
+				ID        <span class="hljs-type">ID</span>        <span class="hljs-string">`json:"id" db:"user_id"`</span>
+				Username  <span class="hljs-type">string</span>    <span class="hljs-string">`json:"username"`</span>
+				IsActive  <span class="hljs-type">bool</span>      <span class="hljs-string">`json:"is_active"`</span>
+				CreatedAt time.Time <span class="hljs-string">`json:"created_at"`</span>
+			}
+			
+			<span class="hljs-comment">// Method on Struct (Value Receiver)
+			</span>
+			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u <span class="hljs-type">User</span>)</span></span> <span class="hljs-title">String</span>() <span class="hljs-type">string</span> {
+				<span class="hljs-keyword">return</span> fmt.<span class="hljs-title">Sprintf</span>(<span class="hljs-string">"User(%d, %s)"</span>, u.ID, u.Username)
+			}
+			
+			<span class="hljs-comment">// Method on Struct (Pointer Receiver)
+			</span>
+			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u *<span class="hljs-type">User</span>)</span></span> <span class="hljs-title">Deactivate</span>() {
+				u.IsActive = <span class="hljs-literal">false</span>
+			}
+			
+			<span class="hljs-comment">// Generic Struct
+			</span>
+			<span class="hljs-keyword">type</span> <span class="hljs-type">Container</span>[<span class="hljs-type">T</span> <span class="hljs-type">Stringable</span>] <span class="hljs-keyword">struct</span> {
+				Value <span class="hljs-type">T</span>
+			}
+			
+			<span class="hljs-comment">// Main Function
+			</span>
+			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+				<span class="hljs-comment">// Variable Declarations (var, short declaration)
+			</span>
+				<span class="hljs-keyword">var</span> explicitInt <span class="hljs-type">int</span> = <span class="hljs-number">42</span>
+				<span class="hljs-keyword">var</span> uninitializedString <span class="hljs-type">string</span>
+				shortBool := <span class="hljs-literal">true</span>
+				_ = uninitializedString <span class="hljs-comment">// Blank identifier
+			</span>
+			
+				<span class="hljs-comment">// Numeric Literals (Hex, Octal, Binary, Floats, Imaginary)
+			</span>
+				hexVal := <span class="hljs-number">0xFF</span>
+				octalVal := <span class="hljs-number">0o</span><span class="hljs-number">755</span>
+				binaryVal := <span class="hljs-number">0b</span><span class="hljs-number">101010</span>
+				complexVal := <span class="hljs-number">1.2</span> + <span class="hljs-number">3.4i</span>
+			
+				<span class="hljs-comment">// Built-in Primitive Types
+			</span>
+				<span class="hljs-keyword">var</span> (
+					b   <span class="hljs-type">uint8</span>  = <span class="hljs-number">255</span>
+					r   <span class="hljs-type">rune</span>   = <span class="hljs-string">'⌘'</span>
+					f   <span class="hljs-type">float32</span> = <span class="hljs-number">3.14</span>
+					err <span class="hljs-type">error</span>   = <span class="hljs-literal">nil</span>
+				)
+			
+				<span class="hljs-comment">// Built-in Data Structures: Slice, Map, Channel
+			</span>
+				numbers := []<span class="hljs-type">int</span>{<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>}
+				strMap := <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-type">int</span>{<span class="hljs-string">"alpha"</span>: <span class="hljs-number">1</span>, <span class="hljs-string">"beta"</span>: <span class="hljs-number">2</span>}
+				ch := <span class="hljs-title">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-type">string</span>, <span class="hljs-number">2</span>)
+				<span class="hljs-keyword">defer</span> <span class="hljs-title">close</span>(ch) <span class="hljs-comment">// Defer statement
+			</span>
+			
+				<span class="hljs-comment">// Control Flow: If-Else with Short Initialization
+			</span>
+				<span class="hljs-keyword">if</span> length := <span class="hljs-title">len</span>(numbers); length &gt; <span class="hljs-number">0</span> &amp;&amp; shortBool {
+					fmt.<span class="hljs-title">Printf</span>(<span class="hljs-string">"Slice length: %d\n"</span>, length)
+				} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> length == <span class="hljs-number">0</span> {
+					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Empty slice"</span>)
+				} <span class="hljs-keyword">else</span> {
+					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Fallback condition"</span>)
+				}
+			
+				<span class="hljs-comment">// For Loops (Standard, Range, Infinite)
+			</span>
+				<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-title">len</span>(numbers); i++ {
+					<span class="hljs-keyword">if</span> i == <span class="hljs-number">1</span> {
+						<span class="hljs-keyword">continue</span>
+					}
+					<span class="hljs-keyword">if</span> i == <span class="hljs-number">3</span> {
+						<span class="hljs-keyword">break</span>
+					}
+				}
+			
+				<span class="hljs-keyword">for</span> key, val := <span class="hljs-keyword">range</span> strMap {
+					_ = fmt.<span class="hljs-title">Sprintf</span>(<span class="hljs-string">"Key: %s, Val: %d"</span>, key, val)
+				}
+			
+				<span class="hljs-comment">// Switch Statement (Expression and Type Switch)
+			</span>
+				<span class="hljs-keyword">switch</span> hexVal {
+				<span class="hljs-keyword">case</span> <span class="hljs-number">0xFF</span>:
+					<span class="hljs-keyword">fallthrough</span>
+				<span class="hljs-keyword">case</span> <span class="hljs-number">0xFE</span>:
+					<span class="hljs-keyword">break</span>
+				<span class="hljs-keyword">default</span>:
+					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Unknown byte"</span>)
+				}
+			
+				<span class="hljs-keyword">var</span> genericVar <span class="hljs-keyword">interface</span>{} = <span class="hljs-string">"Test String"</span>
+				<span class="hljs-keyword">switch</span> v := genericVar.(<span class="hljs-keyword">type</span>) {
+				<span class="hljs-keyword">case</span> <span class="hljs-type">int</span>:
+					fmt.<span class="hljs-title">Printf</span>(<span class="hljs-string">"Integer: %d\n"</span>, v)
+				<span class="hljs-keyword">case</span> <span class="hljs-type">string</span>:
+					fmt.<span class="hljs-title">Printf</span>(<span class="hljs-string">"String: %s\n"</span>, v)
+				<span class="hljs-keyword">default</span>:
+					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Unknown type"</span>)
+				}
+			
+				<span class="hljs-comment">// Concurrency: Goroutine, Channels, Select, Sync
+			</span>
+				<span class="hljs-keyword">var</span> wg sync.WaitGroup
+				wg.<span class="hljs-title">Add</span>(<span class="hljs-number">1</span>)
+			
+				<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(msg <span class="hljs-type">string</span>)</span></span> {
+					<span class="hljs-keyword">defer</span> wg.<span class="hljs-title">Done</span>()
+					ch &lt;- msg
+				}(<span class="hljs-title">categoryFormat</span>(<span class="hljs-string">"Concurrency Test"</span>))
+			
+				<span class="hljs-keyword">select</span> {
+				<span class="hljs-keyword">case</span> res := &lt;-ch:
+					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Received:"</span>, res)
+				<span class="hljs-keyword">case</span> &lt;-time.<span class="hljs-title">After</span>(<span class="hljs-number">100</span> * time.Millisecond):
+					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Timeout"</span>)
+				}
+			
+				wg.<span class="hljs-title">Wait</span>()
+			
+				<span class="hljs-comment">// Anonymous Function / Closure &amp; Error Handling
+			</span>
+				res, err := <span class="hljs-title">safeDivide</span>(<span class="hljs-number">10.0</span>, <span class="hljs-number">0.0</span>)
+				<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
+					_ = fmt.<span class="hljs-title">Errorf</span>(<span class="hljs-string">"operation failed: %w"</span>, err)
+				}
+			
+				<span class="hljs-comment">// Raw Strings, Verbatim, and Escapes
+			</span>
+				rawString := <span class="hljs-string">`Line 1
+			Line 2 with "quotes" and \no escapes\`</span>
+				interpretedString := <span class="hljs-string">"Line 1\nLine 2 with \"escapes\""</span>
+			
+				_, _ = res, rawString
+				_, _ = b, r
+			}
+			
+			<span class="hljs-comment">// Function with Multiple Return Values &amp; Named Parameters
+			</span>
+			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">safeDivide</span><span class="hljs-params">(a, b <span class="hljs-type">float64</span>)</span></span> (result <span class="hljs-type">float64</span>, err <span class="hljs-type">error</span>) {
+				<span class="hljs-comment">// Panic &amp; Recover
+			</span>
+				<span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> {
+					<span class="hljs-keyword">if</span> r := <span class="hljs-title">recover</span>(); r != <span class="hljs-literal">nil</span> {
+						err = fmt.<span class="hljs-title">Errorf</span>(<span class="hljs-string">"recovered from panic: %v"</span>, r)
+					}
+				}()
+			
+				<span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span> {
+					<span class="hljs-title">panic</span>(<span class="hljs-string">"division by zero"</span>)
+				}
+				<span class="hljs-keyword">return</span> a / b, <span class="hljs-literal">nil</span>
+			}
+			
+			<span class="hljs-comment">// Variadic Function
+			</span>
+			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">categoryFormat</span><span class="hljs-params">(format <span class="hljs-type">string</span>, args ...<span class="hljs-type">any</span>)</span></span> <span class="hljs-type">string</span> {
+				<span class="hljs-keyword">return</span> fmt.<span class="hljs-title">Sprintf</span>(format, args...)
+			}</code></pre>
+			    </div>
+			</article>
+			
 			""";
 
 		using var fixture = CreateFixture(value);
