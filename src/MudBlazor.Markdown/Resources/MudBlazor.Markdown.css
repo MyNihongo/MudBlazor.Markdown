@@ -1,4 +1,61 @@
 ﻿/* Code */
+.hljs {
+	color: var(--mud-markdown-codehightlight-text);
+	background: var(--mud-markdown-codehightlight-background);
+}
+
+.hljs-subst {
+	color: var(--mud-markdown-codehightlight-text);
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-name,
+.hljs-meta .hljs-keyword,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-variable.language_ {
+	color: var(--mud-markdown-codehightlight-keyword);
+}
+
+.hljs-type{
+	color: var(--mud-markdown-codehightlight-type);
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.hljs-title.function_ {
+	color: var(--mud-markdown-codehightlight-function);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-literal,
+.hljs-number,
+.hljs-operator,
+.hljs-symbol,
+.hljs-variable,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+	color: var(--mud-markdown-codehightlight-number);
+}
+
+.hljs-string {
+	color: var(--mud-markdown-codehightlight-string);
+}
+
+.hljs-comment,
+.hljs-code,
+.hljs-formula {
+	color: var(--mud-markdown-codehightlight-comment);
+}
+
+.hljs-meta {
+	color: var(--mud-markdown-codehightlight-meta);
+}
+
 .mud-markdown-body code:not(.hljs) {
 	background: var(--mud-palette-action-disabled-background);
 	color: var(--mud-palette-text-primary) !important;
@@ -12,6 +69,11 @@ pre code.hljs {
 	overflow-x: auto;
 	padding: 1em;
 	width: 100%;
+}
+
+.mud-markdown-body .mud-markdown-code-highlight, .mud-markdown-body .mud-markdown-code-highlight-sticky {
+	border: 1px solid var(--mud-palette-lines-default);
+	border-radius: var(--mud-default-borderradius);
 }
 
 .mud-markdown-body .mud-markdown-code-highlight {
@@ -29,16 +91,18 @@ pre code.hljs {
 	right: 0;
 }
 
-.mud-markdown-code-highlight-sticky pre code.hljs {
-	padding-top: 0 !important;
+.mud-markdown-body .mud-markdown-code-highlight-sticky {
+	position: relative;
+	display: flex;
+	flex-direction: column;
 }
 
 .mud-markdown-body .mud-markdown-code-highlight-sticky .mud-markdown-code-highlight-copybtn-sticky {
 	position: sticky;
-	overflow: hidden;
+	align-self: flex-end;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
 	top: calc(var(--mud-appbar-height) + 16px);
-	float: right;
+	margin-bottom: -3.5rem;
 }
 
 /* Quote */
@@ -137,20 +201,22 @@ pre code.hljs {
 
 .mud-markdown-toc-drawer {
 	position: sticky;
-	overflow: hidden;
+	overflow: visible;
 	z-index: calc(var(--mud-zindex-appbar) - 2);
 	top: calc(var(--mud-appbar-height) + 16px);
 	float: right;
 }
 
 .mud-markdown-toc-drawer-content {
-	width: var(--mud-drawer-width-right);
+	width: 0;
+	overflow: hidden;
 	opacity: 0;
 	visibility: collapse;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mud-markdown-toc-drawer-content.open {
+	width: var(--mud-drawer-width-right);
 	opacity: 1;
 	visibility: visible;
 }

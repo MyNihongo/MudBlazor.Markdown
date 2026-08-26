@@ -4,39 +4,42 @@ namespace MudBlazor;
 
 public static class ServiceCollectionEx
 {
-	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this, Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache = null)
+	extension(IServiceCollection @this)
 	{
-		return @this
-			.AddMudMarkdownCache(configureMemoryCache)
-			.AddScoped<IMudMarkdownThemeService, MudMarkdownThemeService>()
-			.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
-	}
+		public IServiceCollection AddMudMarkdownServices(Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache = null)
+		{
+			return @this
+				.AddMudMarkdownCache(configureMemoryCache)
+				.AddSingleton<IMudMarkdownThemeService, MudMarkdownThemeService>()
+				.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
+		}
 
-	private static IServiceCollection AddMudMarkdownCache(this IServiceCollection @this, Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache)
-	{
-		return @this
-			.AddOptions()
-			.Configure<MudMarkdownMemoryCacheOptions>(options =>
-			{
-				if (configureMemoryCache is not null)
-					configureMemoryCache(options);
-				else
-					options.TimeToLive = TimeSpan.FromHours(1);
-			})
-			.TryAddSingletonEx(TimeProvider.System)
-			.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>();
-	}
+		private IServiceCollection AddMudMarkdownCache(Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache)
+		{
+			return @this
+				.AddOptions()
+				.Configure<MudMarkdownMemoryCacheOptions>(options =>
+				{
+					if (configureMemoryCache is not null)
+						configureMemoryCache(options);
+					else
+						options.TimeToLive = TimeSpan.FromHours(1);
+				})
+				.TryAddSingletonEx(TimeProvider.System)
+				.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>();
+		}
 
-	public static IServiceCollection AddMudMarkdownClipboardService<T>(this IServiceCollection @this)
-		where T : class, IMudMarkdownClipboardService
-	{
-		return @this.AddScoped<IMudMarkdownClipboardService, T>();
-	}
+		public IServiceCollection AddMudMarkdownClipboardService<T>()
+			where T : class, IMudMarkdownClipboardService
+		{
+			return @this.AddScoped<IMudMarkdownClipboardService, T>();
+		}
 
-	private static IServiceCollection TryAddSingletonEx<T>(this IServiceCollection @this, T instance)
-		where T : class
-	{
-		@this.TryAddSingleton(instance);
-		return @this;
+		private IServiceCollection TryAddSingletonEx<T>(T instance)
+			where T : class
+		{
+			@this.TryAddSingleton(instance);
+			return @this;
+		}
 	}
 }

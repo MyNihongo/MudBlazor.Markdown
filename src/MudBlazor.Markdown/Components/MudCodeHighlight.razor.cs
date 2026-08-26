@@ -1,67 +1,26 @@
 ﻿namespace MudBlazor;
 
-public class MudCodeHighlight : MudComponentBase, IDisposable
+public class MudCodeHighlight : MudComponentBase
 {
-	private ElementReference _ref;
-	private CodeBlockTheme _theme;
-	private IMudMarkdownThemeService? _themeService;
-	private bool _isFirstThemeSet;
-
-	private string _text = string.Empty;
-	private bool _isTextUpdated;
-
 	/// <summary>
 	/// Code text to render
 	/// </summary>
 	[Parameter]
-#if NET8_0 || NET9_0 || NET10_0
-#pragma warning disable BL0007
-#endif
-	public string Text
-	{
-		get => _text;
-		set
-		{
-			if (_text != value)
-				_isTextUpdated = true;
-
-			_text = value;
-		}
-	}
-#if NET8_0 || NET9_0 || NET10_0
-#pragma warning restore BL0007
-#endif
+	public string? Text { get; set; }
 
 	/// <summary>
 	/// Language of the <see cref="Text"/>
 	/// </summary>
 	[Parameter]
-	public string Language { get; set; } = string.Empty;
+	public string? Language { get; set; }
 
 	/// <summary>
 	/// Theme of the code block.<br/>
-	/// Browse available themes here: https://highlightjs.org/static/demo/ <br/>
 	/// Default is <see cref="CodeBlockTheme.Default"/>
 	/// </summary>
-#if NET8_0 || NET9_0 || NET10_0
-#pragma warning disable BL0007
-#endif
 	[Parameter]
-	public CodeBlockTheme Theme
-	{
-		get => _theme;
-		set
-		{
-			if (_theme == value)
-				return;
-
-			_theme = value;
-			Task.Run(SetThemeAsync);
-		}
-	}
-#if NET8_0 || NET9_0 || NET10_0
-#pragma warning restore BL0007
-#endif
+	[Obsolete("`CodeBlockTheme` is obsolete and has no effect. Use `MudMarkdownThemeProvider` instead. For more details see https://github.com/MyNihongo/MudBlazor.Markdown/wiki/MudMarkdownThemeProvider")]
+	public CodeBlockTheme Theme { get; set; }
 
 	[Parameter]
 	public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
@@ -69,24 +28,10 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 	[Parameter]
 	public string? CopyButtonDisplayTextCopied { get; set; }
 
-	[Inject]
-	private IJSRuntime Js { get; init; } = null!;
-
-	[Inject]
-	private IServiceProvider? ServiceProvider { get; init; }
-
 	private string CodeClasses => new CssBuilder()
 		.AddClass("hljs")
 		.AddClass(() => $"language-{Language}", () => !string.IsNullOrEmpty(Language))
 		.Build();
-
-	public void Dispose()
-	{
-		if (_themeService != null)
-			_themeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
-
-		GC.SuppressFinalize(this);
-	}
 
 	protected override bool ShouldRender() =>
 		!string.IsNullOrEmpty(Text);
@@ -120,53 +65,40 @@ public class MudCodeHighlight : MudComponentBase, IDisposable
 		builder.OpenElement(elementIndex++, "pre");
 		builder.OpenElement(elementIndex++, "code");
 		builder.AddAttribute(elementIndex++, "class", CodeClasses);
-		builder.AddElementReferenceCapture(elementIndex, x => _ref = x);
-		builder.CloseElement(); // "pre"
+
+		var highlighter = CodeHighlighterFactory.Create(Language);
+		if (highlighter is not null && !string.IsNullOrEmpty(Text))
+		{
+			var nodes = highlighter.Highlight(Text);
+			RenderNodes(builder, ref elementIndex, nodes);
+		}
+		else
+		{
+			builder.AddContent(elementIndex, Text);
+		}
+
 		builder.CloseElement(); // "code"
+		builder.CloseElement(); // "pre"
 
 		builder.CloseElement(); // "div"
 	}
 
-	protected override void OnInitialized()
+	private static void RenderNodes(RenderTreeBuilder builder, ref int elementIndex, IReadOnlyList<CodeNode> nodes)
 	{
-		base.OnInitialized();
-
-		_themeService = ServiceProvider?.GetService<IMudMarkdownThemeService>();
-
-		if (_themeService != null)
-			_themeService.CodeBlockThemeChanged += OnCodeBlockThemeChanged;
-	}
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (_isTextUpdated)
+		foreach (var node in nodes)
 		{
-			await Js.InvokeVoidAsync("highlightCodeElement", _ref, Text, Language)
-				.ConfigureAwait(false);
-
-			_isTextUpdated = false;
+			switch (node)
+			{
+				case CodeText text:
+					builder.AddContent(elementIndex++, text.Value);
+					break;
+				case CodeSpan span:
+					builder.OpenElement(elementIndex++, "span");
+					builder.AddAttribute(elementIndex++, "class", span.ClassName);
+					RenderNodes(builder, ref elementIndex, span.Children);
+					builder.CloseElement();
+					break;
+			}
 		}
-
-		if (!firstRender)
-			return;
-
-		if (!_isFirstThemeSet)
-		{
-			await SetThemeAsync()
-				.ConfigureAwait(false);
-		}
-	}
-
-	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
-		Theme = e;
-
-	private async Task SetThemeAsync()
-	{
-		var stylesheetPath = Theme.GetStylesheetPath();
-
-		await Js.InvokeVoidAsync("setHighlightStylesheet", stylesheetPath)
-			.ConfigureAwait(false);
-
-		_isFirstThemeSet = true;
 	}
 }

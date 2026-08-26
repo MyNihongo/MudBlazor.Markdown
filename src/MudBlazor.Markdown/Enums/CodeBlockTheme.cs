@@ -1,5 +1,6 @@
 namespace MudBlazor;
 
+[Obsolete("`CodeBlockTheme` is obsolete and has no effect. Use `MudMarkdownThemeProvider` instead. For more details see https://github.com/MyNihongo/MudBlazor.Markdown/wiki/MudMarkdownThemeProvider")]
 public enum CodeBlockTheme : ushort
 {
 	Default = 0,

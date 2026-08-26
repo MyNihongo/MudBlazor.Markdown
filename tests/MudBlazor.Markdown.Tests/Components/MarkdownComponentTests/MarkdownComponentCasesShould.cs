@@ -231,7 +231,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		fixture.MarkupMatches(expected);
 	}
 
-	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/64
+	#region "https://github.com/MyNihongo/MudBlazor.Markdown/issues/64"
 
 	[Fact]
 	public void RenderHeaderAfterCode()
@@ -254,22 +254,40 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article id:ignore class='mud-markdown-body'>
-				<h1 id='heading-1' class='mud-typography mud-typography-h1'>Heading 1</h1>
-				<p class='mud-typography mud-typography-body1'>Some text.</p>
-				<div class='hljs mud-markdown-code-highlight'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='4debd876-7ce0-4871-af9c-ba021f368d3c'>
-						<span class='mud-icon-button-label'>
-							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
-								<g><rect fill='none' height='24' width='24'/></g>
-								<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
-							</svg>
-						</span>
-					</button>
-					<pre><code class='hljs language-csharp' blazor:elementReference='b2623f71-2ea0-4dd1-94e4-8c03cd62b266'></code></pre>
-				</div>
-				<h2 id='another-headline-1' class='mud-typography mud-typography-h2'>Another headline 1</h2>
-				<h2 id='another-headline-2' class='mud-typography mud-typography-h2'>Another headline 2</h2>
+			<article id:ignore class="mud-markdown-body">
+			  <h1 id="heading-1" class="mud-typography mud-typography-h1">Heading 1</h1>
+			  <p class="mud-typography mud-typography-body1">Some text.</p>
+			  <div class="hljs mud-markdown-code-highlight">
+			    <button
+			      blazor:onclick="2"
+			      type="button"
+			      class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			      blazor:onclick:stopPropagation
+			      blazor:elementReference=""
+			    >
+			      <span class="mud-icon-button-label"
+			        ><svg
+			          class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			          focusable="false"
+			          viewBox="0 0 24 24"
+			          aria-hidden="true"
+			          role="img"
+			        >
+			          <g><rect fill="none" height="24" width="24" /></g>
+			          <g>
+			            <path
+			              d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			            />
+			          </g></svg
+			      ></span>
+			    </button>
+			    <pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title">GetTheAnswer</span>()
+			{
+			   <span class="hljs-keyword">return</span> <span class="hljs-number">42</span>;
+			}</code></pre>
+			  </div>
+			  <h2 id="another-headline-1" class="mud-typography mud-typography-h2">Another headline 1</h2>
+			  <h2 id="another-headline-2" class="mud-typography mud-typography-h2">Another headline 2</h2>
 			</article>
 			""";
 
@@ -296,23 +314,40 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article id:ignore class='mud-markdown-body'>
-				<div class='hljs mud-markdown-code-highlight'>
-					<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='48bbd0ad-a2cf-498a-8fb8-b81d2f4dbeec'>
-						<span class='mud-icon-button-label'>
-							<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
-								<g><rect fill='none' height='24' width='24'/></g><g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
-							</svg>
-						</span>
-					</button>
-					<pre><code class='hljs language-text' blazor:elementReference='17023705-9228-4430-906d-725610b1d129'></code></pre>
-				</div>
-				<ul>
-					<li><p class='mud-typography mud-typography-body1'>List item 1</p></li>
-					<li><p class='mud-typography mud-typography-body1'>List item 2</p></li>
-					<li><p class='mud-typography mud-typography-body1'>List item 3</p></li>
-				</ul>
-				<h2 id='another-headline' class='mud-typography mud-typography-h2'>Another headline</h2>
+			<article id:ignore class="mud-markdown-body">
+			  <div class="hljs mud-markdown-code-highlight">
+			    <button
+			      blazor:onclick="2"
+			      type="button"
+			      class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			      blazor:onclick:stopPropagation
+			      blazor:elementReference=""
+			    >
+			      <span class="mud-icon-button-label"
+			        ><svg
+			          class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			          focusable="false"
+			          viewBox="0 0 24 24"
+			          aria-hidden="true"
+			          role="img"
+			        >
+			          <g><rect fill="none" height="24" width="24" /></g>
+			          <g>
+			            <path
+			              d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			            />
+			          </g></svg
+			      ></span>
+			    </button>
+			    <pre><code class="hljs language-text">some
+			code</code></pre>
+			  </div>
+			  <ul>
+			    <li><p class="mud-typography mud-typography-body1">List item 1</p></li>
+			    <li><p class="mud-typography mud-typography-body1">List item 2</p></li>
+			    <li><p class="mud-typography mud-typography-body1">List item 3</p></li>
+			  </ul>
+			  <h2 id="another-headline" class="mud-typography mud-typography-h2">Another headline</h2>
 			</article>
 			""";
 
@@ -322,7 +357,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/102
+	#region "https://github.com/MyNihongo/MudBlazor.Markdown/issues/102"
 
 	[Fact]
 	public void RenderCodeBlockWithoutLanguage()
@@ -340,17 +375,35 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 		const string expected =
 			"""
 			<article id:ignore class="mud-markdown-body">
-				<div class="hljs mud-markdown-code-highlight">
-					<button  type="button" class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"  >
-						<span class="mud-icon-button-label">
-							<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
-								<g><rect fill="none" height="24" width="24"></rect></g>
-								<g><path d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"></path></g>
-							</svg>
-						</span>
-					</button>
-					<pre><code class="hljs" ></code></pre>
-			</div>
+			  <div class="hljs mud-markdown-code-highlight">
+			    <button
+			      blazor:onclick="2"
+			      type="button"
+			      class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			      blazor:onclick:stopPropagation
+			      blazor:elementReference=""
+			    >
+			      <span class="mud-icon-button-label"
+			        ><svg
+			          class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			          focusable="false"
+			          viewBox="0 0 24 24"
+			          aria-hidden="true"
+			          role="img"
+			        >
+			          <g><rect fill="none" height="24" width="24" /></g>
+			          <g>
+			            <path
+			              d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			            />
+			          </g></svg
+			      ></span>
+			    </button>
+			    <pre><code class="hljs">public bool IsMudBlazorCool()
+			{
+				return true;
+			}</code></pre>
+			  </div>
 			</article>
 			""";
 
@@ -360,7 +413,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/144
+	#region "https://github.com/MyNihongo/MudBlazor.Markdown/issues/144"
 
 	[Fact]
 	public void RenderTableInsideList()
@@ -477,7 +530,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/233
+	#region "https://github.com/MyNihongo/MudBlazor.Markdown/issues/233"
 
 	[Fact]
 	public void RenderListWithWithCompositeListItems()
@@ -504,43 +557,82 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 		const string expected =
 			"""
-			<article id:ignore class='mud-markdown-body'>
-				<p class='mud-typography mud-typography-body1'>To prevent the warning message regarding the deprecation of the <code>mysql_native_password</code> plugin from being logged, you have a couple of options:</p>
-				<p class='mud-typography mud-typography-body1'>Option 1: Update User Authentication Method:</p>
-				<ol>
-					<li>
-						<p class='mud-typography mud-typography-body1'>Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:</p>
-						<div class='hljs mud-markdown-code-highlight'>
-							<button blazor:onclick='1' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='c5aa6996-aa56-4202-aa6c-9e40b197d739'>
-								<span class='mud-icon-button-label'>
-									<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
-										<g><rect fill='none' height='24' width='24'/></g>
-										<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
-									</svg>
-								</span>
-							</button>
-							<pre><code class='hljs language-bash' blazor:elementReference='6353988c-c4bb-496e-a193-44044d50f0eb'></code></pre>
-						</div>
-					</li>
-					<li>
-						<p class='mud-typography mud-typography-body1'>Once connected, run the following command to alter the user's authentication method:</p>
-						<div class='hljs mud-markdown-code-highlight'>
-							<button blazor:onclick='2' type='button' class='mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple mud-markdown-code-highlight-copybtn ma-2' blazor:onclick:stopPropagation blazor:elementReference='d8bf969c-a5c1-4b9a-bd13-c141af7968c5'>
-								<span class='mud-icon-button-label'>
-									<svg class='mud-icon-root mud-svg-icon mud-icon-size-medium' focusable='false' viewBox='0 0 24 24' aria-hidden='true' role='img'>
-										<g><rect fill='none' height='24' width='24'/></g>
-										<g><path d='M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z'/></g>
-									</svg>
-								</span>
-							</button>
-							<pre><code class='hljs language-sql' blazor:elementReference='2d167d24-ade4-4ee1-9f4d-28711d608c9b'></code></pre>
-						</div>
-						<p class='mud-typography mud-typography-body1'>Replace <code>'username'</code> with the actual username and <code>'hostname'</code> with the appropriate hostname or IP address. If you want to update for all users, replace <code>'username'@'hostname'</code> with <code>'*'@'%'</code>.</p>
-					</li>
-					<li>
-						<p class='mud-typography mud-typography-body1'>Repeat this process for each user on your MySQL server.</p>
-					</li>
-				</ol>
+			<article id:ignore class="mud-markdown-body">
+			  <p class="mud-typography mud-typography-body1">
+			    To prevent the warning message regarding the deprecation of the <code>mysql_native_password</code> plugin from being
+			    logged, you have a couple of options:
+			  </p>
+			  <p class="mud-typography mud-typography-body1">Option 1: Update User Authentication Method:</p>
+			  <ol>
+			    <li>
+			      <p class="mud-typography mud-typography-body1">
+			        Connect to your MySQL server using a MySQL client, such as the <code>mysql</code> command-line tool:
+			      </p>
+			      <div class="hljs mud-markdown-code-highlight">
+			        <button
+			          blazor:onclick="3"
+			          type="button"
+			          class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			          blazor:onclick:stopPropagation
+			          blazor:elementReference=""
+			        >
+			          <span class="mud-icon-button-label"
+			            ><svg
+			              class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			              focusable="false"
+			              viewBox="0 0 24 24"
+			              aria-hidden="true"
+			              role="img"
+			            >
+			              <g><rect fill="none" height="24" width="24" /></g>
+			              <g>
+			                <path
+			                  d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			                />
+			              </g></svg
+			          ></span>
+			        </button>
+			        <pre><code class="hljs language-bash">mysql -u username -p</code></pre>
+			      </div>
+			    </li>
+			    <li>
+			      <p class="mud-typography mud-typography-body1">
+			        Once connected, run the following command to alter the user's authentication method:
+			      </p>
+			      <div class="hljs mud-markdown-code-highlight">
+			        <button
+			          blazor:onclick="4"
+			          type="button"
+			          class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
+			          blazor:onclick:stopPropagation
+			          blazor:elementReference=""
+			        >
+			          <span class="mud-icon-button-label"
+			            ><svg
+			              class="mud-icon-root mud-svg-icon mud-icon-size-medium"
+			              focusable="false"
+			              viewBox="0 0 24 24"
+			              aria-hidden="true"
+			              role="img"
+			            >
+			              <g><rect fill="none" height="24" width="24" /></g>
+			              <g>
+			                <path
+			                  d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
+			                />
+			              </g></svg
+			          ></span>
+			        </button>
+			        <pre><code class="hljs language-sql">ALTER USER 'username'@'hostname' IDENTIFIED WITH caching_sha2_password;</code></pre>
+			      </div>
+			      <p class="mud-typography mud-typography-body1">
+			        Replace <code>'username'</code> with the actual username and <code>'hostname'</code> with the appropriate
+			        hostname or IP address. If you want to update for all users, replace <code>'username'@'hostname'</code> with
+			        <code>'*'@'%'</code>.
+			      </p>
+			    </li>
+			    <li><p class="mud-typography mud-typography-body1">Repeat this process for each user on your MySQL server.</p></li>
+			  </ol>
 			</article>
 			""";
 
@@ -550,7 +642,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 
 	#endregion
 
-	#region https://github.com/MyNihongo/MudBlazor.Markdown/issues/274
+	#region "https://github.com/MyNihongo/MudBlazor.Markdown/issues/274"
 
 	[Fact]
 	public void RenderTableWithWeirdFormat()

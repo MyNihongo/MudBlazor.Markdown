@@ -1,4 +1,5 @@
-﻿global using System.Windows.Input;
+﻿global using System.Collections.Frozen;
+global using System.Windows.Input;
 global using Markdig;
 global using Markdig.Helpers;
 global using Microsoft.AspNetCore.Components;
