@@ -1719,6 +1719,24 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 		const string expected =
 			"""
+			<article id:ignore class="mud-markdown-body">
+			    <div class="hljs mud-markdown-code-highlight">
+			        <pre><code class="hljs language-yaml"><span class="hljs-comment"># Application configuration</span>
+			<span class="hljs-name">name</span>: <span class="hljs-string">mud-blazor</span>
+			<span class="hljs-name">version</span>: <span class="hljs-number">2</span>
+			<span class="hljs-name">enabled</span>: <span class="hljs-literal">true</span>
+			<span class="hljs-name">ratio</span>: <span class="hljs-number">3.14</span>
+			<span class="hljs-name">description</span>: <span class="hljs-string">"quoted value"</span>
+			<span class="hljs-name">tags</span>:
+			  - <span class="hljs-string">md</span>
+			  - <span class="hljs-string">blazor</span>
+			<span class="hljs-name">nested</span>:
+			  <span class="hljs-name">count</span>: <span class="hljs-number">10</span>
+			  <span class="hljs-name">empty</span>: <span class="hljs-literal">null</span>
+			<span class="hljs-name">anchor</span>: <span class="hljs-symbol">&amp;a</span> <span class="hljs-string">value</span>
+			<span class="hljs-name">ref</span>: <span class="hljs-symbol">*a</span></code></pre>
+			    </div>
+			</article>
 
 			""";
 

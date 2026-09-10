@@ -3,12 +3,7 @@ using System.Text;
 namespace MudBlazor;
 
 /// <summary>
-/// Highlighter for YAML.<br/>
-/// Mapping keys are rendered as attributes, quoted/scalar strings as strings, numbers as numbers,
-/// <c>true</c>/<c>false</c>/<c>null</c>/<c>~</c> (and yes/no/on/off) as literals, <c>#</c> comments as
-/// comments, document markers (<c>---</c>/<c>...</c>) and tags as meta/type, and anchors/aliases as
-/// symbols. Does not inherit <see cref="CodeHighlighterBase"/> - YAML is line-oriented, not a token
-/// stream of keywords.
+/// Highlighter for YAML.
 /// </summary>
 internal sealed class YamlCodeHighlighter : ICodeHighlighter
 {
@@ -111,7 +106,7 @@ internal sealed class YamlCodeHighlighter : ICodeHighlighter
 				keyEnd--;
 
 			Flush();
-			var keyClass = code[i] is '"' or '\'' ? "hljs-string" : "hljs-attr";
+			var keyClass = code[i] is '"' or '\'' ? "hljs-string" : "hljs-name";
 			nodes.Add(new CodeSpan(keyClass, [new CodeText(code[i..keyEnd])]));
 
 			// Whitespace between the key and the colon, then the colon itself, stay plain.
@@ -181,7 +176,7 @@ internal sealed class YamlCodeHighlighter : ICodeHighlighter
 					continue;
 				}
 
-				// A plain scalar token: number, literal or plain text.
+				// A plain scalar token: number, literal or an unquoted string.
 				var tokenStart = i;
 				while (i < code.Length && code[i] is not (' ' or '\t' or '\n' or '\r' or ',' or '{' or '}' or '[' or ']'))
 					i++;
@@ -200,7 +195,9 @@ internal sealed class YamlCodeHighlighter : ICodeHighlighter
 				}
 				else
 				{
-					text.Append(token);
+					// An unquoted plain scalar is a string value (e.g. "mud-blazor" in "name: mud-blazor").
+					Flush();
+					nodes.Add(new CodeSpan("hljs-string", [new CodeText(token)]));
 				}
 			}
 		}
