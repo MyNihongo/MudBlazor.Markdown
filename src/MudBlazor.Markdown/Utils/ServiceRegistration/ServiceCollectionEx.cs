@@ -11,7 +11,16 @@ public static class ServiceCollectionEx
 			return @this
 				.AddMudMarkdownCache(configureMemoryCache)
 				.AddSingleton<IMudMarkdownThemeService, MudMarkdownThemeService>()
-				.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
+				.AddSingleton<IMudMarkdownValueProvider>(static services =>
+				{
+					var memoryCache = services.GetRequiredService<IMudMarkdownMemoryCache>();
+					var exceptionFormatter = services.GetService<IMudMarkdownExceptionFormatter>();
+
+					return new MudMarkdownValueProvider(
+						memoryCache: memoryCache,
+						exceptionFormatter: exceptionFormatter
+					);
+				});
 		}
 
 		private IServiceCollection AddMudMarkdownCache(Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache)
