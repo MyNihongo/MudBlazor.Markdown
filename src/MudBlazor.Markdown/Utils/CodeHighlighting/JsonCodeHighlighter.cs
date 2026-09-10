@@ -3,10 +3,7 @@ using System.Text;
 namespace MudBlazor;
 
 /// <summary>
-/// Highlighter for JSON.<br/>
-/// Object keys are rendered as attributes, string values as strings, numbers as numbers and
-/// <c>true</c>/<c>false</c>/<c>null</c> as literals; structural punctuation stays plain. Does not
-/// inherit <see cref="CodeHighlighterBase"/> - JSON is a data format, not a token stream of keywords.
+/// Highlighter for JSON.
 /// </summary>
 internal sealed class JsonCodeHighlighter : ICodeHighlighter
 {
@@ -27,7 +24,7 @@ internal sealed class JsonCodeHighlighter : ICodeHighlighter
 				ReadString(code, ref i);
 
 				// A string immediately followed (past whitespace) by ':' is an object key.
-				var className = IsKey(code, i) ? "hljs-attr" : "hljs-string";
+				var className = IsKey(code, i) ? "hljs-type" : "hljs-string";
 				nodes.Add(new CodeSpan(className, [new CodeText(code[start..i])]));
 				continue;
 			}
@@ -51,7 +48,7 @@ internal sealed class JsonCodeHighlighter : ICodeHighlighter
 				if (word is "true" or "false" or "null")
 				{
 					Flush();
-					nodes.Add(new CodeSpan("hljs-literal", [new CodeText(word)]));
+					nodes.Add(new CodeSpan("hljs-keyword", [new CodeText(word)]));
 				}
 				else
 				{

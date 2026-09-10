@@ -2,6 +2,14 @@ namespace MudBlazor.Markdown.Tests.Components.MarkdownComponentTests;
 
 public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBase
 {
+	private static readonly MudMarkdownStyling NoCopyButtonStyling = new()
+	{
+		CodeBlock =
+		{
+			CopyButton = CodeBlockCopyButton.None,
+		},
+	};
+
 	[Fact]
 	public void RenderCodeBlock()
 	{
@@ -369,50 +377,27 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			""""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <button
-			            blazor:onclick="2"
-			            type="button"
-			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
-			            blazor:onclick:stopPropagation
-			            blazor:elementReference=""
-			        >
-			            <span class="mud-icon-button-label"
-			                ><svg
-			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
-			                    focusable="false"
-			                    viewBox="0 0 24 24"
-			                    aria-hidden="true"
-			                    role="img"
-			                >
-			                    <g><rect fill="none" height="24" width="24" /></g>
-			                    <g>
-			                        <path
-			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
-			                        />
-			                    </g></svg
-			            ></span>
-			        </button>
 			        <pre><code class="hljs language-cs"><span class="hljs-meta">#region</span> Directive Test
 			<span class="hljs-meta">#nullable</span> enable
 			<span class="hljs-keyword">using</span> System;
 			<span class="hljs-keyword">using</span> System.Collections.Generic;
 			<span class="hljs-keyword">using</span> System.Threading.Tasks;
-			
+
 			<span class="hljs-comment">// Alias and global using
 			</span>
 			<span class="hljs-keyword">using</span> StringList = System.Collections.Generic.<span class="hljs-type">List</span>&lt;<span class="hljs-type">string</span>&gt;;
 			<span class="hljs-keyword">global</span> <span class="hljs-keyword">using</span> System.Text;
 			<span class="hljs-meta">#endregion</span>
-			
+
 			<span class="hljs-keyword">namespace</span> SyntaxHighlightingTest.Core;
-			
+
 			<span class="hljs-comment">/// &lt;summary&gt;
 			</span>
 			<span class="hljs-comment">/// XML Documentation comment testing &lt;see cref="ITestInterface{T}"/&gt;
 			</span>
 			<span class="hljs-comment">/// &lt;/summary&gt;
 			</span>
-			
+
 			<span class="hljs-comment">// Attributes
 			</span>
 			[<span class="hljs-title">AttributeUsage</span>(AttributeTargets.Class | AttributeTargets.Method)]
@@ -421,7 +406,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			    <span class="hljs-keyword">public</span> <span class="hljs-type">string</span> Category { <span class="hljs-keyword">get</span>; } = category;
 			    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> Priority { <span class="hljs-keyword">get</span>; } = priority;
 			}
-			
+
 			<span class="hljs-comment">// Interface
 			</span>
 			<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-type">ITestInterface</span>&lt;<span class="hljs-type">T</span>&gt; <span class="hljs-keyword">where</span> T : <span class="hljs-keyword">class</span>
@@ -429,11 +414,11 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			    <span class="hljs-keyword">event</span> <span class="hljs-type">EventHandler</span>? OnCompleted;
 			    <span class="hljs-type">T</span>? <span class="hljs-title">Execute</span>(<span class="hljs-keyword">in</span> <span class="hljs-type">T</span> input, <span class="hljs-keyword">out</span> <span class="hljs-type">bool</span> success);
 			}
-			
+
 			<span class="hljs-comment">// Record Struct &amp; Primary Constructor
 			</span>
 			<span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">record</span> <span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span>(<span class="hljs-type">double</span> X, <span class="hljs-type">double</span> Y);
-			
+
 			<span class="hljs-comment">// Enumeration
 			</span>
 			<span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Status : <span class="hljs-type">byte</span>
@@ -443,7 +428,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			    Pending = <span class="hljs-number">2</span>,
 			    Error = <span class="hljs-number">255</span>
 			}
-			
+
 			<span class="hljs-comment">// Class with Generics and Inheritance
 			</span>
 			[<span class="hljs-title">Test</span>(<span class="hljs-string">"Highlighting"</span>, Priority = <span class="hljs-number">10</span>)]
@@ -456,18 +441,18 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-type">double</span> MaxThreshold = <span class="hljs-number">3.14159_26535_89793</span>;
 			    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-type">decimal</span> DecimalValue = <span class="hljs-number">123.321m</span>;
 			    <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-type">long</span> LongValue = <span class="hljs-number">123321L</span>;
-			
+
 			    <span class="hljs-comment">// Delegate and Event
 			</span>
 			    <span class="hljs-keyword">public</span> <span class="hljs-keyword">delegate</span> <span class="hljs-type">void</span> <span class="hljs-title">CustomDelegate</span>(<span class="hljs-keyword">ref</span> <span class="hljs-type">string</span> message, <span class="hljs-keyword">params</span> <span class="hljs-type">object</span>[] args);
 			    <span class="hljs-keyword">public</span> <span class="hljs-keyword">event</span> <span class="hljs-type">EventHandler</span>? OnCompleted;
-			
+
 			    <span class="hljs-comment">// Property with Expression-Bodied Member &amp; Modifiers
 			</span>
 			    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">SyntaxTester</span>&lt;<span class="hljs-type">T</span>&gt; Instance =&gt; _instance.Value;
 			    <span class="hljs-keyword">public</span> <span class="hljs-keyword">required</span> <span class="hljs-type">string</span> Identifier { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">init</span>; }
 			    <span class="hljs-keyword">public</span> <span class="hljs-type">Status</span> CurrentStatus { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; } = Status.None;
-			
+
 			    <span class="hljs-comment">// Method with async, pattern matching, tuple, and switch expression
 			</span>
 			    <span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> <span class="hljs-type">Task</span>&lt;(<span class="hljs-type">bool</span> <span class="hljs-type">Success</span>, <span class="hljs-type">string</span> <span class="hljs-type">Message</span>)&gt; <span class="hljs-title">ProcessAsync</span>(<span class="hljs-type">object</span>? rawInput, <span class="hljs-type">CancellationToken</span> ct = <span class="hljs-keyword">default</span>)
@@ -478,18 +463,18 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			        {
 			            <span class="hljs-keyword">return</span> (<span class="hljs-literal">false</span>, <span class="hljs-string">$"Input is invalid or not of type <span class="hljs-subst">{<span class="hljs-keyword">nameof</span>(T)}</span>."</span>);
 			        }
-			
+
 			        <span class="hljs-comment">// Lock &amp; Async/Await
 			</span>
 			        <span class="hljs-keyword">lock</span> (<span class="hljs-keyword">this</span>)
 			        {
 			            _isRunning = <span class="hljs-literal">true</span>;
 			        }
-			
+
 			        <span class="hljs-keyword">try</span>
 			        {
 			            <span class="hljs-keyword">await</span> Task.<span class="hljs-title">Delay</span>(<span class="hljs-number">100</span>, ct).<span class="hljs-title">ConfigureAwait</span>(<span class="hljs-literal">false</span>);
-			
+
 			            <span class="hljs-comment">// Pattern matching switch expression
 			</span>
 			            <span class="hljs-type">string</span> resultDescription = validObject <span class="hljs-keyword">switch</span>
@@ -500,7 +485,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			                <span class="hljs-literal">null</span> =&gt; <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-type">ArgumentNullException</span>(<span class="hljs-keyword">nameof</span>(rawInput)),
 			                _ =&gt; <span class="hljs-string">"Default object status"</span>
 			            };
-			
+
 			            <span class="hljs-comment">// LINQ query syntax
 			</span>
 			            <span class="hljs-type">int</span>[] numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>];
@@ -508,7 +493,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			                        <span class="hljs-keyword">where</span> num % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>
 			                        orderby num descending
 			                        select <span class="hljs-keyword">new</span> { Original = num, Squared = num * num };
-			
+
 			            <span class="hljs-comment">// Local function with ref/out
 			</span>
 			            <span class="hljs-keyword">static</span> <span class="hljs-type">bool</span> <span class="hljs-title">TryFormat</span>(<span class="hljs-keyword">ref</span> <span class="hljs-type">int</span> val, <span class="hljs-keyword">out</span> <span class="hljs-type">string</span> formatted)
@@ -517,10 +502,10 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			                formatted = <span class="hljs-string">$"Formatted_<span class="hljs-subst">{val}</span>"</span>;
 			                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 			            }
-			
+
 			            <span class="hljs-type">int</span> valueToRef = <span class="hljs-number">42</span>;
 			            _ = <span class="hljs-title">TryFormat</span>(<span class="hljs-keyword">ref</span> valueToRef, <span class="hljs-keyword">out</span> <span class="hljs-type">string</span> formattedResult);
-			
+
 			            <span class="hljs-keyword">return</span> (<span class="hljs-literal">true</span>, <span class="hljs-string">$"<span class="hljs-subst">{resultDescription}</span> | <span class="hljs-subst">{formattedResult}</span>"</span>);
 			        }
 			        <span class="hljs-keyword">catch</span> (<span class="hljs-type">Exception</span> ex) <span class="hljs-keyword">when</span> (ex <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-type">OperationCanceledException</span>)
@@ -533,7 +518,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			            OnCompleted?.<span class="hljs-title">Invoke</span>(<span class="hljs-keyword">this</span>, EventArgs.Empty);
 			        }
 			    }
-			
+
 			    <span class="hljs-comment">// Explicit Interface Implementation
 			</span>
 			    <span class="hljs-type">T</span>? <span class="hljs-type">ITestInterface</span>&lt;<span class="hljs-type">T</span>&gt;.<span class="hljs-title">Execute</span>(<span class="hljs-keyword">in</span> <span class="hljs-type">T</span> input, <span class="hljs-keyword">out</span> <span class="hljs-type">bool</span> success)
@@ -546,7 +531,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			            <span class="hljs-type">int</span>* ptr = &amp;val;
 			            *ptr = <span class="hljs-number">200</span>;
 			        }
-			
+
 			        <span class="hljs-comment">// Literals, Interpolation, Raw Strings, and Escape Characters
 			</span>
 			        <span class="hljs-type">string</span> verbatimStr = <span class="hljs-string">@"C:\Program Files\TestFolder\file.txt"</span>;
@@ -556,11 +541,11 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			               "escaped": "Hello \"World\""
 			            }
 			            """</span>;
-			
+
 			        success = <span class="hljs-literal">true</span>;
 			        <span class="hljs-keyword">return</span> input;
 			    }
-			
+
 			    <span class="hljs-comment">// Operator Overloading
 			</span>
 			    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span> ==(<span class="hljs-type">SyntaxTester</span>&lt;<span class="hljs-type">T</span>&gt;? left, <span class="hljs-type">SyntaxTester</span>&lt;<span class="hljs-type">T</span>&gt;? right) =&gt; <span class="hljs-title">Equals</span>(left, right);
@@ -570,10 +555,9 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			}</code></pre>
 			    </div>
 			</article>
-			
 			"""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 
@@ -754,56 +738,33 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			""""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <button
-			            blazor:onclick="2"
-			            type="button"
-			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
-			            blazor:onclick:stopPropagation
-			            blazor:elementReference=""
-			        >
-			            <span class="mud-icon-button-label"
-			                ><svg
-			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
-			                    focusable="false"
-			                    viewBox="0 0 24 24"
-			                    aria-hidden="true"
-			                    role="img"
-			                >
-			                    <g><rect fill="none" height="24" width="24" /></g>
-			                    <g>
-			                        <path
-			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
-			                        />
-			                    </g></svg
-			            ></span>
-			        </button>
 			        <pre><code class="hljs language-kotlin"><span class="hljs-meta">@file:Suppress</span>(<span class="hljs-string">"UNUSED_VARIABLE"</span>, <span class="hljs-string">"NOTHING_TO_INLINE"</span>)
-			
+
 			<span class="hljs-keyword">package</span> com.syntax.highlighting.test
-			
+
 			<span class="hljs-keyword">import</span> java.io.IOException
 			<span class="hljs-keyword">import</span> kotlin.contracts.ExperimentalContracts
 			<span class="hljs-keyword">import</span> kotlin.contracts.contract
 			<span class="hljs-keyword">import</span> kotlin.properties.Delegates
-			
+
 			<span class="hljs-comment">// Annotations &amp; Typealiases
 			</span>
 			<span class="hljs-meta">@Target</span>(<span class="hljs-type">AnnotationTarget</span>.CLASS, <span class="hljs-type">AnnotationTarget</span>.FUNCTION)
 			<span class="hljs-meta">@Retention</span>(<span class="hljs-type">AnnotationRetention</span>.RUNTIME)
 			<span class="hljs-keyword">annotation</span> <span class="hljs-keyword">class</span> <span class="hljs-type">TestAnnotation</span>(<span class="hljs-keyword">val</span> priority: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span>, <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span>)
-			
+
 			<span class="hljs-keyword">typealias</span> <span class="hljs-type">StringMap</span>&lt;<span class="hljs-type">T</span>&gt; = <span class="hljs-type">Map</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">T</span>&gt;
-			
+
 			<span class="hljs-comment">// Interfaces &amp; Sealed Interfaces
 			</span>
 			<span class="hljs-keyword">sealed</span> <span class="hljs-keyword">interface</span> <span class="hljs-type">Identifiable</span> {
 			    <span class="hljs-keyword">val</span> id: <span class="hljs-type">Long</span>
 			}
-			
+
 			<span class="hljs-keyword">interface</span> <span class="hljs-type">Processable</span>&lt;<span class="hljs-keyword">in</span> <span class="hljs-type">T</span> : <span class="hljs-type">Any</span>, <span class="hljs-keyword">out</span> <span class="hljs-type">R</span>&gt; where R : <span class="hljs-type">Comparable</span>&lt;<span class="hljs-type">R</span>&gt; {
 			    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">process</span><span class="hljs-params">(input: <span class="hljs-type">T</span>)</span></span>: <span class="hljs-type">R</span>
 			}
-			
+
 			<span class="hljs-comment">// Sealed Class Hierarchy
 			</span>
 			<span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-type">State</span> {
@@ -811,41 +772,41 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-type">Active</span>(<span class="hljs-keyword">val</span> startTime: <span class="hljs-type">Long</span>) : <span class="hljs-type">State</span>()
 			    <span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-type">Error</span>(<span class="hljs-keyword">val</span> cause: <span class="hljs-type">Throwable</span>) : <span class="hljs-type">State</span>()
 			}
-			
+
 			<span class="hljs-comment">// Enum Class
 			</span>
 			<span class="hljs-keyword">enum</span> <span class="hljs-keyword">class</span> <span class="hljs-type">Priority</span>(<span class="hljs-keyword">val</span> value: <span class="hljs-type">Int</span>) {
 			    <span class="hljs-title">LOW</span>(<span class="hljs-number">0</span>),
 			    <span class="hljs-title">MEDIUM</span>(<span class="hljs-number">5</span>),
 			    <span class="hljs-title">HIGH</span>(<span class="hljs-number">10</span>);
-			
+
 			    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isUrgent</span><span class="hljs-params">()</span></span>: <span class="hljs-type">Boolean</span> = <span class="hljs-keyword">this</span> == HIGH
 			}
-			
+
 			<span class="hljs-comment">// Data Class &amp; Value Class (Value class inline test)
 			</span>
 			<span class="hljs-meta">@JvmInline</span>
 			value <span class="hljs-keyword">class</span> <span class="hljs-type">UserId</span>(<span class="hljs-keyword">val</span> value: <span class="hljs-type">Long</span>)
-			
+
 			<span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-type">User</span>(
 			    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> id: <span class="hljs-type">Long</span>,
 			    <span class="hljs-keyword">val</span> username: <span class="hljs-type">String</span>,
 			    <span class="hljs-keyword">val</span> email: <span class="hljs-type">String</span>? = <span class="hljs-literal">null</span>,
 			    <span class="hljs-keyword">val</span> roles: <span class="hljs-type">List</span>&lt;<span class="hljs-type">String</span>&gt; = <span class="hljs-title">emptyList</span>()
 			) : <span class="hljs-type">Identifiable</span>
-			
+
 			<span class="hljs-comment">// Class, Generics, Secondary Constructor &amp; Inheritance
 			</span>
 			<span class="hljs-meta">@TestAnnotation</span>(priority = <span class="hljs-number">10</span>, name = <span class="hljs-string">"KotlinSyntaxTester"</span>)
 			<span class="hljs-keyword">open</span> <span class="hljs-keyword">class</span> <span class="hljs-type">BaseTester</span> <span class="hljs-keyword">protected</span> <span class="hljs-keyword">constructor</span>(<span class="hljs-keyword">open</span> <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span>) {
 			    <span class="hljs-keyword">constructor</span>() : <span class="hljs-keyword">this</span>(<span class="hljs-string">"DefaultBase"</span>)
 			}
-			
+
 			<span class="hljs-keyword">class</span> <span class="hljs-type">KotlinSyntaxTester</span>&lt;<span class="hljs-type">T</span> : <span class="hljs-type">Any</span>&gt;(
 			    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span>,
 			    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> delegate: <span class="hljs-type">Processable</span>&lt;<span class="hljs-type">T</span>, <span class="hljs-type">String</span>&gt;
 			) : <span class="hljs-type">BaseTester</span>(name), <span class="hljs-type">Identifiable</span> {
-			
+
 			    <span class="hljs-comment">// Properties, Modifiers, Lateinit &amp; Delegates
 			</span>
 			    <span class="hljs-keyword">override</span> <span class="hljs-keyword">val</span> id: <span class="hljs-type">Long</span> = <span class="hljs-number">1001L</span>
@@ -855,17 +816,17 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			    <span class="hljs-keyword">var</span> observedProperty: <span class="hljs-type">String</span> <span class="hljs-keyword">by</span> <span class="hljs-type">Delegates</span>.<span class="hljs-title">observable</span>(<span class="hljs-string">"Initial"</span>) { prop, old, new -&gt;
 			        <span class="hljs-title">println</span>(<span class="hljs-string">"<span class="hljs-subst">${prop.name}</span>: <span class="hljs-subst">$old</span> -&gt; <span class="hljs-subst">$new</span>"</span>)
 			    }
-			
+
 			    <span class="hljs-keyword">val</span> lazyValue: <span class="hljs-type">String</span> <span class="hljs-keyword">by</span> <span class="hljs-title">lazy</span>(<span class="hljs-type">LazyThreadSafetyMode</span>.SYNCHRONIZED) {
 			        <span class="hljs-string">"Computed Lazily"</span>
 			    }
-			
+
 			    <span class="hljs-comment">// Companion Object
 			</span>
 			    <span class="hljs-keyword">companion</span> <span class="hljs-keyword">object</span> {
 			        <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> MAX_RETRIES: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span>
 			        <span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> BASE_URL: <span class="hljs-type">String</span> = <span class="hljs-string">"https://api.example.com/v1"</span>
-			
+
 			        <span class="hljs-meta">@JvmStatic</span>
 			        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">createDefault</span><span class="hljs-params">()</span></span>: <span class="hljs-type">KotlinSyntaxTester</span>&lt;<span class="hljs-type">String</span>&gt; {
 			            <span class="hljs-keyword">val</span> dummyProcessor = <span class="hljs-keyword">object</span> : <span class="hljs-type">Processable</span>&lt;<span class="hljs-type">String</span>, <span class="hljs-type">String</span>&gt; {
@@ -874,24 +835,24 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			            <span class="hljs-keyword">return</span> <span class="hljs-type">KotlinSyntaxTester</span>(<span class="hljs-string">"Default"</span>, dummyProcessor)
 			        }
 			    }
-			
+
 			    <span class="hljs-comment">// Functions, Vararg, Infix, Extension Functions, and Nullability
 			</span>
 			    <span class="hljs-keyword">infix</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">String</span></span>.<span class="hljs-title">concatWith</span>(other: <span class="hljs-type">String</span>): <span class="hljs-type">String</span> = <span class="hljs-string">"<span class="hljs-subst">$this</span> - <span class="hljs-subst">$other</span>"</span>
-			
+
 			    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">processItems</span><span class="hljs-params">(<span class="hljs-keyword">vararg</span> items: <span class="hljs-type">T</span>?)</span></span>: <span class="hljs-type">List</span>&lt;<span class="hljs-type">String</span>&gt; {
 			        <span class="hljs-keyword">val</span> results = <span class="hljs-title">mutableListOf</span>&lt;<span class="hljs-type">String</span>&gt;()
-			
+
 			        <span class="hljs-keyword">for</span> (item <span class="hljs-keyword">in</span> items) {
 			            <span class="hljs-comment">// Safe call, Elvis operator, and smart casting
 			</span>
 			            <span class="hljs-keyword">val</span> label = item?.<span class="hljs-title">toString</span>() ?: <span class="hljs-string">"NULL_VALUE"</span>
 			            results.<span class="hljs-title">add</span>(label)
 			        }
-			
+
 			        <span class="hljs-keyword">return</span> results
 			    }
-			
+
 			    <span class="hljs-comment">// Control Flow, Pattern Matching (When), Destructuring, Collections
 			</span>
 			    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">execute</span><span class="hljs-params">(state: <span class="hljs-type">State</span>, numbers: <span class="hljs-type">List</span>&lt;<span class="hljs-type">Int</span>&gt;)</span></span>: <span class="hljs-type">String</span> {
@@ -902,7 +863,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			            <span class="hljs-keyword">is</span> <span class="hljs-type">State</span>.Active -&gt; <span class="hljs-string">"Active since <span class="hljs-subst">${state.startTime}</span>"</span>
 			            <span class="hljs-keyword">is</span> <span class="hljs-type">State</span>.Error -&gt; <span class="hljs-keyword">throw</span> state.cause
 			        }
-			
+
 			        <span class="hljs-comment">// Loops and Ranges
 			</span>
 			        <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>
@@ -910,12 +871,12 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			            <span class="hljs-keyword">if</span> (i == <span class="hljs-number">4</span>) <span class="hljs-keyword">continue</span>
 			            sum += i
 			        }
-			
+
 			        <span class="hljs-keyword">while</span> (sum &gt; <span class="hljs-number">0</span>) {
 			            sum--
 			            <span class="hljs-keyword">if</span> (sum == <span class="hljs-number">2</span>) <span class="hljs-keyword">break</span>
 			        }
-			
+
 			        <span class="hljs-comment">// Functional Operators &amp; Lambdas
 			</span>
 			        <span class="hljs-keyword">val</span> processedNumbers = numbers
@@ -924,7 +885,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			                <span class="hljs-keyword">val</span> doubled = num * <span class="hljs-number">2</span>
 			                doubled
 			            }
-			
+
 			        <span class="hljs-comment">// Strings: Multi-line / Raw Strings &amp; Interpolation
 			</span>
 			        <span class="hljs-keyword">val</span> rawJson = <span class="hljs-string">"""
@@ -934,7 +895,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			                "escaped": "Hello \"World\""
 			            }
 			        """</span>.<span class="hljs-title">trimIndent</span>()
-			
+
 			        <span class="hljs-comment">// Try-Catch as Expression
 			</span>
 			        <span class="hljs-keyword">val</span> parsedValue: <span class="hljs-type">Int</span>? = <span class="hljs-keyword">try</span> {
@@ -945,10 +906,10 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			            <span class="hljs-comment">// Cleanup block
 			</span>
 			        }
-			
+
 			        <span class="hljs-keyword">return</span> rawJson
 			    }
-			
+
 			    <span class="hljs-comment">// Inline Function &amp; Contracts
 			</span>
 			    <span class="hljs-meta">@OptIn</span>(<span class="hljs-type">ExperimentalContracts</span>::<span class="hljs-keyword">class</span>)
@@ -961,10 +922,9 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			}</code></pre>
 			    </div>
 			</article>
-			
 			"""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 
@@ -1166,33 +1126,10 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <button
-			            blazor:onclick="2"
-			            type="button"
-			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
-			            blazor:onclick:stopPropagation
-			            blazor:elementReference=""
-			        >
-			            <span class="mud-icon-button-label"
-			                ><svg
-			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
-			                    focusable="false"
-			                    viewBox="0 0 24 24"
-			                    aria-hidden="true"
-			                    role="img"
-			                >
-			                    <g><rect fill="none" height="24" width="24" /></g>
-			                    <g>
-			                        <path
-			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
-			                        />
-			                    </g></svg
-			            ></span>
-			        </button>
 			        <pre><code class="hljs language-golang"><span class="hljs-comment">// Package declaration and imports
 			</span>
 			<span class="hljs-keyword">package</span> main
-			
+
 			<span class="hljs-keyword">import</span> (
 				<span class="hljs-string">"context"</span>
 				<span class="hljs-string">"errors"</span>
@@ -1201,37 +1138,37 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				<span class="hljs-string">"sync"</span>
 				<span class="hljs-string">"time"</span>
 			)
-			
+
 			<span class="hljs-comment">// Constants and iota enumeration
 			</span>
 			<span class="hljs-keyword">const</span> (
 				MaxThreshold <span class="hljs-type">float64</span> = <span class="hljs-number">3.14159_26535_89793</span>
 				CategoryName         = <span class="hljs-string">"HighlightingTest"</span>
 			)
-			
+
 			<span class="hljs-keyword">const</span> (
 				StatusNone <span class="hljs-type">byte</span> = <span class="hljs-literal">iota</span>
 				StatusActive
 				StatusPending
 				StatusError
 			)
-			
+
 			<span class="hljs-comment">// Type Aliases and Defined Types
 			</span>
 			<span class="hljs-keyword">type</span> <span class="hljs-type">Status</span> = <span class="hljs-type">byte</span>
 			<span class="hljs-keyword">type</span> <span class="hljs-type">ID</span> <span class="hljs-type">int64</span>
-			
+
 			<span class="hljs-comment">// Interfaces and Generics (Type Constraints)
 			</span>
 			<span class="hljs-keyword">type</span> <span class="hljs-type">Stringable</span> <span class="hljs-keyword">interface</span> {
 				fmt.Stringer
 				~<span class="hljs-type">string</span> | ~<span class="hljs-type">int</span>
 			}
-			
+
 			<span class="hljs-keyword">type</span> <span class="hljs-type">Processor</span>[<span class="hljs-type">T</span> <span class="hljs-type">any</span>] <span class="hljs-keyword">interface</span> {
 				<span class="hljs-title">Process</span>(ctx context.Context, input <span class="hljs-type">T</span>) (<span class="hljs-type">T</span>, <span class="hljs-type">error</span>)
 			}
-			
+
 			<span class="hljs-comment">// Struct Definition with Tags
 			</span>
 			<span class="hljs-keyword">type</span> <span class="hljs-type">User</span> <span class="hljs-keyword">struct</span> {
@@ -1240,25 +1177,25 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				IsActive  <span class="hljs-type">bool</span>      <span class="hljs-string">`json:"is_active"`</span>
 				CreatedAt time.Time <span class="hljs-string">`json:"created_at"`</span>
 			}
-			
+
 			<span class="hljs-comment">// Method on Struct (Value Receiver)
 			</span>
 			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u <span class="hljs-type">User</span>)</span></span> <span class="hljs-title">String</span>() <span class="hljs-type">string</span> {
 				<span class="hljs-keyword">return</span> fmt.<span class="hljs-title">Sprintf</span>(<span class="hljs-string">"User(%d, %s)"</span>, u.ID, u.Username)
 			}
-			
+
 			<span class="hljs-comment">// Method on Struct (Pointer Receiver)
 			</span>
 			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u *<span class="hljs-type">User</span>)</span></span> <span class="hljs-title">Deactivate</span>() {
 				u.IsActive = <span class="hljs-literal">false</span>
 			}
-			
+
 			<span class="hljs-comment">// Generic Struct
 			</span>
 			<span class="hljs-keyword">type</span> <span class="hljs-type">Container</span>[<span class="hljs-type">T</span> <span class="hljs-type">Stringable</span>] <span class="hljs-keyword">struct</span> {
 				Value <span class="hljs-type">T</span>
 			}
-			
+
 			<span class="hljs-comment">// Main Function
 			</span>
 			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
@@ -1269,14 +1206,14 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				shortBool := <span class="hljs-literal">true</span>
 				_ = uninitializedString <span class="hljs-comment">// Blank identifier
 			</span>
-			
+
 				<span class="hljs-comment">// Numeric Literals (Hex, Octal, Binary, Floats, Imaginary)
 			</span>
 				hexVal := <span class="hljs-number">0xFF</span>
 				octalVal := <span class="hljs-number">0o</span><span class="hljs-number">755</span>
 				binaryVal := <span class="hljs-number">0b</span><span class="hljs-number">101010</span>
 				complexVal := <span class="hljs-number">1.2</span> + <span class="hljs-number">3.4i</span>
-			
+
 				<span class="hljs-comment">// Built-in Primitive Types
 			</span>
 				<span class="hljs-keyword">var</span> (
@@ -1285,7 +1222,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 					f   <span class="hljs-type">float32</span> = <span class="hljs-number">3.14</span>
 					err <span class="hljs-type">error</span>   = <span class="hljs-literal">nil</span>
 				)
-			
+
 				<span class="hljs-comment">// Built-in Data Structures: Slice, Map, Channel
 			</span>
 				numbers := []<span class="hljs-type">int</span>{<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>}
@@ -1293,7 +1230,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				ch := <span class="hljs-title">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-type">string</span>, <span class="hljs-number">2</span>)
 				<span class="hljs-keyword">defer</span> <span class="hljs-title">close</span>(ch) <span class="hljs-comment">// Defer statement
 			</span>
-			
+
 				<span class="hljs-comment">// Control Flow: If-Else with Short Initialization
 			</span>
 				<span class="hljs-keyword">if</span> length := <span class="hljs-title">len</span>(numbers); length &gt; <span class="hljs-number">0</span> &amp;&amp; shortBool {
@@ -1303,7 +1240,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				} <span class="hljs-keyword">else</span> {
 					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Fallback condition"</span>)
 				}
-			
+
 				<span class="hljs-comment">// For Loops (Standard, Range, Infinite)
 			</span>
 				<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-title">len</span>(numbers); i++ {
@@ -1314,11 +1251,11 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 						<span class="hljs-keyword">break</span>
 					}
 				}
-			
+
 				<span class="hljs-keyword">for</span> key, val := <span class="hljs-keyword">range</span> strMap {
 					_ = fmt.<span class="hljs-title">Sprintf</span>(<span class="hljs-string">"Key: %s, Val: %d"</span>, key, val)
 				}
-			
+
 				<span class="hljs-comment">// Switch Statement (Expression and Type Switch)
 			</span>
 				<span class="hljs-keyword">switch</span> hexVal {
@@ -1329,7 +1266,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				<span class="hljs-keyword">default</span>:
 					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Unknown byte"</span>)
 				}
-			
+
 				<span class="hljs-keyword">var</span> genericVar <span class="hljs-keyword">interface</span>{} = <span class="hljs-string">"Test String"</span>
 				<span class="hljs-keyword">switch</span> v := genericVar.(<span class="hljs-keyword">type</span>) {
 				<span class="hljs-keyword">case</span> <span class="hljs-type">int</span>:
@@ -1339,43 +1276,43 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 				<span class="hljs-keyword">default</span>:
 					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Unknown type"</span>)
 				}
-			
+
 				<span class="hljs-comment">// Concurrency: Goroutine, Channels, Select, Sync
 			</span>
 				<span class="hljs-keyword">var</span> wg sync.WaitGroup
 				wg.<span class="hljs-title">Add</span>(<span class="hljs-number">1</span>)
-			
+
 				<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(msg <span class="hljs-type">string</span>)</span></span> {
 					<span class="hljs-keyword">defer</span> wg.<span class="hljs-title">Done</span>()
 					ch &lt;- msg
 				}(<span class="hljs-title">categoryFormat</span>(<span class="hljs-string">"Concurrency Test"</span>))
-			
+
 				<span class="hljs-keyword">select</span> {
 				<span class="hljs-keyword">case</span> res := &lt;-ch:
 					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Received:"</span>, res)
 				<span class="hljs-keyword">case</span> &lt;-time.<span class="hljs-title">After</span>(<span class="hljs-number">100</span> * time.Millisecond):
 					fmt.<span class="hljs-title">Println</span>(<span class="hljs-string">"Timeout"</span>)
 				}
-			
+
 				wg.<span class="hljs-title">Wait</span>()
-			
+
 				<span class="hljs-comment">// Anonymous Function / Closure &amp; Error Handling
 			</span>
 				res, err := <span class="hljs-title">safeDivide</span>(<span class="hljs-number">10.0</span>, <span class="hljs-number">0.0</span>)
 				<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 					_ = fmt.<span class="hljs-title">Errorf</span>(<span class="hljs-string">"operation failed: %w"</span>, err)
 				}
-			
+
 				<span class="hljs-comment">// Raw Strings, Verbatim, and Escapes
 			</span>
 				rawString := <span class="hljs-string">`Line 1
 			Line 2 with "quotes" and \no escapes\`</span>
 				interpretedString := <span class="hljs-string">"Line 1\nLine 2 with \"escapes\""</span>
-			
+
 				_, _ = res, rawString
 				_, _ = b, r
 			}
-			
+
 			<span class="hljs-comment">// Function with Multiple Return Values &amp; Named Parameters
 			</span>
 			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">safeDivide</span><span class="hljs-params">(a, b <span class="hljs-type">float64</span>)</span></span> (result <span class="hljs-type">float64</span>, err <span class="hljs-type">error</span>) {
@@ -1386,13 +1323,13 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 						err = fmt.<span class="hljs-title">Errorf</span>(<span class="hljs-string">"recovered from panic: %v"</span>, r)
 					}
 				}()
-			
+
 				<span class="hljs-keyword">if</span> b == <span class="hljs-number">0</span> {
 					<span class="hljs-title">panic</span>(<span class="hljs-string">"division by zero"</span>)
 				}
 				<span class="hljs-keyword">return</span> a / b, <span class="hljs-literal">nil</span>
 			}
-			
+
 			<span class="hljs-comment">// Variadic Function
 			</span>
 			<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">categoryFormat</span><span class="hljs-params">(format <span class="hljs-type">string</span>, args ...<span class="hljs-type">any</span>)</span></span> <span class="hljs-type">string</span> {
@@ -1400,10 +1337,9 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			}</code></pre>
 			    </div>
 			</article>
-			
 			""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 
@@ -1549,29 +1485,6 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <button
-			            blazor:onclick="2"
-			            type="button"
-			            class="mud-button-root mud-icon-button mud-button mud-button-filled mud-button-filled-primary mud-button-filled-size-medium mud-ripple ma-2 mud-markdown-code-highlight-copybtn"
-			            blazor:onclick:stopPropagation
-			            blazor:elementReference=""
-			        >
-			            <span class="mud-icon-button-label"
-			                ><svg
-			                    class="mud-icon-root mud-svg-icon mud-icon-size-medium"
-			                    focusable="false"
-			                    viewBox="0 0 24 24"
-			                    aria-hidden="true"
-			                    role="img"
-			                >
-			                    <g><rect fill="none" height="24" width="24" /></g>
-			                    <g>
-			                        <path
-			                            d="M15,20H5V7c0-0.55-0.45-1-1-1h0C3.45,6,3,6.45,3,7v13c0,1.1,0.9,2,2,2h10c0.55,0,1-0.45,1-1v0C16,20.45,15.55,20,15,20z M20,16V4c0-1.1-0.9-2-2-2H9C7.9,2,7,2.9,7,4v12c0,1.1,0.9,2,2,2h9C19.1,18,20,17.1,20,16z M18,16H9V4h9V16z"
-			                        />
-			                    </g></svg
-			            ></span>
-			        </button>
 			        <pre><code class="hljs language-rust"><span class="hljs-meta">#![allow(dead_code, unused_variables)]</span>
 
 			<span class="hljs-comment">//! Module-level documentation comment testing markdown rendering.</span>
@@ -1706,7 +1619,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 			""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 
@@ -1728,10 +1641,20 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 		const string expected =
 			"""
-
+			<article id:ignore class="mud-markdown-body">
+			    <div class="hljs mud-markdown-code-highlight">
+			        <pre><code class="hljs language-json">{
+			  <span class="hljs-type">"name"</span>: <span class="hljs-string">"mud-blazor"</span>,
+			  <span class="hljs-type">"version"</span>: <span class="hljs-number">2</span>,
+			  <span class="hljs-type">"enabled"</span>: <span class="hljs-keyword">true</span>,
+			  <span class="hljs-type">"tags"</span>: [<span class="hljs-string">"md"</span>, <span class="hljs-string">"blazor"</span>],
+			  <span class="hljs-type">"nested"</span>: { <span class="hljs-type">"count"</span>: <span class="hljs-number">10</span>, <span class="hljs-type">"ratio"</span>: <span class="hljs-number">3.14</span>, <span class="hljs-type">"empty"</span>: <span class="hljs-keyword">null</span> }
+			}</code></pre>
+			    </div>
+			</article>
 			""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 
@@ -1756,7 +1679,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 			""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 
@@ -1788,7 +1711,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 			""";
 
-		using var fixture = CreateFixture(value);
+		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 }
