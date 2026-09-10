@@ -18,6 +18,15 @@ internal sealed class XmlCodeHighlighter : ICodeHighlighter
 
 		while (i < code.Length)
 		{
+			// Character reference / entity: &amp; &lt; &#10; &#x1F600;
+			if (code[i] == '&' && TryReadEntity(code, i, out var entityEnd))
+			{
+				Flush();
+				nodes.Add(new CodeSpan("hljs-symbol", [new CodeText(code[i..entityEnd])]));
+				i = entityEnd;
+				continue;
+			}
+
 			if (code[i] != '<')
 			{
 				text.Append(code[i]);
@@ -142,6 +151,53 @@ internal sealed class XmlCodeHighlighter : ICodeHighlighter
 			i++; // closing quote
 
 		return new CodeSpan("hljs-string", [new CodeText(code[start..i])]);
+	}
+
+	// Matches a character reference at code[i] == '&': a named entity (&amp;), a decimal (&#10;) or a
+	// hexadecimal (&#x1F600;) reference. On success, entityEnd is the index just past the closing ';'.
+	private static bool TryReadEntity(string code, int i, out int entityEnd)
+	{
+		entityEnd = default;
+		var j = i + 1; // past '&'
+
+		if (j < code.Length && code[j] == '#')
+		{
+			j++;
+			if (j < code.Length && code[j] is 'x' or 'X')
+			{
+				j++;
+				var start = j;
+				while (j < code.Length && Uri.IsHexDigit(code[j]))
+					j++;
+
+				if (j == start)
+					return false;
+			}
+			else
+			{
+				var start = j;
+				while (j < code.Length && char.IsAsciiDigit(code[j]))
+					j++;
+
+				if (j == start)
+					return false;
+			}
+		}
+		else
+		{
+			if (j >= code.Length || !char.IsLetter(code[j]))
+				return false;
+
+			j++;
+			while (j < code.Length && char.IsLetterOrDigit(code[j]))
+				j++;
+		}
+
+		if (j >= code.Length || code[j] != ';')
+			return false;
+
+		entityEnd = j + 1; // past ';'
+		return true;
 	}
 
 	private static bool Matches(string code, int i, string token) =>

@@ -1676,6 +1676,17 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 
 		const string expected =
 			"""
+			<article id:ignore class="mud-markdown-body">
+			    <div class="hljs mud-markdown-code-highlight">
+			        <pre><code class="hljs language-xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+			<span class="hljs-comment">&lt;!-- Application configuration --&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">config</span> <span class="hljs-attr">env</span>=<span class="hljs-string">"prod"</span>&gt;</span>
+			  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>MudBlazor<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+			  <span class="hljs-tag">&lt;<span class="hljs-name">value</span> <span class="hljs-attr">count</span>=<span class="hljs-string">"3"</span>&gt;</span>text <span class="hljs-symbol">&amp;amp;</span> more<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+			  <span class="hljs-tag">&lt;<span class="hljs-name">self-closing</span> <span class="hljs-attr">attr</span>=<span class="hljs-string">"x"</span> /&gt;</span>
+			<span class="hljs-tag">&lt;/<span class="hljs-name">config</span>&gt;</span></code></pre>
+			    </div>
+			</article>
 
 			""";
 
