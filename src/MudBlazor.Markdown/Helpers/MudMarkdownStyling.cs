@@ -87,8 +87,7 @@ public sealed class MudMarkdownStyling
 	public sealed class CodeBlockStyling
 	{
 		/// <summary>
-		/// Theme of the code block.<br/>
-		/// Browse available themes here: https://highlightjs.org/static/demo/
+		/// Theme of the code block.
 		/// </summary>
 		public CodeBlockTheme Theme { get; set; }
 

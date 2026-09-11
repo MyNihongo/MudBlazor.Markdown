@@ -11,8 +11,6 @@ namespace MudBlazor;
 
 public class MudMarkdown : ComponentBase, IDisposable
 {
-	protected IMudMarkdownThemeService? ThemeService;
-
 	protected MarkdownPipeline? Pipeline;
 	protected bool EnableLinkNavigation;
 	private MudMarkdownHeadingTree? _markdownHeadingTree;
@@ -71,18 +69,12 @@ public class MudMarkdown : ComponentBase, IDisposable
 	protected IJSRuntime JsRuntime { get; init; } = null!;
 
 	[Inject]
-	protected IServiceProvider? ServiceProvider { get; init; }
-
-	[Inject]
 	private IMudMarkdownValueProvider MudMarkdownValueProvider { get; init; } = null!;
 
 	public virtual void Dispose()
 	{
 		if (NavigationManager != null)
 			NavigationManager.LocationChanged -= NavigationManagerOnLocationChanged;
-
-		if (ThemeService != null)
-			ThemeService.CodeBlockThemeChanged -= OnCodeBlockThemeChanged;
 
 		GC.SuppressFinalize(this);
 	}
@@ -102,16 +94,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 
 		await base.SetParametersAsync(parameters)
 			.ConfigureAwait(false);
-	}
-
-	protected override void OnInitialized()
-	{
-		base.OnInitialized();
-
-		ThemeService = ServiceProvider?.GetService<IMudMarkdownThemeService>();
-
-		if (ThemeService != null)
-			ThemeService.CodeBlockThemeChanged += OnCodeBlockThemeChanged;
 	}
 
 	protected override void OnAfterRender(bool firstRender)
@@ -300,6 +282,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 					{
 						builder1.AddContent(elementIndex1++, " ");
 					}
+
 					break;
 				}
 				case CodeInline x:
@@ -589,7 +572,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.OpenComponent<MudCodeHighlight>(elementIndex++);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Text), text);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Language), info ?? string.Empty);
-		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Theme), Styling.CodeBlock.Theme);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.CopyButton), Styling.CodeBlock.CopyButton);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.CopyButtonDisplayTextCopied), Styling.CodeBlock.CopyButtonText);
 		builder.CloseComponent();
@@ -606,9 +588,6 @@ public class MudMarkdown : ComponentBase, IDisposable
 		await JsRuntime.ScrollToAsync(idFragment, _markdownHeadingTree?.NavMenuDotnetObjectReference)
 			.ConfigureAwait(false);
 	}
-
-	private void OnCodeBlockThemeChanged(object? sender, CodeBlockTheme e) =>
-		Styling.CodeBlock.Theme = e;
 
 	private MarkdownPipeline GetMarkdownPipeLine()
 	{

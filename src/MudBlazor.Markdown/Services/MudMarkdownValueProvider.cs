@@ -5,11 +5,15 @@ namespace MudBlazor;
 internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 {
 	private readonly IMudMarkdownMemoryCache _memoryCache;
+	private readonly IMudMarkdownExceptionFormatter? _exceptionFormatter;
 	private static readonly HttpClient HttpClient = new();
 
-	public MudMarkdownValueProvider(IMudMarkdownMemoryCache memoryCache)
+	public MudMarkdownValueProvider(
+		IMudMarkdownMemoryCache memoryCache,
+		IMudMarkdownExceptionFormatter? exceptionFormatter)
 	{
 		_memoryCache = memoryCache;
+		_exceptionFormatter = exceptionFormatter;
 	}
 
 	public async ValueTask<string> GetValueAsync(string value, MarkdownSourceType sourceType, CancellationToken ct = default)
@@ -41,7 +45,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 		}
 		catch (Exception e)
 		{
-			return new StringBuilder()
+			return _exceptionFormatter?.Format(e) ?? new StringBuilder()
 				.Append($"Error while reading from file, path=`{path}`")
 				.BuildErrorMessage(e);
 		}
@@ -62,7 +66,7 @@ internal sealed class MudMarkdownValueProvider : IMudMarkdownValueProvider
 		}
 		catch (Exception e)
 		{
-			return new StringBuilder()
+			return _exceptionFormatter?.Format(e) ?? new StringBuilder()
 				.Append($"Error while reading from URL, URL=`{url}`")
 				.BuildErrorMessage(e);
 		}

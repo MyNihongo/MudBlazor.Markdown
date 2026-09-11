@@ -4,39 +4,51 @@ namespace MudBlazor;
 
 public static class ServiceCollectionEx
 {
-	public static IServiceCollection AddMudMarkdownServices(this IServiceCollection @this, Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache = null)
+	extension(IServiceCollection @this)
 	{
-		return @this
-			.AddMudMarkdownCache(configureMemoryCache)
-			.AddScoped<IMudMarkdownThemeService, MudMarkdownThemeService>()
-			.AddSingleton<IMudMarkdownValueProvider, MudMarkdownValueProvider>();
-	}
+		public IServiceCollection AddMudMarkdownServices(Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache = null)
+		{
+			return @this
+				.AddMudMarkdownCache(configureMemoryCache)
+				.AddSingleton<IMudMarkdownThemeService, MudMarkdownThemeService>()
+				.AddSingleton<IMudMarkdownValueProvider>(static services =>
+				{
+					var memoryCache = services.GetRequiredService<IMudMarkdownMemoryCache>();
+					var exceptionFormatter = services.GetService<IMudMarkdownExceptionFormatter>();
 
-	private static IServiceCollection AddMudMarkdownCache(this IServiceCollection @this, Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache)
-	{
-		return @this
-			.AddOptions()
-			.Configure<MudMarkdownMemoryCacheOptions>(options =>
-			{
-				if (configureMemoryCache is not null)
-					configureMemoryCache(options);
-				else
-					options.TimeToLive = TimeSpan.FromHours(1);
-			})
-			.TryAddSingletonEx(TimeProvider.System)
-			.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>();
-	}
+					return new MudMarkdownValueProvider(
+						memoryCache: memoryCache,
+						exceptionFormatter: exceptionFormatter
+					);
+				});
+		}
 
-	public static IServiceCollection AddMudMarkdownClipboardService<T>(this IServiceCollection @this)
-		where T : class, IMudMarkdownClipboardService
-	{
-		return @this.AddScoped<IMudMarkdownClipboardService, T>();
-	}
+		private IServiceCollection AddMudMarkdownCache(Action<MudMarkdownMemoryCacheOptions>? configureMemoryCache)
+		{
+			return @this
+				.AddOptions()
+				.Configure<MudMarkdownMemoryCacheOptions>(options =>
+				{
+					if (configureMemoryCache is not null)
+						configureMemoryCache(options);
+					else
+						options.TimeToLive = TimeSpan.FromHours(1);
+				})
+				.TryAddSingletonEx(TimeProvider.System)
+				.AddSingleton<IMudMarkdownMemoryCache, MudMarkdownMemoryCache>();
+		}
 
-	private static IServiceCollection TryAddSingletonEx<T>(this IServiceCollection @this, T instance)
-		where T : class
-	{
-		@this.TryAddSingleton(instance);
-		return @this;
+		public IServiceCollection AddMudMarkdownClipboardService<T>()
+			where T : class, IMudMarkdownClipboardService
+		{
+			return @this.AddScoped<IMudMarkdownClipboardService, T>();
+		}
+
+		private IServiceCollection TryAddSingletonEx<T>(T instance)
+			where T : class
+		{
+			@this.TryAddSingleton(instance);
+			return @this;
+		}
 	}
 }
