@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.12" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.12" PrivateAssets="all" />
-		<PackageReference Include="ReactiveUI.Blazor" Version="24.2.0" />
+		<PackageReference Include="ReactiveUI.Blazor" Version="24.3.0" />
 		<PackageReference Include="System.Net.Http.Json" Version="10.0.12" />
 	</ItemGroup>
 
