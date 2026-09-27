@@ -195,7 +195,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case ListBlock list:
 				{
-					RenderList(builder, ref elementIndex, list);
+					if (Props.Body.OverrideTypo.HasValue)
+						RenderList(builder, ref elementIndex, list, Props.Body.OverrideTypo.Value);
+					else
+						RenderList(builder, ref elementIndex, list);
+
 					break;
 				}
 				case ThematicBreakBlock:
@@ -206,12 +210,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 				}
 				case FencedCodeBlock code:
 				{
-					RenderCodeBlock(builder, ref elementIndex, code, code.Info);
+					var typo = GetBodyTypo();
+					RenderCodeBlock(builder, ref elementIndex, code, code.Info, typo);
 					break;
 				}
 				case CodeBlock code:
 				{
-					RenderCodeBlock(builder, ref elementIndex, code, info: null);
+					var typo = GetBodyTypo();
+					RenderCodeBlock(builder, ref elementIndex, code, info: null, typo);
 					break;
 				}
 				case HtmlBlock html:
@@ -486,15 +492,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 		if (list.Count == 0)
 			return;
 
-		var elementName = list.IsOrdered ? "ol" : "ul";
-		var orderStart = list.OrderedStart.ParseOrDefault();
-
-		builder.OpenElement(elementIndex++, elementName);
-
-		if (orderStart > 1)
-		{
-			builder.AddAttribute(elementIndex++, AttributeNames.Start, orderStart);
-		}
+		var typo = GetBodyTypo();
+		OpenListElement(builder, ref elementIndex, list);
 
 		for (var i = 0; i < list.Count; i++)
 		{
@@ -512,23 +511,22 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 					case ParagraphBlock x:
 					{
-						var typo = GetBodyTypo();
 						RenderParagraphBlock(builder, ref elementIndex, x, typo);
 						break;
 					}
 					case FencedCodeBlock x:
 					{
-						RenderCodeBlock(builder, ref elementIndex, x, x.Info);
+						RenderCodeBlock(builder, ref elementIndex, x, x.Info, typo);
 						break;
 					}
 					case CodeBlock x:
 					{
-						RenderCodeBlock(builder, ref elementIndex, x, info: null);
+						RenderCodeBlock(builder, ref elementIndex, x, info: null, typo);
 						break;
 					}
 					default:
 					{
-						OnRenderListDefault(builder, ref elementIndex, block[j]);
+						OnRenderListDefault(builder, ref elementIndex, block[j], typo);
 						break;
 					}
 				}
@@ -541,10 +539,77 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.CloseElement();
 	}
 
+	protected virtual void RenderList(RenderTreeBuilder builder1, ref int elementIndex1, ListBlock list, Typo typo)
+	{
+		if (list.Count == 0)
+			return;
+
+		OpenListElement(builder1, ref elementIndex1, list);
+
+		for (var i = 0; i < list.Count; i++)
+		{
+			var block = (ListItemBlock)list[i];
+			builder1.OpenComponent<MudText>(elementIndex1++);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudText.HtmlTag), "li");
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudText.Typo), typo);
+			builder1.AddComponentParameter(elementIndex1++, nameof(MudText.ChildContent), (RenderFragment)(builder2 =>
+			{
+				var elementIndex2 = 0;
+				for (var j = 0; j < block.Count; j++)
+				{
+					switch (block[j])
+					{
+						case ListBlock x:
+						{
+							RenderList(builder2, ref elementIndex2, x, typo);
+							break;
+						}
+						case ParagraphBlock x:
+						{
+							RenderParagraphBlock(builder2, ref elementIndex2, x, typo);
+							break;
+						}
+						case FencedCodeBlock x:
+						{
+							RenderCodeBlock(builder2, ref elementIndex2, x, x.Info, typo);
+							break;
+						}
+						case CodeBlock x:
+						{
+							RenderCodeBlock(builder2, ref elementIndex2, x, info: null, typo);
+							break;
+						}
+						default:
+						{
+							OnRenderListDefault(builder2, ref elementIndex2, block[j], typo);
+							break;
+						}
+					}
+				}
+			}));
+
+			// Close </li> 
+			builder1.CloseComponent();
+		}
+
+		builder1.CloseElement();
+	}
+
+	private static void OpenListElement(RenderTreeBuilder builder, ref int elementIndex, ListBlock list)
+	{
+		var elementName = list.IsOrdered ? "ol" : "ul";
+		var orderStart = list.OrderedStart.ParseOrDefault();
+
+		builder.OpenElement(elementIndex++, elementName);
+
+		if (orderStart > 1)
+			builder.AddAttribute(elementIndex++, AttributeNames.Start, orderStart);
+	}
+
 	/// <summary>
-	/// Renders a markdown block which is not covered by the switch-case block in <see cref="RenderList"/> 
+	/// Renders a markdown block which is not covered by the switch-case block in <see cref="RenderList(RenderTreeBuilder, ref int, ListBlock, Typo)"/> 
 	/// </summary>
-	protected virtual void OnRenderListDefault(RenderTreeBuilder builder, ref int elementIndex, Markdig.Syntax.Block block)
+	protected virtual void OnRenderListDefault(RenderTreeBuilder builder, ref int elementIndex, Markdig.Syntax.Block block, Typo typo)
 	{
 	}
 
@@ -573,10 +638,9 @@ public class MudMarkdown : ComponentBase, IDisposable
 		builder.AddContent(elementIndex, markupString);
 	}
 
-	protected virtual void RenderCodeBlock(in RenderTreeBuilder builder, ref int elementIndex, in CodeBlock code, in string? info)
+	protected virtual void RenderCodeBlock(in RenderTreeBuilder builder, ref int elementIndex, in CodeBlock code, in string? info, Typo typo)
 	{
 		var text = code.CreateCodeBlockText();
-		var typo = GetBodyTypo();
 
 		builder.OpenComponent<MudCodeHighlight>(elementIndex++);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Text), text);
