@@ -1,5 +1,8 @@
 ﻿namespace MudBlazor;
 
+/// <summary>
+/// Represents a component that renders formatted, syntax-highlighted code blocks with optional copying and styling features.
+/// </summary>
 public class MudCodeHighlight : MudComponentBase
 {
 	/// <summary>
@@ -22,11 +25,24 @@ public class MudCodeHighlight : MudComponentBase
 	[Obsolete("`CodeBlockTheme` is obsolete and has no effect. Use `MudMarkdownThemeProvider` instead. For more details see https://github.com/MyNihongo/MudBlazor.Markdown/wiki/MudMarkdownThemeProvider")]
 	public CodeBlockTheme Theme { get; set; }
 
+	/// <summary>
+	/// Specifies the display behavior and visibility condition for the copy button within the code block.
+	/// Defaults to <see cref="CodeBlockCopyButton.OnHover"/>.
+	/// </summary>
 	[Parameter]
 	public CodeBlockCopyButton CopyButton { get; set; } = CodeBlockCopyButton.OnHover;
 
+	/// <summary>
+	/// Gets or sets the text displayed on the copy button after the code has been successfully copied to the clipboard.
+	/// </summary>
 	[Parameter]
 	public string? CopyButtonDisplayTextCopied { get; set; }
+
+	/// <summary>
+	/// Gets or sets the typography variant used for styling the text content within the code block.
+	/// </summary>
+	[Parameter]
+	public Typo Typo { get; set; }
 
 	private string CodeClasses => new CssBuilder()
 		.AddClass("hljs")
@@ -62,24 +78,31 @@ public class MudCodeHighlight : MudComponentBase
 		}
 
 		// Code block
-		builder.OpenElement(elementIndex++, "pre");
-		builder.OpenElement(elementIndex++, "code");
-		builder.AddAttribute(elementIndex++, "class", CodeClasses);
+		builder.OpenComponent<MudText>(elementIndex++);
+		builder.AddAttribute(elementIndex++, nameof(MudText.HtmlTag), "pre");
+		builder.AddAttribute(elementIndex++, nameof(MudText.Typo), Typo.h5);
 
-		var highlighter = CodeHighlighterFactory.Create(Language);
-		if (highlighter is not null && !string.IsNullOrEmpty(Text))
+		builder.AddComponentParameter(elementIndex, nameof(MudText.ChildContent), (RenderFragment)(builder1 =>
 		{
-			var nodes = highlighter.Highlight(Text);
-			RenderNodes(builder, ref elementIndex, nodes);
-		}
-		else
-		{
-			builder.AddContent(elementIndex, Text);
-		}
+			var elementIndex1 = 0;
+			builder1.OpenElement(elementIndex1++, "code");
+			builder1.AddAttribute(elementIndex1++, "class", CodeClasses);
 
-		builder.CloseElement(); // "code"
-		builder.CloseElement(); // "pre"
+			var highlighter = CodeHighlighterFactory.Create(Language);
+			if (highlighter is not null && !string.IsNullOrEmpty(Text))
+			{
+				var nodes = highlighter.Highlight(Text);
+				RenderNodes(builder1, ref elementIndex1, nodes);
+			}
+			else
+			{
+				builder1.AddContent(elementIndex1, Text);
+			}
 
+			builder1.CloseElement(); // "code"
+		}));
+
+		builder.CloseComponent(); // "pre"
 		builder.CloseElement(); // "div"
 	}
 

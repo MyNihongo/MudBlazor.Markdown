@@ -576,12 +576,14 @@ public class MudMarkdown : ComponentBase, IDisposable
 	protected virtual void RenderCodeBlock(in RenderTreeBuilder builder, ref int elementIndex, in CodeBlock code, in string? info)
 	{
 		var text = code.CreateCodeBlockText();
+		var typo = GetBodyTypo();
 
 		builder.OpenComponent<MudCodeHighlight>(elementIndex++);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Text), text);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Language), info ?? string.Empty);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.CopyButton), Styling.CodeBlock.CopyButton);
 		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.CopyButtonDisplayTextCopied), Styling.CodeBlock.CopyButtonText);
+		builder.AddComponentParameter(elementIndex++, nameof(MudCodeHighlight.Typo), typo);
 		builder.CloseComponent();
 	}
 
