@@ -1,4 +1,5 @@
-﻿using Markdig.Extensions.Mathematics;
+﻿using System.Runtime.CompilerServices;
+using Markdig.Extensions.Mathematics;
 using Markdig.Extensions.Tables;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
@@ -11,6 +12,8 @@ namespace MudBlazor;
 
 public class MudMarkdown : ComponentBase, IDisposable
 {
+	private const Typo BodyTypo = Typo.body1;
+
 	protected MarkdownPipeline? Pipeline;
 	protected bool EnableLinkNavigation;
 	private MudMarkdownHeadingTree? _markdownHeadingTree;
@@ -160,7 +163,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 			{
 				case ParagraphBlock paragraph:
 				{
-					RenderParagraphBlock(builder, ref elementIndex, paragraph);
+					var typo = GetBodyTypo();
+					RenderParagraphBlock(builder, ref elementIndex, paragraph, typo);
 					break;
 				}
 				case HeadingBlock heading:
@@ -235,7 +239,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 	{
 	}
 
-	protected virtual void RenderParagraphBlock(RenderTreeBuilder builder1, ref int elementIndex1, LeafBlock paragraph, Typo typo = Typo.body1, string? id = null, string? @class = null)
+	protected virtual void RenderParagraphBlock(RenderTreeBuilder builder1, ref int elementIndex1, LeafBlock paragraph, Typo typo, string? id = null, string? @class = null)
 	{
 		if (paragraph.Inline == null)
 			return;
@@ -466,7 +470,10 @@ public class MudMarkdown : ComponentBase, IDisposable
 				builder.AddAttribute(elementIndex++, AttributeNames.Style, $"min-width:{minWidth}px");
 
 			if (cell.Count != 0 && cell[0] is ParagraphBlock paragraphBlock)
-				RenderParagraphBlock(builder, ref elementIndex, paragraphBlock);
+			{
+				var typo = GetBodyTypo();
+				RenderParagraphBlock(builder, ref elementIndex, paragraphBlock, typo);
+			}
 
 			builder.CloseElement();
 		}
@@ -505,7 +512,8 @@ public class MudMarkdown : ComponentBase, IDisposable
 					}
 					case ParagraphBlock x:
 					{
-						RenderParagraphBlock(builder, ref elementIndex, x);
+						var typo = GetBodyTypo();
+						RenderParagraphBlock(builder, ref elementIndex, x, typo);
 						break;
 					}
 					case FencedCodeBlock x:
@@ -597,5 +605,11 @@ public class MudMarkdown : ComponentBase, IDisposable
 		return Pipeline ??= new MarkdownPipelineBuilder()
 			.UseAdvancedExtensions()
 			.Build();
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private Typo GetBodyTypo()
+	{
+		return Props.Body.OverrideTypo ?? BodyTypo;
 	}
 }
