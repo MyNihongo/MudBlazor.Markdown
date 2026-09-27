@@ -17,6 +17,11 @@ public sealed class MudMarkdownProps
 	/// </summary>
 	public HeadingProps Heading { get; } = new();
 
+    /// <summary>
+    /// Behaviour properties for the body.
+    /// </summary>
+    public BodyProps Body { get; } = new();
+
 	/// <summary>
 	/// Behaviour properties for the link.
 	/// </summary>
@@ -51,4 +56,16 @@ public sealed class MudMarkdownProps
 		/// </summary>
 		public Func<Typo, Typo>? OverrideTypo { get; set; }
 	}
+
+    /// <summary>
+    /// Behaviour properties for the body content.
+    /// </summary>
+    public sealed class BodyProps
+    {
+        /// <summary>
+        /// Typography variant to use for the body content.<br/>
+        /// If not provided, the default body typography variant is used.
+        /// </summary>
+        public Typo? OverrideTypo { get; set; }
+    }
 }

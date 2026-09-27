@@ -281,7 +281,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			          </g></svg
 			      ></span>
 			    </button>
-			    <pre><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title">GetTheAnswer</span>()
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs language-csharp"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title">GetTheAnswer</span>()
 			{
 			   <span class="hljs-keyword">return</span> <span class="hljs-number">42</span>;
 			}</code></pre>
@@ -339,7 +339,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			          </g></svg
 			      ></span>
 			    </button>
-			    <pre><code class="hljs language-text">some
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs language-text">some
 			code</code></pre>
 			  </div>
 			  <ul>
@@ -399,7 +399,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			          </g></svg
 			      ></span>
 			    </button>
-			    <pre><code class="hljs">public bool IsMudBlazorCool()
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs">public bool IsMudBlazorCool()
 			{
 				return true;
 			}</code></pre>
@@ -592,7 +592,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			              </g></svg
 			          ></span>
 			        </button>
-			        <pre><code class="hljs language-bash">mysql -u username -p</code></pre>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-bash">mysql -u username -p</code></pre>
 			      </div>
 			    </li>
 			    <li>
@@ -623,7 +623,7 @@ public sealed class MarkdownComponentCasesShould : MarkdownComponentTestsBase
 			              </g></svg
 			          ></span>
 			        </button>
-			        <pre><code class="hljs language-sql">ALTER USER 'username'@'hostname' IDENTIFIED WITH caching_sha2_password;</code></pre>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-sql">ALTER USER 'username'@'hostname' IDENTIFIED WITH caching_sha2_password;</code></pre>
 			      </div>
 			      <p class="mud-typography mud-typography-body1">
 			        Replace <code>'username'</code> with the actual username and <code>'hostname'</code> with the appropriate

@@ -50,7 +50,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			          </g></svg
 			      ></span>
 			    </button>
-			    <pre><code class="hljs language-cs"><span class="hljs-keyword">public</span> <span class="hljs-type">bool</span> <span class="hljs-title">IsMudBlazorCool</span>()
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs language-cs"><span class="hljs-keyword">public</span> <span class="hljs-type">bool</span> <span class="hljs-title">IsMudBlazorCool</span>()
 			{
 				<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 			}</code></pre>
@@ -100,7 +100,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			          </g></svg
 			      ></span>
 			    </button>
-			    <pre><code class="hljs">if (condition)
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs">if (condition)
 			{
 			    return;
 			}</code></pre>
@@ -138,7 +138,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			  <div class="hljs mud-markdown-code-highlight">
-			    <pre><code class="hljs language-cs"><span class="hljs-keyword">public</span> <span class="hljs-type">bool</span> <span class="hljs-title">IsMudBlazorCool</span>()
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs language-cs"><span class="hljs-keyword">public</span> <span class="hljs-type">bool</span> <span class="hljs-title">IsMudBlazorCool</span>()
 			{
 				<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 			}</code></pre>
@@ -198,7 +198,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			          </g></svg
 			      ></span>
 			    </button>
-			    <pre><code class="hljs language-cs"><span class="hljs-keyword">public</span> <span class="hljs-type">bool</span> <span class="hljs-title">IsMudBlazorCool</span>()
+			    <pre class="mud-typography mud-typography-body1"><code class="hljs language-cs"><span class="hljs-keyword">public</span> <span class="hljs-type">bool</span> <span class="hljs-title">IsMudBlazorCool</span>()
 			{
 				<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 			}</code></pre>
@@ -377,7 +377,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			""""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-cs"><span class="hljs-meta">#region</span> Directive Test
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-cs"><span class="hljs-meta">#region</span> Directive Test
 			<span class="hljs-meta">#nullable</span> enable
 			<span class="hljs-keyword">using</span> System;
 			<span class="hljs-keyword">using</span> System.Collections.Generic;
@@ -738,7 +738,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			""""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-kotlin"><span class="hljs-meta">@file:Suppress</span>(<span class="hljs-string">"UNUSED_VARIABLE"</span>, <span class="hljs-string">"NOTHING_TO_INLINE"</span>)
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-kotlin"><span class="hljs-meta">@file:Suppress</span>(<span class="hljs-string">"UNUSED_VARIABLE"</span>, <span class="hljs-string">"NOTHING_TO_INLINE"</span>)
 
 			<span class="hljs-keyword">package</span> com.syntax.highlighting.test
 
@@ -1126,7 +1126,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-golang"><span class="hljs-comment">// Package declaration and imports
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-golang"><span class="hljs-comment">// Package declaration and imports
 			</span>
 			<span class="hljs-keyword">package</span> main
 
@@ -1485,7 +1485,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-rust"><span class="hljs-meta">#![allow(dead_code, unused_variables)]</span>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-rust"><span class="hljs-meta">#![allow(dead_code, unused_variables)]</span>
 
 			<span class="hljs-comment">//! Module-level documentation comment testing markdown rendering.</span>
 
@@ -1643,7 +1643,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-json">{
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-json">{
 			  <span class="hljs-type">"name"</span>: <span class="hljs-string">"mud-blazor"</span>,
 			  <span class="hljs-type">"version"</span>: <span class="hljs-number">2</span>,
 			  <span class="hljs-type">"enabled"</span>: <span class="hljs-keyword">true</span>,
@@ -1678,7 +1678,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 			<span class="hljs-comment">&lt;!-- Application configuration --&gt;</span>
 			<span class="hljs-tag">&lt;<span class="hljs-name">config</span> <span class="hljs-attr">env</span>=<span class="hljs-string">"prod"</span>&gt;</span>
 			  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>MudBlazor<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
@@ -1721,7 +1721,7 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			"""
 			<article id:ignore class="mud-markdown-body">
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-yaml"><span class="hljs-comment"># Application configuration</span>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-yaml"><span class="hljs-comment"># Application configuration</span>
 			<span class="hljs-name">name</span>: <span class="hljs-string">mud-blazor</span>
 			<span class="hljs-name">version</span>: <span class="hljs-number">2</span>
 			<span class="hljs-name">enabled</span>: <span class="hljs-literal">true</span>
@@ -1741,6 +1741,37 @@ public sealed class MarkdownComponentCodeBlockShould : MarkdownComponentTestsBas
 			""";
 
 		using var fixture = CreateFixture(value, styling: NoCopyButtonStyling);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void OverrideTypo()
+	{
+		const string value =
+			"""
+			```cs
+			var variable = "some text";
+			```
+			""";
+
+		const string expected =
+			"""
+			<article id:ignore class="mud-markdown-body">
+				<div class="hljs mud-markdown-code-highlight">
+					<pre class="mud-typography mud-typography-h3"><code class="hljs language-cs"><span class="hljs-keyword">var</span> variable = <span class="hljs-string">"some text"</span>;</code></pre>
+				</div>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Body =
+			{
+				OverrideTypo = Typo.h3,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props, styling: NoCopyButtonStyling);
 		fixture.MarkupMatches(expected);
 	}
 }
