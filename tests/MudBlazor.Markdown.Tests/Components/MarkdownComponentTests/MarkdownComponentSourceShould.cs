@@ -54,7 +54,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 			        <code>{message}</code>
 			    </p>
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-txt">{details}</code></pre>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-txt">{details}</code></pre>
 			    </div>
 			</article>
 			""";
@@ -103,7 +103,7 @@ public sealed class MarkdownComponentSourceShould : MarkdownComponentTestsBase
 			        <code>{message}</code>
 			    </p>
 			    <div class="hljs mud-markdown-code-highlight">
-			        <pre><code class="hljs language-txt">{details}</code></pre>
+			        <pre class="mud-typography mud-typography-body1"><code class="hljs language-txt">{details}</code></pre>
 			    </div>
 			</article>
 			""";

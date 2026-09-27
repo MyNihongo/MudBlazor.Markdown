@@ -80,7 +80,7 @@ public class MudCodeHighlight : MudComponentBase
 		// Code block
 		builder.OpenComponent<MudText>(elementIndex++);
 		builder.AddAttribute(elementIndex++, nameof(MudText.HtmlTag), "pre");
-		builder.AddAttribute(elementIndex++, nameof(MudText.Typo), Typo.h5);
+		builder.AddAttribute(elementIndex++, nameof(MudText.Typo), Typo);
 
 		builder.AddComponentParameter(elementIndex, nameof(MudText.ChildContent), (RenderFragment)(builder1 =>
 		{

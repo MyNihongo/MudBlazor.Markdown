@@ -241,4 +241,36 @@ public sealed class MarkdownComponentHeadersShould : MarkdownComponentTestsBase
 		Typo Override(Typo x) =>
 			x == Typo.h6 ? newTypo : x;
 	}
+
+	[Theory]
+	[InlineData("#", "h1")]
+	[InlineData("##", "h2")]
+	[InlineData("###", "h3")]
+	[InlineData("####", "h4")]
+	[InlineData("#####", "h5")]
+	[InlineData("######", "h6")]
+	public void NotOverrideTypoFromBody(string valueInput, string expectedTag)
+	{
+		var value = valueInput + " some text";
+
+		var expected =
+			$"""
+			 <article id:ignore class='mud-markdown-body'>
+			 	<{expectedTag} id='some-text' class='mud-typography mud-typography-{expectedTag}'>
+			 		some text
+			 	</{expectedTag}>
+			 </article>
+			 """;
+
+		var props = new MudMarkdownProps
+		{
+			Body =
+			{
+				OverrideTypo = Typo.h3,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+	}
 }

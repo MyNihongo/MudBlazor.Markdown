@@ -284,4 +284,53 @@ public sealed class MarkdownComponentDetailsShould : MarkdownComponentTestsBase
 		using var fixture = CreateFixture(value);
 		fixture.MarkupMatches(expected);
 	}
+
+	[Fact]
+	public void OverrideTypo()
+	{
+		const string value =
+			"""
+			<details>
+				<summary>Header</summary>
+				text
+			</details>
+			""";
+
+		const string expected =
+			"""
+			<article id:ignore class="mud-markdown-body">
+				<div class="mud-expand-panel mud-elevation-1 mud-expand-panel-border">
+					<div class="mud-expand-panel-header mud-ripple" blazor:onclick="1">
+						<div class="mud-expand-panel-text">
+							<h3 class="mud-typography mud-typography-h3">Header</h3>
+						</div>
+						<svg class="mud-icon-root mud-svg-icon mud-icon-size-medium mud-expand-panel-icon" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
+							<path d="M0 0h24v24H0z" fill="none"/>
+							<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+						</svg>
+					</div>
+					<div blazor:ontransitionend="2" class="mud-collapse-container invisible" style="">
+						<div class="mud-collapse-wrapper">
+							<div class="mud-collapse-wrapper-inner">
+								<div class="mud-expand-panel-content">
+									<h3 class="mud-typography mud-typography-h3">text</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Body =
+			{
+				OverrideTypo = Typo.h3,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+	}
 }

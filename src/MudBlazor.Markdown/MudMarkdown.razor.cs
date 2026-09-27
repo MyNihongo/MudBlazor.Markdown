@@ -566,7 +566,7 @@ public class MudMarkdown : ComponentBase, IDisposable
 						}
 						case ParagraphBlock x:
 						{
-							RenderParagraphBlock(builder2, ref elementIndex2, x, typo);
+							RenderInlines(builder2, ref elementIndex2, x.Inline);
 							break;
 						}
 						case FencedCodeBlock x:
