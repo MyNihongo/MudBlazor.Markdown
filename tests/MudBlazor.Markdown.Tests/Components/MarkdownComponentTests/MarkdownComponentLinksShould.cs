@@ -62,4 +62,128 @@ public sealed class MarkdownComponentLinksShould : MarkdownComponentTestsBase
 		MockJsRuntime
 			.Verify(x => x.InvokeAsync<object>(MethodIdentifier, new object?[] { "sapporo", null }), Times.Once);
 	}
+
+	[Fact]
+	public void OverrideAllLinks()
+	{
+		const string value =
+			"""
+			[absolute](https://www.google.co.jp/)
+			[relative](/tokyo)
+			[id](#edogawa)
+			""";
+
+		const string expected =
+			"""
+			<article id:ignore class='mud-markdown-body'>
+				<p class='mud-typography mud-typography-body1'>
+					<a rel='noopener noreferrer' href='overriddenhttps://www.google.co.jp/' target='_blank' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
+						absolute
+					</a>
+					<a href='overridden/tokyo' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
+						relative
+					</a>
+					<a href='overridden#edogawa' class='mud-typography mud-link mud-primary-text mud-link-underline-hover'>
+						id
+					</a>
+				</p>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Link =
+			{
+				OverrideUrl = Override,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+		return;
+
+		static string Override(LinkInline x) =>
+			"overridden" + x.Url;
+	}
+
+	[Fact]
+	public void OverrideImageLink()
+	{
+		const string value = @"![img](/tokyo/sky-tree.png)";
+		const string expected =
+			"""
+			<article id:ignore class='mud-markdown-body'>
+				<p class='mud-typography mud-typography-body1'>
+					<img src='overridden/tokyo/sky-tree.png' alt='img' class='mud-image object-fill object-center mud-elevation-25 rounded-lg'>
+				</p>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Link =
+			{
+				OverrideUrl = Override,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+		return;
+
+		static string Override(LinkInline x) =>
+			"overridden" + x.Url;
+	}
+
+	[Fact]
+	public void RenderLinkAsButton()
+	{
+		const string value = "text before [link display](123) text after";
+		const string expected =
+			"""
+			<article id:ignore class="mud-markdown-body">
+			  <p class="mud-typography mud-typography-body1">text before
+			    <span class="mud-typography mud-link mud-Primary-text mud-link-underline-Hover mud-typography-body1">link display</span>
+			    text after</p>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Link =
+			{
+				Command = new TestCommand(),
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+	}
+
+	[Fact]
+	public void RenderExternalLinkWithoutTarget()
+	{
+		const string value = "[link display](https://mudblazor.com/)";
+		const string expected =
+			"""
+			<article id:ignore class="mud-markdown-body">
+				<p class="mud-typography mud-typography-body1">
+					<a rel="noopener noreferrer" href="https://mudblazor.com/" class="mud-typography mud-link mud-primary-text mud-link-underline-hover">
+						link display
+					</a>
+				</p>
+			</article>
+			""";
+
+		var props = new MudMarkdownProps
+		{
+			Link =
+			{
+				DisableTargetBlank = true,
+			},
+		};
+
+		using var fixture = CreateFixture(value, props: props);
+		fixture.MarkupMatches(expected);
+	}
 }
