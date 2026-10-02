@@ -118,6 +118,13 @@ pre code.hljs {
 	margin-bottom: 0 !important;
 }
 
+/* Math */
+.mud-markdown-body math[display="block"] {
+	margin: .7em 0;
+	padding: .3em 2px;
+	font-size: 113.1%;
+}
+
 /* Table */
 .mud-markdown-body .mud-table {
 	margin: 0 0 1.25em 0;

@@ -1,5 +1,4 @@
 const { src, dest, series } = require("gulp");
-const webpack = require("webpack-stream");
 const rename = require("gulp-rename");
 const minifyCss = require("gulp-clean-css");
 
@@ -12,8 +11,7 @@ function cssMain() {
 
 function jsMain() {
 	return src("Resources/MudBlazor.Markdown.js")
-		.pipe(webpack({ mode: "production" }))
-		.pipe(rename({ basename: "MudBlazor.Markdown", extname: ".min.js" }))
+		.pipe(rename({ extname: ".min.js" }))
 		.pipe(dest("wwwroot"));
 }
 
