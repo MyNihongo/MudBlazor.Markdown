@@ -119,10 +119,214 @@ pre code.hljs {
 }
 
 /* Math */
-.mud-markdown-body math[display="block"] {
+.mud-math {
+	font-family: "Latin Modern Math", "STIX Two Math", "Cambria Math", "Times New Roman", serif;
+	font-size: 113.1%;
+	font-style: normal;
+	line-height: normal;
+	white-space: nowrap;
+}
+
+.mud-math-block {
+	display: block;
+	text-align: center;
 	margin: .7em 0;
 	padding: .3em 2px;
-	font-size: 113.1%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.mud-math-mi, .mud-math-italic {
+	font-style: italic;
+}
+
+.mud-math-op {
+	margin: 0 .278em;
+}
+
+.mud-math-punct {
+	margin-right: .2em;
+}
+
+.mud-math-fn {
+	margin-right: .15em;
+}
+
+.mud-math-text {
+	white-space: pre;
+}
+
+.mud-math-error {
+	color: red;
+}
+
+.mud-math-space {
+	display: inline-block;
+}
+
+.mud-math-bold {
+	font-weight: bold;
+}
+
+.mud-math-bold-italic {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.mud-math-sans-serif {
+	font-family: sans-serif;
+}
+
+.mud-math-monospace {
+	font-family: monospace;
+}
+
+/* Math: scripts */
+.mud-math-scripts {
+	display: inline-flex;
+	align-items: center;
+}
+
+.mud-math-sup, .mud-math-sub, .mud-math-subsup {
+	font-size: .7em;
+	margin-left: .05em;
+}
+
+.mud-math-sup {
+	align-self: flex-start;
+	margin-top: -.2em;
+}
+
+.mud-math-sub {
+	align-self: flex-end;
+	margin-bottom: -.4em;
+}
+
+.mud-math-subsup {
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.mud-math-subsup > .mud-math-sup, .mud-math-subsup > .mud-math-sub {
+	font-size: 1em;
+	margin: 0;
+}
+
+.mud-math-limits {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	vertical-align: middle;
+	margin: 0 .15em;
+}
+
+.mud-math-over, .mud-math-under {
+	font-size: .7em;
+}
+
+.mud-math-largeop {
+	font-size: 1.4em;
+	line-height: 1;
+}
+
+.mud-math-block .mud-math-largeop {
+	font-size: 1.8em;
+}
+
+/* Math: fractions and roots */
+.mud-math-frac {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	vertical-align: middle;
+	margin: 0 .1em;
+}
+
+.mud-math:not(.mud-math-block) .mud-math-frac {
+	font-size: .85em;
+}
+
+.mud-math-num, .mud-math-den {
+	padding: 0 .15em;
+	text-align: center;
+}
+
+.mud-math-num {
+	border-bottom: .06em solid currentColor;
+}
+
+.mud-math-binom > .mud-math-num {
+	border-bottom: none;
+}
+
+.mud-math-sqrt {
+	display: inline-flex;
+	align-items: stretch;
+}
+
+.mud-math-index {
+	font-size: .6em;
+	margin-right: -.4em;
+	align-self: flex-start;
+}
+
+.mud-math-surd {
+	display: flex;
+	align-items: flex-end;
+	font-size: 1.1em;
+}
+
+.mud-math-radicand {
+	border-top: .06em solid currentColor;
+	padding: .1em .1em 0 .05em;
+}
+
+/* Math: fences and accents */
+.mud-math-fenced {
+	display: inline-flex;
+	align-items: center;
+}
+
+.mud-math-fence {
+	line-height: 1;
+}
+
+.mud-math-fenced:has(.mud-math-frac, .mud-math-limits) > .mud-math-fence {
+	font-size: 1.8em;
+	font-weight: lighter;
+}
+
+.mud-math-accent {
+	position: relative;
+	display: inline-block;
+}
+
+.mud-math-accent-mark {
+	position: absolute;
+	top: -.45em;
+	left: 0;
+	right: 0;
+	text-align: center;
+	font-style: normal;
+	line-height: 1;
+}
+
+.mud-math-sup .mud-math-op, .mud-math-sub .mud-math-op, .mud-math-subsup .mud-math-op,
+.mud-math-over .mud-math-op, .mud-math-under .mud-math-op, .mud-math-index .mud-math-op {
+	margin: 0 .1em;
+}
+
+.mud-math-overline {
+	border-top: .06em solid currentColor;
+	padding-top: .05em;
+}
+
+.mud-math-underline {
+	border-bottom: .06em solid currentColor;
+}
+
+.mud-math-brace {
+	line-height: .8;
 }
 
 /* Table */
